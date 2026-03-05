@@ -18,7 +18,7 @@ class VagonuDatiController extends Controller
     public function delete($id)
     {
       DB::table('vagonudati')->where('DatuID', $id)->delete();
-      return redirect('/VagonuDati')->with('success', 'Ieraksts dzēsts');
+      return redirect('/VagonuDati')->with('success', 'Ieraksts tika dzēsts');
     }
 
     public function create()
@@ -42,7 +42,7 @@ class VagonuDatiController extends Controller
         $datu->VagonaID = $dati->input('VagonaID');
         // $darbiniekis->Admin = $dati->input('Admin');
         $datu->save();
-        return redirect()->to('/VagonuDati')->with('success', 'Ieraksts pievienots');
+        return redirect()->to('/VagonuDati')->with('success', 'Ieraksts tika pievienots');
     }
 
     public function edit($id)
@@ -66,7 +66,7 @@ class VagonuDatiController extends Controller
                 'VagonaID' => $dati->input('VagonaID'),
             ]);
 
-         return redirect()->to('/VagonuDati')->with('success', 'Ieraksts atjaunināts');
+         return redirect()->to('/VagonuDati')->with('success', 'Ieraksts tika atjaunināts');
     }
 }
 
