@@ -76,7 +76,7 @@ Route::post('/Amati/{id}/editSubmit', 'App\Http\Controllers\AmataController@edit
 // // Kravas datu routes
 Route::get('/Kravas', 'App\Http\Controllers\KravasController@showAllKrava');
 Route::get('/Kravas/jauns', 'App\Http\Controllers\KravasController@create');
-Route::post('/Kravas/jaunsSubmit', 'App\Http\Controllers\KravasController@KravaSubmit');
+Route::post('/Kravas/jaunsSubmit', 'App\Http\Controllers\KravasController@KravasSubmit');
 Route::get('/Kravas/{id}/delete', 'App\Http\Controllers\KravasController@delete');
 Route::get('/Kravas/{id}/details', 'App\Http\Controllers\KravasController@details');
 Route::get('/Kravas/{id}/edit', 'App\Http\Controllers\KravasController@edit');
