@@ -19,7 +19,7 @@ class KravasController extends Controller
     public function delete($id)
     {
       DB::table('krava')->where('KravasID', $id)->delete();
-      return redirect('/Kravas')->with('success', 'Ieraksts dzēsts');
+      return redirect('/Kravas')->with('success', 'Ieraksts tika dzēsts');
     }
 
     public function create()
@@ -41,7 +41,7 @@ class KravasController extends Controller
         $kravas = new Kravas();
         $kravas->Nosaukums = $dati->input('Nosaukums');
         $kravas->save();
-        return redirect()->to('/Krava')->with('success', 'Ieraksts pievienots');
+        return redirect()->to('/Krava')->with('success', 'Ieraksts tika pievienots');
     }
 
     public function edit($id)
@@ -64,7 +64,7 @@ class KravasController extends Controller
                 'Nosaukums' => $dati->input('Nosaukums'),
             ]);
 
-         return redirect()->to('/Kravas')->with('success', 'Ieraksts atjaunināts');
+         return redirect()->to('/Kravas')->with('success', 'Ieraksts tika atjaunināts');
     }
 }
 
