@@ -18,7 +18,7 @@ class NomaController extends Controller
     public function delete($id)
     {
       DB::table('vagonunoma')->where('NomasID', $id)->delete();
-      return redirect('/Noma')->with('success', 'Ieraksts dzēsts');
+      return redirect('/Noma')->with('success', 'Ieraksts tika dzēsts');
     }
 
     public function create()
@@ -50,7 +50,7 @@ class NomaController extends Controller
         $noma->KopejaMaksa = $dati->input('KopejaMaksa');
         // $darbiniekis->Admin = $dati->input('Admin');
         $noma->save();
-        return redirect()->to('/Noma')->with('success', 'Ieraksts pievienots');
+        return redirect()->to('/Noma')->with('success', 'Ieraksts tika pievienots');
     }
 
     public function edit($id)
@@ -84,7 +84,7 @@ class NomaController extends Controller
                 'AmataID' => $dati->input('AmataID'),
             ]);
 
-         return redirect()->to('/Noma')->with('success', 'Ieraksts atjaunināts');
+         return redirect()->to('/Noma')->with('success', 'Ieraksts tika atjaunināts');
     }
 }
 
