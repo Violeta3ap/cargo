@@ -18,7 +18,7 @@ class DarbiniekuController extends Controller
     public function delete($id)
     {
       DB::table('darbinieki')->where('DarbiniekaID', $id)->delete();
-      return redirect('/Darbinieki')->with('success', 'Ieraksts dzēsts');
+      return redirect('/Darbinieki')->with('success', 'Ieraksts tika dzēsts');
     }
 
     public function create()
@@ -46,7 +46,7 @@ class DarbiniekuController extends Controller
         $darbiniekis->AmataID = $dati->input('AmataID');
         // $darbiniekis->Admin = $dati->input('Admin');
         $darbiniekis->save();
-        return redirect()->to('/Darbinieki')->with('success', 'Ieraksts pievienots');
+        return redirect()->to('/Darbinieki')->with('success', 'Ieraksts tika pievienots');
     }
 
     public function edit($id)
@@ -74,7 +74,7 @@ class DarbiniekuController extends Controller
                 'AmataID' => $dati->input('AmataID'),
             ]);
 
-         return redirect()->to('/Darbinieki')->with('success', 'Ieraksts atjaunināts');
+         return redirect()->to('/Darbinieki')->with('success', 'Ieraksts tika atjaunināts');
     }
 }
 
