@@ -32,7 +32,7 @@ class AmataController extends Controller
       return view('AmataApskate', ['amati' => $amats]);
     }
 
-    public function AmataSubmit(Request $dati)
+    public function DatuSubmit(Request $dati)
     {
       
 
