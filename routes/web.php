@@ -87,7 +87,7 @@ Route::post('/Krava/{id}/editSubmit', 'App\Http\Controllers\KravasController@edi
 // // Vagonu raksturojuma datu routes
 Route::get('/VagonaRaksturojums', 'App\Http\Controllers\VagonaRaksturojumsController@showAllVagonaRaksturojums');
 Route::get('/VagonaRaksturojums/jauns', 'App\Http\Controllers\VagonaRaksturojumsController@create');
-Route::post('/VagonaRaksturojums/jaunsSubmit', 'App\Http\Controllers\VagonaRaksturojumsController@DatuSubmit');
+Route::post('/VagonaRaksturojums/jaunsSubmit', 'App\Http\Controllers\VagonaRaksturojumsController@VagonaRaksturojumsSubmit');
 Route::get('/VagonaRaksturojums/{id}/delete', 'App\Http\Controllers\VagonaRaksturojumsController@delete');
 Route::get('/VagonaRaksturojums/{id}/details', 'App\Http\Controllers\VagonaRaksturojumsController@details');
 Route::get('/VagonaRaksturojums/{id}/edit', 'App\Http\Controllers\VagonaRaksturojumsController@edit');
