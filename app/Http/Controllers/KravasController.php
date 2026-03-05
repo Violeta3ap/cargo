@@ -33,7 +33,7 @@ class KravasController extends Controller
       return view('KravasApskate', ['kravas' => $kravas]);
     }
 
-    public function DatuSubmit(Request $dati)
+    public function KravasSubmit(Request $dati)
     {
       
 
