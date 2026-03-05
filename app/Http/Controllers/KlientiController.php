@@ -18,7 +18,7 @@ class KlientiController extends Controller
     public function delete($id)
     {
       DB::table('klienti')->where('KlientaID', $id)->delete();
-      return redirect('/Klienti')->with('success', 'Ieraksts dzēsts');
+      return redirect('/Klienti')->with('success', 'Ieraksts tika dzēsts');
     }
 
     public function create()
@@ -52,7 +52,7 @@ class KlientiController extends Controller
 
         // $klientis->Admin = $dati->input('Admin');
         $klientis->save();
-        return redirect()->to('/Klienti')->with('success', 'Ieraksts pievienots');
+        return redirect()->to('/Klienti')->with('success', 'Ieraksts tika pievienots');
     }
 
     public function edit($id)
@@ -83,7 +83,7 @@ class KlientiController extends Controller
                 'KontaNumurs' => $dati->input('KontaNumurs'),
             ]);
 
-         return redirect()->to('/Klienti')->with('success', 'Ieraksts atjaunināts');
+         return redirect()->to('/Klienti')->with('success', 'Ieraksts tika atjaunināts');
     }
 }
 
