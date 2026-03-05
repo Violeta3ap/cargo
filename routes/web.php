@@ -66,7 +66,7 @@ Route::post('/VagonuDati/{id}/editSubmit', 'App\Http\Controllers\VagonuDatiContr
 // // Amata datu routes
 Route::get('/Amati', 'App\Http\Controllers\AmataController@showAllAmati');
 Route::get('/Amati/jauns', 'App\Http\Controllers\AmataController@create');
-Route::post('/Amati/jaunsSubmit', 'App\Http\Controllers\AmataController@AmataSubmit');
+Route::post('/Amati/jaunsSubmit', 'App\Http\Controllers\AmataController@DatuSubmit');
 Route::get('/Amati/{id}/delete', 'App\Http\Controllers\AmataController@delete');
 Route::get('/Amati/{id}/details', 'App\Http\Controllers\AmataController@details');
 Route::get('/Amati/{id}/edit', 'App\Http\Controllers\AmataController@edit');
@@ -76,7 +76,7 @@ Route::post('/Amati/{id}/editSubmit', 'App\Http\Controllers\AmataController@edit
 // // Kravas datu routes
 Route::get('/Kravas', 'App\Http\Controllers\KravasController@showAllKrava');
 Route::get('/Kravas/jauns', 'App\Http\Controllers\KravasController@create');
-Route::post('/Kravas/jaunsSubmit', 'App\Http\Controllers\KravasController@KravasSubmit');
+Route::post('/Kravas/jaunsSubmit', 'App\Http\Controllers\KravasController@DatuSubmit');
 Route::get('/Kravas/{id}/delete', 'App\Http\Controllers\KravasController@delete');
 Route::get('/Kravas/{id}/details', 'App\Http\Controllers\KravasController@details');
 Route::get('/Kravas/{id}/edit', 'App\Http\Controllers\KravasController@edit');
@@ -87,7 +87,7 @@ Route::post('/Krava/{id}/editSubmit', 'App\Http\Controllers\KravasController@edi
 // // Vagonu raksturojuma datu routes
 Route::get('/VagonaRaksturojums', 'App\Http\Controllers\VagonaRaksturojumsController@showAllVagonaRaksturojums');
 Route::get('/VagonaRaksturojums/jauns', 'App\Http\Controllers\VagonaRaksturojumsController@create');
-Route::post('/VagonaRaksturojums/jaunsSubmit', 'App\Http\Controllers\VagonaRaksturojumsController@VagonaRaksturojumsSubmit');
+Route::post('/VagonaRaksturojums/jaunsSubmit', 'App\Http\Controllers\VagonaRaksturojumsController@DatuSubmit');
 Route::get('/VagonaRaksturojums/{id}/delete', 'App\Http\Controllers\VagonaRaksturojumsController@delete');
 Route::get('/VagonaRaksturojums/{id}/details', 'App\Http\Controllers\VagonaRaksturojumsController@details');
 Route::get('/VagonaRaksturojums/{id}/edit', 'App\Http\Controllers\VagonaRaksturojumsController@edit');
