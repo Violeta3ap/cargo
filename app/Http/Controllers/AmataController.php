@@ -18,7 +18,7 @@ class AmataController extends Controller
     public function delete($id)
     {
       DB::table('amats')->where('AmataID', $id)->delete();
-      return redirect('/Amati')->with('success', 'Ieraksts dzēsts');
+      return redirect('/Amati')->with('success', 'Ieraksts tika dzēsts');
     }
 
     public function create()
@@ -40,7 +40,7 @@ class AmataController extends Controller
         $amats = new Amati();
         $amats->Nosaukums = $dati->input('Nosaukums');
         $amats->save();
-        return redirect()->to('/Amati')->with('success', 'Ieraksts pievienots');
+        return redirect()->to('/Amati')->with('success', 'Ieraksts tika pievienots');
     }
 
     public function edit($id)
@@ -63,7 +63,7 @@ class AmataController extends Controller
                 'Nosaukums' => $dati->input('Nosaukums'),
             ]);
 
-         return redirect()->to('/Amati')->with('success', 'Ieraksts atjaunināts');
+         return redirect()->to('/Amati')->with('success', 'Ieraksts tika atjaunināts');
     }
 }
 
