@@ -32,7 +32,7 @@ class VagonaRaksturojumsController extends Controller
       return view('VagonaRaksturojumaApskate', ['vagonaraksturojums' => $raksturojums]);
     }
 
-    public function VagonaRaksturojumsSubmit(Request $dati)
+    public function DatuSubmit(Request $dati)
     {
       
 
