@@ -66,7 +66,7 @@ Route::post('/VagonuDati/{id}/editSubmit', 'App\Http\Controllers\VagonuDatiContr
 // // Amata datu routes
 Route::get('/Amati', 'App\Http\Controllers\AmataController@showAllAmati');
 Route::get('/Amati/jauns', 'App\Http\Controllers\AmataController@create');
-Route::post('/Amati/jaunsSubmit', 'App\Http\Controllers\AmataController@DatuSubmit');
+Route::post('/Amati/jaunsSubmit', 'App\Http\Controllers\AmataController@AmataSubmit');
 Route::get('/Amati/{id}/delete', 'App\Http\Controllers\AmataController@delete');
 Route::get('/Amati/{id}/details', 'App\Http\Controllers\AmataController@details');
 Route::get('/Amati/{id}/edit', 'App\Http\Controllers\AmataController@edit');
