@@ -19,7 +19,7 @@ class VeidiController extends Controller
     public function delete($id)
     {
       DB::table('veidi')->where('VeidaID', $id)->delete();
-      return redirect('/Veidi')->with('success', 'Ieraksts dzēsts');
+      return redirect('/Veidi')->with('success', 'Ieraksts tika dzēsts');
     }
 
     public function create()
@@ -41,7 +41,7 @@ class VeidiController extends Controller
         $veidi = new Veidi();
         $veidi->Nosaukums = $dati->input('Nosaukums');
         $veidi->save();
-        return redirect()->to('/Veidi')->with('success', 'Ieraksts pievienots');
+        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots');
     }
 
     public function edit($id)
@@ -64,7 +64,7 @@ class VeidiController extends Controller
                 'Nosaukums' => $dati->input('Nosaukums'),
             ]);
 
-         return redirect()->to('/Veidi')->with('success', 'Ieraksts atjaunināts');
+         return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts');
     }
 }
 
