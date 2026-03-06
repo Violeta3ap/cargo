@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>VeidaID</th>
-            <th>KravasID</th>
-            <th>Celtspeja</th>
-            <th>VagonaNumurs</th>
+            <th>Veida nosaukums</th>
+            <th>Kravas nosaukums</th>
+            <th>Celtspēja</th>
+            <th>Vagona numurs</th>
             <th>Darbības</th>
         </tr>
     </thead>
@@ -24,7 +24,7 @@
         @foreach ($dati as $item)
         <tr>
             <td>{{$item->VagonaID}}</td>
-            <td>{{$item->VeidaID}}</td>
+            <td>{{$item->vagonudati>Nosaukums ?? ('ID: '.$item->VagonaID) }}</td>
             <td>{{$item->KravasID}}</td>
             <td>{{$item->Celtspeja}}</td>
             <td>{{$item->VagonaNumurs}}</td>
