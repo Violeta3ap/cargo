@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\VagonuDati;
+use App\Models\Kravas;
+use App\Models\Veidi;
 
 class VagonaRaksturojums extends Model
 {
@@ -14,11 +15,15 @@ class VagonaRaksturojums extends Model
     public $timestamps = false;
 
 
-      public function vagonudati()
+      public function kravas()
     {
-        return $this->belongsTo(VagonuDati::class, 'VagonaID', 'VagonaID');
+        return $this->belongsTo(Kravas::class, 'KravasID', 'KravasID');
     }
-    
+
+          public function veidi()
+    {
+        return $this->belongsTo(Veidi::class, 'VeidaID', 'VeidaID');
+    }
 
     
 }
