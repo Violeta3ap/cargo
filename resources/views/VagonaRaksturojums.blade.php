@@ -25,7 +25,7 @@
         <tr>
             <td>{{$item->VagonaID}}</td>
             <td>{{$item->vagonudati>Nosaukums ?? ('ID: '.$item->VagonaID) }}</td>
-            <td>{{$item->KravasID}}</td>
+            <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID) }}</td>
             <td>{{$item->Celtspeja}}</td>
             <td>{{$item->VagonaNumurs}}</td>
             <td>
