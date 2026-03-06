@@ -19,7 +19,7 @@
             <th>Parole</th>
             <th>E-pasts</th>
             <th>Telefona numurs</th>
-            <th>Amata ID</th>
+            <th>Amata nosaukums</th>
             <th>Darbības</th>
         </tr>
     </thead>
@@ -32,7 +32,7 @@
             <td>{{$item->Parole}}</td>
             <td>{{$item->Epasts}}</td>
             <td>{{$item->TelefonaNumurs}}</td>
-            <td>{{$item->AmataID}}</td>
+            <td>{{ $item->Darbinieki->nosaukums ?? ('ID: '.$item->AmataID) }}</td>
             <td>
 
 
