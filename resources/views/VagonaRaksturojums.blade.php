@@ -24,7 +24,7 @@
         @foreach ($dati as $item)
         <tr>
             <td>{{$item->VagonaID}}</td>
-            <td>{{$item->veidi>Nosaukums ?? ('ID: '.$item->VeidaID) }}</td>
+            <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID) }}</td>
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID) }}</td>
             <td>{{$item->Celtspeja}}</td>
             <td>{{$item->VagonaNumurs}}</td>
