@@ -32,7 +32,7 @@
             <td>{{$item->Parole}}</td>
             <td>{{$item->Epasts}}</td>
             <td>{{$item->TelefonaNumurs}}</td>
-            <td>{{$item->amati->nosaukums ?? ('ID: '.$item->AmataID) }}</td>
+            <td>{{$item->amati->Nosaukums ?? ('ID: '.$item->AmataID) }}</td>
             <td>
 
 
