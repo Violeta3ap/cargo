@@ -15,15 +15,18 @@
   <tr>
 
             <th>ID</th>
-            <th>KlientaID</th>
-            <th>DarbiniekaID</th>
-            <th>KravasID</th>
-            <th>VagonuSkaits</th>
-            <th>NomasSakumaPeriods</th>
-            <th>NomasBeiguPeriods</th>
-            <th>NosutisanasStacija</th>
+            <th>Klienta vārds</th>
+            <th>Klienta uzvārds</th>
+            <th>Klienta uzņēmuma nosaukums</th>
+            <th>Darbinieka vārds</th>
+            <th>Darbinieka uzvārds</th>
+            <th>Kravas nosaukums</th>
+            <th>Vagonu skaits</th>
+            <th>Nomas sākuma periods</th>
+            <th>Nomas beigu periods</th>
+            <th>Nosutīšanas stacija</th>
             <th>Galastacija</th>
-            <th>KopejaMaksa</th>
+            <th>Kopēja maksa</th>
             <th>Darbības</th>
         </tr>
     </thead>
@@ -32,7 +35,10 @@
         <tr>
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID) }}</td>
-            <td>{{$item->darbinieki->Vards ?? ('ID: '.$item->DarbiniekaID) }}</td>
+            <td>{{$item->klienti->Uzvards ?? ('ID: '.$item->KlientaID) }}</td>
+            <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID) }}</td>
+            <td>{{$item->darbinieki->Vards ?? ('ID: '.$item->DarbiniekaID) }}</td>            
+            <td>{{$item->darbinieki->Uzvards ?? ('ID: '.$item->DarbiniekaID) }}</td>
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID) }}</td>
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>
