@@ -9,9 +9,6 @@ use App\Models\Darbinieki;
 use App\Models\Kravas;
 
 
-
-use Illuminate\Database\Eloquent\Model;
-
 class Noma extends Model
 {
    protected $table = 'vagonunoma';
