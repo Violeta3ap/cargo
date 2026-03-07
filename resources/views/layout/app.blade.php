@@ -90,6 +90,7 @@
 
 
     @if(Auth::check())
+    <a href="/">Par uzņēmumu</a>
     <a href="/Klienti">Klienti</a>
     <a href="/Noma">Vagonu noma</a>
     <a href="/VagonuDati">Vagonu dati</a>
