@@ -93,7 +93,7 @@
             </form>
 
             <div class="text-center mt-3">
-                <a href="/Login">Atpakaļ uz pieteikšanos</a>
+                <a href="/">Atpakaļ uz sākumlapu</a>
             </div>
         </div>
     </div>
