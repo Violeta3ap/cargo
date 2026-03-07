@@ -8,7 +8,7 @@
     <hr>
 
     <div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
-        <div class="card-body">
+         <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
             <h5 class="card-title">ID: {{ $klientis->KlientaID }}</h5>
             <p class="card-text"><strong>Vārds:</strong> {{ $klientis->Vards }}</p>
             <p class="card-text"><strong>Uzvārds:</strong> {{ $klientis->Uzvards }}</p>
@@ -24,6 +24,7 @@
         </div>
         
     </div>
+       <br><br>
     <a href="/Klienti/{{ $klientis->KlientaID }}/edit"  style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Rediģēt</a>
             <a href="/Klienti/{{ $klientis->KlientaID }}/delete"  style="border-radius:8px;  border: 1px solid #59c1cf; 
