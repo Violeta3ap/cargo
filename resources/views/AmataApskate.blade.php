@@ -8,7 +8,7 @@
     <hr>
 
     <div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
-        <div class="card-body" style="padding: 50px;">
+        <div class="card-body" style="padding-left: 50px;">
             <h5 class="card-title">ID: {{ $amati->AmataID }}</h5>
             <p class="card-text"><strong>Nosaukums:</strong> {{ $amati->Nosaukums }}</p>
             
