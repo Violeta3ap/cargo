@@ -87,7 +87,9 @@
         </div>
 
 
-    <a href="/">Par uzņēmumu</a>
+
+
+    @if(Auth::check())
     <a href="/Klienti">Klienti</a>
     <a href="/Noma">Vagonu noma</a>
     <a href="/VagonuDati">Vagonu dati</a>
@@ -96,6 +98,25 @@
     <a href="/Kravas">Krava</a>
     <a href="/Darbinieki">Darbinieki</a>
     <a href="/Amati">Amati</a>
+
+    @else
+    <a href="/">Par uzņēmumu</a>
+    @endif
+
+
+    <!-- <div class="auth-links"> -->
+
+      <!-- <a href="/logout">Logout</a> -->
+  
+    <!-- <a href="/Login">Login</a>
+    
+    <a href="/register">Register</a>
+     -->
+
+  <!-- </div> -->
+
+
+
 
   
     </div>
