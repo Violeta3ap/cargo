@@ -2,20 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DarbiniekuController;
-
-
-Route::get('/', function () {
-    return view('home'); // home.blade.php
-});
-
+use App\Http\Controllers\LoginController;
 
 
 Route::post('/Login/submit', [LoginController::class, 'login'])->name('login.submit');
 
-
 route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
-
 
 Route::get('/register', function () {
     return view('register');
@@ -23,14 +15,19 @@ Route::get('/register', function () {
 
 Route::post('/register', [LoginController::class, 'register'])->name('register.submit');
 
-Route::get('/', function () {
-    return view('home');
-});
-
 Route::get('/Login', function () {
     return view('Login');
 });
 
+
+
+
+
+
+
+Route::get('/', function () {
+    return view('home');
+});
 
 
 
