@@ -93,7 +93,7 @@
             </form>
 
             <div class="text-center mt-3">
-                <a href="/">Atpakaļ uz sākumlapu</a>
+                <a href="/" style="color: #59c1cf; text-decoration: none; font-size: 14px;">Atpakaļ uz sākumlapu</a>             
             </div>
         </div>
     </div>

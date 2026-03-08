@@ -76,17 +76,12 @@
 
 <div class="page-wrapper">
 
-
-
-    <div class="navigacija">
-
-
         <div style="background: #ffffff; padding: 5px 5px; border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
          font-weight: bold; text-align: center;">
           LDZ CARGO
         </div>
 
-
+    <div class="navigacija">
 
 
     @if(Auth::check())
