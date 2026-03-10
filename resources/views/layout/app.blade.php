@@ -404,13 +404,17 @@ input[type=text], input[type=password] {
       <a href="/logout" style="position: absolute; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Izlogoties</a>
     @else
-
+<!-- 
     <a href="/Login" style="position: absolute; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
-        padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Ielogoties</a>
+        padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Ielogoties</a> -->
 
 
-<li class="login" onclick="document.getElementById('id01').style.display='block'"><a>Login<a></li>
+<li class="login" style="position: absolute; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
+        padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;"
+         onclick="document.getElementById('id01').style.display='block'; "><a>Ielogoties<a></li>
 
+
+         
         <!-- <a href="/register" style="position: absolute; right: 110px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Reģistrēties</a> -->
     @endif
