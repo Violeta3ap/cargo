@@ -4,16 +4,20 @@
 @section('content')
 <div style="display: flex">
 <h2>Klasifikatori</h2> 
+</div>
 <nav class="navigacija" style="   background-color: #ffffff;">
-
-
     <a href="/VagonaRaksturojums">Vagona raksturojums</a>
     <a href="/Veidi">Vagonu veidi</a>
     <a href="/Kravas">Krava</a>
     <a href="/Amati">Amati</a>
-
 </nav>
 </div>
+
+
+
+
+
+
 
 
 
