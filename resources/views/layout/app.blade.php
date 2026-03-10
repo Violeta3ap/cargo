@@ -149,7 +149,6 @@
     <a href="/Noma">Noma</a>
     <a href="/VagonuDati">Nomas papildinājums</a>
     <a href="/Darbinieki">Darbinieki</a>
-    <a href="/Amati">Amati</a>
 
     @else
     <a href="/">Par uzņēmumu</a>
@@ -176,6 +175,7 @@
 <a href="/VagonaRaksturojums">Vagonu raksturojums</a>
 <a href="/Veidi">Vagonu veidi</a>
 <a href="/Kravas">Kravas</a>
+<a href="/Amati">Amati</a>
 @endif
 </div> -->
     
