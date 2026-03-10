@@ -265,23 +265,7 @@ input[type=text], input[type=password] {
 	padding: 10px 18px;
 	 background-color: #59c1cf;
   }
-  /* Center the image and position the close button */
-  .imgcontainer {
-	text-align: center;
-	margin: 24px 0 12px 0;
-	position: relative;
-  }
-  img.avatar {
-	width: 40%;
-	border-radius: 50%;
-  }
-  .container {
-	padding: 16px;
-  }
-  span.psw {
-	float: right;
-	padding-top: 16px;
-  }
+
   /* The Modal (background) */
   .modal {
 	display: none; /* Hidden by default */
