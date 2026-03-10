@@ -432,14 +432,14 @@ input[type=text], input[type=password] {
                      border-radius: 6px; font-size: 14px; box-sizing: border-box;">
                 </div>
 
-                <button type="submit" style="width: 50%; align: center; padding: 12px; background: linear-gradient(to right, #59c1cf, #4a9aaa);
-                 color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s;">Pieteikties</button>
+                <button type="submit" style="border-radius:8px;align: center;  border: 1px solid #59c1cf; 
+                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Pieteikties</button>
 
 
                 <div class="container">
                   <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn" 
                      style="border-radius:8px;align: center;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;"      >Atcelt</button>
+                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Atcelt</button>
                 </div>
               </form>
             </div>
