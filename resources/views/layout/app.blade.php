@@ -418,6 +418,27 @@ input[type=text], input[type=password] {
                 <div id="id01" class="modal">
               <form class="modal-content animate" action="index.html" method="post">
 
+
+@csrf
+
+                <div style="margin-bottom: 20px;">
+                    <label for="name" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Lietotājvārds</label>
+                    <input type="text" id="name" name="name" required value="{{ old('name') }}" style="width: 100%; padding: 10px;
+                     border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <label for="password" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Parole</label>
+                    <input type="password" id="password" name="password" required style="width: 100%; padding: 10px; border: 1px solid #ddd;
+                     border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+                </div>
+
+                <button type="submit" style="width: 100%; padding: 12px; background: linear-gradient(to right, #59c1cf, #4a9aaa);
+                 color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s;">Pieteikties</button>
+
+
+
+<!-- 
                 <div class="container">
                   <label for="name"><b>Lietotājvārds</b></label>
                   <input type="text" placeholder="Enter Username" name="name" required>
@@ -427,7 +448,7 @@ input[type=text], input[type=password] {
 
                   <button class="login" type="submit" onclick="promptForPassword()"   style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Ielogoties</button>
-                </div>
+                </div> -->
 
                 <div class="container">
                   <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn" 
