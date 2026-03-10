@@ -36,8 +36,8 @@
             <td>{{$item->Epasts}}</td>
             <td>{{$item->TelefonaNumurs}}</td>
             <td>{{$item->UznemumaNosaukums}}</td>
-            <!-- <td>{{$item->JuridiskaAdrese}}</td>
-            <td>{{$item->RegistracijasNumurs}}</td>
+            <td>{{$item->JuridiskaAdrese}}</td>
+            <!-- <td>{{$item->RegistracijasNumurs}}</td>
             <td>{{$item->KontaNumurs}}</td> -->
             <td>
 
