@@ -413,6 +413,8 @@ input[type=text], input[type=password] {
 </div> -->
     
 
+
+
                 <div id="id01" class="modal">
               <form class="modal-content animate" action="index.html" method="post">
 
@@ -423,11 +425,13 @@ input[type=text], input[type=password] {
                   <label for="password"><b>Parole</b></label>
                   <input type="password" placeholder="Enter Password" name="password" required>
 
-                  <button class="login" type="submit" onclick="promptForPassword()">Ielogoties</button>
+                  <button class="login" type="submit" onclick="promptForPassword()"   style="border-radius:8px;  border: 1px solid #59c1cf; 
+                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Ielogoties</button>
                 </div>
 
                 <div class="container">
-                  <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Atcelt</button>
+                  <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn"    style="border-radius:8px;  border: 1px solid #59c1cf; 
+                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;"      >Atcelt</button>
                 </div>
               </form>
             </div>
