@@ -415,23 +415,19 @@ input[type=text], input[type=password] {
 
                 <div id="id01" class="modal">
               <form class="modal-content animate" action="index.html" method="post">
-                <div class="imgcontainer">
-                  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                  <img style="width: 400px; height: 400px; object-fit: cover;">
+
+                <div class="container">
+                  <label for="name"><b>Lietotājvārds</b></label>
+                  <input type="text" placeholder="Enter Username" name="name" required>
+
+                  <label for="password"><b>Parole</b></label>
+                  <input type="password" placeholder="Enter Password" name="password" required>
+
+                  <button class="login" type="submit" onclick="promptForPassword()">Ielogoties</button>
                 </div>
 
                 <div class="container">
-                  <label for="name"><b>Username</b></label>
-                  <input type="text" placeholder="Enter Username" name="name" required>
-
-                  <label for="password"><b>Password</b></label>
-                  <input type="password" placeholder="Enter Password" name="password" required>
-
-                  <button class="login" type="submit" onclick="promptForPassword()">Login</button>
-                </div>
-
-                <div class="container" style="background-color:#f1f1f1">
-                  <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                  <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Atcelt</button>
                 </div>
               </form>
             </div>
