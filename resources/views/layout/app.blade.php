@@ -156,15 +156,14 @@
     @endif
 
     </div>
-    <br> <br>
 
-    <!-- <div class="navigacijaa">
-    <a href="/VagonaRaksturojums">Vagonu raksturojums</a>
-    <a href="/Veidi">Vagona veidi</a>
-    <a href="/Kravas">Krava</a>
-    <a href="/Amati">Amati</a>
-
-    </div> -->
+    <div class="sidemenu">
+@if(Auth::check())
+<a href="/VagonaRaksturojums">Vagonu raksturojums</a>
+<a href="/Veidi">Vagonu veidi</a>
+<a href="/Kravas">Kravas</a>
+@endif
+</div>
 
 
     <br> <br>
@@ -174,25 +173,14 @@
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Izlogoties</a>
     @else
 
-    
-
     <a href="/Login" style="position: absolute; right: 0px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Ielogoties</a>
 
         <!-- <a href="/register" style="position: absolute; right: 110px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Reģistrēties</a> -->
-
     @endif
 
-<div class="sidemenu">
 
-@if(Auth::check())
-<a href="/VagonaRaksturojums">Vagonu raksturojums</a>
-<a href="/Veidi">Vagonu veidi</a>
-<a href="/Kravas">Kravas</a>
-@endif
-
-</div>
     
 
     <div class="content">
