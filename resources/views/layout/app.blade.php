@@ -159,11 +159,11 @@
     <br> <br>
 
          @if(Auth::check())
-      <a href="/logout" style="position: absolute; right: 0px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
+      <a href="/logout" style="position: absolute; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Izlogoties</a>
     @else
 
-    <a href="/Login" style="position: absolute; right: 0px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
+    <a href="/Login" style="position: absolute; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Ielogoties</a>
 
         <!-- <a href="/register" style="position: absolute; right: 110px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
