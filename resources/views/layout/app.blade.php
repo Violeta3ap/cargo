@@ -398,8 +398,6 @@ input[type=text], input[type=password] {
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;"
          onclick="document.getElementById('id01').style.display='block'; "><a>Ielogoties<a></li>
 
-
-         
         <!-- <a href="/register" style="position: absolute; right: 110px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Reģistrēties</a> -->
     @endif
@@ -417,7 +415,7 @@ input[type=text], input[type=password] {
 
 
                 <div id="id01" class="modal">
-              <form class="modal-content animate" action="index.html" method="post">
+              <form class="modal-content animate" action="/Login/submit" method="post">
 
 
 @csrf
@@ -434,26 +432,13 @@ input[type=text], input[type=password] {
                      border-radius: 6px; font-size: 14px; box-sizing: border-box;">
                 </div>
 
-                <button type="submit" style="width: 100%; padding: 12px; background: linear-gradient(to right, #59c1cf, #4a9aaa);
+                <button type="submit" style="width: 50%; align: center; padding: 12px; background: linear-gradient(to right, #59c1cf, #4a9aaa);
                  color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s;">Pieteikties</button>
 
 
-
-<!-- 
-                <div class="container">
-                  <label for="name"><b>Lietotājvārds</b></label>
-                  <input type="text" placeholder="Enter Username" name="name" required>
-
-                  <label for="password"><b>Parole</b></label>
-                  <input type="password" placeholder="Enter Password" name="password" required>
-
-                  <button class="login" type="submit" onclick="promptForPassword()"   style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Ielogoties</button>
-                </div> -->
-
                 <div class="container">
                   <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn" 
-                     style="border-radius:8px;  border: 1px solid #59c1cf; 
+                     style="border-radius:8px;align: center;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;"      >Atcelt</button>
                 </div>
               </form>
