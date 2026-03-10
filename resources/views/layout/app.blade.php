@@ -47,7 +47,7 @@
         }
 
         .content {  
-            padding: 150px;/* vidus*/
+            padding: 20px;/* vidus*/
             background-color: #ffffff;
             min-height: 200px;
         }
