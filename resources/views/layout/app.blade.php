@@ -254,7 +254,7 @@ input[type=text], input[type=password] {
 	margin: 8px 0;
 	border: none;
 	cursor: pointer;
-	width: 100%;
+	width: 50%;
   }
   button:hover {
 	opacity: 0.8;
