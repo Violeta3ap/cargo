@@ -48,7 +48,7 @@
 
     <div class="center-wrap">
         <div class="card custom p-4">
-            <h2 class="text-center mb-4">Reģistrācija</h2>
+            <h2 class="text-center mb-4">Ielogošana</h2>
 
 
 

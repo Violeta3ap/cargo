@@ -4,7 +4,6 @@
 <div style="display: flex">
 <h2>Amata dati</h2> 
 <nav class="navigacija" style="   background-color: #ffffff;">
-    <a href="/">Atpakaļ uz mājas lapu</a>
 <a href="/Amati/jauns" >Jauns ieraksts</a>
 </nav>
 </div>

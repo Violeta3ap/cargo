@@ -4,7 +4,6 @@
 <div style="display: flex">
 <h2>Vagona veidi</h2> 
 <nav class="navigacija" style="   background-color: #ffffff;">
-    <a href="/">Atpakaļ uz mājas lapu</a>
 <a href="/Veidi/jauns" >Jauns ieraksts</a>
 </nav>
 </div>
