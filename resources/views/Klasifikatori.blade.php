@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <nav class="navigacija" style="background-color: #ffffff;">
+            <nav class="navigacija" style=" padding: 8px 10px; display: flex; gap: 80px; align-items: center; justify-content: center;">
                 <a href="/Darbinieki/jauns">Jauns ieraksts</a>
                 <a href="/VagonaRaksturojums">Vagona raksturojums</a>
                 <a href="/Veidi">Vagonu veidi</a>
