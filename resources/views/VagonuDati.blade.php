@@ -25,11 +25,6 @@
             <td>{{$item->NomasID}}</td>
             <td>{{$item->VagonaID}}</td>
             <td>
-
-
-
-                <a href="/VagonuDati/{{ $item->DatuID }}/details" style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Detalizēta</a>
                 <a href="/VagonuDati/{{ $item->DatuID }}/edit"style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a>
                 <a href="/VagonuDati/{{ $item->DatuID }}/delete"style="border-radius:8px;  border: 1px solid #59c1cf; 
