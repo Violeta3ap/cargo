@@ -1,26 +1,33 @@
-@extends('layout.app')
+@extends ('layout.app')
 
 @section('content')
 
-<div style="display: flex; flex-direction: column;">
+<div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 16px;">
+    <div style="background: #69c6d3; padding: 32px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); width: 100%; display: flex; gap: 32px; align-items: center;">
 
-<h2>Klasifikatori</h2>
 
-<br><br>
+        <div style="flex: 1; min-width: 0;">
 
-<nav class="navigacija" style="background-color: #ffffff;">
-    <a href="/Darbinieki/jauns">Jauns ieraksts</a>
-    <a href="/VagonaRaksturojums">Vagona raksturojums</a>
-    <a href="/Veidi">Vagonu veidi</a>
-    <a href="/Kravas">Krava</a>
-    <a href="/Amati">Amati</a>
-</nav>
+            <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 20px;">
+                <div style="background: #ffffff; padding: 5px 15px; border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: bold;">
+                    Klasifikatori
+                </div>
+            </div>
 
+            <nav class="navigacija" style="background-color: #ffffff;">
+                <a href="/Darbinieki/jauns">Jauns ieraksts</a>
+                <a href="/VagonaRaksturojums">Vagona raksturojums</a>
+                <a href="/Veidi">Vagonu veidi</a>
+                <a href="/Kravas">Krava</a>
+                <a href="/Amati">Amati</a>
+            </nav>
+
+        </div>
+
+    </div>
 </div>
 
 @endsection
-
-
 
 
 
