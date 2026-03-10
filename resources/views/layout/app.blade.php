@@ -136,178 +136,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Slideshow container */
-.slideshow-container {
-  width: 1920px;
-  height: 500px;
-  position: relative;
-  margin: auto;
-}
- 
-/* Next & previous buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-}
- 
-/* Position the "next button" to the right */
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
- 
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-}
- 
-/* Caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}
- 
-
- 
-/* Fading animation */
-.fade {
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
- 
-@keyframes fade {
-  from {opacity: .2} 
-  to {opacity: 1}
-}
- 
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .prev, .next,.text {font-size: 11px}
-}
- 
- 
-/* Full-width input fields */
-input[type=text], input[type=password] {
-	padding: 12px 20px;
-	margin: 8px 0;
-	display: inline-block;
-	border: 1px solid #ccc;
-	box-sizing: border-box;
-  }
-  /* Extra styles for the cancel button */
-  .cancelbtn {
-	/* padding: 50px 180px; */
-	 background-color: #59c1cf;
-  }
-
-  /* The Modal (background) */
-  .modal {
-	display: none; /* Hidden by default */
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
-	left: 0;
-	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgb(0,0,0); /* Fallback color */
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-	padding-top: 60px;
-  }
-  /* Modal Content/Box */
-  .modal-content {
-	background-color: #fefefe;
-	margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-	border: 1px solid #888;
-	width: 50%; 
-    border-radius: 15px; /* Could be more or less, depending on screen size */
-  }
-
-  /* Add Zoom Animation */
-  .animate {
-	-webkit-animation: animatezoom 0.6s;
-	animation: animatezoom 0.6s
-  }
-  @-webkit-keyframes animatezoom {
-	from {-webkit-transform: scale(0)} 
-	to {-webkit-transform: scale(1)}
-  }
-  @keyframes animatezoom {
-	from {transform: scale(0)} 
-	to {transform: scale(1)}
-  }
-  /* Change styles for span and cancel button on extra small screens */
-  @media screen and (max-width: 300px) {
-	span.psw {
-	   display: block;
-	   float: none;
-	}
-	.cancelbtn {
-	   width: 100%;
-	}
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </style>
 </head>
 <body>
@@ -341,17 +169,12 @@ input[type=text], input[type=password] {
       <a href="/logout" style="position: absolute; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Izlogoties</a>
     @else
-<!-- 
+
     <a href="/Login" style="position: absolute; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
-        padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Ielogoties</a> -->
+        padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Ielogoties</a>
 
 
-<li class="login" style="position: absolute; list-style: none; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
-        padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;"
-         onclick="document.getElementById('id01').style.display='block'; "><a>Ielogoties<a></li>
-
-        <!-- <a href="/register" style="position: absolute; right: 110px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
-        padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Reģistrēties</a> -->
+       
     @endif
 
 <!-- <div class="sidemenu">
@@ -363,43 +186,6 @@ input[type=text], input[type=password] {
 @endif
 </div> -->
     
-
-
-
-                <div id="id01" class="modal">
-              <form class="modal-content animate" action="/Login/submit" method="post">
-
-
-@csrf
-
-                <div style="margin-bottom: 20px;">
-                    <label for="name" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Lietotājvārds</label>
-                    <input type="text" id="name" name="name" required value="{{ old('name') }}" style="width: 100%; padding: 10px;
-                     border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
-                </div>
-
-                <div style="margin-bottom: 25px;">
-                    <label for="password" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Parole</label>
-                    <input type="password" id="password" name="password" required style="width: 100%; padding: 10px; border: 1px solid #ddd;
-                     border-radius: 6px; font-size: 14px; box-sizing: border-box;">
-                </div>
-
-                <button type="submit" style="border-radius:8px;align: center;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Pieteikties</button>
-                <br><br>
-
-     
-                  <button type="button" onclick="document.getElementById('id01').style.display='none'" 
-                     style="border-radius:8px;align: center;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Atcelt</button>
-          
-
-          
-              </form>
-            </div>
-
-
-
 
 
 
