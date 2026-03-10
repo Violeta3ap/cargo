@@ -248,7 +248,7 @@ input[type=text], input[type=password] {
   }
   /* Set a style for all buttons */
   button.login {
-	background-color: #D11D27;
+	 background-color: #59c1cf;
 	color: white;
 	padding: 14px 20px;
 	margin: 8px 0;
@@ -263,7 +263,7 @@ input[type=text], input[type=password] {
   .cancelbtn {
 	width: auto;
 	padding: 10px 18px;
-	background-color: #f44336;
+	 background-color: #59c1cf;
   }
   /* Center the image and position the close button */
   .imgcontainer {
