@@ -31,7 +31,7 @@
                 "LDZ CARGO" ir dibināts 2005.gadā, un tas ir lielākais tranzīta
                 un transporta nozares uzņēmums Latvijā un nozīmīgs dzelzceļa kravu pārvadātājs arī Eiropas mērogā.
                <br>   <br>
-                2025.gada jūnijā Ministru kabinets pieņēma lēmumu par trīs LDz koncerna meitas uzņēmumu apvienošanu,
+                2025.gada jūnijā Ministru kabinets pieņēma lēmumu par trīs LDZ koncerna meitas uzņēmumu apvienošanu,
                 reorganizācijas ceļā pievienojot SIA "LDZ CARGO" uzņēmumus SIA "LDZ ritošā sastāva serviss" un SIA "LDZ Loģistika".
                 No 2025.gada 3.oktobra SIA "LDZ CARGO" ir pilnībā pārņēmis visu apvienoto uzņēmumu komercdarbības veidus un kļuvis
                 par vēl spēcīgāku un konkurētspējīgāku uzņēmums Baltija reģionā.
