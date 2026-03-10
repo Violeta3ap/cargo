@@ -195,30 +195,7 @@
   text-align: center;
 }
  
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
- 
-/* The dots/bullets/indicators */
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
- 
-.active, .dot:hover {
-  background-color: #717171;
-}
+
  
 /* Fading animation */
 .fade {
@@ -239,30 +216,16 @@
  
 /* Full-width input fields */
 input[type=text], input[type=password] {
-	width: 100%;
+	width: 80%;
 	padding: 12px 20px;
 	margin: 8px 0;
 	display: inline-block;
 	border: 1px solid #ccc;
 	box-sizing: border-box;
   }
-  /* Set a style for all buttons */
-  button.login {
-	 background-color: #59c1cf;
-	color: white;
-	padding: 14px 20px;
-	margin: 8px 0;
-	border: none;
-	cursor: pointer;
-	width: 50%;
-  }
-  button:hover {
-	opacity: 0.8;
-  }
   /* Extra styles for the cancel button */
   .cancelbtn {
-	width: 50%;
-	padding: 50px 180px;
+	/* padding: 50px 180px; */
 	 background-color: #59c1cf;
   }
 
@@ -288,20 +251,7 @@ input[type=text], input[type=password] {
 	width: 50%; 
     border-radius: 15px; /* Could be more or less, depending on screen size */
   }
-  /* The Close Button (x) */
-  .close {
-	position: absolute;
-	right: 25px;
-	top: 0;
-	color: #000;
-	font-size: 35px;
-	font-weight: bold;
-  }
-  .close:hover,
-  .close:focus {
-	color: red;
-	cursor: pointer;
-  }
+
   /* Add Zoom Animation */
   .animate {
 	-webkit-animation: animatezoom 0.6s;
@@ -434,10 +384,10 @@ input[type=text], input[type=password] {
 
                 <button type="submit" style="border-radius:8px;align: center;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Pieteikties</button>
-
+                <br><br>
 
                 <!-- <div class="container"> -->
-                  <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn" 
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn" 
                      style="border-radius:8px;align: center;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Atcelt</button>
                 <!-- </div> -->
