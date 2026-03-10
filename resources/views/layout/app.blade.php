@@ -12,7 +12,10 @@
             background-color: #ffffff; /* tumšais fons apkārt */
         }
 
-     
+        img {
+        max-width: 100%;
+        height: auto;
+        }
 
         .header {
             background-color: rgb(195, 227, 238);
