@@ -2,7 +2,7 @@
 
 @section('content')
 <div style="display: flex">
-<h2>Vagonu noma</h2> 
+<h2>Noma</h2> 
 <nav class="navigacija" style="   background-color: #ffffff;">
 <a href="/Noma/jauns" >Jauns ieraksts</a>
 </nav>

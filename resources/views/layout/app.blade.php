@@ -87,7 +87,7 @@
     @if(Auth::check())
     <a href="/">Par uzņēmumu</a>
     <a href="/Klienti">Klienti</a>
-    <a href="/Noma">Vagonu noma</a>
+    <a href="/Noma">Noma</a>
     <a href="/VagonuDati">Vagonu dati</a>
     <a href="/VagonaRaksturojums">Vagonu raksturojums</a>
     <a href="/Veidi">Vagona veidi</a>
