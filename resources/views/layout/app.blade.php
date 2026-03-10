@@ -262,7 +262,7 @@ input[type=text], input[type=password] {
   /* Extra styles for the cancel button */
   .cancelbtn {
 	width: auto;
-	padding: 10px 18px;
+	padding: 50px 180px;
 	 background-color: #59c1cf;
   }
 
@@ -430,7 +430,8 @@ input[type=text], input[type=password] {
                 </div>
 
                 <div class="container">
-                  <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn"    style="border-radius:8px;  border: 1px solid #59c1cf; 
+                  <button class="login" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn" 
+                     style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;"      >Atcelt</button>
                 </div>
               </form>
