@@ -261,7 +261,7 @@ input[type=text], input[type=password] {
   }
   /* Extra styles for the cancel button */
   .cancelbtn {
-	width: auto;
+	width: 50%;
 	padding: 50px 180px;
 	 background-color: #59c1cf;
   }
