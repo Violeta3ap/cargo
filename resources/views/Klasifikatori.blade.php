@@ -1,27 +1,21 @@
 @extends ('layout.app')
 
 
-<!-- <div class="page-wrapper">
-
-        <div style="background: #ffffff; padding: 5px 5px; border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: bold; text-align: center;">
-          Klasifikatori
-        </div>
-
+@section('content')
+<div style="display: flex">
+<h2>Klasifikatori</h2> 
+<nav class="navigacija" style="   background-color: #ffffff;">
 
 
-    <div class="navigacija">
-    <a href="/">Par uzņēmumu</a>
-    <a href="/Klienti">Klienti</a>
-    <a href="/Noma">Noma</a>
-    <a href="/VagonuDati">Nomas papildinājums</a>
-    <a href="/Darbinieki">Darbinieki</a>
-    <a href="/Klasifikatori">Klasifikatori</a>
-    </div>
+    <a href="/VagonaRaksturojums">Vagona raksturojums</a>
+    <a href="/Veidi">Vagonu veidi</a>
+    <a href="/Kravas">Krava</a>
+    <a href="/Amati">Amati</a>
+
+</nav>
+</div>
 
 
-
-
-</div> -->
 
 <footer>
     <div>© 2014–2026 VAS "Latvijas dzelzceļš"</div>
