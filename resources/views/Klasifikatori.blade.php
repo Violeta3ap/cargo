@@ -26,7 +26,19 @@
 
 </div>
 
+<footer>
+    <div>© 2014–2026 VAS "Latvijas dzelzceļš"</div>
+    <div>Emīlijas Benjamiņas iela 3, Rīga, LV-1547</div>
+    <div>Uzziņas: 8002 1181</div>
+    <div>E-pasts: info@ldz.lv</div>
+</footer>
 
+
+
+</div>
+
+</body>
+</html>
 
 
 
