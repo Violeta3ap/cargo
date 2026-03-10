@@ -12,7 +12,9 @@
             <h5 class="card-title">ID: {{ $darbinieki->DarbiniekaID }}</h5>
             <p class="card-text"><strong>Vārds:</strong> {{ $darbinieki->Vards }}</p>
             <p class="card-text"><strong>Uzvārds:</strong> {{ $darbinieki->Uzvards }}</p>
-            <p class="card-text"><strong>Parole:</strong> {{ $darbinieki->Parole }}</p>
+            <!-- <p class="card-text"><strong>Parole:</strong> {{ $darbinieki->Parole }}</p> -->
+
+            <p class="card-text"><strong>Parole:</strong> {{ str_repeat('•', strlen($darbinieki->Parole)) }}</p><!--tik punktus, cik simbolu ir parolei-->
             <p class="card-text"><strong>E-pasts:</strong> {{ $darbinieki->Epasts }}</p>
             <p class="card-text"><strong>Telefona numurs:</strong> {{ $darbinieki->TelefonaNumurs }}</p>
             <p class="card-text"><strong>Amata ID:</strong> {{ $darbinieki->AmataID }}</p>
