@@ -3,6 +3,7 @@
 @section('content')
 <div style="display: flex">
 <h2>Klasifikatori</h2> 
+<br><br>
 <nav class="navigacija" style="   background-color: #ffffff;">
 <a href="/Darbinieki/jauns" >Jauns ieraksts</a>
    <a href="/VagonaRaksturojums">Vagona raksturojums</a>
