@@ -409,7 +409,7 @@ input[type=text], input[type=password] {
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Ielogoties</a> -->
 
 
-<li class="login" style="position: absolute; text-decoration: none; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
+<li class="login" style="position: absolute; list-style: none; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
         padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;"
          onclick="document.getElementById('id01').style.display='block'; "><a>Ielogoties<a></li>
 
