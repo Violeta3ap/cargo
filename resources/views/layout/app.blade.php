@@ -285,7 +285,7 @@ input[type=text], input[type=password] {
 	background-color: #fefefe;
 	margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
 	border: 1px solid #888;
-	width: 80%; /* Could be more or less, depending on screen size */
+	width: 50%; /* Could be more or less, depending on screen size */
   }
   /* The Close Button (x) */
   .close {
