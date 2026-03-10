@@ -14,7 +14,7 @@
             <p class="card-text"><strong>Uzvārds:</strong> {{ $klientis->Uzvards }}</p>
             <!-- <p class="card-text"><strong>Parole:</strong> {{ $klientis->Parole }}</p> -->
 
-            <p class="card-text"><strong>Parole:</strong> {{ str_repeat('•', strlen($klientis->Parole)) }}</p>
+            <p class="card-text"><strong>Parole:</strong> {{ str_repeat('•', strlen($klientis->Parole)) }}</p>   <!--tik punktus, cik simbolu ir parolei-->
             <p class="card-text"><strong>E-pasts:</strong> {{ $klientis->Epasts }}</p>
             <p class="card-text"><strong>Telefona numurs:</strong> {{ $klientis->TelefonaNumurs }}</p>
             <p class="card-text"><strong>Uzņēmuma nosaukums:</strong> {{ $klientis->UznemumaNosaukums }}</p>
