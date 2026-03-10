@@ -5,6 +5,7 @@
 <h2>Noma</h2> 
 <nav class="navigacija" style="   background-color: #ffffff;">
 <a href="/Noma/jauns" >Jauns ieraksts</a>
+<a href="/VagonuDati">Nomas papildinājums</a>
 </nav>
 </div>
 

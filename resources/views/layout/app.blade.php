@@ -127,7 +127,6 @@
     <a href="/">Par uzņēmumu</a>
     <a href="/Klienti">Klienti</a>
     <a href="/Noma">Noma</a>
-    <a href="/VagonuDati">Nomas papildinājums</a>
     <a href="/Darbinieki">Darbinieki</a>
     <a href="/Klasifikatori">Klasifikatori</a>
     
