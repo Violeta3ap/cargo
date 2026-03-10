@@ -98,6 +98,37 @@
             background-color: #59c1cf;
         }
 
+
+
+
+        /* Side Menu */
+.sidemenu {
+    position: fixed;
+    left: 0;
+    top: 140px;
+    width: 200px;
+    height: 100%;
+    background-color: #59c1cf;
+    padding-top: 20px;
+}
+
+.sidemenu a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: black;
+    background: linear-gradient(to right, #59c1cf, #ffffff);
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.sidemenu a:hover {
+    background-color: #ffffff;
+}
+
+
+
+
     </style>
 </head>
 <body>
@@ -127,15 +158,15 @@
     </div>
     <br> <br>
 
-    <div class="navigacijaa">
+    <!-- <div class="navigacijaa">
     <a href="/VagonaRaksturojums">Vagonu raksturojums</a>
     <a href="/Veidi">Vagona veidi</a>
     <a href="/Kravas">Krava</a>
     <a href="/Amati">Amati</a>
 
-    </div>
+    </div> -->
 
-        
+
     <br> <br>
 
          @if(Auth::check())
@@ -153,7 +184,15 @@
 
     @endif
 
+<div class="sidemenu">
 
+@if(Auth::check())
+<a href="/VagonaRaksturojums">Vagonu raksturojums</a>
+<a href="/Veidi">Vagonu veidi</a>
+<a href="/Kravas">Kravas</a>
+@endif
+
+</div>
     
 
     <div class="content">
