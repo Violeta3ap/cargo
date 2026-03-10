@@ -29,6 +29,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/Klasifikatori', function () {
+    return view('Klasifikatori');
+});
+
 
 
 // Vagonu noma routes
