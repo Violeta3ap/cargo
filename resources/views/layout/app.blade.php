@@ -385,11 +385,13 @@ input[type=text], input[type=password] {
                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Pieteikties</button>
                 <br><br>
 
-                <!-- <div class="container"> -->
-                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn" 
+     
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" 
                      style="border-radius:8px;align: center;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Atcelt</button>
-                <!-- </div> -->
+          
+
+          
               </form>
             </div>
 
