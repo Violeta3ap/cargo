@@ -29,7 +29,7 @@ class KlientiController extends Controller
     public function details($id)
     {
       $klientis = Klienti::find($id);
-      return view('KlientiApskate', ['klientis' => $klientis]);
+      return view('Klienti', ['klientis' => $klientis->orderBy('KlientaID', 'asc')->get()]);
     }
 
     public function KlientiSubmit(Request $dati)
