@@ -106,7 +106,7 @@ Route::post('/Veidi/{id}/editSubmit', 'App\Http\Controllers\VeidiController@edit
 // // Klienta datu routes
 Route::get('/Klienti', 'App\Http\Controllers\KlientiController@showAllKlienti');
 Route::get('/Klienti/jauns', 'App\Http\Controllers\KlientiController@create');
-Route::post('/Klienti/jaunsSubmit', 'App\Http\Controllers\KlientiController@KlientaSubmit');
+Route::post('/Klienti/jaunsSubmit', 'App\Http\Controllers\KlientiController@KlientiSubmit');
 Route::get('/Klienti/{id}/delete', 'App\Http\Controllers\KlientiController@delete');
 Route::get('/Klienti/{id}/details', 'App\Http\Controllers\KlientiController@details');
 Route::get('/Klienti/{id}/edit', 'App\Http\Controllers\KlientiController@edit');

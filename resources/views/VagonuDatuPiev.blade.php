@@ -12,12 +12,12 @@
         @csrf
         <div class="form-group">
             <label for="NomasID">Nomas ID:</label>
-            <input type="text" class="form-control" id="NomasID" name="NomasID" required>
+            <input type="number" class="form-control" id="NomasID" name="NomasID" required>
         </div>
 
         <div class="form-group">
             <label for="VagonaID">Vagona ID:</label>
-            <input type="text" class="form-control" id="VagonaID" name="VagonaID" required>
+            <input type="number" class="form-control" id="VagonaID" name="VagonaID" required>
         </div>
 
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 

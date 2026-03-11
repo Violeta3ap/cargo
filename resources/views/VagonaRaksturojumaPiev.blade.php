@@ -12,22 +12,22 @@
         @csrf
         <div class="form-group">
             <label for="VeidaID">Veida ID:</label>
-            <input type="text" class="form-control" id="VeidaID" name="VeidaID" required>
+            <input type="number" class="form-control" id="VeidaID" name="VeidaID" required>
         </div>
 
         <div class="form-group">
             <label for="KravasID">Kravas ID:</label>
-            <input type="text" class="form-control" id="KravasID" name="KravasID" required>
+            <input type="number" class="form-control" id="KravasID" name="KravasID" required>
         </div>
 
         <div class="form-group">
             <label for="Celtspeja">Celtspeja:</label>
-            <input type="text" class="form-control" id="Celtspeja" name="Celtspeja" required>
+            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" required>
         </div>
 
         <div class="form-group">
             <label for="VagonaNumurs">Vagona Numurs:</label>
-            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" required>
+            <input type="number" class="form-control" id="VagonaNumurs" name="VagonaNumurs" required>
         </div>
 
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
