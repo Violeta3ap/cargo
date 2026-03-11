@@ -8,7 +8,7 @@
 
     <hr>
 
-    <form method="POST" action="/Krava/jaunsSubmit">
+    <form method="POST" action="/Kravas/jaunsSubmit">
         @csrf
         <div class="form-group">
             <label for="Nosaukums">Nosaukums:</label>
