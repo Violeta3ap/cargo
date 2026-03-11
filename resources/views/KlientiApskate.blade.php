@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    <h2>Klienta detaļas</h2>
+    <h2>Klienta detalizēta apskate</h2>
     <a href="/Klienti"  style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
 
