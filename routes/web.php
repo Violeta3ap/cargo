@@ -81,7 +81,7 @@ Route::post('/Kravas/jaunsSubmit', 'App\Http\Controllers\KravasController@DatuSu
 Route::get('/Kravas/{id}/delete', 'App\Http\Controllers\KravasController@delete');
 Route::get('/Kravas/{id}/details', 'App\Http\Controllers\KravasController@details');
 Route::get('/Kravas/{id}/edit', 'App\Http\Controllers\KravasController@edit');
-Route::post('/Krava/{id}/editSubmit', 'App\Http\Controllers\KravasController@editSubmit');
+Route::post('/Kravas/{id}/editSubmit', 'App\Http\Controllers\KravasController@editSubmit');
 
 
 
