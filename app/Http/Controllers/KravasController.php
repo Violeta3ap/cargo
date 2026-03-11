@@ -41,7 +41,7 @@ class KravasController extends Controller
         $kravas = new Kravas();
         $kravas->Nosaukums = $dati->input('Nosaukums');
         $kravas->save();
-        return redirect()->to('/Krava')->with('success', 'Ieraksts tika pievienots');
+        return redirect()->to('/Kravas')->with('success', 'Ieraksts tika pievienots');
     }
 
     public function edit($id)
