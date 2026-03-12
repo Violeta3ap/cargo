@@ -29,6 +29,14 @@
        <br><br>
     <a href="/Klienti/{{ $klientis->KlientaID }}/edit"  style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Rediģēt</a>
-            <a href="/Klienti/{{ $klientis->KlientaID }}/delete"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Dzēst</a>
+            <!-- <a href="/Klienti/{{ $klientis->KlientaID }}/delete"  style="border-radius:8px;  border: 1px solid #59c1cf; 
+                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Dzēst</a> -->
+
+
+                <a href="/Klienti/{{ $item->KlientaID }}/delete"
+                onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+                style="border-radius:8px;  border: 1px solid #59c1cf; 
+                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+                Dzēst
+                </a>
 @endsection
