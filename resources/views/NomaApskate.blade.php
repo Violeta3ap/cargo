@@ -10,27 +10,12 @@
     <div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
          <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
             <h5 class="card-title">ID: {{ $noma->NomasID }}</h5>
-            <!-- <p class="card-text"><strong>Klienta vārds:</strong> {{ $noma->Vards }}</p>
+            <p class="card-text"><strong>Klienta vārds:</strong> {{ $noma->Vards }}</p>
             <p class="card-text"><strong>Klienta uzvārds:</strong> {{ $noma->Uzvards }}</p>
             <p class="card-text"><strong>Klienta uzņēmuma nosaukums:</strong> {{ $noma->UznemumaNosaukums }}</p>
             <p class="card-text"><strong>Darbinieka vārds:</strong> {{ $noma->Vards }}</p>
             <p class="card-text"><strong>Darbinieka uzvārds:</strong> {{ $noma->Uzvards }}</p>
-            <p class="card-text"><strong>Kravas nosaukums:</strong> {{ $noma->Nosaukums }}</p> -->
-
-
-
-
-           <p><strong>Klienta vārds:</strong> {{ $noma->KlientaVards }}</p>
-<p><strong>Klienta uzvārds:</strong> {{ $noma->KlientaUzvards }}</p>
-<p><strong>Klienta uzņēmums:</strong> {{ $noma->UznemumaNosaukums }}</p>
-
-<p><strong>Darbinieka vārds:</strong> {{ $noma->DarbiniekaVards }}</p>
-<p><strong>Darbinieka uzvārds:</strong> {{ $noma->DarbiniekaUzvards }}</p>
-
-<p><strong>Kravas nosaukums:</strong> {{ $noma->KravasNosaukums }}</p>
-
-
-
+            <p class="card-text"><strong>Kravas nosaukums:</strong> {{ $noma->Nosaukums }}</p>
             <p class="card-text"><strong>Vagonu skaits:</strong> {{ $noma->VagonuSkaits }}</p>
             <p class="card-text"><strong>Nomas sākuma periods:</strong> {{ $noma->NomasSakumaPeriods }}</p>
             <p class="card-text"><strong>Nomas beigu periods:</strong> {{ $noma->NomasBeiguPeriods }}</p>

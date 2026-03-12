@@ -88,26 +88,6 @@ class NomaController extends Controller
     }
 
 
-   public function show($id)
-{
-    $noma = DB::table('noma')
-        ->join('klienti', 'noma.KlientaID', '=', 'klienti.KlientaID')
-        ->join('darbinieki', 'noma.DarbiniekaID', '=', 'darbinieki.DarbiniekaID')
-        ->join('kravas', 'noma.KravasID', '=', 'kravas.KravasID')
-        ->select(
-            'noma.*',
-            'klienti.Vards as KlientaVards',
-            'klienti.Uzvards as KlientaUzvards',
-            'klienti.UznemumaNosaukums',
-            'darbinieki.Vards as DarbiniekaVards',
-            'darbinieki.Uzvards as DarbiniekaUzvards',
-            'kravas.Nosaukums as KravasNosaukums'
-        )
-        ->where('noma.NomasID', $id)
-        ->first();
-
-    return view('Noma.show', compact('noma'));
-}
 
 }
 
