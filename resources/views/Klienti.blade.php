@@ -8,6 +8,15 @@
 </nav>
 </div>
 
+
+<form method="GET" action="/Klienti">
+    <input type="text" name="search" placeholder="Ievadi uzņēmuma nosaukumu">
+    <button type="submit">Meklēt</button>
+</form>
+
+
+
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -54,6 +63,28 @@
         @endforeach
     </tbody>
 </table>
+
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Vārds</th>
+        <th>Uzvārds</th>
+        <th>Uzņēmums</th>
+    </tr>
+
+@foreach($klienti as $klientis)
+<tr>
+    <td>{{ $klientis->KlientaID }}</td>
+    <td>{{ $klientis->Vards }}</td>
+    <td>{{ $klientis->Uzvards }}</td>
+    <td>{{ $klientis->UznemumaNosaukums }}</td>
+</tr>
+@endforeach
+
+</table>
+
+
 <style>
     .table {
         border-collapse: collapse;

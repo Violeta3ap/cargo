@@ -85,5 +85,34 @@ class KlientiController extends Controller
 
          return redirect()->to('/Klienti')->with('success', 'Ieraksts tika atjaunināts');
     }
+
+
+
+
+
+
+
+
+    
+
+
+
+    public function index(Request $request)
+{
+    $search = $request->search;
+
+    if($search){
+        $klienti = DB::table('klienti')
+            ->where('UznemumaNosaukums', 'LIKE', "%$search%")
+            ->get();
+    } else {
+        $klienti = DB::table('klienti')->get();
+    }
+
+    return view('Klienti.index', compact('klienti'));
+}
+
+
+
 }
 
