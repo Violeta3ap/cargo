@@ -34,12 +34,17 @@
         @foreach ($noma as $item)
         <tr>
             <td>{{$item->NomasID}}</td>
-            <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID) }}</td>
+            <td>{{$item->KlientaID}}</td>
+            <td>{{$item->DarbiniekaID}}</td>
+            <td>{{$item->KravasID}}</td>
+
+
+            <!-- <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID) }}</td>
             <td>{{$item->klienti->Uzvards ?? ('ID: '.$item->KlientaID) }}</td>
             <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID) }}</td>
             <td>{{$item->darbinieki->Vards ?? ('ID: '.$item->DarbiniekaID) }}</td>            
             <td>{{$item->darbinieki->Uzvards ?? ('ID: '.$item->DarbiniekaID) }}</td>
-            <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID) }}</td>
+            <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID) }}</td> -->
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
