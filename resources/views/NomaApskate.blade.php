@@ -20,13 +20,14 @@
 
 
 
-            <p class="card-text"><strong>Klienta vārds:</strong> {{ $noma->KlientaVards }}</p>
-            <p class="card-text"><strong>Klienta uzvārds:</strong> {{ $noma->KlientaUzvards }}</p>
-            <p class="card-text"><strong>Klienta uzņēmuma nosaukums:</strong> {{ $noma->UznemumaNosaukums }}</p>
-            <p class="card-text"><strong>Darbinieka vārds:</strong> {{ $noma->DarbiniekaVards }}</p>
-            <p class="card-text"><strong>Darbinieka uzvārds:</strong> {{ $noma->DarbiniekaUzvards }}</p>
-            <p class="card-text"><strong>Kravas nosaukums:</strong> {{ $noma->Nosaukums }}</p>
+           <p><strong>Klienta vārds:</strong> {{ $noma->KlientaVards }}</p>
+<p><strong>Klienta uzvārds:</strong> {{ $noma->KlientaUzvards }}</p>
+<p><strong>Klienta uzņēmums:</strong> {{ $noma->UznemumaNosaukums }}</p>
 
+<p><strong>Darbinieka vārds:</strong> {{ $noma->DarbiniekaVards }}</p>
+<p><strong>Darbinieka uzvārds:</strong> {{ $noma->DarbiniekaUzvards }}</p>
+
+<p><strong>Kravas nosaukums:</strong> {{ $noma->KravasNosaukums }}</p>
 
 
 
