@@ -97,7 +97,7 @@ Route::post('/VagonaRaksturojums/{id}/editSubmit', 'App\Http\Controllers\VagonaR
 // // Veidu  datu routes
 Route::get('/Veidi', 'App\Http\Controllers\VeidiController@showAllVeidi');
 Route::get('/Veidi/jauns', 'App\Http\Controllers\VeidiController@create');
-Route::post('/Veidi/jaunsSubmit', 'App\Http\Controllers\VeidiController@VeidaSubmit');
+Route::post('/Veidi/jaunsSubmit', 'App\Http\Controllers\VeidiController@DatuSubmit');
 Route::get('/Veidi/{id}/delete', 'App\Http\Controllers\VeidiController@delete');
 Route::get('/Veidi/{id}/details', 'App\Http\Controllers\VeidiController@details');
 Route::get('/Veidi/{id}/edit', 'App\Http\Controllers\VeidiController@edit');
