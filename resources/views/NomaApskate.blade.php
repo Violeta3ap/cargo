@@ -15,7 +15,7 @@
             <p class="card-text"><strong>Klienta uzņēmuma nosaukums:</strong> {{ $noma->UznemumaNosaukums }}</p>
             <p class="card-text"><strong>Darbinieka vārds:</strong> {{ $noma->Vards }}</p>
             <p class="card-text"><strong>Darbinieka uzvārds:</strong> {{ $noma->Uzvards }}</p>
-            <p class="card-text"><strong>Nosaukums:</strong> {{ $noma->Nosaukums }}</p>
+            <p class="card-text"><strong>Kravas nosaukums:</strong> {{ $noma->Nosaukums }}</p>
 
 
             <p class="card-text"><strong>Vagonu skaits:</strong> {{ $noma->VagonuSkaits }}</p>
