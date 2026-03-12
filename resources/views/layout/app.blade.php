@@ -106,12 +106,7 @@
         }
 
 
-
-
-
-
-
-        @media print {
+        /* @media print {
 
 body * {
     visibility: hidden;
@@ -132,8 +127,6 @@ body * {
 
 
 
-
-
 #printArea{
     width:600px;
     margin:auto;
@@ -149,12 +142,7 @@ body * {
     border-bottom:1px solid #ccc;
     padding:5px;
 }
-
-
-
-
-
-
+ */
 
     </style>
 </head>

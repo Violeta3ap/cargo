@@ -8,11 +8,7 @@
 <a href="/VagonuDati">Nomas papildinājums</a>
 
 
-
-
-
-
-<div id="printArea">
+<!-- <div id="printArea">
 
 <h2>Nomas informācija</h2>
 
@@ -31,21 +27,7 @@
 
 <button onclick="window.print()" style="padding:8px; border-radius:8px;">
 Printēt dokumentu
-</button>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</button> -->
 
 
 
