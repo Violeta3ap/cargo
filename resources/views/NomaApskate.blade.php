@@ -10,12 +10,15 @@
     <div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
          <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
             <h5 class="card-title">ID: {{ $noma->NomasID }}</h5>
-            <p class="card-text"><strong>Klienta ID:</strong> {{ $noma->KlientaID }}</p>
-            <p class="card-text"><strong>Darbinieka ID:</strong> {{ $noma->DarbiniekaID }}</p>
-            <p class="card-text"><strong>Kravas ID:</strong> {{ $noma->KravasID }}</p>
+            <p class="card-text"><strong>Klienta vārds:</strong> {{ $klientis->Vards }}</p>
+            <p class="card-text"><strong>Klienta uzvārds:</strong> {{ $klientis->Uzvards }}</p>
+            <p class="card-text"><strong>Klienta uzņēmuma nosaukums:</strong> {{ $klientis->UznemumaNosaukums }}</p>
+            <p class="card-text"><strong>Darbinieka vārds:</strong> {{ $darbiniekis->Vards }}</p>
+            <p class="card-text"><strong>Darbinieka uzvārds:</strong> {{ $darbiniekis->Uzvards }}</p>
+            <p class="card-text"><strong>Nosaukums:</strong> {{ $kravas->Nosaukums }}</p>
 
-
-             <p class="card-text"><strong>Vagonu skaits:</strong> {{ $noma->VagonuSkaits }}</p>
+            
+            <p class="card-text"><strong>Vagonu skaits:</strong> {{ $noma->VagonuSkaits }}</p>
             <p class="card-text"><strong>Nomas sākuma periods:</strong> {{ $noma->NomasSakumaPeriods }}</p>
             <p class="card-text"><strong>Nomas beigu periods:</strong> {{ $noma->NomasBeiguPeriods }}</p>
             <p class="card-text"><strong>Nosūtīšanas stacija:</strong> {{ $noma->NosutisanasStacija }}</p>
