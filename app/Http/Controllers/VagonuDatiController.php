@@ -23,7 +23,7 @@ class VagonuDatiController extends Controller
 
     public function create()
     {
-      return view('VagonuDatUPiev');
+      return view('VagonuDatuPiev');
     }
 
     public function details($id)
