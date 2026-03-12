@@ -64,15 +64,6 @@
     </tbody>
 </table>
 
-
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Vārds</th>
-        <th>Uzvārds</th>
-        <th>Uzņēmums</th>
-    </tr>
-
 @foreach($klienti as $klientis)
 <tr>
     <td>{{ $klientis->KlientaID }}</td>
@@ -81,9 +72,6 @@
     <td>{{ $klientis->UznemumaNosaukums }}</td>
 </tr>
 @endforeach
-
-</table>
-
 
 <style>
     .table {
