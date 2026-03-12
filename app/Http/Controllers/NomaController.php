@@ -79,8 +79,6 @@ class NomaController extends Controller
                 'NosutisanasStacija' => $dati->input('NosutisanasStacija'),
                 'Galastacija' => $dati->input('Galastacija'),
                 'KopejaMaksa' => $dati->input('KopejaMaksa'),
-                'TelefonaNumurs' => $dati->input('TelefonaNumurs'),
-                'AmataID' => $dati->input('AmataID'),
             ]);
 
          return redirect()->to('/Noma')->with('success', 'Ieraksts tika atjaunināts');
