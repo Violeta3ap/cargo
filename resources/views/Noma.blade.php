@@ -6,31 +6,6 @@
 <nav class="navigacija" style="   background-color: #ffffff;">
 <a href="/Noma/jauns" >Jauns ieraksts</a>
 <a href="/VagonuDati">Nomas papildinājums</a>
-
-
-<!-- <div id="printArea">
-
-<h2>Nomas informācija</h2>
-
-<p><strong>ID:</strong> {{ $noma->NomasID }}</p>
-<p><strong>Klienta vārds:</strong> {{ $noma->Vards }}</p>
-<p><strong>Uzvārds:</strong> {{ $noma->Uzvards }}</p>
-<p><strong>Uzņēmums:</strong> {{ $noma->UznemumaNosaukums }}</p>
-<p><strong>Krava:</strong> {{ $noma->Nosaukums }}</p>
-<p><strong>Vagonu skaits:</strong> {{ $noma->VagonuSkaits }}</p>
-<p><strong>Nomas sākums:</strong> {{ $noma->NomasSakumaPeriods }}</p>
-<p><strong>Nomas beigas:</strong> {{ $noma->NomasBeiguPeriods }}</p>
-
-</div>
-
-<br>
-
-<button onclick="window.print()" style="padding:8px; border-radius:8px;">
-Printēt dokumentu
-</button> -->
-
-
-
 </nav>
 </div>
 

@@ -106,43 +106,6 @@
         }
 
 
-        /* @media print {
-
-body * {
-    visibility: hidden;
-}
-
-#printArea, #printArea * {
-    visibility: visible;
-}
-
-#printArea {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-}
-
-}
-
-
-
-#printArea{
-    width:600px;
-    margin:auto;
-    font-family:Arial;
-}
-
-#printArea h2{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-#printArea p{
-    border-bottom:1px solid #ccc;
-    padding:5px;
-}
- */
 
     </style>
 </head>
