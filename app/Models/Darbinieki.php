@@ -15,6 +15,7 @@ class Darbinieki extends Model
       public function amati()
     {
         return $this->belongsTo(Amati::class, 'AmataID', 'AmataID');
+        return $this->belongsTo(Noma::class, 'NomasID', 'NomasID');
     }
 
     
