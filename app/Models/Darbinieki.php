@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\Amati;
+use App\Models\Noma;
 use Illuminate\Database\Eloquent\Model;
 
 class Darbinieki extends Model
