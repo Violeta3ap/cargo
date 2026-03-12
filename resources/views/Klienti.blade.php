@@ -64,6 +64,13 @@
     </tbody>
 </table>
 
+
+
+
+
+
+
+
 @foreach($klienti as $klientis)
 <tr>
     <td>{{ $klientis->KlientaID }}</td>
@@ -72,6 +79,11 @@
     <td>{{ $klientis->UznemumaNosaukums }}</td>
 </tr>
 @endforeach
+
+
+
+
+
 
 <style>
     .table {
