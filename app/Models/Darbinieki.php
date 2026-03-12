@@ -2,7 +2,6 @@
 
 namespace App\Models;
 use App\Models\Amati;
-use App\Models\Noma;
 use Illuminate\Database\Eloquent\Model;
 
 class Darbinieki extends Model
@@ -16,7 +15,6 @@ class Darbinieki extends Model
       public function amati()
     {
         return $this->belongsTo(Amati::class, 'AmataID', 'AmataID');
-        return $this->belongsTo(Noma::class, 'NomasID', 'NomasID');
     }
 
     
