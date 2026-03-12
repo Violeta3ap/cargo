@@ -11,17 +11,17 @@
         @csrf
         <div class="form-group">
             <label for="KlientaID">Klienta ID:</label>
-            <input type="text" class="form-control" id="KlientaID" name="KlientaID" value="{{ $noma->KlientaID }}" required>
+            <input type="number" class="form-control" id="KlientaID" name="KlientaID" value="{{ $noma->KlientaID }}" required>
         </div>
 
         <div class="form-group">
             <label for="DarbiniekaID">Darbinieka ID:</label>
-            <input type="text" class="form-control" id="DarbiniekaID" name="DarbiniekaID" value="{{ $noma->DarbiniekaID }}" required>
+            <input type="number" class="form-control" id="DarbiniekaID" name="DarbiniekaID" value="{{ $noma->DarbiniekaID }}" required>
         </div>
 
         <div class="form-group">
             <label for="KravasID">Kravas ID:</label>
-            <input type="text" class="form-control" id="KravasID" name="KravasID" value="{{ $noma->KravasID }}" required>
+            <input type="number" class="form-control" id="KravasID" name="KravasID" value="{{ $noma->KravasID }}" required>
         </div>
 
         <div class="form-group">
@@ -31,22 +31,22 @@
 
         <div class="form-group">
             <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>
-            <input type="text" class="form-control" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ $noma->NomasSakumaPeriods }}" required>
+            <input type="date" class="form-control" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ $noma->NomasSakumaPeriods }}" required>
         </div>
 
         <div class="form-group">
             <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
-            <input type="text" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ $noma->NomasBeiguPeriods }}" required>
+            <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ $noma->NomasBeiguPeriods }}" required>
         </div>
 
         <div class="form-group">
             <label for="NosutisanasStacija">Nosūtīšanas stacija:</label>
-            <input type="number" class="form-control" id="NosutisanasStacija" name="NosutisanasStacija" value="{{ $noma->NosutisanasStacija }}" required>
+            <input type="text" class="form-control" id="NosutisanasStacija" name="NosutisanasStacija" value="{{ $noma->NosutisanasStacija }}" required>
         </div>
         
         <div class="form-group">
             <label for="Galastacija">Gala stacija:</label>
-            <input type="number" class="form-control" id="Galastacija" name="Galastacija" value="{{ $noma->Galastacija }}" required>
+            <input type="text" class="form-control" id="Galastacija" name="Galastacija" value="{{ $noma->Galastacija }}" required>
         </div>
 
         <div class="form-group">
