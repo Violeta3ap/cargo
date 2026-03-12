@@ -93,7 +93,7 @@ class KlientiController extends Controller
 
 
 
-    
+
 
 
 
@@ -101,7 +101,7 @@ class KlientiController extends Controller
 {
     $search = $request->search;
 
-    if($search){
+    if ($search) {
         $klienti = DB::table('klienti')
             ->where('UznemumaNosaukums', 'LIKE', "%$search%")
             ->get();
@@ -111,7 +111,6 @@ class KlientiController extends Controller
 
     return view('Klienti.index', compact('klienti'));
 }
-
 
 
 }
