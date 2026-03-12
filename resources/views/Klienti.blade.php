@@ -66,25 +66,6 @@
 
 
 
-
-
-
-
-
-@foreach($klienti as $klientis)
-<tr>
-    <td>{{ $klientis->KlientaID }}</td>
-    <td>{{ $klientis->Vards }}</td>
-    <td>{{ $klientis->Uzvards }}</td>
-    <td>{{ $klientis->UznemumaNosaukums }}</td>
-</tr>
-@endforeach
-
-
-
-
-
-
 <style>
     .table {
         border-collapse: collapse;

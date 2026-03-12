@@ -111,7 +111,7 @@ Route::get('/Klienti/{id}/delete', 'App\Http\Controllers\KlientiController@delet
 Route::get('/Klienti/{id}/details', 'App\Http\Controllers\KlientiController@details');
 Route::get('/Klienti/{id}/edit', 'App\Http\Controllers\KlientiController@edit');
 Route::post('/Klienti/{id}/editSubmit', 'App\Http\Controllers\KlientiController@editSubmit');
-Route::get('/Klienti', [KlientiController::class, 'index']);
+
 
 
 
