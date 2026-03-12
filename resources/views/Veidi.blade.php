@@ -5,6 +5,8 @@
 <h2>Vagona veidi</h2> 
 <nav class="navigacija" style="   background-color: #ffffff;">
 <a href="/Veidi/jauns" >Jauns ieraksts</a>
+<a href="/klasifikatori"  style="border-radius:8px;  border: 1px solid #59c1cf; 
+padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
 </nav>
 </div>
 
