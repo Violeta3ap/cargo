@@ -79,7 +79,6 @@ class NomaController extends Controller
                 'NosutisanasStacija' => $dati->input('NosutisanasStacija'),
                 'Galastacija' => $dati->input('Galastacija'),
                 'KopejaMaksa' => $dati->input('KopejaMaksa'),
-                'Epasts' => $dati->input('Epasts'),
                 'TelefonaNumurs' => $dati->input('TelefonaNumurs'),
                 'AmataID' => $dati->input('AmataID'),
             ]);
