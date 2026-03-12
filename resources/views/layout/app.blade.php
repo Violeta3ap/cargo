@@ -5,7 +5,7 @@
     <title>CARGO</title>
 
 
-<meta name="viewport" content="width=device-width; height=device-height" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
 
