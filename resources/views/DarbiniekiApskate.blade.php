@@ -27,7 +27,7 @@
     <a href="/Darbinieki/{{ $darbinieki->DarbiniekaID }}/edit"  style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Rediģēt</a>
 
-                                <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete"
+                                <a href="/Darbinieki/{{ $darbinieki->DarbiniekaID }}/delete"
                 onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
                 style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
