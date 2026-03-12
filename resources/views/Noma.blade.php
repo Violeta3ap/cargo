@@ -56,7 +56,13 @@
                     padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;" class="btn btn-sm btn-warning">Rediģēt</a>
 
 
-<a href="/Noma/{{ $item->NomasID }}/delete') }}"
+<!-- <a href="/Noma/{{ $item->NomasID }}/delete') }}"
+   onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000000; text-decoration:none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   Dzēst
+</a> -->
+
+<a href="/Noma/{{ $item->NomasID }}/delete"
    onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
    style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000000; text-decoration:none; background: linear-gradient(to right, #59c1cf, #ffffff)">
    Dzēst
