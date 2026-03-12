@@ -8,11 +8,11 @@
 </nav>
 </div>
 
-
+<!-- 
 <form method="GET" action="/Klienti">
     <input type="text" name="search" placeholder="Ievadi uzņēmuma nosaukumu">
     <button type="submit">Meklēt</button>
-</form>
+</form> -->
 
 
 
