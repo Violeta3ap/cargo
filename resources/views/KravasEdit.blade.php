@@ -7,7 +7,7 @@
 
     <hr>
 
-    <form action="/Krava/{{ $kravas->KravasID }}/editSubmit" method="POST">
+    <form action="/Kravas/{{ $kravas->KravasID }}/editSubmit" method="POST">
         @csrf
         <div class="form-group">
             <label for="Nosaukums">Nosaukums:</label>
