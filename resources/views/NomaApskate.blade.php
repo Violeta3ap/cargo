@@ -13,10 +13,12 @@ Printēt
     <div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
          <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
             <h5 class="card-title">ID: {{ $noma->NomasID }}</h5>
-<!--             
-            <p class="card-text"><strong>Klienta ID:</strong> {{ $noma->KlientaID }}</p>
-            <p class="card-text"><strong>Darbinieka ID:</strong> {{ $noma->DarbiniekaID }}</p>
-            <p class="card-text"><strong>Kravas ID:</strong> {{ $noma->KravasID }}</p> -->
+            <p class="card-text"><strong>Klienta vārds:</strong> {{ $noma->klienti->Vards }}</p>
+            <p class="card-text"><strong>Klienta uzvārds:</strong> {{ $noma->klienti->Uzvards }}</p>
+            <p class="card-text"><strong>Klienta uzņēmuma nosaukums:</strong> {{ $noma->klienti->UznemumaNosaukums }}</p>
+            <p class="card-text"><strong>Darbinieka vārds:</strong> {{ $noma->darbinieki->Vards }}</p>
+            <p class="card-text"><strong>Darbinieka uzvārds:</strong> {{ $noma->darbinieki->Uzvards }}</p>
+            <p class="card-text"><strong>Kravas nosaukums:</strong> {{ $noma->kravas->Nosaukums }}</p>
             <p class="card-text"><strong>Vagonu skaits:</strong> {{ $noma->VagonuSkaits }}</p>
             <p class="card-text"><strong>Nomas sākuma periods:</strong> {{ $noma->NomasSakumaPeriods }}</p>
             <p class="card-text"><strong>Nomas beigu periods:</strong> {{ $noma->NomasBeiguPeriods }}</p>
@@ -25,12 +27,7 @@ Printēt
             <p class="card-text"><strong>Kopēja maksa:</strong> {{ $noma->KopejaMaksa }}</p>
             
 
-            <p class="card-text"><strong>Klienta vārds:</strong> {{ $noma->klienti->Vards }}</p>
-            <p class="card-text"><strong>Klienta uzvārds:</strong> {{ $noma->klienti->Uzvards }}</p>
-            <p class="card-text"><strong>Klienta uzņēmuma nosaukums:</strong> {{ $noma->klienti->UznemumaNosaukums }}</p>
-            <p class="card-text"><strong>Darbinieka vārds:</strong> {{ $noma->darbinieki->Vards }}</p>
-            <p class="card-text"><strong>Darbinieka uzvārds:</strong> {{ $noma->darbinieki->Uzvards }}</p>
-            <p class="card-text"><strong>Kravas nosaukums:</strong> {{ $noma->kravas->Nosaukums }}</p>
+
 
 
         </div>
