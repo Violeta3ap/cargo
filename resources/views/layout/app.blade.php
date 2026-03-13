@@ -107,6 +107,18 @@
 
 
 
+        .mainContent {
+  float: left;
+  width: 50%;
+}
+@media screen and (max-width: 800px) {
+  .mainContent {
+    width: 100%;
+  }
+}
+
+
+
     </style>
 </head>
 <body>
@@ -152,7 +164,7 @@
 
 
 
-    <div class="content">
+    <div class="content" style="padding:10%;">
         @yield('content')
     </div>
 
