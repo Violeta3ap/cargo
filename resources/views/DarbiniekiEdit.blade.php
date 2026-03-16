@@ -41,27 +41,10 @@
         </div>   
 
 
-
-        <!-- <div class="form-group">
+        <div class="form-group">
             <label for="AmataID">Amata ID:</label>
             <input type="number" class="form-control" id="AmataID" name="AmataID" value="{{ $darbinieki->AmataID }}" required>
-        </div> -->
-
-
-
-
-        <div class="form-group">
-            <label for="AmataID">Amats:</label>
-            <select class="form-control" id="AmataID" name="AmataID" required>
-            @foreach($amati as $amati)
-            <option value="{{ $amati->AmataID }}"
-               {{ $darbinieki->AmataID == $amati->AmataID ? 'selected' : '' }}>
-               {{ $amati->Nosaukums }}
-            </option>
-            @endforeach
-            </select>
         </div>
-
 
 
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
