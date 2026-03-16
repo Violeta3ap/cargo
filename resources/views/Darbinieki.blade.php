@@ -8,7 +8,7 @@
 </nav>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
   <tr>
