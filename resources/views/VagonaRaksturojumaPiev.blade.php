@@ -27,7 +27,7 @@
 
         <div class="form-group">
             <label for="VagonaNumurs">Vagona Numurs:</label>
-            <input type="number" class="form-control" id="VagonaNumurs" name="VagonaNumurs" required>
+            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" required>
         </div>
 
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
