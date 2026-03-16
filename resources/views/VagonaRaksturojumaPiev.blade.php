@@ -1,84 +1,49 @@
+@extends('layout.app') <!-- Paplašina galveno layout -->
 
-@extends('layout.app')
+@section('content') <!-- Satura sadaļa sākas -->
+    <h2>Pievienot jaunus vagonu datus</h2> <!-- Virsraksts -->
+    <a href="/VagonaRaksturojums" style="border-radius:8px; border: 1px solid #59c1cf; 
+        padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+        Atpakaļ
+    </a> <!-- Atpakaļ poga -->
 
-@section('content')
-    <h2>Pievienot jaunus vagonu datus</h2>
-    <a href="/VagonaRaksturojums"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
+    <hr> <!-- Horizontāla līnija -->
 
-    <hr>
-
-    <form method="POST" action="/VagonaRaksturojums/jaunsSubmit">
-        @csrf
-        <div class="form-group">
-            <label for="VeidaID">Veida ID:</label>
-            <input type="number" class="form-control" id="VeidaID" name="VeidaID" required>
-        </div>
+    <form method="POST" action="/VagonaRaksturojums/jaunsSubmit"> <!-- Formas darbība uz jaunu vagonu -->
+        @csrf <!-- CSRF aizsardzība -->
 
         <div class="form-group">
-            <label for="KravasID">Kravas ID:</label>
-            <input type="number" class="form-control" id="KravasID" name="KravasID" required>
+            <label for="VeidaID">Veida ID:</label> <!-- Veida ID lauka nosaukums -->
+            <input type="number" class="form-control" id="VeidaID" name="VeidaID" required> <!-- Ievades lauks -->
         </div>
-
-        <!-- <div class="form-group">
-            <label for="Celtspeja">Celtspeja:</label>
-            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" required>
-        </div>
-         -->
-
-         <div class="form-group">
-            <label for="Celtspeja">Celtspeja:</label>
-            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" min="1" required>
-        </div>
-
-
 
         <div class="form-group">
-            <label for="VagonaNumurs">Vagona Numurs:</label>
-            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" required>
+            <label for="KravasID">Kravas ID:</label> <!-- Kravas ID lauka nosaukums -->
+            <input type="number" class="form-control" id="KravasID" name="KravasID" required> <!-- Ievades lauks -->
         </div>
 
-        <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Saglabāt</button>
+        <div class="form-group">
+            <label for="Celtspeja">Celtspeja:</label> <!-- Celtspeja lauks -->
+            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" min="1" required> <!-- Ievades lauks ar minimum vērtību -->
+        </div>
+
+        <div class="form-group">
+            <label for="VagonaNumurs">Vagona Numurs:</label> <!-- Vagona numurs lauks -->
+            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" required> <!-- Teksta ievades lauks -->
+        </div>
+
+        <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; 
+            padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+            Saglabāt
+        </button> <!-- Saglabāt poga -->
     </form>
 
 <style>
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #333;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
-
-    .form-control:focus {
-        outline: none;
-        border-color: #59c1cf;
-        box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
-    }
-
-    button[type="submit"] {
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 500;
-        transition: transform 0.2s;
-    }
-
-    button[type="submit"]:hover {
-        transform: scale(1.05);
-    }
+    .form-group { margin-bottom: 20px; } <!-- Atstarpe starp formu laukiem -->
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; } <!-- Label stils -->
+    .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box; } <!-- Ievades lauka stils -->
+    .form-control:focus { outline: none; border-color: #59c1cf; box-shadow: 0 0 5px rgba(89, 193, 207, 0.3); } <!-- Fokusa efekts -->
+    button[type="submit"] { cursor: pointer; font-size: 16px; font-weight: 500; transition: transform 0.2s; } <!-- Poga stils -->
+    button[type="submit"]:hover { transform: scale(1.05); } <!-- Hover efekts -->
 </style>
-@endsection
-
+@endsection <!-- Satura sadaļa beidzas -->

@@ -1,65 +1,71 @@
-@extends('layout.app')
+@extends('layout.app') <!-- Paplašina galveno layout -->
 
-@section('content')
-    <h2>Rediģēt vagonu datus</h2>
-    <a href="/VagonuDati"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
+@section('content') <!-- Satura sadaļa sākas -->
 
-    <hr>
+<h2>Rediģēt vagonu datus</h2> <!-- Virsraksts lapai -->
 
-    <form action="/VagonuDati/{{ $vagonudati->DatuID }}/editSubmit" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="NomasID">Nomas ID:</label>
-            <input type="number" class="form-control" id="NomasID" name="NomasID" value="{{ $vagonudati->NomasID }}" required>
-        </div>
+<a href="/VagonuDati"  
+   style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   Atpakaļ
+</a> <!-- Poga, lai atgrieztos pie saraksta -->
 
-        <div class="form-group">
-            <label for="VagonaID">Vagona ID:</label>
-            <input type="number" class="form-control" id="VagonaID" name="VagonaID" value="{{ $vagonudati->VagonaID }}" required>
-        </div>
+<hr> <!-- Horizontāla līnija, lai atdalītu -->
 
+<form action="/VagonuDati/{{ $vagonudati->DatuID }}/editSubmit" method="POST"> <!-- Forma datu atjaunināšanai -->
+    @csrf <!-- CSRF aizsardzība -->
 
-        <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atjaunināt</button>
-    </form>
+    <div class="form-group">
+        <label for="NomasID">Nomas ID:</label> <!-- Etiķete lauka nosaukumam -->
+        <input type="number" class="form-control" id="NomasID" name="NomasID" value="{{ $vagonudati->NomasID }}" required> <!-- Ievades lauks Nomas ID -->
+    </div>
+
+    <div class="form-group">
+        <label for="VagonaID">Vagona ID:</label> <!-- Etiķete lauka nosaukumam -->
+        <input type="number" class="form-control" id="VagonaID" name="VagonaID" value="{{ $vagonudati->VagonaID }}" required> <!-- Ievades lauks Vagons ID -->
+    </div>
+
+    <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+        Atjaunināt
+    </button> <!-- Poga, lai iesniegtu izmaiņas -->
+</form>
 
 <style>
     .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 20px; /* Atstarpe starp lauka blokiem */
     }
 
     .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #333;
+        display: block; /* Etiķete uz jaunas rindas */
+        margin-bottom: 8px; /* Atstarpe zem etiķetes */
+        font-weight: 500; /* Teksta biezums */
+        color: #333; /* Teksta krāsa */
     }
 
     .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-        box-sizing: border-box;
+        width: 100%; /* Aizņem visu platumu */
+        padding: 10px; /* Iekšējā atstarpe */
+        border: 1px solid #ddd; /* Robežas krāsa */
+        border-radius: 4px; /* Noapaļoti stūri */
+        font-size: 14px; /* Teksta izmērs */
+        box-sizing: border-box; /* Iekšējā atstarpe iekļauta izmērā */
     }
 
     .form-control:focus {
-        outline: none;
-        border-color: #59c1cf;
-        box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
+        outline: none; /* Noņem noklusējuma kontūru */
+        border-color: #59c1cf; /* Maina robežu krāsu fokusā */
+        box-shadow: 0 0 5px rgba(89, 193, 207, 0.3); /* Viegls ēnojums fokusā */
     }
 
     button[type="submit"] {
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 500;
-        transition: transform 0.2s;
+        cursor: pointer; /* Rādītājs mainās uz roku */
+        font-size: 16px; /* Teksta izmērs */
+        font-weight: 500; /* Teksta biezums */
+        transition: transform 0.2s; /* Animācija uz hover */
     }
 
     button[type="submit"]:hover {
-        transform: scale(1.05);
+        transform: scale(1.05); /* Nedaudz palielina pogu hover laikā */
     }
 </style>
-@endsection
+
+@endsection <!-- Satura sadaļa beidzas -->

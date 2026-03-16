@@ -1,23 +1,33 @@
-@extends('layout.app')
+@extends('layout.app') <!-- Paplašina galveno layout -->
 
-@section('content')
-    <h2>Veidu detalizēta apskate</h2>
-    <a href="/Veidi"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
+@section('content') <!-- Satura sadaļa sākas -->
 
-    <hr>
+<h2>Veidu detalizēta apskate</h2> <!-- Virsraksts lapai -->
 
-    <div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
-         <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
-            <h5 class="card-title">Veida ID: {{ $veidi->VeidaID }}</h5>
-            <p class="card-text"><strong>Nosaukums:</strong> {{ $veidi->Nosaukums }}</p>
-            
-        </div>
-        
+<a href="/Veidi" style="border-radius:8px; border: 1px solid #59c1cf; 
+    padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+    Atpakaļ
+</a> <!-- Poga atpakaļ uz veidu sarakstu -->
+
+<hr> <!-- Horizontālā līnija -->
+
+<div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
+    <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
+        <h5 class="card-title">Veida ID: {{ $veidi->VeidaID }}</h5> <!-- Parāda Veida ID -->
+        <p class="card-text"><strong>Nosaukums:</strong> {{ $veidi->Nosaukums }}</p> <!-- Parāda veida nosaukumu -->
     </div>
-        <br><br>
-    <a href="/Veidi/{{ $veidi->VeidaID }}/edit"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Rediģēt</a>
-            <a href="/Veidi/{{ $veidi->VeidaID }}/delete"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Dzēst</a>
-@endsection
+</div>
+
+<br><br> <!-- Tukša vieta zem kartes -->
+
+<a href="/Veidi/{{ $veidi->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf; 
+    padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+    Rediģēt
+</a> <!-- Poga veida rediģēšanai -->
+
+<a href="/Veidi/{{ $veidi->VeidaID }}/delete" style="border-radius:8px; border: 1px solid #59c1cf; 
+    padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+    Dzēst
+</a> <!-- Poga veida dzēšanai -->
+
+@endsection <!-- Satura sadaļa beidzas -->
