@@ -30,12 +30,12 @@
 
 <select class="form-control" id="KlientaID" name="KlientaID" required>
 
-@foreach($klienti as $klients)
+@foreach($klienti as $klientis)
 
-<option value="{{ $klients->KlientaID }}"
-{{ $noma->KlientaID == $klients->KlientaID ? 'selected' : '' }}>
+<option value="{{ $klientis->KlientaID }}"
+{{ $noma->KlientaID == $klientis->KlientaID ? 'selected' : '' }}>
 
-{{ $klients->Nosaukums }}
+{{ $klientis->Nosaukums }}
 
 </option>
 

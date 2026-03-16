@@ -32,10 +32,10 @@
 
 <option value="">Izvēlieties klientu</option>
 
-@foreach($klienti as $klients)
+@foreach($klienti as $klientis)
 
-<option value="{{ $klients->KlientaID }}">
-{{ $klients->Nosaukums }}
+<option value="{{ $klientis->KlientaID }}">
+{{ $klientis->Nosaukums }}
 </option>
 
 @endforeach
