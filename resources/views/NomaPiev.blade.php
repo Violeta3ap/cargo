@@ -11,22 +11,22 @@
         @csrf
         <div class="form-group">
             <label for="KlientaID">Klienta ID:</label>
-            <input type="number" class="form-control" id="KlientaID" name="KlientaID" required>
+            <input type="number" class="form-control" id="KlientaID" name="KlientaID" min="1" required>
         </div>
 
         <div class="form-group">
             <label for="DarbiniekaID">Darbinieka ID:</label>
-            <input type="number" class="form-control" id="DarbiniekaID" name="DarbiniekaID" required>
+            <input type="number" class="form-control" id="DarbiniekaID" name="DarbiniekaID" min="1" required>
         </div>
 
         <div class="form-group">
             <label for="KravasID">Kravas ID:</label>
-            <input type="number" class="form-control" id="KravasID" name="KravasID" required>
+            <input type="number" class="form-control" id="KravasID" name="KravasID" min="1" required>
         </div>
 
         <div class="form-group">
             <label for="VagonuSkaits">Vagonu skaits:</label>
-            <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" required>
+            <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" min="1" required>
         </div>
 
         <div class="form-group">
@@ -51,7 +51,7 @@
 
         <div class="form-group">
             <label for="KopejaMaksa">Kopēja maksa:</label>
-            <input type="number" class="form-control" id="KopejaMaksa" name="KopejaMaksa" required>
+            <input type="number" class="form-control" id="KopejaMaksa" name="KopejaMaksa"  min="1" required>
         </div>
 
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
