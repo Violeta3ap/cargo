@@ -29,13 +29,22 @@
             <input type="email" class="form-control" id="Epasts" name="Epasts" value="{{ $klientis->Epasts }}" required>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="TelefonaNumurs">Telefona numurs:</label>
             <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" value="{{ $klientis->TelefonaNumurs }}" required>
-        </div>
+        </div> -->
+
+        <div class="mb-3">
+            <label for="TelefonaNumurs" class="form-label">Telefona numurs:</label>
+            <input type="text" class="form-control" value="{{ $klientis->TelefonaNumurs }}" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
+            <div class="character-count" id="charCount">{{ strlen($klientis->TelefonaNumurs) }}/8</div>
+        </div>   
+
+
+
 
         
-                        <div class="form-group">
+        <div class="form-group">
             <label for="UznemumaNosaukums">Uzņēmuma nosaukums:</label>
             <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" value="{{ $klientis->UznemumaNosaukums }}" required>
         </div>
@@ -60,6 +69,40 @@
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atjaunināt</button>
     </form>
+
+
+
+
+
+
+
+
+ 
+<script>
+// Opcionāls JavaScript, lai parādītu atlikušo rakstzīmju skaitu koda laukā
+document.addEventListener('DOMContentLoaded', function() {
+    const kodsInput = document.getElementById('kods');
+    const charCount = document.getElementById('charCount');
+    if (kodsInput && charCount) {
+        kodsInput.addEventListener('input', function() {
+            const currentLength = this.value.length;
+            charCount.textContent = currentLength + '/8';
+            // Maina krāsu, ja tuvojas limitam
+            if (currentLength >= 5) {
+                charCount.style.color = '#68e3f3';
+            } else if (currentLength >= 8) {
+                charCount.style.color = '#59c1cf';
+            } else {
+                charCount.style.color = '#e75480';
+            }
+        });
+    }
+});
+
+
+
+
+
 
 <style>
     .form-group {
