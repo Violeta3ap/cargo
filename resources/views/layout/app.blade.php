@@ -40,7 +40,8 @@
 
         .navigacija a {
             text-decoration: none;  
-        background: linear-gradient(to right, #59c1cf, #ffffff);
+            background: linear-gradient(to right, #59c1cf, #ffffff);
+            border: 1px solid #59c1cf;
             padding: 6px 14px;
             border-radius: 10px;
             color: black;
