@@ -143,12 +143,12 @@
 
 <script>
 flatpickr("#NomasSakumaPeriods", {
-    locale: "lv",
+    locale: flatpickr.l10ns.lv,
     dateFormat: "Y-m-d"
 });
 
 flatpickr("#NomasBeiguPeriods", {
-    locale: "lv",
+    locale: flatpickr.l10ns.lv,
     dateFormat: "Y-m-d"
 });
 </script>
