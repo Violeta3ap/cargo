@@ -47,7 +47,6 @@
             color: black;
             font-size: 14px;
             gap: 20px;  
-            
         }
 
         .navigacija a:hover {
