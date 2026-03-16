@@ -54,9 +54,9 @@
         }
 
         .content {  
-            padding: 150px;/* vidus*/
+            padding: 100px;/* vidus*/
             background-color: #ffffff;
-            min-height: 200px;
+            min-height: 100px;
         }
 
     footer {
