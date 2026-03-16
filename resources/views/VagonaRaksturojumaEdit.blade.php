@@ -32,8 +32,8 @@
 
                 <div class="form-group">
             <label for="VagonaNumurs" class="form-label">Vagona numurs:</label>
-            <input type="text" class="form-control" value="{{ $vagonaraksturojums->VagonaNumurs }}" id="VagonaNumurs" name="VagonaNumurs" maxlength="6" required>
-            <div class="character-count" id="charCount">{{ strlen($vagonaraksturojums->VagonaNumurs) }}/6</div>
+            <input type="text" class="form-control" value="{{ $vagonaraksturojums->VagonaNumurs }}" id="VagonaNumurs" name="VagonaNumurs" maxlength="8" required>
+            <div class="character-count" id="charCount">{{ strlen($vagonaraksturojums->VagonaNumurs) }}/8</div>
         </div>    
 
 
@@ -52,11 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (VagonaNumursInput && charCount) {
         VagonaNumursInput.addEventListener('input', function() {
             const currentLength = this.value.length;
-            charCount.textContent = currentLength + '/6';
+            charCount.textContent = currentLength + '/8';
             // Maina krāsu, ja tuvojas limitam
-            if (currentLength >= 4) {
+            if (currentLength >= 5) {
                 charCount.style.color = '#68e3f3';
-            } else if (currentLength >= 6) {
+            } else if (currentLength >= 8) {
                 charCount.style.color = '#59c1cf';
             } else {
                 charCount.style.color = '#e75480';
