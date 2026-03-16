@@ -81,10 +81,10 @@
 <script>
 // Opcionāls JavaScript, lai parādītu atlikušo rakstzīmju skaitu koda laukā
 document.addEventListener('DOMContentLoaded', function() {
-    const kodsInput = document.getElementById('kods');
+    const TelefonaNumursInput = document.getElementById('TelefonaNumurs');
     const charCount = document.getElementById('charCount');
-    if (kodsInput && charCount) {
-        kodsInput.addEventListener('input', function() {
+    if (TelefonaNumursInput && charCount) {
+        TelefonaNumursInput.addEventListener('input', function() {
             const currentLength = this.value.length;
             charCount.textContent = currentLength + '/8';
             // Maina krāsu, ja tuvojas limitam
