@@ -60,7 +60,7 @@
         }
 
     footer {
-        background: linear-gradient(90deg, #59c1cf, #ffffff);
+        background-color: #59c1cf;
         color: #000000;
         text-align: center;
         display: flex;
