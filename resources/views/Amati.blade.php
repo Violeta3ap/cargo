@@ -7,7 +7,7 @@
 
     <!-- Navigācijas pogas -->
     <nav class="navigacija" style="background-color: #ffffff;">
-        <a href="/Amati">Jauns ieraksts</a> <!-- Poga jauna amata pievienošanai -->
+        <a href="/Amati/jauns">Jauns ieraksts</a> <!-- Poga jauna amata pievienošanai -->
         <a href="/Klasifikatori" style="border-radius:8px; padding:5px; color:#000; text-decoration:none; background:linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a> <!-- Poga atpakaļ uz klasifikatoriem -->
     </nav>
 </div>

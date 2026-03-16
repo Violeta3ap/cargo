@@ -5,7 +5,7 @@
 <div style="display: flex">
     <h2>Vagona raksturojuma dati</h2> <!-- Virsraksts -->
     <nav class="navigacija" style="background-color: #ffffff;">
-        <a href="/VagonaRaksturojums">Jauns ieraksts</a> <!-- Poga jauna vagonu ieraksta pievienošanai -->
+        <a href="/VagonaRaksturojums/jauns">Jauns ieraksts</a> <!-- Poga jauna vagonu ieraksta pievienošanai -->
         <a href="/Klasifikatori" style="border-radius:8px; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
             Atpakaļ
         </a> <!-- Atpakaļ poga uz klasifikatoriem -->
