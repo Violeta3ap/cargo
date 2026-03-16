@@ -32,7 +32,7 @@
 
         <div class="form-group">
             <label for="TelefonaNumurs">Telefona numurs:</label>
-            <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" required>
+            <input type="number" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" required>
         </div>
 
         <div class="form-group">

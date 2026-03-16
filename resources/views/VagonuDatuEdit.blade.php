@@ -11,12 +11,12 @@
         @csrf
         <div class="form-group">
             <label for="NomasID">Nomas ID:</label>
-            <input type="text" class="form-control" id="NomasID" name="NomasID" value="{{ $vagonudati->NomasID }}" required>
+            <input type="number" class="form-control" id="NomasID" name="NomasID" value="{{ $vagonudati->NomasID }}" required>
         </div>
 
         <div class="form-group">
             <label for="VagonaID">Vagona ID:</label>
-            <input type="text" class="form-control" id="VagonaID" name="VagonaID" value="{{ $vagonudati->VagonaID }}" required>
+            <input type="number" class="form-control" id="VagonaID" name="VagonaID" value="{{ $vagonudati->VagonaID }}" required>
         </div>
 
 

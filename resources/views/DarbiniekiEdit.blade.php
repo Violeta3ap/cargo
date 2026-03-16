@@ -36,7 +36,7 @@
 
         <div class="form-group">
             <label for="TelefonaNumurs" class="form-label">Telefona numurs:</label>
-            <input type="text" class="form-control" value="{{ $darbinieki->TelefonaNumurs }}" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
+            <input type="number" class="form-control" value="{{ $darbinieki->TelefonaNumurs }}" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
             <div class="character-count" id="charCount">{{ strlen($darbinieki->TelefonaNumurs) }}/8</div>
         </div>   
 
