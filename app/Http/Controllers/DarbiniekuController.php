@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 class DarbiniekuController extends Controller
 {
+    $amati = Amats::all();
+return view('darbinieki.edit', compact('darbinieki', 'amati'));
+
+
+
+
+
+
     public function showAllDarbinieki()
     {
      $darbiniekis= new Darbinieki();
