@@ -1,38 +1,60 @@
-@extends('layout.app') <!-- Paplašina galveno layout -->
+@extends('layout.app')
 
-@section('content') <!-- Satura sadaļa sākas -->
+@section('content')
+    <h2>Rediģēt veidu datus</h2>
+    <a href="/Veidi"  style="border-radius:8px;  border: 1px solid #59c1cf; 
+                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
 
-<h2>Rediģēt veidu datus</h2> <!-- Virsraksts lapai -->
+    <hr>
 
-<a href="/Veidi" style="border-radius:8px; border: 1px solid #59c1cf; 
-    padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
-    Atpakaļ
-</a> <!-- Poga atpakaļ uz veidu sarakstu -->
+    <form action="/Veidi/{{ $veidi->VeidaID }}/editSubmit" method="POST">
+        @csrf
+        <div class="form-group">
+            <label for="Nosaukums">Nosaukums:</label>
+            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $veidi->Nosaukums }}" required>
+        </div>
 
-<hr> <!-- Horizontālā līnija -->
 
-<form action="/Veidi/{{ $veidi->VeidaID }}/editSubmit" method="POST">
-    @csrf <!-- Aizsardzība pret CSRF uzbrukumiem -->
-
-    <div class="form-group">
-        <label for="Nosaukums">Nosaukums:</label> <!-- Ievades lauka virsraksts -->
-        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $veidi->Nosaukums }}" required>
-        <!-- Ievades lauks ar esošo veida nosaukumu, obligāts aizpildīt -->
-    </div>
-
-    <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; 
-            padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
-        Atjaunināt
-    </button> <!-- Poga datu atjaunināšanai -->
-</form>
+        <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
+                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atjaunināt</button>
+    </form>
 
 <style>
-    .form-group { margin-bottom: 20px; } <!-- Atstarpes starp formu laukiem -->
-    .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; } <!-- Etiķetes stils -->
-    .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box; } <!-- Ievades lauka stils -->
-    .form-control:focus { outline: none; border-color: #59c1cf; box-shadow: 0 0 5px rgba(89, 193, 207, 0.3); } <!-- Fokusēta lauka efekts -->
-    button[type="submit"] { cursor: pointer; font-size: 16px; font-weight: 500; transition: transform 0.2s; } <!-- Poga stils -->
-    button[type="submit"]:hover { transform: scale(1.05); } <!-- Poga hover efekts -->
-</style>
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-@endsection <!-- Satura sadaļa beidzas -->
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #59c1cf;
+        box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
+    }
+
+    button[type="submit"] {
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: transform 0.2s;
+    }
+
+    button[type="submit"]:hover {
+        transform: scale(1.05);
+    }
+</style>
+@endsection
