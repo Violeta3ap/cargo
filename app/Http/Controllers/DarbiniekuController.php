@@ -8,10 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 class DarbiniekuController extends Controller
 {
+
+
+    public function saraksts()
+    {
     $amati = Amats::all();
 return view('darbinieki.edit', compact('darbinieki', 'amati'));
 
-
+    }
 
 
 
