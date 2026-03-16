@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Noma;
 use Illuminate\Support\Facades\DB;
+use App\Models\Klienti;
+use App\Models\Darbinieki;
+use App\Models\Kravas;
+
 
 class NomaController extends Controller
 {
@@ -21,10 +25,18 @@ class NomaController extends Controller
       return redirect('/Noma')->with('success', 'Ieraksts tika dzēsts');
     }
 
-    public function create()
-    {
-      return view('NomaPiev');
-    }
+public function create()
+{
+    $klienti = Klienti::orderBy('KlientaID','asc')->get();
+    $darbinieki = Darbinieki::orderBy('DarbiniekaID','asc')->get();
+    $kravas = Kravas::orderBy('KravasID','asc')->get();
+
+    return view('NomaPiev', [
+        'klienti' => $klienti,
+        'darbinieki' => $darbinieki,
+        'kravas' => $kravas
+    ]);
+}
 
     public function details($id)
     {
@@ -53,11 +65,21 @@ class NomaController extends Controller
         return redirect()->to('/Noma')->with('success', 'Ieraksts tika pievienots');
     }
 
-    public function edit($id)
-    {
-     $noma = Noma::find($id);
-       return view('NomaEdit', ['noma' => $noma]);
-    }
+ public function edit($id)
+{
+    $noma = Noma::find($id);
+
+    $klienti = Klienti::orderBy('KlientaID','asc')->get();
+    $darbinieki = Darbinieki::orderBy('DarbiniekaID','asc')->get();
+    $kravas = Kravas::orderBy('KravasID','asc')->get();
+
+    return view('NomaEdit', [
+        'noma' => $noma,
+        'klienti' => $klienti,
+        'darbinieki' => $darbinieki,
+        'kravas' => $kravas
+    ]);
+}
 
 
 

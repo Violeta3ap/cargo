@@ -9,7 +9,7 @@
 
     <form method="POST" action="/Noma/jaunsSubmit">
         @csrf
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="KlientaID">Klienta ID:</label>
             <input type="number" class="form-control" id="KlientaID" name="KlientaID" min="1" required>
         </div>
@@ -22,7 +22,65 @@
         <div class="form-group">
             <label for="KravasID">Kravas ID:</label>
             <input type="number" class="form-control" id="KravasID" name="KravasID" min="1" required>
-        </div>
+        </div> -->
+
+
+        <div class="form-group">
+<label for="KlientaID">Klients:</label>
+
+<select class="form-control" id="KlientaID" name="KlientaID" required>
+
+<option value="">Izvēlieties klientu</option>
+
+@foreach($klienti as $klients)
+
+<option value="{{ $klients->KlientaID }}">
+{{ $klients->Nosaukums }}
+</option>
+
+@endforeach
+
+</select>
+</div>
+
+
+<div class="form-group">
+<label for="DarbiniekaID">Darbinieks:</label>
+
+<select class="form-control" id="DarbiniekaID" name="DarbiniekaID" required>
+
+<option value="">Izvēlieties darbinieku</option>
+
+@foreach($darbinieki as $darbinieks)
+
+<option value="{{ $darbinieks->DarbiniekaID }}">
+{{ $darbinieks->Vards }} {{ $darbinieks->Uzvards }}
+</option>
+
+@endforeach
+
+</select>
+</div>
+
+
+<div class="form-group">
+<label for="KravasID">Krava:</label>
+
+<select class="form-control" id="KravasID" name="KravasID" required>
+
+<option value="">Izvēlieties kravu</option>
+
+@foreach($kravas as $krava)
+
+<option value="{{ $krava->KravasID }}">
+{{ $krava->Nosaukums }}
+</option>
+
+@endforeach
+
+</select>
+</div>
+
 
         <div class="form-group">
             <label for="VagonuSkaits">Vagonu skaits:</label>

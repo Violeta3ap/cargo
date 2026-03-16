@@ -9,7 +9,7 @@
 
     <form action="/Noma/{{ $noma->NomasID }}/editSubmit" method="POST">
         @csrf
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="KlientaID">Klienta ID:</label>
             <input type="number" class="form-control" id="KlientaID" name="KlientaID" value="{{ $noma->KlientaID }}" min="1" required>
         </div>
@@ -22,7 +22,69 @@
         <div class="form-group">
             <label for="KravasID">Kravas ID:</label>
             <input type="number" class="form-control" id="KravasID" name="KravasID" value="{{ $noma->KravasID }}" min="1" required>
-        </div>
+        </div> -->
+
+
+        <div class="form-group">
+<label for="KlientaID">Klients:</label>
+
+<select class="form-control" id="KlientaID" name="KlientaID" required>
+
+@foreach($klienti as $klients)
+
+<option value="{{ $klients->KlientaID }}"
+{{ $noma->KlientaID == $klients->KlientaID ? 'selected' : '' }}>
+
+{{ $klients->Nosaukums }}
+
+</option>
+
+@endforeach
+
+</select>
+</div>
+
+
+<div class="form-group">
+<label for="DarbiniekaID">Darbinieks:</label>
+
+<select class="form-control" id="DarbiniekaID" name="DarbiniekaID" required>
+
+@foreach($darbinieki as $darbinieks)
+
+<option value="{{ $darbinieks->DarbiniekaID }}"
+{{ $noma->DarbiniekaID == $darbinieks->DarbiniekaID ? 'selected' : '' }}>
+
+{{ $darbinieks->Vards }} {{ $darbinieks->Uzvards }}
+
+</option>
+
+@endforeach
+
+</select>
+</div>
+
+
+<div class="form-group">
+<label for="KravasID">Krava:</label>
+
+<select class="form-control" id="KravasID" name="KravasID" required>
+
+@foreach($kravas as $krava)
+
+<option value="{{ $krava->KravasID }}"
+{{ $noma->KravasID == $krava->KravasID ? 'selected' : '' }}>
+
+{{ $krava->Nosaukums }}
+
+</option>
+
+@endforeach
+
+</select>
+</div>
+
+
 
         <div class="form-group">
             <label for="VagonuSkaits">Vagonu skaits:</label>
