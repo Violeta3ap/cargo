@@ -1,92 +1,108 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; // Norāda controller mapes vietu Laravel projektā
 
-use Illuminate\Http\Request;
-use App\Models\Klienti;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request; // Klase formu datu saņemšanai
+use App\Models\Klienti; // Modelis darbam ar klientu tabulu
+use Illuminate\Support\Facades\DB; // Ļauj izmantot DB komandas
 
-class KlientiController extends Controller
+class KlientiController extends Controller // Izveido controller klasi
 {
-    public function showAllKlienti()
+    public function showAllKlienti() // Parāda visus klientus
     {
-     $klientis= new Klienti();
-     //dd($data->all());
+     $klientis= new Klienti(); // Izveido Klienti objekta instanci
+     //dd($data->all()); // Debug funkcija datu pārbaudei
        return view('Klienti', ['klientis' => $klientis->orderBy('KlientaID', 'asc')->get()]);
+       // Atver Klienti lapu un nosūta klientu sarakstu sakārtotu pēc ID
     }
 
-    public function delete($id)
+    public function delete($id) // Funkcija klienta dzēšanai
     {
-      DB::table('klienti')->where('KlientaID', $id)->delete();
+      DB::table('klienti')->where('KlientaID', $id)->delete(); 
+      // Dzēš klientu no datubāzes pēc ID
+
       return redirect('/Klienti')->with('success', 'Ieraksts tika dzēsts');
+      // Pāradresē uz klientu sarakstu ar paziņojumu
     }
 
-    public function create()
+    public function create() // Atver klienta pievienošanas formu
     {
-      return view('KlientuPiev');
+      return view('KlientuPiev'); 
+      // Atver lapu jauna klienta pievienošanai
     }
 
-    public function details($id)
+    public function details($id) // Parāda viena klienta informāciju
     {
-      $klientis = Klienti::find($id);
+      $klientis = Klienti::find($id); // Atrod klientu pēc ID
       return view('KlientiApskate', ['klientis' => $klientis]);
+      // Atver apskates lapu un nosūta klienta datus
     }
 
-    public function KlientiSubmit(Request $dati)
+    public function KlientiSubmit(Request $dati) // Saglabā jaunu klientu
     {
-      
+        $klientis = new Klienti(); // Izveido jaunu klienta objektu
 
+        $klientis->Vards = $dati->input('Vards'); 
+        // Saglabā klienta vārdu
 
-        $klientis = new Klienti();
-        $klientis->Vards = $dati->input('Vards');
-        $klientis->Uzvards = $dati->input('Uzvards');
-        $klientis->Parole = $dati->input('Parole');
-        $klientis->Epasts = $dati->input('Epasts');
-        $klientis->TelefonaNumurs = $dati->input('TelefonaNumurs');
-        $klientis->UznemumaNosaukums = $dati->input('UznemumaNosaukums');
-        $klientis->JuridiskaAdrese = $dati->input('JuridiskaAdrese');
-        $klientis->RegistracijasNumurs = $dati->input('RegistracijasNumurs');
-        $klientis->KontaNumurs = $dati->input('KontaNumurs');
+        $klientis->Uzvards = $dati->input('Uzvards'); 
+        // Saglabā klienta uzvārdu
 
+        $klientis->Parole = $dati->input('Parole'); 
+        // Saglabā paroli
 
+        $klientis->Epasts = $dati->input('Epasts'); 
+        // Saglabā e-pastu
 
-        // $klientis->Admin = $dati->input('Admin');
-        $klientis->save();
+        $klientis->TelefonaNumurs = $dati->input('TelefonaNumurs'); 
+        // Saglabā telefona numuru
+
+        $klientis->UznemumaNosaukums = $dati->input('UznemumaNosaukums'); 
+        // Saglabā uzņēmuma nosaukumu
+
+        $klientis->JuridiskaAdrese = $dati->input('JuridiskaAdrese'); 
+        // Saglabā juridisko adresi
+
+        $klientis->RegistracijasNumurs = $dati->input('RegistracijasNumurs'); 
+        // Saglabā reģistrācijas numuru
+
+        $klientis->KontaNumurs = $dati->input('KontaNumurs'); 
+        // Saglabā bankas konta numuru
+
+        // $klientis->Admin = $dati->input('Admin'); // Admin lauks (ja nepieciešams)
+
+        $klientis->save(); // Saglabā klientu datubāzē
+
         return redirect()->to('/Klienti')->with('success', 'Ieraksts tika pievienots');
+        // Pāradresē uz klientu sarakstu
     }
 
-    public function edit($id)
+    public function edit($id) // Atver klienta rediģēšanas formu
     {
-     $klientis = Klienti::find($id);
+     $klientis = Klienti::find($id); // Atrod klientu pēc ID
        return view('KlientiEdit', ['klientis' => $klientis]);
+       // Atver rediģēšanas lapu un nosūta klienta datus
     }
 
-
-
-    public function editSubmit(Request $dati, $id)
+    public function editSubmit(Request $dati, $id) // Atjaunina klienta datus
     {
-
-
-
 
         DB::table('klienti')
-            ->where('KlientaID', $id)
+            ->where('KlientaID', $id) // Atrod klientu pēc ID
             ->update([
-                'Vards' => $dati->input('Vards'),
-                'Uzvards' => $dati->input('Uzvards'),
-                'Parole' => $dati->input('Parole'),
-                'Epasts' => $dati->input('Epasts'),
-                'TelefonaNumurs' => $dati->input('TelefonaNumurs'),
-                'UznemumaNosaukums' => $dati->input('UznemumaNosaukums'),
-                'JuridiskaAdrese' => $dati->input('JuridiskaAdrese'),
-                'RegistracijasNumurs' => $dati->input('RegistracijasNumurs'),
-                'KontaNumurs' => $dati->input('KontaNumurs'),
+                'Vards' => $dati->input('Vards'), // Atjaunina vārdu
+                'Uzvards' => $dati->input('Uzvards'), // Atjaunina uzvārdu
+                'Parole' => $dati->input('Parole'), // Atjaunina paroli
+                'Epasts' => $dati->input('Epasts'), // Atjaunina e-pastu
+                'TelefonaNumurs' => $dati->input('TelefonaNumurs'), // Atjaunina telefona numuru
+                'UznemumaNosaukums' => $dati->input('UznemumaNosaukums'), // Atjaunina uzņēmuma nosaukumu
+                'JuridiskaAdrese' => $dati->input('JuridiskaAdrese'), // Atjaunina juridisko adresi
+                'RegistracijasNumurs' => $dati->input('RegistracijasNumurs'), // Atjaunina reģistrācijas numuru
+                'KontaNumurs' => $dati->input('KontaNumurs'), // Atjaunina bankas konta numuru
             ]);
 
          return redirect()->to('/Klienti')->with('success', 'Ieraksts tika atjaunināts');
+         // Pāradresē uz klientu sarakstu
     }
 
-
-
 }
-

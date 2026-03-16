@@ -1,71 +1,63 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; // Norāda controller atrašanās vietu projektā
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request; // Klase formu datu saņemšanai
+use Illuminate\Support\Facades\Auth; // Laravel autentifikācijas funkcijas
+use App\Models\User; // User modelis darbam ar lietotāju tabulu
+use Illuminate\Support\Facades\Hash; // Paroles šifrēšanai
+use App\Http\Controllers\Controller; // Pamata controller klase
 
-class LoginController extends Controller
+class LoginController extends Controller // Izveido Login controller klasi
 {
-    // public function register(Request $request)
-    // {
-    //     // Registration logic here
-    //     'name'=> ['required', 'string', 'max:255'],
-    //     //'email'=> ['required', 'string', 'email', 'max:255', 'unique:users'],
-    //     'password'=> ['required', 'string', 'min:8'],
 
-
-    // }
-
- public function login(Request $request)
+ public function login(Request $request) // Lietotāja pieslēgšanās funkcija
 {
-    $credentials = $request->validate([
-        'name' => ['required'],
-        'password' => ['required'],
+    $credentials = $request->validate([ // Pārbauda ievadītos datus
+        'name' => ['required'], // Lietotājvārds obligāts
+        'password' => ['required'], // Parole obligāta
     ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
+    if (Auth::attempt($credentials)) { // Pārbauda vai dati ir pareizi
+        $request->session()->regenerate(); // Izveido jaunu sesiju drošībai
         return redirect()->intended('/')->with('success', 'Veiksmīgi pieteicāties sistēmā!');
+        // Ja viss pareizi, pāradresē uz galveno lapu
     }
 
-   
-    return back()->withErrors([
-        'name' => 'Nepareizs lietotājvārds vai parole.',
-    ])->onlyInput('name');
+    return back()->withErrors([ // Ja dati nepareizi
+        'name' => 'Nepareizs lietotājvārds vai parole.', // Parāda kļūdas ziņu
+    ])->onlyInput('name'); // Saglabā ievadīto lietotājvārdu
 }
 
 
-    public function register(Request $request)
+public function register(Request $request) // Lietotāja reģistrācijas funkcija
 {
-    $validated = $request->validate([
-        'name' => ['required', 'string', 'max:255', 'unique:users'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'string', 'min:8', 'confirmed'],
+    $validated = $request->validate([ // Pārbauda ievadītos reģistrācijas datus
+        'name' => ['required', 'string', 'max:255', 'unique:users'], // Lietotājvārds obligāts un unikāls
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'], // Epasts obligāts un unikāls
+        'password' => ['required', 'string', 'min:8', 'confirmed'], // Parole vismaz 8 simboli un apstiprināta
     ]);
 
-    $user = User::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'password' => Hash::make($validated['password']),
+    $user = User::create([ // Izveido jaunu lietotāju datubāzē
+        'name' => $validated['name'], // Saglabā lietotājvārdu
+        'email' => $validated['email'], // Saglabā epastu
+        'password' => Hash::make($validated['password']), // Šifrē un saglabā paroli
     ]);
 
-    Auth::login($user);
+    Auth::login($user); // Automātiski pieslēdz jauno lietotāju
 
     return redirect('/')->with('success', 'Reģistrācija veiksmīga! Esat pieteicies sistēmā.');
+    // Pāradresē uz galveno lapu
 }
 
-public function logout(Request $request)
+public function logout(Request $request) // Lietotāja izrakstīšanās funkcija
 {
-    Auth::logout();
+    Auth::logout(); // Izraksta lietotāju no sistēmas
 
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+    $request->session()->invalidate(); // Dzēš veco sesiju
+    $request->session()->regenerateToken(); // Izveido jaunu drošības tokenu
 
     return redirect('/')->with('success', 'Esat veiksmīgi izrakstījies no sistēmas.');
-
+    // Pāradresē uz galveno lapu
 }
 }

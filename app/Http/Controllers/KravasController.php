@@ -1,70 +1,73 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; // Norāda controller mapes vietu Laravel projektā
 
-use Illuminate\Http\Request;
-use App\Models\Kravas;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request; // Klase formu datu saņemšanai
+use App\Models\Kravas; // Modelis darbam ar kravas tabulu
+use Illuminate\Support\Facades\DB; // Ļauj izmantot DB komandas
 
-class KravasController extends Controller
+class KravasController extends Controller // Izveido controller klasi
 {
-    public function showAllKrava()
-
+    public function showAllKrava() // Parāda visas kravas
     {
-     $kravas= new Kravas();
-     //dd($data->all());
-       return view('Kravas', ['dati' => $kravas->orderBy('KravasID', 'asc')->get()]);//
+     $kravas= new Kravas(); // Izveido Kravas objekta instanci
+     //dd($data->all()); // Debug funkcija datu pārbaudei
+       return view('Kravas', ['dati' => $kravas->orderBy('KravasID', 'asc')->get()]);
+       // Atver Kravas lapu un nosūta kravu sarakstu sakārtotu pēc ID
     }
 
-    public function delete($id)
+    public function delete($id) // Funkcija kravas dzēšanai
     {
-      DB::table('krava')->where('KravasID', $id)->delete();
+      DB::table('krava')->where('KravasID', $id)->delete(); 
+      // Dzēš kravu no datubāzes pēc ID
+
       return redirect('/Kravas')->with('success', 'Ieraksts tika dzēsts');
+      // Pāradresē uz kravu sarakstu ar paziņojumu
     }
 
-    public function create()
+    public function create() // Atver kravas pievienošanas formu
     {
-      return view('KravasPiev');
+      return view('KravasPiev'); 
+      // Atver lapu jaunas kravas pievienošanai
     }
 
-    public function details($id)
+    public function details($id) // Parāda vienas kravas informāciju
     {
-      $kravas = Kravas::find($id);
+      $kravas = Kravas::find($id); // Atrod kravu pēc ID
       return view('KravasApskate', ['kravas' => $kravas]);
+      // Atver apskates lapu un nosūta kravas datus
     }
 
-    public function DatuSubmit(Request $dati)
+    public function DatuSubmit(Request $dati) // Saglabā jaunu kravu
     {
-      
+        $kravas = new Kravas(); // Izveido jaunu kravas objektu
 
+        $kravas->Nosaukums = $dati->input('Nosaukums'); 
+        // Saglabā kravas nosaukumu no formas
 
-        $kravas = new Kravas();
-        $kravas->Nosaukums = $dati->input('Nosaukums');
-        $kravas->save();
+        $kravas->save(); // Saglabā kravu datubāzē
+
         return redirect()->to('/Kravas')->with('success', 'Ieraksts tika pievienots');
+        // Pāradresē uz kravu sarakstu
     }
 
-    public function edit($id)
+    public function edit($id) // Atver kravas rediģēšanas formu
     {
-     $kravas = Kravas::find($id);
+     $kravas = Kravas::find($id); // Atrod kravu pēc ID
        return view('KravasEdit', ['kravas' => $kravas]);
+       // Atver rediģēšanas lapu un nosūta kravas datus
     }
 
-
-
-    public function editSubmit(Request $dati, $id)
+    public function editSubmit(Request $dati, $id) // Atjaunina kravas datus
     {
-
-
-
-
         DB::table('krava')
-            ->where('KravasID', $id)
+            ->where('KravasID', $id) // Atrod kravu pēc ID
             ->update([
-                'Nosaukums' => $dati->input('Nosaukums'),
+                'Nosaukums' => $dati->input('Nosaukums'), 
+                // Atjaunina kravas nosaukumu
             ]);
 
          return redirect()->to('/Kravas')->with('success', 'Ieraksts tika atjaunināts');
+         // Pāradresē uz kravu sarakstu
     }
 }
-

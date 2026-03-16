@@ -1,70 +1,59 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; // Controlleru namespace
 
-use Illuminate\Http\Request;
-use App\Models\Veidi;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request; // Formu datu saņemšanai
+use App\Models\Veidi; // Veidu modelis
+use Illuminate\Support\Facades\DB; // Datubāzes operācijas
 
 class VeidiController extends Controller
 {
-    public function showAllVeidi()
-
+    public function showAllVeidi() // Parāda visu veidu sarakstu
     {
-     $veidi= new Veidi();
-     //dd($data->all());
-       return view('Veidi', ['dati' => $veidi->orderBy('VeidaID', 'asc')->get()]);//
-    }
-
-    public function delete($id)
-    {
-      DB::table('veidi')->where('VeidaID', $id)->delete();
-      return redirect('/Veidi')->with('success', 'Ieraksts tika dzēsts');
-    }
-
-    public function create()
-    {
-      return view('VeidiPiev');
-    }
-
-    public function details($id)
-    {
-      $veidi = Veidi::find($id);
-      return view('VeidiApskate', ['veidi' => $veidi]);
-    }
-
-    public function DatuSubmit(Request $dati)
-    {
-      
-
-
         $veidi = new Veidi();
-        $veidi->Nosaukums = $dati->input('Nosaukums');
-        $veidi->save();
-        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots');
+        return view('Veidi', ['dati' => $veidi->orderBy('VeidaID', 'asc')->get()]); // Nosūta datus uz skatu
     }
 
-    public function edit($id)
+    public function delete($id) // Dzēš konkrētu veidu
     {
-     $veidi = Veidi::find($id);
-       return view('VeidiEdit', ['veidi' => $veidi]);
+        DB::table('veidi')->where('VeidaID', $id)->delete(); // Dzēš ierakstu tabulā
+        return redirect('/Veidi')->with('success', 'Ieraksts tika dzēsts'); // Pāradresē ar paziņojumu
     }
 
-
-
-    public function editSubmit(Request $dati, $id)
+    public function create() // Sagatavo formu jaunam veidam
     {
+        return view('VeidiPiev'); // Nosūta uz pievienošanas skatu
+    }
 
+    public function details($id) // Parāda konkrētā veida detaļas
+    {
+        $veidi = Veidi::find($id); // Atrod ierakstu pēc ID
+        return view('VeidiApskate', ['veidi' => $veidi]); // Nosūta uz detaļu skatu
+    }
 
+    public function DatuSubmit(Request $dati) // Saglabā jaunu veidu
+    {
+        $veidi = new Veidi();
+        $veidi->Nosaukums = $dati->input('Nosaukums'); // Iestata veida nosaukumu
+        $veidi->save(); // Saglabā datubāzē
 
+        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
+    }
 
+    public function edit($id) // Sagatavo rediģēšanas formu konkrētam veidam
+    {
+        $veidi = Veidi::find($id); // Atrod ierakstu pēc ID
+        return view('VeidiEdit', ['veidi' => $veidi]); // Nosūta uz rediģēšanas skatu
+    }
+
+    public function editSubmit(Request $dati, $id) // Saglabā izmaiņas veidā
+    {
         DB::table('veidi')
             ->where('VeidaID', $id)
             ->update([
-                'Nosaukums' => $dati->input('Nosaukums'),
+                'Nosaukums' => $dati->input('Nosaukums'), // Atjaunina veida nosaukumu
             ]);
 
-         return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts');
+        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts'); // Pāradresē uz sarakstu
     }
 }
-
