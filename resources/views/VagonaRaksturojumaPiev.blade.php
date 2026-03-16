@@ -20,10 +20,18 @@
             <input type="number" class="form-control" id="KravasID" name="KravasID" required>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="Celtspeja">Celtspeja:</label>
             <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" required>
         </div>
+         -->
+
+         <div class="form-group">
+            <label for="Celtspeja">Celtspeja:</label>
+            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" min="1" required>
+        </div>
+
+
 
         <div class="form-group">
             <label for="VagonaNumurs">Vagona Numurs:</label>

@@ -20,10 +20,18 @@
             <input type="number" class="form-control" id="KravasID" name="KravasID" value="{{ $vagonaraksturojums->KravasID }}" required>
         </div>
 
+
         <div class="form-group">
             <label for="Celtspeja">Celtspeja:</label>
-            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" value="{{ $vagonaraksturojums->Celtspeja }}" required>
+            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" 
+            value="{{ $vagonaraksturojums->Celtspeja }}" min="1" required>
         </div>
+
+
+        <!-- <div class="form-group">
+            <label for="Celtspeja">Celtspeja:</label>
+            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" value="{{ $vagonaraksturojums->Celtspeja }}" required>
+        </div> -->
 <!-- 
         <div class="form-group">
             <label for="VagonaNumurs">Vagona Numurs:</label>
