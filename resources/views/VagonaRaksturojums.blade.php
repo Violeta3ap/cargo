@@ -10,7 +10,7 @@ padding: 5px; color: #000000; text-decoration: none; background: linear-gradient
 </nav>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped" style="width: 100%; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
             <th>Vagona ID</th>
