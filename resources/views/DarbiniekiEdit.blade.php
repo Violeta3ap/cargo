@@ -43,7 +43,7 @@
 
         <div class="form-group">
             <label for="AmataID">Amata ID:</label>
-            <input type="number" class="form-control" id="AmataID" name="AmataID" value="{{ $darbinieki->AmataID }}" required>
+            <input type="number" class="form-control" id="AmataID" name="AmataID" value="{{ $darbinieki->AmataID }}" min="1" required>
         </div>
 
 
