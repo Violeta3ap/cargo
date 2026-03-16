@@ -25,61 +25,46 @@
         </div> -->
 
 
-        <div class="form-group">
-<label for="KlientaID">Klients:</label>
-
-<select class="form-control" id="KlientaID" name="KlientaID" required>
-
-<option value="">Izvēlieties klientu</option>
-
-@foreach($klienti as $klientis)
-
-<option value="{{ $klientis->KlientaID }}">
-{{ $klientis->Nosaukums }}
-</option>
-
-@endforeach
-
-</select>
+       <div class="form-group">
+    <label for="KlientaID">Klients:</label>
+    <select class="form-control" id="KlientaID" name="KlientaID" required>
+        <option value="">Izvēlieties klientu</option>
+        @foreach($klienti as $klientis)
+            <option value="{{ $klientis->KlientaID }}">
+                {{ $klientis->Vards }} {{ $klientis->Uzvards }}
+            </option>
+        @endforeach
+    </select>
 </div>
-
 
 <div class="form-group">
-<label for="DarbiniekaID">Darbinieks:</label>
-
-<select class="form-control" id="DarbiniekaID" name="DarbiniekaID" required>
-
-<option value="">Izvēlieties darbinieku</option>
-
-@foreach($darbinieki as $darbinieks)
-
-<option value="{{ $darbinieks->DarbiniekaID }}">
-{{ $darbinieks->Vards }} {{ $darbinieks->Uzvards }}
-</option>
-
-@endforeach
-
-</select>
+    <label for="DarbiniekaID">Darbinieks:</label>
+    <select class="form-control" id="DarbiniekaID" name="DarbiniekaID" required>
+        <option value="">Izvēlieties darbinieku</option>
+        @foreach($darbinieki as $darbinieks)
+            <option value="{{ $darbinieks->DarbiniekaID }}">
+                {{ $darbinieks->Vards }} {{ $darbinieks->Uzvards }}
+            </option>
+        @endforeach
+    </select>
 </div>
-
 
 <div class="form-group">
-<label for="KravasID">Krava:</label>
-
-<select class="form-control" id="KravasID" name="KravasID" required>
-
-<option value="">Izvēlieties kravu</option>
-
-@foreach($kravas as $krava)
-
-<option value="{{ $krava->KravasID }}">
-{{ $krava->Nosaukums }}
-</option>
-
-@endforeach
-
-</select>
+    <label for="KravasID">Krava:</label>
+    <select class="form-control" id="KravasID" name="KravasID" required>
+        <option value="">Izvēlieties kravu</option>
+        @foreach($kravas as $krava)
+            <option value="{{ $krava->KravasID }}">
+                {{ $krava->Nosaukums }}
+            </option>
+        @endforeach
+    </select>
 </div>
+
+
+
+
+
 
 
         <div class="form-group">

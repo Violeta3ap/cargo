@@ -27,15 +27,11 @@ class NomaController extends Controller
 
 public function create()
 {
-    $klientis = Klienti::orderBy('KlientaID','asc')->get();
-    $darbinieki = Darbinieki::orderBy('DarbiniekaID','asc')->get();
-    $kravas = Kravas::orderBy('KravasID','asc')->get();
+    $klienti = Klienti::all();        // ņem visus klientus
+    $darbinieki = Darbinieki::all();  // visus darbiniekus
+    $kravas = Kravas::all();           // visas kravas
 
-    return view('NomaPiev', [
-        'klienti' => $klientis,
-        'darbinieki' => $darbinieki,
-        'kravas' => $kravas
-    ]);
+    return view('NomaPiev', compact('klienti','darbinieki','kravas'));
 }
 
     public function details($id)
@@ -69,16 +65,11 @@ public function create()
 {
     $noma = Noma::find($id);
 
-    $klientis = Klienti::orderBy('KlientaID','asc')->get();
-    $darbinieki = Darbinieki::orderBy('DarbiniekaID','asc')->get();
-    $kravas = Kravas::orderBy('KravasID','asc')->get();
+    $klienti = Klienti::all();
+    $darbinieki = Darbinieki::all();
+    $kravas = Kravas::all();
 
-    return view('NomaEdit', [
-        'noma' => $noma,
-        'klienti' => $klientis,
-        'darbinieki' => $darbinieki,
-        'kravas' => $kravas
-    ]);
+    return view('NomaEdit', compact('noma','klienti','darbinieki','kravas'));
 }
 
 
