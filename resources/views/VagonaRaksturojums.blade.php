@@ -13,7 +13,7 @@ padding: 5px; color: #000000; text-decoration: none; background: linear-gradient
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Vagona ID</th>
             <th>Veida nosaukums</th>
             <th>Kravas nosaukums</th>
             <th>Celtspēja</th>

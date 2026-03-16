@@ -12,7 +12,7 @@
     <thead>
         <tr>
   <tr>
-            <th>ID</th>
+            <th>Darbinieka ID</th>
             <th>Vārds</th>
             <th>Uzvārds</th>
             <!-- <th>Parole</th> -->

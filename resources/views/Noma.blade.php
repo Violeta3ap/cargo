@@ -14,7 +14,7 @@
         <tr>
   <tr>
 
-            <th>ID</th>
+            <th>Nomas ID</th>
             <th>Klienta vārds</th>
             <th>Klienta uzvārds</th>
             <th>Klienta uzņēmuma nosaukums</th>

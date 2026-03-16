@@ -9,7 +9,7 @@
 
     <div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
         <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
-            <h5 class="card-title">ID: {{ $vagonudati->DatuID }}</h5>
+            <h5 class="card-title">Datu ID: {{ $vagonudati->DatuID }}</h5>
             <p class="card-text"><strong>Nomas ID:</strong> {{ $vagonudati->NomasID }}</p>
             <p class="card-text"><strong>Vagona ID:</strong> {{ $vagonudati->VagonaID }}</p>
             

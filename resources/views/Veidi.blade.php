@@ -14,7 +14,7 @@ padding: 5px; color: #000000; text-decoration: none; background: linear-gradient
     <thead>
         <tr>
   <tr>
-            <th>ID</th>
+            <th>Veida ID</th>
             <th>Nosaukums</th>
             <th>Darbības</th>
         </tr>

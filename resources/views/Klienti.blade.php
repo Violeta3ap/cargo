@@ -22,7 +22,7 @@
         <tr>
 
   <tr>
-            <th>ID</th>
+            <th>Klienta ID</th>
             <th>Vārds</th>
             <th>Uzvārds</th>
             <!-- <th>Parole</th> -->

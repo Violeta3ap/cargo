@@ -12,7 +12,7 @@
     <thead>
         <tr>
   <tr>
-            <th>ID</th>
+            <th>Datu ID</th>
             <th>NomasID</th>
             <th>VagonaID</th>
             <th>Darbības</th>

@@ -9,7 +9,7 @@
 
     <div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
          <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
-            <h5 class="card-title">ID: {{ $vagonaraksturojums->VagonaID }}</h5>
+            <h5 class="card-title">Vagona ID: {{ $vagonaraksturojums->VagonaID }}</h5>
             <p class="card-text"><strong>Veida ID:</strong> {{ $vagonaraksturojums->VeidaID }}</p>
             <p class="card-text"><strong>Kravas ID:</strong> {{ $vagonaraksturojums->KravasID }}</p>
             <p class="card-text"><strong>Celtspeja:</strong> {{ $vagonaraksturojums->Celtspeja }}</p>
