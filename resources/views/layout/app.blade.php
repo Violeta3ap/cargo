@@ -13,7 +13,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #ffffff; /* tumšais fons apkārt */
+            background-color: #c8f1f7; /*  fons apkārt */
         }
 
         img {
@@ -56,7 +56,7 @@
 
         .content {  
             padding: 150px;/* vidus*/
-            background-color: #ffffff;
+            background-color: #c8f1f7;
             min-height: 200px;
         }
 
@@ -109,14 +109,14 @@
 
 
         .mainContent {
-  float: left;
-  width: 50%;
-}
-@media screen and (max-width: 800px) {
-  .mainContent {
-    width: 100%;
-  }
-}
+        float: left;
+        width: 50%;
+        }
+        @media screen and (max-width: 800px) {
+        .mainContent {
+        width: 100%;
+        }
+        }
 
 
 
@@ -156,10 +156,7 @@
     @else
 
     <a href="/Login" style="position: absolute; right: 10px; top: 100px; border-radius:8px;  border: 1px solid #59c1cf; 
-        padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Ielogoties</a>
-
-
-       
+        padding: 5px; background: linear-gradient(to right, #59c1cf, #ffffff); text-decoration: none; color: #000000;">Ielogoties</a>  
     @endif
 
 
