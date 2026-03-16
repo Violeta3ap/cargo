@@ -1,21 +1,19 @@
-@extends('layout.app') <!-- Paplašina galveno layout -->
+@extends('layout.app')
 
-@section('content') <!-- Satura sadaļa sākas -->
-
+@section('content')
 <div style="display: flex">
-    <h2>Vagona raksturojuma dati</h2> <!-- Virsraksts -->
-    <nav class="navigacija" style="background-color: #ffffff;">
-        <a href="/VagonaRaksturojums/jauns">Jauns ieraksts</a> <!-- Poga jauna vagonu ieraksta pievienošanai -->
-        <a href="/Klasifikatori" style="border-radius:8px; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
-            Atpakaļ
-        </a> <!-- Atpakaļ poga uz klasifikatoriem -->
-    </nav>
+<h2>Vagona raksturojuma dati</h2> 
+<nav class="navigacija" style="   background-color: #ffffff;">
+<a href="/VagonaRaksturojums/jauns" >Jauns ieraksts</a>
+<a href="/Klasifikatori"  style="border-radius:8px; 
+padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
+</nav>
 </div>
 
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
-            <th>Vagona ID</th> <!-- Kolonnas nosaukums -->
+            <th>Vagona ID</th>
             <th>Veida nosaukums</th>
             <th>Kravas nosaukums</th>
             <th>Celtspēja</th>
@@ -24,41 +22,65 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($dati as $item) <!-- Cikls cauri visiem vagonu ierakstiem -->
+        @foreach ($dati as $item)
         <tr>
-            <td>{{$item->VagonaID}}</td> <!-- Vagona ID -->
-            <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID) }}</td> <!-- Veida nosaukums vai ID, ja nav saistīts ieraksts -->
-            <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID) }}</td> <!-- Kravas nosaukums vai ID -->
-            <td>{{$item->Celtspeja}}</td> <!-- Vagona celtspeja -->
-            <td>{{$item->VagonaNumurs}}</td> <!-- Vagona numurs -->
+            <td>{{$item->VagonaID}}</td>
+            <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID) }}</td>
+            <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID) }}</td>
+            <td>{{$item->Celtspeja}}</td>
+            <td>{{$item->VagonaNumurs}}</td>
             <td>
-                <a href="/VagonaRaksturojums/{{ $item->VagonaID }}/edit"
-                    style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" 
-                    class="btn btn-sm btn-warning">Rediģēt</a> <!-- Rediģēt poga -->
+                <a href="/VagonaRaksturojums/{{ $item->VagonaID }}/edit"style="border-radius:8px;  border: 1px solid #59c1cf; 
+                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a>
+
 
                 <a href="/VagonaRaksturojums/{{ $item->VagonaID }}/delete"
-                    onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                    style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
-                    Dzēst
-                </a> <!-- Dzēst poga ar apstiprinājumu -->
+                onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+                style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
+                Dzēst
+                </a>
 
+
+
+                <!-- <a href="/VagonaRaksturojums/{{ $item->VagonaID }}/delete"style="border-radius:8px;  border: 1px solid #59c1cf; 
+                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-danger">Dzēst</a> -->
+
+            
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
-
 <style>
-    .table { border-collapse: collapse; } <!-- Apvieno rāmjus -->
-    .table thead { background-color: #59c1cf; color: white; } <!-- Galvenes stils -->
-    .table thead th { border: 1px solid #59c1cf; padding: 12px; font-weight: bold; } <!-- Galvenes šūnu stils -->
-    .table tbody tr:hover { background-color: #e8f5f7; } <!-- Hover efekts rindām -->
-    .table tbody td { border: 1px solid #ddd; padding: 10px; } <!-- Šūnu stils -->
+    .table {
+        border-collapse: collapse;
+    }
+    
+    .table thead {
+        background-color: #59c1cf;
+        color: white;
+    }
+    
+    .table thead th {
+        border: 1px solid #59c1cf;
+        padding: 12px;
+        font-weight: bold;
+    }
+    
+    .table tbody tr:hover {
+        background-color: #e8f5f7;
+    }
+    
+    .table tbody td {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
 </style>
 
-@endsection <!-- Satura sadaļa beidzas -->
+@endsection
 
-@if(session('success')) <!-- Paziņojums par veiksmīgu darbību -->
+
+@if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>  
