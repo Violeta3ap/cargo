@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Darbinieki;
 use Illuminate\Support\Facades\DB;
+use App\Models\Amati;
 
 class DarbiniekuController extends Controller
 {
@@ -50,12 +51,18 @@ class DarbiniekuController extends Controller
         return redirect()->to('/Darbinieki')->with('success', 'Ieraksts tika pievienots');
     }
 
-    public function edit($id)
-    {
-     $darbiniekis = Darbinieki::find($id);
-       return view('DarbiniekiEdit', ['darbinieki' => $darbiniekis]);
-    }
 
+    
+public function edit($id)
+{
+    $darbiniekis = Darbinieki::find($id);
+    $amati = Amati::orderBy('AmataID','asc')->get();
+
+    return view('DarbiniekiEdit', [
+        'darbinieki' => $darbiniekis,
+        'amati' => $amati
+    ]);
+}
 
 
     public function editSubmit(Request $dati, $id)
