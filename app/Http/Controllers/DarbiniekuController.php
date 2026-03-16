@@ -23,10 +23,11 @@ class DarbiniekuController extends Controller
       return redirect('/Darbinieki')->with('success', 'Ieraksts tika dzēsts');
     }
 
-    public function create()
-    {
-      return view('DarbiniekuPiev');
-    }
+  public function create()
+{
+    $amati = Amati::orderBy('AmataID','asc')->get();
+    return view('DarbiniekuPiev', ['amati' => $amati]);
+}
 
     public function details($id)
     {
@@ -52,7 +53,7 @@ class DarbiniekuController extends Controller
     }
 
 
-    
+
 public function edit($id)
 {
     $darbiniekis = Darbinieki::find($id);

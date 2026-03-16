@@ -35,12 +35,35 @@
             <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" required>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="AmataID">Amata ID:</label>
             <input type="number" class="form-control" id="AmataID" name="AmataID" min="1" required>
-        </div>
+        </div> -->
 
-        
+
+        <div class="form-group">
+    <label for="AmataID">Amats:</label>
+
+    <select class="form-control" id="AmataID" name="AmataID" required>
+
+        <option value="">Izvēlieties amatu</option>
+
+        @foreach($amati as $amats)
+
+        <option value="{{ $amats->AmataID }}">
+            {{ $amats->Nosaukums }}
+        </option>
+
+        @endforeach
+
+    </select>
+
+</div>
+
+
+
+
+
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Saglabāt</button>
     </form>
