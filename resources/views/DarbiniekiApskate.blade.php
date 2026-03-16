@@ -1,40 +1,46 @@
-@extends('layout.app')
+@extends('layout.app') <!-- Paplašina galveno layout failu -->
 
-@section('content')
-    <h2>Darbinieka detalizēta apskate</h2>
-    <a href="/Darbinieki"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
+@section('content') <!-- Satura sadaļa -->
 
-    <hr>
+<h2>Darbinieka detalizēta apskate</h2> <!-- Virsraksts -->
 
-    <div class="card" style="background: #59c1cf; color: white; width: 400px; border-radius: 15px;">
-        <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
-            <h5 class="card-title">Darbinieka ID: {{ $darbinieki->DarbiniekaID }}</h5>
-            <p class="card-text"><strong>Vārds:</strong> {{ $darbinieki->Vards }}</p>
-            <p class="card-text"><strong>Uzvārds:</strong> {{ $darbinieki->Uzvards }}</p>
-            <!-- <p class="card-text"><strong>Parole:</strong> {{ $darbinieki->Parole }}</p> -->
+<!-- Poga atpakaļ uz darbinieku sarakstu -->
+<a href="/Darbinieki"
+   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   Atpakaļ
+</a>
 
-            <p class="card-text"><strong>Parole:</strong> {{ str_repeat('•', strlen($darbinieki->Parole)) }}</p><!--tik punktus, cik simbolu ir parolei-->
-            <p class="card-text"><strong>E-pasts:</strong> {{ $darbinieki->Epasts }}</p>
-            <p class="card-text"><strong>Telefona numurs:</strong> {{ $darbinieki->TelefonaNumurs }}</p>
-            <p class="card-text"><strong>Amata ID:</strong> {{ $darbinieki->AmataID }}</p>
-            
-            
-        </div>
-        
+<hr> <!-- Atstarpes līnija -->
+
+<!-- Darbinieka detaļu karte -->
+<div class="card" style="background:#59c1cf; color:white; width:400px; border-radius:15px;">
+    <div class="card-body" style="padding-left:50px; padding-top:5px; padding-bottom:5px;">
+        <h5 class="card-title">Darbinieka ID: {{ $darbinieki->DarbiniekaID }}</h5> <!-- Darbinieka ID -->
+        <p class="card-text"><strong>Vārds:</strong> {{ $darbinieki->Vards }}</p> <!-- Vārds -->
+        <p class="card-text"><strong>Uzvārds:</strong> {{ $darbinieki->Uzvards }}</p> <!-- Uzvārds -->
+
+        <!-- Paroles aizsardzība: rādām tikai punktus -->
+        <p class="card-text"><strong>Parole:</strong> {{ str_repeat('•', strlen($darbinieki->Parole)) }}</p>
+
+        <p class="card-text"><strong>E-pasts:</strong> {{ $darbinieki->Epasts }}</p> <!-- E-pasts -->
+        <p class="card-text"><strong>Telefona numurs:</strong> {{ $darbinieki->TelefonaNumurs }}</p> <!-- Telefona numurs -->
+        <p class="card-text"><strong>Amata ID:</strong> {{ $darbinieki->AmataID }}</p> <!-- Amata ID -->
     </div>
-      <br><br>
-    <a href="/Darbinieki/{{ $darbinieki->DarbiniekaID }}/edit"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Rediģēt</a>
+</div>
 
-                                <a href="/Darbinieki/{{ $darbinieki->DarbiniekaID }}/delete"
-                onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
-                Dzēst
-                </a>
+<br><br> <!-- Atstarpe -->
 
+<!-- Rediģēšanas poga -->
+<a href="/Darbinieki/{{ $darbinieki->DarbiniekaID }}/edit"
+   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   Rediģēt
+</a>
 
-            <!-- <a href="/Darbinieki/{{ $darbinieki->DarbiniekaID }}/delete"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Dzēst</a> -->
-@endsection
+<!-- Dzēšanas poga ar apstiprinājumu -->
+<a href="/Darbinieki/{{ $darbinieki->DarbiniekaID }}/delete"
+   onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   Dzēst
+</a>
+
+@endsection <!-- Satura beigas -->

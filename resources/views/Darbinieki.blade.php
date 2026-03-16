@@ -1,70 +1,69 @@
-@extends('layout.app')
+@extends('layout.app') <!-- Paplašina galveno layout failu -->
 
-@section('content')
+@section('content') <!-- Satura sadaļa -->
+
 <div style="display: flex">
-<h2>Darbinieki</h2> 
-<nav class="navigacija" style="   background-color: #ffffff;">
-<a href="/Darbinieki/jauns" >Jauns ieraksts</a>
-</nav>
+    <h2>Darbinieki</h2> <!-- Virsraksts -->
+
+    <!-- Navigācijas poga jauna darbinieka pievienošanai -->
+    <nav class="navigacija" style="background-color: #ffffff;">
+        <a href="/Darbinieki/jauns">Jauns ieraksts</a>
+    </nav>
 </div>
 
-<table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
+<!-- Darbinieku saraksta tabula -->
+<table class="table table-striped" style="width:100%; border:1px solid #59c1cf; border-radius:8px; overflow:hidden; text-align:center;">
     <thead>
         <tr>
-  <tr>
-            <th>Darbinieka ID</th>
-            <th>Vārds</th>
-            <th>Uzvārds</th>
-            <th>Parole</th>
-            <th>E-pasts</th>
-            <th>Telefona numurs</th>
-            <th>Amata nosaukums</th>
-            <th>Darbības</th>
+            <th>Darbinieka ID</th> <!-- Kolonna ID -->
+            <th>Vārds</th> <!-- Kolonna vārds -->
+            <th>Uzvārds</th> <!-- Kolonna uzvārds -->
+            <th>Parole</th> <!-- Kolonna parole -->
+            <th>E-pasts</th> <!-- Kolonna e-pasts -->
+            <th>Telefona numurs</th> <!-- Kolonna telefona numurs -->
+            <th>Amata nosaukums</th> <!-- Kolonna amata nosaukums -->
+            <th>Darbības</th> <!-- Kolonna darbībām -->
         </tr>
     </thead>
     <tbody>
-        @foreach ($darbiniekis as $item)
+        @foreach ($darbiniekis as $item) <!-- Cikls cauri visiem darbiniekiem -->
         <tr>
-            <td>{{$item->DarbiniekaID}}</td>
-            <td>{{$item->Vards}}</td>
-            <td>{{$item->Uzvards}}</td>
-            <td>{{$item->Parole}}</td>
-            <td>{{$item->Epasts}}</td>
-            <td>{{$item->TelefonaNumurs}}</td>
-            <td>{{$item->amati->Nosaukums ?? ('ID: '.$item->AmataID) }}</td>
+            <td>{{$item->DarbiniekaID}}</td> <!-- Darbinieka ID -->
+            <td>{{$item->Vards}}</td> <!-- Vārds -->
+            <td>{{$item->Uzvards}}</td> <!-- Uzvārds -->
+            <td>{{$item->Parole}}</td> <!-- Parole -->
+            <td>{{$item->Epasts}}</td> <!-- E-pasts -->
+            <td>{{$item->TelefonaNumurs}}</td> <!-- Telefona numurs -->
+            <td>{{$item->amati->Nosaukums ?? ('ID: '.$item->AmataID) }}</td> <!-- Amata nosaukums vai ID, ja nosaukums nav -->
             <td>
-
-
-
-                <!-- <a href="/Darbinieki/{{ $item->DarbiniekaID }}/details" style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;">Detalizēta</a> -->
-                <a href="/Darbinieki/{{ $item->DarbiniekaID }}/edit"style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a>
-
-
-                <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete"
-                onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
-                Dzēst
+                <!-- Rediģēšanas poga -->
+                <a href="/Darbinieki/{{ $item->DarbiniekaID }}/edit"
+                   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background-color:#59c1cf;"
+                   class="btn btn-sm btn-warning">
+                    Rediģēt
                 </a>
 
-                <!-- <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete"style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-danger">Dzēst</a> -->
-
-            
+                <!-- Dzēšanas poga ar apstiprinājumu -->
+                <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete"
+                   onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+                   style="border-radius:8px; border:1px solid #59c1cf; padding:5px 10px; color:#000; text-decoration:none; background-color:#59c1cf; white-space:nowrap;">
+                    Dzēst
+                </a>
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
+
+<!-- Tabulas stils -->
 <style>
     .table {
-        border-collapse: collapse;
+        border-collapse: collapse; /* Tabulas apmales saplūst */
     }
     
     .table thead {
-        background-color: #59c1cf;
-        color: white;
+        background-color: #59c1cf; /* Galvenes fons */
+        color: white; /* Teksta krāsa */
     }
     
     .table thead th {
@@ -74,7 +73,7 @@
     }
     
     .table tbody tr:hover {
-        background-color: #e8f5f7;
+        background-color: #e8f5f7; /* Hover efekts rindām */
     }
     
     .table tbody td {
@@ -85,9 +84,9 @@
 
 @endsection
 
-
+<!-- Paziņojums par veiksmīgu darbību -->
 @if(session('success'))
     <div class="alert alert-success">
-        {{ session('success') }}
+        {{ session('success') }} <!-- Rāda sesijas ziņojumu -->
     </div>  
 @endif

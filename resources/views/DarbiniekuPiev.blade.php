@@ -1,110 +1,77 @@
+@extends('layout.app') <!-- Paplašina galveno layout failu -->
 
-@extends('layout.app')
+@section('content') <!-- Satura sadaļa -->
 
-@section('content')
-    <h2>Pievienot jaunu darbinieku</h2>
-    <a href="/Darbinieki"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
+<h2>Pievienot jaunu darbinieku</h2> <!-- Virsraksts -->
 
-    <hr>
+<!-- Poga atpakaļ uz darbinieku sarakstu -->
+<a href="/Darbinieki" style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background:linear-gradient(to right, #59c1cf, #ffffff)">
+    Atpakaļ
+</a>
 
-    <form method="POST" action="/Darbinieki/jaunsSubmit">
-        @csrf
-        <div class="form-group">
-            <label for="Vards">Vārds:</label>
-            <input type="text" class="form-control" id="Vards" name="Vards" required>
-        </div>
+<hr> <!-- Atstarpes līnija -->
 
-        <div class="form-group">
-            <label for="Uzvards">Uzvārds:</label>
-            <input type="text" class="form-control" id="Uzvards" name="Uzvards" required>
-        </div>
+<!-- Forma jaunam darbiniekam -->
+<form method="POST" action="/Darbinieki/jaunsSubmit">
+    @csrf <!-- Aizsardzība pret CSRF -->
 
-        <div class="form-group">
-            <label for="Parole">Parole:</label>
-            <input type="password" class="form-control" id="Parole" name="Parole" required>
-        </div>
+    <!-- Vārda lauks -->
+    <div class="form-group">
+        <label for="Vards">Vārds:</label>
+        <input type="text" class="form-control" id="Vards" name="Vards" required>
+    </div>
 
-        <div class="form-group">
-            <label for="Epasts">E-pasts:</label>
-            <input type="email" class="form-control" id="Epasts" name="Epasts" required>
-        </div>
+    <!-- Uzvārda lauks -->
+    <div class="form-group">
+        <label for="Uzvards">Uzvārds:</label>
+        <input type="text" class="form-control" id="Uzvards" name="Uzvards" required>
+    </div>
 
-        <div class="form-group">
-            <label for="TelefonaNumurs">Telefona numurs:</label>
-            <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" required>
-        </div>
+    <!-- Paroles lauks -->
+    <div class="form-group">
+        <label for="Parole">Parole:</label>
+        <input type="password" class="form-control" id="Parole" name="Parole" required>
+    </div>
 
-        <!-- <div class="form-group">
-            <label for="AmataID">Amata ID:</label>
-            <input type="number" class="form-control" id="AmataID" name="AmataID" min="1" required>
-        </div> -->
+    <!-- E-pasta lauks -->
+    <div class="form-group">
+        <label for="Epasts">E-pasts:</label>
+        <input type="email" class="form-control" id="Epasts" name="Epasts" required>
+    </div>
 
+    <!-- Telefona numura lauks -->
+    <div class="form-group">
+        <label for="TelefonaNumurs">Telefona numurs:</label>
+        <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" required>
+    </div>
 
-        <div class="form-group">
-    <label for="AmataID">Amats:</label>
+    <!-- Amata izvēle dropdown -->
+    <div class="form-group">
+        <label for="AmataID">Amats:</label>
+        <select class="form-control" id="AmataID" name="AmataID" required>
+            <option value="">Izvēlieties amatu</option>
+            @foreach($amati as $amats)
+                <option value="{{ $amats->AmataID }}">
+                    {{ $amats->Nosaukums }}
+                </option>
+            @endforeach
+        </select>
+    </div>
 
-    <select class="form-control" id="AmataID" name="AmataID" required>
+    <!-- Saglabāšanas poga -->
+    <button type="submit" style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background:linear-gradient(to right, #59c1cf, #ffffff)">
+        Saglabāt
+    </button>
+</form>
 
-        <option value="">Izvēlieties amatu</option>
-
-        @foreach($amati as $amats)
-
-        <option value="{{ $amats->AmataID }}">
-            {{ $amats->Nosaukums }}
-        </option>
-
-        @endforeach
-
-    </select>
-
-</div>
-
-
-
-
-
-        <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Saglabāt</button>
-    </form>
-
+<!-- Stils formām un pogām -->
 <style>
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #333;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
-
-    .form-control:focus {
-        outline: none;
-        border-color: #59c1cf;
-        box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
-    }
-
-    button[type="submit"] {
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 500;
-        transition: transform 0.2s;
-    }
-
-    button[type="submit"]:hover {
-        transform: scale(1.05);
-    }
+.form-group { margin-bottom: 20px; } <!-- Atstarpes starp laukiem -->
+.form-group label { display:block; margin-bottom:8px; font-weight:500; color:#333; }
+.form-control { width:100%; padding:10px; border:1px solid #ddd; border-radius:4px; font-size:14px; box-sizing:border-box; }
+.form-control:focus { outline:none; border-color:#59c1cf; box-shadow:0 0 5px rgba(89,193,207,0.3); }
+button[type="submit"] { cursor:pointer; font-size:16px; font-weight:500; transition:transform 0.2s; }
+button[type="submit"]:hover { transform:scale(1.05); } <!-- Nedaudz palielinās hover laikā -->
 </style>
-@endsection
 
+@endsection <!-- Satura beigas -->
