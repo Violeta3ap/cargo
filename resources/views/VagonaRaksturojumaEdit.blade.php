@@ -24,7 +24,7 @@
 
 
 
-        <form method="POST" action="/VagonaRaksturojums/{{ $raksturojums->VagonaID }}/editSubmit">
+        <form method="POST" action="/raksturojums/{{ $raksturojums->VagonaID }}/editSubmit">
     @csrf
 
     <div class="form-group">
