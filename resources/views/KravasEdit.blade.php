@@ -1,60 +1,72 @@
-@extends('layout.app')
+@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
 
-@section('content')
-    <h2>Rediģēt kravas datus</h2>
-    <a href="/Kravas"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
+@section('content') <!-- Satura sadaļas sākums -->
 
-    <hr>
+<h2>Rediģēt kravas datus</h2> <!-- Lapas virsraksts -->
 
-    <form action="/Kravas/{{ $kravas->KravasID }}/editSubmit" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="Nosaukums">Nosaukums:</label>
-            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $kravas->Nosaukums }}" required>
-        </div>
+<!-- Atpakaļ poga uz kravu sarakstu -->
+<a href="/Kravas"  
+   style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   Atpakaļ
+</a>
 
+<hr> <!-- Horizontāla līnija -->
 
-        <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atjaunināt</button>
-    </form>
+<!-- Forma kravas datu rediģēšanai -->
+<form action="/Kravas/{{ $kravas->KravasID }}/editSubmit" method="POST">
+    @csrf <!-- CSRF aizsardzība -->
 
+    <!-- Kravas nosaukums -->
+    <div class="form-group">
+        <label for="Nosaukums">Nosaukums:</label>
+        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $kravas->Nosaukums }}" required>
+    </div>
+
+    <!-- Saglabāšanas poga -->
+    <button type="submit" 
+        style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+        Atjaunināt
+    </button>
+</form>
+
+<!-- CSS stili formas elementiem un pogai -->
 <style>
-    .form-group {
-        margin-bottom: 20px;
-    }
+.form-group {
+    margin-bottom: 20px; /* Atstarpes starp laukiem */
+}
 
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #333;
-    }
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
 
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
 
-    .form-control:focus {
-        outline: none;
-        border-color: #59c1cf;
-        box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
-    }
+.form-control:focus {
+    outline: none;
+    border-color: #59c1cf;
+    box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
+}
 
-    button[type="submit"] {
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 500;
-        transition: transform 0.2s;
-    }
+button[type="submit"] {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: transform 0.2s;
+}
 
-    button[type="submit"]:hover {
-        transform: scale(1.05);
-    }
+button[type="submit"]:hover {
+    transform: scale(1.05); /* Neliela animācija uz hover */
+}
 </style>
-@endsection
+
+@endsection <!-- Satura sadaļas beigas -->

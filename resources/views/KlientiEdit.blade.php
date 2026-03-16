@@ -1,95 +1,97 @@
-@extends('layout.app')
+@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
 
-@section('content')
-    <h2>Rediģēt klientu</h2>
-    <a href="/Klienti"  style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
+@section('content') <!-- Satura sadaļas sākums -->
 
-    <hr>
+<h2>Rediģēt klientu</h2> <!-- Lapas virsraksts -->
 
-    <form action="/Klienti/{{ $klientis->KlientaID }}/editSubmit" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="Vards">Vārds:</label>
-            <input type="text" class="form-control" id="Vards" name="Vards" value="{{ $klientis->Vards }}" required>
-        </div>
+<!-- Atpakaļ poga uz klientu sarakstu -->
+<a href="/Klienti"  
+   style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   Atpakaļ
+</a>
 
-        <div class="form-group">
-            <label for="Uzvards">Uzvārds:</label>
-            <input type="text" class="form-control" id="Uzvards" name="Uzvards" value="{{ $klientis->Uzvards }}" required>
-        </div>
+<hr> <!-- Horizontāla līnija -->
 
-        <div class="form-group">
-            <label for="Parole">Parole:</label>
-            <input type="password" class="form-control" id="Parole" name="Parole" value="{{ $klientis->Parole }}" required>
-        </div>
+<!-- Formas sākums klienta datu rediģēšanai -->
+<form action="/Klienti/{{ $klientis->KlientaID }}/editSubmit" method="POST">
+    @csrf <!-- CSRF aizsardzība -->
 
-        <div class="form-group">
-            <label for="Epasts">E-pasts:</label>
-            <input type="email" class="form-control" id="Epasts" name="Epasts" value="{{ $klientis->Epasts }}" required>
-        </div>
+    <!-- Vārds -->
+    <div class="form-group">
+        <label for="Vards">Vārds:</label>
+        <input type="text" class="form-control" id="Vards" name="Vards" value="{{ $klientis->Vards }}" required>
+    </div>
 
-        <!-- <div class="form-group">
-            <label for="TelefonaNumurs">Telefona numurs:</label>
-            <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" value="{{ $klientis->TelefonaNumurs }}" required>
-        </div> -->
+    <!-- Uzvārds -->
+    <div class="form-group">
+        <label for="Uzvards">Uzvārds:</label>
+        <input type="text" class="form-control" id="Uzvards" name="Uzvards" value="{{ $klientis->Uzvards }}" required>
+    </div>
 
-        <div class="form-group">
-            <label for="TelefonaNumurs" class="form-label">Telefona numurs:</label>
-            <input type="text" class="form-control" value="{{ $klientis->TelefonaNumurs }}" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
-            <div class="character-count" id="charCount">{{ strlen($klientis->TelefonaNumurs) }}/8</div>
-        </div>   
+    <!-- Parole -->
+    <div class="form-group">
+        <label for="Parole">Parole:</label>
+        <input type="password" class="form-control" id="Parole" name="Parole" value="{{ $klientis->Parole }}" required>
+    </div>
 
+    <!-- E-pasts -->
+    <div class="form-group">
+        <label for="Epasts">E-pasts:</label>
+        <input type="email" class="form-control" id="Epasts" name="Epasts" value="{{ $klientis->Epasts }}" required>
+    </div>
 
-        
-        <div class="form-group">
-            <label for="UznemumaNosaukums">Uzņēmuma nosaukums:</label>
-            <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" value="{{ $klientis->UznemumaNosaukums }}" required>
-        </div>
+    <!-- Telefona numurs ar rakstzīmju skaita indikāciju -->
+    <div class="form-group">
+        <label for="TelefonaNumurs" class="form-label">Telefona numurs:</label>
+        <input type="text" class="form-control" value="{{ $klientis->TelefonaNumurs }}" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
+        <div class="character-count" id="charCount">{{ strlen($klientis->TelefonaNumurs) }}/8</div> <!-- Rāda cik rakstzīmes ievadītas -->
+    </div>   
 
-        <div class="form-group">
-            <label for="JuridiskaAdrese">Juridiskā adrese:</label>
-            <input type="text" class="form-control" id="JuridiskaAdrese" name="JuridiskaAdrese" value="{{ $klientis->JuridiskaAdrese }}" required>
-        </div>
+    <!-- Uzņēmuma nosaukums -->
+    <div class="form-group">
+        <label for="UznemumaNosaukums">Uzņēmuma nosaukums:</label>
+        <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" value="{{ $klientis->UznemumaNosaukums }}" required>
+    </div>
 
-        <div class="form-group">
-            <label for="RegistracijasNumurs">Reģistrācijas numurs:</label>
-            <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ $klientis->RegistracijasNumurs }}" required>
-        </div>
+    <!-- Juridiskā adrese -->
+    <div class="form-group">
+        <label for="JuridiskaAdrese">Juridiskā adrese:</label>
+        <input type="text" class="form-control" id="JuridiskaAdrese" name="JuridiskaAdrese" value="{{ $klientis->JuridiskaAdrese }}" required>
+    </div>
 
-        <div class="form-group">
-            <label for="KontaNumurs">Konta numurs:</label>
-            <input type="text" class="form-control" id="KontaNumurs" name="KontaNumurs" value="{{ $klientis->KontaNumurs }}" required>
-        </div>
+    <!-- Reģistrācijas numurs -->
+    <div class="form-group">
+        <label for="RegistracijasNumurs">Reģistrācijas numurs:</label>
+        <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ $klientis->RegistracijasNumurs }}" required>
+    </div>
 
+    <!-- Konta numurs -->
+    <div class="form-group">
+        <label for="KontaNumurs">Konta numurs:</label>
+        <input type="text" class="form-control" id="KontaNumurs" name="KontaNumurs" value="{{ $klientis->KontaNumurs }}" required>
+    </div>
 
+    <!-- Saglabāšanas poga -->
+    <button type="submit" 
+        style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+        Atjaunināt
+    </button>
+</form>
 
-        <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atjaunināt</button>
-    </form>
-
-
-
-
-
-
-
-
- 
+<!-- JavaScript: rāda atlikušo rakstzīmju skaitu telefona laukumā -->
 <script>
-// Opcionāls JavaScript, lai parādītu atlikušo rakstzīmju skaitu koda laukā
 document.addEventListener('DOMContentLoaded', function() {
     const TelefonaNumursInput = document.getElementById('TelefonaNumurs');
     const charCount = document.getElementById('charCount');
     if (TelefonaNumursInput && charCount) {
         TelefonaNumursInput.addEventListener('input', function() {
             const currentLength = this.value.length;
-            charCount.textContent = currentLength + '/8';
-            // Maina krāsu, ja tuvojas limitam
-            if (currentLength >= 5) {
-                charCount.style.color = '#68e3f3';
-            } else if (currentLength >= 8) {
+            charCount.textContent = currentLength + '/8'; // Parāda ievadīto simbolu skaitu
+            // Maina krāsu atkarībā no rakstzīmju skaita
+            if (currentLength >= 8) {
                 charCount.style.color = '#59c1cf';
+            } else if (currentLength >= 5) {
+                charCount.style.color = '#68e3f3';
             } else {
                 charCount.style.color = '#e75480';
             }
@@ -98,46 +100,44 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-
-
-
-
+<!-- CSS stili formas elementiem -->
 <style>
-    .form-group {
-        margin-bottom: 20px;
-    }
+.form-group {
+    margin-bottom: 20px; /* Atstarpes starp laukiem */
+}
 
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #333;
-    }
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
 
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-        box-sizing: border-box;
-    }
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
 
-    .form-control:focus {
-        outline: none;
-        border-color: #59c1cf;
-        box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
-    }
+.form-control:focus {
+    outline: none;
+    border-color: #59c1cf;
+    box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
+}
 
-    button[type="submit"] {
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 500;
-        transition: transform 0.2s;
-    }
+button[type="submit"] {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: transform 0.2s;
+}
 
-    button[type="submit"]:hover {
-        transform: scale(1.05);
-    }
+button[type="submit"]:hover {
+    transform: scale(1.05); /* Neliela animācija uz hover */
+}
 </style>
-@endsection
+
+@endsection <!-- Satura sadaļas beigas -->
