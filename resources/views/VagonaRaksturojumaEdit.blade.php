@@ -32,7 +32,7 @@
 
                 <div class="form-group">
             <label for="VagonaNumurs" class="form-label">Vagona numurs:</label>
-            <input type="text" class="form-control" value="{{ $vagonaraksturojums->VagonaNumurs }}" id="VagonaNumurs" name="VagonaNumurs" maxlength="8" required>
+            <input type="number" class="form-control" value="{{ $vagonaraksturojums->VagonaNumurs }}" id="VagonaNumurs" name="VagonaNumurs" maxlength="8" required>
             <div class="character-count" id="charCount">{{ strlen($vagonaraksturojums->VagonaNumurs) }}/8</div>
         </div>    
 

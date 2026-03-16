@@ -41,8 +41,6 @@
         </div>   
 
 
-
-
         
         <div class="form-group">
             <label for="UznemumaNosaukums">Uzņēmuma nosaukums:</label>
