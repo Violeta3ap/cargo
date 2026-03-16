@@ -7,9 +7,6 @@
 
     <hr>
 
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/lv.js"></script>
-
     <form action="/Noma/{{ $noma->NomasID }}/editSubmit" method="POST">
         @csrf
         <!-- <div class="form-group">
@@ -138,20 +135,4 @@
         transform: scale(1.05);
     }
 </style>
-
-
-
-<script>
-flatpickr("#NomasSakumaPeriods", {
-    locale: flatpickr.l10ns.lv,
-    dateFormat: "Y-m-d"
-});
-
-flatpickr("#NomasBeiguPeriods", {
-    locale: flatpickr.l10ns.lv,
-    dateFormat: "Y-m-d"
-});
-</script>
-
-
 @endsection
