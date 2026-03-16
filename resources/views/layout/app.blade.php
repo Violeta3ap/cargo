@@ -13,7 +13,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #c8f1f7; /*  fons apkārt */
+            background-color: #ffffff; /*  fons apkārt */
         }
 
         img {
@@ -56,7 +56,7 @@
 
         .content {  
             padding: 150px;/* vidus*/
-            background-color: #c8f1f7;
+            background-color: #ffffff;
             min-height: 200px;
         }
 
