@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\VagonaRaksturojums;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Veidi;
+use App\Models\Kravas;
+
+
 class VagonaRaksturojumsController extends Controller
 {
     public function showAllVagonaRaksturojums()
@@ -21,9 +25,12 @@ class VagonaRaksturojumsController extends Controller
       return redirect('/VagonaRaksturojums')->with('success', 'Ieraksts tika dzēsts');
     }
 
-    public function create()
+     public function create()
     {
-      return view('VagonaRaksturojumaPiev');
+        $veidi = Veidi::orderBy('VeidaID','asc')->get();
+        $kravas = Kravas::orderBy('KravasID','asc')->get();
+
+        return view('VagonaRaksturojumaPiev', compact('veidi','kravas'));
     }
 
     public function details($id)
@@ -47,10 +54,13 @@ class VagonaRaksturojumsController extends Controller
         return redirect()->to('/VagonaRaksturojums')->with('success', 'Ieraksts tika pievienots');
     }
 
-    public function edit($id)
+   public function edit($id)
     {
-     $raksturojums = VagonaRaksturojums::find($id);
-       return view('VagonaRaksturojumaEdit', ['vagonaraksturojums' => $raksturojums]);
+        $raksturojums = VagonaRaksturojums::find($id);
+        $veidi = Veidi::orderBy('VeidaID','asc')->get();
+        $kravas = Kravas::orderBy('KravasID','asc')->get();
+
+        return view('VagonaRaksturojumaEdit', compact('raksturojums','veidi','kravas'));
     }
 
 

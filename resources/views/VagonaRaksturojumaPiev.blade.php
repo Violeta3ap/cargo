@@ -10,7 +10,7 @@
 
     <form method="POST" action="/VagonaRaksturojums/jaunsSubmit">
         @csrf
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="VeidaID">Veida ID:</label>
             <input type="number" class="form-control" id="VeidaID" name="VeidaID" required>
         </div>
@@ -18,7 +18,46 @@
         <div class="form-group">
             <label for="KravasID">Kravas ID:</label>
             <input type="number" class="form-control" id="KravasID" name="KravasID" required>
-        </div>
+        </div> -->
+
+
+
+        <form method="POST" action="/VagonaRaksturojums/jaunsSubmit">
+    @csrf
+
+    <div class="form-group">
+        <label for="VeidaID">Veids:</label>
+        <select class="form-control" id="VeidaID" name="VeidaID" required>
+            <option value="">Izvēlieties veidu</option>
+            @foreach($veidi as $veids)
+                <option value="{{ $veids->VeidaID }}">{{ $veids->Nosaukums }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="KravasID">Krava:</label>
+        <select class="form-control" id="KravasID" name="KravasID" required>
+            <option value="">Izvēlieties kravu</option>
+            @foreach($kravas as $krava)
+                <option value="{{ $krava->KravasID }}">{{ $krava->Nosaukums }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Celtspeja">Celtspeja:</label>
+        <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" min="1" required>
+    </div>
+
+    <div class="form-group">
+        <label for="VagonaNumurs">Vagona numurs:</label>
+        <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" required>
+    </div>
+
+    <button type="submit">Saglabāt</button>
+</form>
+
 
         <!-- <div class="form-group">
             <label for="Celtspeja">Celtspeja:</label>

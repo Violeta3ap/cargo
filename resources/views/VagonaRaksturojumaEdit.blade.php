@@ -10,7 +10,7 @@
 
     <form action="/VagonaRaksturojums/{{ $vagonaraksturojums->VagonaID }}/editSubmit" method="POST">
         @csrf
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="VeidaID">Veida ID:</label>
             <input type="number" class="form-control" id="VeidaID" name="VeidaID" value="{{ $vagonaraksturojums->VeidaID }}" required>
         </div>
@@ -18,7 +18,55 @@
         <div class="form-group">
             <label for="KravasID">Kravas ID:</label>
             <input type="number" class="form-control" id="KravasID" name="KravasID" value="{{ $vagonaraksturojums->KravasID }}" required>
-        </div>
+        </div> -->
+
+
+
+
+
+        <form method="POST" action="/VagonaRaksturojums/{{ $raksturojums->VagonaID }}/editSubmit">
+    @csrf
+
+    <div class="form-group">
+        <label for="VeidaID">Veids:</label>
+        <select class="form-control" id="VeidaID" name="VeidaID" required>
+            @foreach($veidi as $veids)
+                <option value="{{ $veids->VeidaID }}"
+                    {{ $raksturojums->VeidaID == $veids->VeidaID ? 'selected' : '' }}>
+                    {{ $veids->Nosaukums }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="KravasID">Krava:</label>
+        <select class="form-control" id="KravasID" name="KravasID" required>
+            @foreach($kravas as $krava)
+                <option value="{{ $krava->KravasID }}"
+                    {{ $raksturojums->KravasID == $krava->KravasID ? 'selected' : '' }}>
+                    {{ $krava->Nosaukums }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Celtspeja">Celtspeja:</label>
+        <input type="number" class="form-control" id="Celtspeja" name="Celtspeja"
+               value="{{ $raksturojums->Celtspeja }}" min="1" required>
+    </div>
+
+    <div class="form-group">
+        <label for="VagonaNumurs">Vagona numurs:</label>
+        <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs"
+               value="{{ $raksturojums->VagonaNumurs }}" required>
+    </div>
+
+    <button type="submit">Atjaunināt</button>
+</form>
+
+
 
 
         <div class="form-group">
