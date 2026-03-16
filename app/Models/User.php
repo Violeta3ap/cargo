@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,39 +9,39 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable; // Pievieno fabriku un paziņojumu funkcijas
 
     /**
-     * The attributes that are mass assignable.
+     * Atribūti, kurus var masveidā pievienot (mass assignable)
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name',     // Lietotāja vārds
+        'email',    // Lietotāja e-pasts
+        'password', // Lietotāja parole
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Atribūti, kas jāslēpj serializējot (piem., JSON)
      *
      * @var list<string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password',       // Slēpt paroli
+        'remember_token', // Slēpt atcerēšanās tokenu
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Atribūti, kurus jācastē uz noteiktu datu tipu
      *
      * @return array<string, string>
      */
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'email_verified_at' => 'datetime', // E-pasta apstiprinājuma laiks kā datetime
+            'password' => 'hashed',            // Parole automātiski hashēta
         ];
     }
 }
