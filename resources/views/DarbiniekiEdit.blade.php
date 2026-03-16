@@ -40,11 +40,26 @@
             <div class="character-count" id="charCount">{{ strlen($darbinieki->TelefonaNumurs) }}/8</div>
         </div>   
 
-
+<!-- 
         <div class="form-group">
             <label for="AmataID">Amata ID:</label>
             <input type="number" class="form-control" id="AmataID" name="AmataID" value="{{ $darbinieki->AmataID }}" min="1" required>
+        </div> -->
+
+
+
+        <div class="form-group">
+            <label for="AmataID">Amats:</label>
+            <select class="form-control" id="AmataID" name="AmataID" required>
+            @foreach ($amati as $amats)
+            <option value="{{ $amats->AmataID }}" 
+            {{ $darbinieki->AmataID == $amats->AmataID ? 'selected' : '' }}>
+            {{ $amats->Nosaukums }}
+            </option>
+            @endforeach
+            </select>
         </div>
+
 
 
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
