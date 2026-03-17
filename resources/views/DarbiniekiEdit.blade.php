@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
 <!-- Stils formām un pogām -->
 <style>
 .form-group {

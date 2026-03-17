@@ -39,11 +39,21 @@
         <input type="email" class="form-control" id="Epasts" name="Epasts" required>
     </div>
 
-    <!-- Telefona numura lauks -->
+    <!-- Telefona numura lauks
     <div class="form-group">
         <label for="TelefonaNumurs">Telefona numurs:</label>
         <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" required>
-    </div>
+    </div> -->
+
+
+    <div class="form-group">
+    <label for="TelefonaNumurs">Telefona numurs:</label>
+    <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
+    
+    <!-- Rāda simbolu skaitu -->
+    <div class="character-count" id="charCount">0/8</div>
+</div>
+
 
     <!-- Amata izvēle dropdown -->
     <div class="form-group">
@@ -63,6 +73,23 @@
         Saglabāt
     </button>
 </form>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const TelefonaNumursInput = document.getElementById('TelefonaNumurs');
+    const charCount = document.getElementById('charCount');
+
+    if (TelefonaNumursInput && charCount) {
+        TelefonaNumursInput.addEventListener('input', function() {
+            const currentLength = this.value.length;
+            charCount.textContent = currentLength + '/8';
+        });
+    }
+});
+</script>
+
+
 
 <!-- Stils formām un pogām -->
 <style>
