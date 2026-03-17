@@ -36,9 +36,6 @@
     Rediģēt
 </a> <!-- Poga nomas datu rediģēšanai -->
 
-<a href="/Noma/{{ $noma->NomasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-    style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
-    Dzēst
-</a> <!-- Poga nomas dzēšanai ar apstiprinājuma logu -->
+
 
 @endsection <!-- Satura sadaļas beigas -->
