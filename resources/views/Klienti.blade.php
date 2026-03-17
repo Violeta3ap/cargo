@@ -10,12 +10,6 @@
     </nav>
 </div>
 
-<!-- Meklēšanas forma (šobrīd komentēta) -->
-<!-- 
-<form method="GET" action="/Klienti">
-    <input type="text" name="search" placeholder="Ievadi uzņēmuma nosaukumu">
-    <button type="submit">Meklēt</button>
-</form> -->
 
 <!-- Tabula ar klientu datiem -->
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">

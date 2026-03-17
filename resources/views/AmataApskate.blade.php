@@ -23,6 +23,7 @@
         </div>
     </div>
 
+    
     <br><br> <!-- Atstarpes -->
 
     <!-- Poga amata rediģēšanai -->

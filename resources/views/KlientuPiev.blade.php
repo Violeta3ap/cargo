@@ -40,12 +40,6 @@
         <input type="email" class="form-control" id="Epasts" name="Epasts" required>
     </div>
 
-    <!-- Telefona numurs -->
-    <!-- <div class="form-group">
-        <label for="TelefonaNumurs">Telefona numurs:</label>
-        <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" required>
-    </div> -->
-
     <div class="form-group">
     <label for="TelefonaNumurs">Telefona numurs:</label>
     <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>

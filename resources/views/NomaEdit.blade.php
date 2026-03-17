@@ -9,21 +9,6 @@
 
     <form action="/Noma/{{ $noma->NomasID }}/editSubmit" method="POST">
         @csrf
-        <!-- <div class="form-group">
-            <label for="KlientaID">Klienta ID:</label>
-            <input type="number" class="form-control" id="KlientaID" name="KlientaID" value="{{ $noma->KlientaID }}" min="1" required>
-        </div>
-
-        <div class="form-group">
-            <label for="DarbiniekaID">Darbinieka ID:</label>
-            <input type="number" class="form-control" id="DarbiniekaID" name="DarbiniekaID" value="{{ $noma->DarbiniekaID }}" min="1" required>
-        </div>
-
-        <div class="form-group">
-            <label for="KravasID">Kravas ID:</label>
-            <input type="number" class="form-control" id="KravasID" name="KravasID" value="{{ $noma->KravasID }}" min="1" required>
-        </div> -->
-
 
         <div class="form-group">
     <label for="KlientaID">Klients:</label>

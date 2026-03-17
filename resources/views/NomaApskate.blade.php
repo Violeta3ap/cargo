@@ -8,10 +8,6 @@
     Atpakaļ
 </a> <!-- Poga atpakaļ uz nomas sarakstu -->
 
-<!-- <button onclick="window.print()" style="border-radius:8px; border:1px solid #59c1cf; padding:5px; background: linear-gradient(to right, #59c1cf, #ffffff);">
-Printēt
-</button> --> <!-- Nākotnes iespēja drukai (tagad komentēts) -->
-
 <hr> <!-- Horizontāla līnija -->
 
 <!-- Kartes (card) izkārtojums nomas detaļām -->

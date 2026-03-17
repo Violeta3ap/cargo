@@ -10,11 +10,6 @@
 
     <form action="/VagonaRaksturojums/{{ $vagonaraksturojums->VagonaID }}/editSubmit" method="POST">
         @csrf
-        <!-- <div class="form-group">
-            <label for="VeidaID">Veida ID:</label>
-            <input type="number" class="form-control" id="VeidaID" name="VeidaID" value="{{ $vagonaraksturojums->VeidaID }}" min="1" required>
-        </div> -->
-
 
         <div class="form-group">
     <label for="VeidaID">Veids:</label>
@@ -27,14 +22,6 @@
         @endforeach
     </select>
 </div>
-
-
-
-        <!-- <div class="form-group">
-            <label for="KravasID">Kravas ID:</label>
-            <input type="number" class="form-control" id="KravasID" name="KravasID" value="{{ $vagonaraksturojums->KravasID }}" min="1" required>
-        </div> -->
-
 
         <div class="form-group">
     <label for="KravasID">Krava:</label>
@@ -58,17 +45,6 @@
             <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" 
             value="{{ $vagonaraksturojums->Celtspeja }}" min="1" required>
         </div>
-
-
-        <!-- <div class="form-group">
-            <label for="Celtspeja">Celtspeja:</label>
-            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" value="{{ $vagonaraksturojums->Celtspeja }}" required>
-        </div> -->
-<!-- 
-        <div class="form-group">
-            <label for="VagonaNumurs">Vagona Numurs:</label>
-            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" value="{{ $vagonaraksturojums->VagonaNumurs }}" required>
-        </div> -->
 
                 <div class="form-group">
             <label for="VagonaNumurs" class="form-label">Vagona numurs:</label>

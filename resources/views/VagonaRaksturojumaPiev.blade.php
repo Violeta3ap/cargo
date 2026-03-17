@@ -12,11 +12,6 @@
     <form method="POST" action="/VagonaRaksturojums/jaunsSubmit"> <!-- Formas darbība uz jaunu vagonu -->
         @csrf <!-- CSRF aizsardzība -->
 
-        <!-- <div class="form-group">
-            <label for="VeidaID">Veida ID:</label> 
-            <input type="number" class="form-control" id="VeidaID" name="VeidaID" min="1" required> 
-        </div> -->
-
 
         <div class="form-group">
     <label for="VeidaID">Veids:</label>
@@ -30,12 +25,6 @@
 </div>
 
 
-
-
-        <!-- <div class="form-group">
-            <label for="KravasID">Kravas ID:</label> 
-            <input type="number" class="form-control" id="KravasID" name="KravasID" min="1" required> 
-        </div> -->
 
         <div class="form-group">
     <label for="KravasID">Krava:</label>
@@ -52,12 +41,6 @@
             <label for="Celtspeja">Celtspeja:</label> <!-- Celtspeja lauks -->
             <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" min="1" required> <!-- Ievades lauks ar minimum vērtību -->
         </div>
-
-        <!-- <div class="form-group">
-            <label for="VagonaNumurs">Vagona Numurs:</label>
-            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" min="1" required> 
-        </div> -->
-
 
 
         <div class="form-group">
