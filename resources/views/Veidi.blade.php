@@ -41,33 +41,33 @@
 
 <style>
     .table {
-        border-collapse: collapse; /* Saliek šūnu robežas */
+        border-collapse: collapse; 
     }
     
     .table thead {
-        background-color: #59c1cf; /* Galvenes krāsa */
-        color: white; /* Teksta krāsa */
+        background-color: #59c1cf; 
+        color: white; 
     }
     
     .table thead th {
-        border: 1px solid #59c1cf; /* Robeža galvenes šūnām */
-        padding: 12px; /* Iekšējā atstarpe */
-        font-weight: bold; /* Trekns teksts */
+        border: 1px solid #59c1cf; 
+        padding: 12px; 
+        font-weight: bold; 
     }
     
     .table tbody tr:hover {
-        background-color: #e8f5f7; /* Fona krāsa hover laikā */
+        background-color: #e8f5f7; 
     }
     
     .table tbody td {
-        border: 1px solid #ddd; /* Šūnu robeža */
-        padding: 10px; /* Iekšējā atstarpe */
+        border: 1px solid #ddd; 
+        padding: 10px; 
     }
 </style>
 
-@endsection <!-- Satura sadaļa beidzas -->
+@endsection 
 
-@if(session('success')) <!-- Paziņojums par veiksmīgu darbību -->
+@if(session('success')) 
     <div class="alert alert-success">
         {{ session('success') }}
     </div>  
