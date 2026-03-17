@@ -16,12 +16,12 @@
 
     <div class="form-group">
         <label for="NomasID">Nomas ID:</label> <!-- Etiķete Nomas ID laukam -->
-        <input type="number" class="form-control" id="NomasID" name="NomasID" required> <!-- Ievades lauks Nomas ID -->
+        <input type="number" class="form-control" id="NomasID" name="NomasID" min="1" required> <!-- Ievades lauks Nomas ID -->
     </div>
 
     <div class="form-group">
         <label for="VagonaID">Vagona ID:</label> <!-- Etiķete Vagona ID laukam -->
-        <input type="number" class="form-control" id="VagonaID" name="VagonaID" required> <!-- Ievades lauks Vagona ID -->
+        <input type="number" class="form-control" id="VagonaID" name="VagonaID" min="1" required> <!-- Ievades lauks Vagona ID -->
     </div>
 
     <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">

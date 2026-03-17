@@ -16,12 +16,12 @@
 
     <div class="form-group">
         <label for="NomasID">Nomas ID:</label> <!-- Etiķete lauka nosaukumam -->
-        <input type="number" class="form-control" id="NomasID" name="NomasID" value="{{ $vagonudati->NomasID }}" required> <!-- Ievades lauks Nomas ID -->
+        <input type="number" class="form-control" id="NomasID" name="NomasID" value="{{ $vagonudati->NomasID }}" min="1" required> <!-- Ievades lauks Nomas ID -->
     </div>
 
     <div class="form-group">
         <label for="VagonaID">Vagona ID:</label> <!-- Etiķete lauka nosaukumam -->
-        <input type="number" class="form-control" id="VagonaID" name="VagonaID" value="{{ $vagonudati->VagonaID }}" required> <!-- Ievades lauks Vagons ID -->
+        <input type="number" class="form-control" id="VagonaID" name="VagonaID" value="{{ $vagonudati->VagonaID }}" min="1" required> <!-- Ievades lauks Vagons ID -->
     </div>
 
     <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
