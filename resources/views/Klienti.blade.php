@@ -1,18 +1,18 @@
-@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
+@extends('layout.app') <!-- Paplašina galveno layout failu -->
 
-@section('content') <!-- Satura sadaļas sākums -->
+@section('content') <!-- Satura sadaļa -->
 
-<div style="display: flex">
+<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
     <h2>Klienti</h2> <!-- Lapas virsraksts -->
-    
+
+    <!-- Navigācijas poga jauna klienta pievienošanai -->
     <nav class="navigacija" style="background-color: #ffffff;">
-        <a href="/Klienti/jauns">Jauns ieraksts</a> <!-- Poga jauna klienta pievienošanai -->
+        <a href="/Klienti/jauns">Jauns ieraksts</a>
     </nav>
 </div>
 
-
-<!-- Tabula ar klientu datiem -->
-<table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
+<!-- Klientu saraksta tabula -->
+<table class="table table-striped" style="width:100%; border:1px solid #59c1cf; border-radius:8px; overflow:hidden; text-align:center;">
     <thead>
         <tr>
             <th>Klienta ID</th>
@@ -25,72 +25,71 @@
             <th>Juridiska adrese</th>
             <th>Registrācijas numurs</th>
             <th>Konta numurs</th>
-            <th>Darbības</th> <!-- Kolonna ar pogām Rediģēt / Dzēst -->
+            <th>Darbības</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($klientis as $item) <!-- Cikls cauri visiem klientiem -->
+        @foreach ($klientis as $item)
         <tr>
-            <td>{{$item->KlientaID}}</td> <!-- Klienta ID -->
-            <td>{{$item->Vards}}</td> <!-- Klienta vārds -->
-            <td>{{$item->Uzvards}}</td> <!-- Klienta uzvārds -->
-            <td>{{$item->Parole}}</td> <!-- Klienta parole -->
-            <td>{{$item->Epasts}}</td> <!-- Klienta e-pasts -->
-            <td>{{$item->TelefonaNumurs}}</td> <!-- Klienta telefona numurs -->
-            <td>{{$item->UznemumaNosaukums}}</td> <!-- Uzņēmuma nosaukums -->
-            <td>{{$item->JuridiskaAdrese}}</td> <!-- Juridiskā adrese -->
-            <td>{{$item->RegistracijasNumurs}}</td> <!-- Reģistrācijas numurs -->
-            <td>{{$item->KontaNumurs}}</td> <!-- Konta numurs -->
+            <td>{{$item->KlientaID}}</td>
+            <td>{{$item->Vards}}</td>
+            <td>{{$item->Uzvards}}</td>
+            <td>{{$item->Parole}}</td>
+            <td>{{$item->Epasts}}</td>
+            <td>{{$item->TelefonaNumurs}}</td>
+            <td>{{$item->UznemumaNosaukums}}</td>
+            <td>{{$item->JuridiskaAdrese}}</td>
+            <td>{{$item->RegistracijasNumurs}}</td>
+            <td>{{$item->KontaNumurs}}</td>
             <td>
-                <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                    <!-- Rediģēt poga -->
-                    <a href="/Klienti/{{ $item->KlientaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;" class="btn btn-sm btn-warning">Rediģēt</a>
-
-                    <!-- Dzēst poga ar apstiprinājuma logu -->
-                    <a href="/Klienti/{{ $item->KlientaID }}/delete"
-                       onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                       style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
-                       Dzēst
-                    </a>
-                </div>
+                <!-- Rediģēšanas un dzēšanas pogas tuvāk viena otrai -->
+                <a href="/Klienti/{{ $item->KlientaID }}/edit"
+                   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background-color:#59c1cf; margin-right:5px;"
+                   class="btn btn-sm btn-warning">
+                    Rediģēt
+                </a>
+                <a href="/Klienti/{{ $item->KlientaID }}/delete"
+                   onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+                   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background-color:#59c1cf;">
+                    Dzēst
+                </a>
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
 
-<!-- CSS stili tabulai -->
+<!-- Tabulas stils -->
 <style>
     .table {
-        border-collapse: collapse; /* Saliek šūnu robežas kopā */
+        border-collapse: collapse;
     }
-    
+
     .table thead {
-        background-color: #59c1cf; /* Galvenes fona krāsa */
-        color: white; /* Galvenes teksta krāsa */
+        background-color: #59c1cf;
+        color: white;
     }
-    
+
     .table thead th {
-        border: 1px solid #59c1cf; /* Galvenes šūnu robežas */
-        padding: 12px; /* Šūnu iekšējais attālums */
-        font-weight: bold; /* Treknraksts */
+        border: 1px solid #59c1cf;
+        padding: 12px;
+        font-weight: bold;
     }
-    
+
     .table tbody tr:hover {
-        background-color: #e8f5f7; /* Rinda maina krāsu uz pelēku, kad peles kursors virs tās */
+        background-color: #e8f5f7;
     }
-    
+
     .table tbody td {
-        border: 1px solid #ddd; /* Šūnu robeža */
-        padding: 10px; /* Šūnu iekšējais attālums */
+        border: 1px solid #ddd;
+        padding: 10px;
     }
 </style>
 
-@endsection <!-- Satura sadaļas beigas -->
+@endsection
 
-<!-- Paziņojums par veiksmīgu darbību -->
 @if(session('success'))
     <div class="alert alert-success">
-        {{ session('success') }} <!-- Attēlo session mainīgo 'success' -->
+        {{ session('success') }}
     </div>  
 @endif
