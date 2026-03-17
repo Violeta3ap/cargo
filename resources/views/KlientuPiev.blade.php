@@ -41,10 +41,20 @@
     </div>
 
     <!-- Telefona numurs -->
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label for="TelefonaNumurs">Telefona numurs:</label>
         <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" required>
-    </div>
+    </div> -->
+
+    <div class="form-group">
+    <label for="TelefonaNumurs">Telefona numurs:</label>
+    <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
+    
+    <!-- Rāda simbolu skaitu -->
+    <div class="character-count" id="charCount">0/8</div>
+</div>
+
+
 
     <!-- Uzņēmuma nosaukums -->
     <div class="form-group">
@@ -76,6 +86,26 @@
         Saglabāt
     </button>
 </form>
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const TelefonaNumursInput = document.getElementById('TelefonaNumurs');
+    const charCount = document.getElementById('charCount');
+
+    if (TelefonaNumursInput && charCount) {
+        TelefonaNumursInput.addEventListener('input', function() {
+            const currentLength = this.value.length;
+            charCount.textContent = currentLength + '/8';
+        });
+    }
+});
+</script>
+
+
+
 
 <!-- CSS stili formas laukiem un pogām -->
 <style>

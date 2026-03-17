@@ -55,6 +55,8 @@
 </div>
 
 
+
+
     <!-- Amata izvēle dropdown -->
     <div class="form-group">
         <label for="AmataID">Amats:</label>
