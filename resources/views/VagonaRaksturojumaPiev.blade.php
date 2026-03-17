@@ -67,7 +67,7 @@
 
         <div class="form-group">
             <label for="VagonaNumurs">Vagona Numurs:</label> <!-- Vagona numurs lauks -->
-            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" required> <!-- Teksta ievades lauks -->
+            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" min="1" required> <!-- Teksta ievades lauks -->
         </div>
 
         <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; 
