@@ -93,14 +93,6 @@ document.addEventListener('DOMContentLoaded', function() {
         VagonaNumursInput.addEventListener('input', function() {
             const currentLength = this.value.length;
             charCount.textContent = currentLength + '/8';
-            // Maina krāsu, ja tuvojas limitam
-            if (currentLength >= 5) {
-                charCount.style.color = '#68e3f3';
-            } else if (currentLength >= 8) {
-                charCount.style.color = '#59c1cf';
-            } else {
-                charCount.style.color = '#e75480';
-            }
         });
     }
 });

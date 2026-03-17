@@ -53,16 +53,44 @@
             <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" min="1" required> <!-- Ievades lauks ar minimum vērtību -->
         </div>
 
+        <!-- <div class="form-group">
+            <label for="VagonaNumurs">Vagona Numurs:</label>
+            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" min="1" required> 
+        </div> -->
+
+
+
         <div class="form-group">
-            <label for="VagonaNumurs">Vagona Numurs:</label> <!-- Vagona numurs lauks -->
-            <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" min="1" required> <!-- Teksta ievades lauks -->
-        </div>
+    <label for="VagonaNumurs">Vagona numurs:</label>
+    <input type="text" class="form-control" id="VagonaNumurs" name="VagonaNumurs" maxlength="8" required>
+    
+    <!-- Rāda simbolu skaitu -->
+    <div class="character-count" id="charCount">0/8</div>
+</div>
+
 
         <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; 
             padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
             Saglabāt
         </button> 
     </form>
+
+
+        <script>
+// Opcionāls JavaScript, lai parādītu atlikušo rakstzīmju skaitu koda laukā
+document.addEventListener('DOMContentLoaded', function() {
+    const VagonaNumursInput = document.getElementById('VagonaNumurs');
+    const charCount = document.getElementById('charCount');
+    if (VagonaNumursInput && charCount) {
+        VagonaNumursInput.addEventListener('input', function() {
+            const currentLength = this.value.length;
+            charCount.textContent = currentLength + '/8';
+        });
+    }
+});
+</script>
+
+
 
 <style>
     .form-group { margin-bottom: 20px; } 
