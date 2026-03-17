@@ -6,7 +6,7 @@
     <h2>Nomas papildinājums</h2> <!-- Virsraksts -->
     <nav class="navigacija" style="background-color: #ffffff;">
         <a href="/VagonuDati/jauns">Jauns ieraksts</a> <!-- Poga jauna vagonu ieraksta pievienošanai -->
-        <a href="/Klasifikatori" style="border-radius:8px; padding:5px; color:#000; text-decoration:none; background:linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a> <!-- Poga atpakaļ uz klasifikatoriem -->
+        <a href="/Noma" style="border-radius:8px; padding:5px; color:#000; text-decoration:none; background:linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a> <!-- Poga atpakaļ uz klasifikatoriem -->
     </nav>
 </div>
 
