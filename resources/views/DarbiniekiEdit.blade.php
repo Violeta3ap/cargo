@@ -75,19 +75,12 @@ document.addEventListener('DOMContentLoaded', function() {
         TelefonaNumursInput.addEventListener('input', function() {
             const currentLength = this.value.length;
             charCount.textContent = currentLength + '/8';
-
-            // Krāsu maiņa atkarībā no garuma
-            if (currentLength >= 8) {
-                charCount.style.color = '#59c1cf';
-            } else if (currentLength >= 5) {
-                charCount.style.color = '#68e3f3';
-            } else {
-                charCount.style.color = '#e75480';
-            }
         });
     }
 });
 </script>
+
+
 
 <!-- Stils formām un pogām -->
 <style>
