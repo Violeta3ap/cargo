@@ -23,9 +23,14 @@ class VagonaRaksturojumsController extends Controller
         return redirect('/VagonaRaksturojums')->with('success', 'Ieraksts tika dzēsts'); // Atpakaļ ar paziņojumu
     }
 
-    public function create() // Sagatavo formu jaunam vagona raksturojumam
+   public function create() // Sagatavo formu jaunai nomai
     {
-        return view('VagonaRaksturojumaPiev'); // Nosūta uz pievienošanas skatu
+
+
+        $kravas = Kravas::all();           // Ņem visas kravas
+        $veidi = Veidi::all();             // Ņem visus veidus
+
+        return view('VagonaRaksturojumaPiev', compact('kravas', 'veidi')); // Nosūta datus uz formu
     }
 
     public function details($id) // Parāda konkrētā vagona raksturojuma detaļas
@@ -46,10 +51,12 @@ class VagonaRaksturojumsController extends Controller
         return redirect()->to('/VagonaRaksturojums')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
     }
 
-    public function edit($id) // Sagatavo rediģēšanas formu konkrētam vagona raksturojumam
+public function edit($id) // Sagatavo nomas rediģēšanas formu
     {
-        $raksturojums = VagonaRaksturojums::find($id); // Atrod ierakstu pēc ID
-        return view('VagonaRaksturojumaEdit', ['vagonaraksturojums' => $raksturojums]); // Nosūta uz rediģēšanas skatu
+        $veidi = Veidi::all(); // Ņem visus veidus
+        $kravas = Kravas::all(); // Ņem visas kravas
+
+        return view('VagonaRaksturojumaEdit', compact('vagonaraksturojums','veidi','kravas')); // Nosūta uz rediģēšanas skatu
     }
 
     public function editSubmit(Request $dati, $id) // Saglabā izmaiņas vagona raksturojumā
