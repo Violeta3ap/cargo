@@ -6,6 +6,7 @@
     <h2>Nomas papildinājums</h2> <!-- Virsraksts -->
     <nav class="navigacija" style="background-color: #ffffff;">
         <a href="/VagonuDati/jauns">Jauns ieraksts</a> <!-- Poga jauna vagonu ieraksta pievienošanai -->
+        <a href="/Klasifikatori" style="border-radius:8px; padding:5px; color:#000; text-decoration:none; background:linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a> <!-- Poga atpakaļ uz klasifikatoriem -->
     </nav>
 </div>
 
@@ -42,11 +43,11 @@
 </table>
 
 <style>
-    .table { border-collapse: collapse; } <!-- Apvieno rāmjus -->
-    .table thead { background-color: #59c1cf; color: white; } <!-- Galvenes stils -->
-    .table thead th { border: 1px solid #59c1cf; padding: 12px; font-weight: bold; } <!-- Galvenes šūnu stils -->
-    .table tbody tr:hover { background-color: #e8f5f7; } <!-- Hover efekts rindām -->
-    .table tbody td { border: 1px solid #ddd; padding: 10px; } <!-- Šūnu stils -->
+    .table { border-collapse: collapse; } 
+    .table thead { background-color: #59c1cf; color: white; } 
+    .table thead th { border: 1px solid #59c1cf; padding: 12px; font-weight: bold; } 
+    .table tbody tr:hover { background-color: #e8f5f7; } 
+    .table tbody td { border: 1px solid #ddd; padding: 10px; } 
 </style>
 
 @endsection <!-- Satura sadaļa beidzas -->
