@@ -51,7 +51,7 @@ public function create()
 
 public function edit($id)
 {
-    $raksturojums = VagonaRaksturojums::find($id);
+    $vagonaraksturojums = VagonaRaksturojums::find($id);
 
     $veidi = Veidi::all();     
     $kravas = Kravas::all();
