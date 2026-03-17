@@ -4,11 +4,10 @@
 
 <div style="display: flex">
     <h2>Amata dati</h2> <!-- Virsraksts -->
-
     <!-- Navigācijas pogas -->
-    <nav class="navigacija" style="background-color: #ffffff;">
-        <a href="/Amati/jauns">Jauns ieraksts</a> <!-- Poga jauna amata pievienošanai -->
-        <a href="/Klasifikatori" style="border-radius:8px; padding:5px; color:#000; text-decoration:none; background:linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a> <!-- Poga atpakaļ uz klasifikatoriem -->
+    <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
+        <a href="/Amati/jauns">Jauns ieraksts</a>
+        <a href="/Klasifikatori" style="border-radius:8px; padding: 5px 10px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff);">Atpakaļ</a>
     </nav>
 </div>
 

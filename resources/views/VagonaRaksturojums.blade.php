@@ -3,11 +3,10 @@
 @section('content')
 <div style="display: flex">
 <h2>Vagona raksturojuma dati</h2> 
-<nav class="navigacija" style="   background-color: #ffffff;">
-<a href="/VagonaRaksturojums/jauns" >Jauns ieraksts</a>
-<a href="/Klasifikatori"  style="border-radius:8px; 
-padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
-</nav>
+    <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
+        <a href="/VagonaRaksturojums/jauns">Jauns ieraksts</a>
+        <a href="/Klasifikatori" style="border-radius:8px; padding: 5px 10px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff);">Atpakaļ</a>
+    </nav>
 </div>
 
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
