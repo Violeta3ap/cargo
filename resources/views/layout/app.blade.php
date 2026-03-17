@@ -58,7 +58,7 @@
         .content {  
             padding: 20px 150px; /* attālums no malas */
             background-color: #ffffff;
-            min-height: 100px;
+            min-height: 200px;
         }
 
         /* Footer stils */
