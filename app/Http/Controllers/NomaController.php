@@ -108,5 +108,15 @@ class NomaController extends Controller
 
 
 
+    public function index()
+    {
+    // Pielieto pagināciju: pa 10 ierakstiem vienā lapā
+    $noma = Noma::with(['klienti', 'darbinieki', 'kravas'])
+                 ->orderBy('NomasID', 'asc')
+                 ->paginate(10); // maini skaitu pēc vajadzības
+
+    return view('Noma.index', compact('noma'));
+    }
+
     
 }
