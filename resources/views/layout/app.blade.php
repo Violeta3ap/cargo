@@ -56,7 +56,7 @@
 
         /* Galvenā satura konteiners */
         .content {  
-            padding: 150px; /* attālums no malas */
+            padding: 20px 150px; /* attālums no malas */
             background-color: #ffffff;
             min-height: 200px;
         }
