@@ -45,7 +45,7 @@
 
 
             
-<td>
+
     <!-- Pogas izvietotas flex konteinerā ar nelielu gap -->
     <div style="display: flex; justify-content: center; gap: 8px;">
         <a href="/Klienti/{{ $item->KlientaID }}/edit"
