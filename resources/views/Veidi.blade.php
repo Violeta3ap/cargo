@@ -1,37 +1,39 @@
-@extends('layout.app') <!-- Paplašina galveno layout -->
+@extends('layout.app') 
 
-@section('content') <!-- Satura sadaļa sākas -->
+@section('content') 
 
 <div style="display: flex">
-<h2>Vagona veidi</h2> <!-- Virsraksts lapai -->
+<h2>Vagona veidi</h2> 
 
 <nav class="navigacija" style="background-color: #ffffff;">
-    <a href="/Veidi/jauns">Jauns ieraksts</a> <!-- Poga jauna veida pievienošanai -->
-    <a href="/Klasifikatori" style="border-radius:8px; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a> <!-- Poga atpakaļ uz klasifikatoriem -->
+    <a href="/Veidi/jauns">Jauns ieraksts</a> 
+    <a href="/Klasifikatori" style="border-radius:8px; padding: 5px; color: #000000;
+     text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a> 
 </nav>
 </div>
 
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
-            <th>Veida ID</th> <!-- Kolonnas virsraksts ID -->
-            <th>Nosaukums</th> <!-- Kolonnas virsraksts nosaukums -->
-            <th>Darbības</th> <!-- Kolonnas virsraksts darbībām (rediģēt/dzēst) -->
+            <th>Veida ID</th> 
+            <th>Nosaukums</th> 
+            <th>Darbības</th> 
         </tr>
     </thead>
     <tbody>
-        @foreach ($dati as $item) <!-- Cikls cauri visiem vagonu veidiem -->
+        @foreach ($dati as $item) 
         <tr>
-            <td>{{$item->VeidaID}}</td> <!-- Parāda Veida ID -->
-            <td>{{$item->Nosaukums}}</td> <!-- Parāda veida nosaukumu -->
+            <td>{{$item->VeidaID}}</td> 
+            <td>{{$item->Nosaukums}}</td> 
             <td>
-                <a href="/Veidi/{{ $item->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a> <!-- Poga ieraksta rediģēšanai -->
+                <a href="/Veidi/{{ $item->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf;
+                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a> 
 
                 <a href="/Veidi/{{ $item->VeidaID }}/delete" 
                    onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
                    style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
                    Dzēst
-                </a> <!-- Poga ieraksta dzēšanai ar apstiprinājumu -->
+                </a> 
 
             </td>
         </tr>
