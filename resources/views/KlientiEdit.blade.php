@@ -83,18 +83,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     const TelefonaNumursInput = document.getElementById('TelefonaNumurs');
     const charCount = document.getElementById('charCount');
+
     if (TelefonaNumursInput && charCount) {
         TelefonaNumursInput.addEventListener('input', function() {
             const currentLength = this.value.length;
-            charCount.textContent = currentLength + '/8'; // Parāda ievadīto simbolu skaitu
-            // Maina krāsu atkarībā no rakstzīmju skaita
-            if (currentLength >= 8) {
-                charCount.style.color = '#59c1cf';
-            } else if (currentLength >= 5) {
-                charCount.style.color = '#68e3f3';
-            } else {
-                charCount.style.color = '#e75480';
-            }
+            charCount.textContent = currentLength + '/8'; // rāda simbolu skaitu
         });
     }
 });
