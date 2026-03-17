@@ -12,15 +12,53 @@
     <form method="POST" action="/VagonaRaksturojums/jaunsSubmit"> <!-- Formas darbība uz jaunu vagonu -->
         @csrf <!-- CSRF aizsardzība -->
 
-        <div class="form-group">
-            <label for="VeidaID">Veida ID:</label> <!-- Veida ID lauka nosaukums -->
-            <input type="number" class="form-control" id="VeidaID" name="VeidaID" required> <!-- Ievades lauks -->
-        </div>
+        <!-- <div class="form-group">
+            <label for="VeidaID">Veida ID:</label>
+            <input type="number" class="form-control" id="VeidaID" name="VeidaID" required> 
+        </div> -->
 
-        <div class="form-group">
-            <label for="KravasID">Kravas ID:</label> <!-- Kravas ID lauka nosaukums -->
-            <input type="number" class="form-control" id="KravasID" name="KravasID" required> <!-- Ievades lauks -->
-        </div>
+                    <!-- Izvēlne veidam -->
+    <div class="form-group">
+        <label for="VeidaID">Veids:</label>
+        <select class="form-control" id="VeidaID" name="VeidaID" required>
+            <option value="">Izvēlieties veidu</option>
+            @foreach($veidi as $veids)
+                <option value="{{ $veids->VeidaID }}">
+                    {{ $veids->Nosaukums }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+        <!-- <div class="form-group">
+            <label for="KravasID">Kravas ID:</label> 
+                <option value="{{ $krava->KravasID }}">
+                    {{ $krava->Nosaukums }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+
+        <!-- <div class="form-group">
+            <label for="KravasID">Kravas ID:</label> 
+            <input type="number" class="form-control" id="KravasID" name="KravasID" required>
+        </div> -->
+
+
+            <!-- Izvēlne kravai -->
+    <div class="form-group">
+        <label for="KravasID">Krava:</label>
+        <select class="form-control" id="KravasID" name="KravasID" required>
+            <option value="">Izvēlieties kravu</option>
+            @foreach($kravas as $krava)
+                <option value="{{ $krava->KravasID }}">
+                    {{ $krava->Nosaukums }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
 
         <div class="form-group">
             <label for="Celtspeja">Celtspeja:</label> <!-- Celtspeja lauks -->
