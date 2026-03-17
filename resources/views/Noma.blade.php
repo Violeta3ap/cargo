@@ -44,7 +44,7 @@
             <td>{{$item->Galastacija}}</td>
             <td>{{$item->KopejaMaksa}}</td>
             <td>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+                <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
                     <a href="/Noma/{{ $item->NomasID }}/details" class="btn-action">Detalizēta</a>
                     <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
                     <a href="/Noma/{{ $item->NomasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
@@ -91,6 +91,8 @@
         background-color: #59c1cf;
         white-space: nowrap;
         font-size: 0.9rem;
+        width: 100%; /* lai aizņemtu visu šūnas platumu */
+        text-align: center;
     }
 
     .btn-action:hover {
@@ -104,5 +106,5 @@
 @if(session('success'))
     <div class="alert alert-success" style="margin-top: 10px;">
         {{ session('success') }}
-    </div>
+    </div>  
 @endif
