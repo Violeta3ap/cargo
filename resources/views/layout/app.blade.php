@@ -149,7 +149,7 @@
 
 
     <!-- Satura daļa -->
-    <div class="content" style="padding:10%;">
+<div class="content" style="padding: 40px 10%;">
         @yield('content') <!-- šeit tiks ielādēts konkrētais lapas saturs -->
     </div>
 
