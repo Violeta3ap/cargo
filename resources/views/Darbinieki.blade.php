@@ -36,19 +36,19 @@
             <td>{{$item->TelefonaNumurs}}</td> <!-- Telefona numurs -->
             <td>{{$item->amati->Nosaukums ?? ('ID: '.$item->AmataID) }}</td> <!-- Amata nosaukums vai ID, ja nosaukums nav -->
             <td>
-                <!-- Rediģēšanas poga -->
-                <a href="/Darbinieki/{{ $item->DarbiniekaID }}/edit"
-                   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background-color:#59c1cf;"
-                   class="btn btn-sm btn-warning">
-                    Rediģēt
-                </a>
+    <!-- Rediģēšanas poga -->
+        <a href="/Darbinieki/{{ $item->DarbiniekaID }}/edit"
+        style="border-radius:8px; border:1px solid #59c1cf; padding:3px 6px; color:#000; text-decoration:none; background-color:#59c1cf; margin-right:5px;"
+        class="btn btn-sm btn-warning">
+        Rediģēt
+        </a>
 
-                <!-- Dzēšanas poga ar apstiprinājumu -->
-                <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete"
-                   onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                   style="border-radius:8px; border:1px solid #59c1cf; padding:5px 10px; color:#000; text-decoration:none; background-color:#59c1cf; white-space:nowrap;">
-                    Dzēst
-                </a>
+<!-- Dzēšanas poga ar apstiprinājumu -->
+        <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete"
+        onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+        style="border-radius:8px; border:1px solid #59c1cf; padding:3px 6px; color:#000; text-decoration:none; background-color:#59c1cf; white-space:nowrap;">
+        Dzēst
+        </a>
             </td>
         </tr>
         @endforeach
