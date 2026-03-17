@@ -42,17 +42,29 @@
             <td>{{$item->RegistracijasNumurs}}</td>
             <td>{{$item->KontaNumurs}}</td>
             <td>
-                <!-- Rediģēšanas un dzēšanas pogas tuvāk viena otrai -->
-                <a href="/Klienti/{{ $item->KlientaID }}/edit"
-                   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background-color:#59c1cf; margin-right:5px;"
-                   class="btn btn-sm btn-warning">
-                    Rediģēt
-                </a>
-                <a href="/Klienti/{{ $item->KlientaID }}/delete"
-                   onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background-color:#59c1cf;">
-                    Dzēst
-                </a>
+
+
+            
+<td>
+    <!-- Pogas izvietotas flex konteinerā ar nelielu gap -->
+    <div style="display: flex; justify-content: center; gap: 8px;">
+        <a href="/Klienti/{{ $item->KlientaID }}/edit"
+           style="border-radius:8px; border:1px solid #59c1cf; padding:5px 10px; color:#000; text-decoration:none; background-color:#59c1cf;"
+           class="btn btn-sm btn-warning">
+            Rediģēt
+        </a>
+        <a href="/Klienti/{{ $item->KlientaID }}/delete"
+           onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+           style="border-radius:8px; border:1px solid #59c1cf; padding:5px 10px; color:#000; text-decoration:none; background-color:#59c1cf;">
+            Dzēst
+        </a>
+    </div>
+</td>
+
+
+
+
+
             </td>
         </tr>
         @endforeach
