@@ -10,6 +10,7 @@ use App\Models\Amati; // Modelis darbam ar amatu tabulu
 class DarbiniekuController extends Controller // Izveido controller klasi
 {
 
+
     public function showAllDarbinieki() // Parāda visus darbiniekus
     {
      $darbiniekis= new Darbinieki(); // Izveido Darbinieki objekta instanci
@@ -17,6 +18,8 @@ class DarbiniekuController extends Controller // Izveido controller klasi
        return view('Darbinieki', ['darbiniekis' => $darbiniekis->orderBy('DarbiniekaID', 'asc')->get()]);
        // Atver Darbinieki lapu un nosūta sakārtotu darbinieku sarakstu
     }
+
+
 
     public function delete($id) // Funkcija darbinieka dzēšanai
     {
@@ -27,6 +30,8 @@ class DarbiniekuController extends Controller // Izveido controller klasi
       // Pāradresē uz darbinieku sarakstu ar paziņojumu
     }
 
+
+
   public function create() // Atver darbinieka pievienošanas formu
 {
     $amati = Amati::orderBy('AmataID','asc')->get(); 
@@ -36,12 +41,16 @@ class DarbiniekuController extends Controller // Izveido controller klasi
     // Atver pievienošanas lapu un nosūta amatu sarakstu
 }
 
+
+
     public function details($id) // Parāda viena darbinieka informāciju
     {
       $darbiniekis = Darbinieki::find($id); // Atrod darbinieku pēc ID
       return view('DarbiniekiApskate', ['darbinieki' => $darbiniekis]);
       // Atver apskates lapu un nosūta darbinieka datus
     }
+
+
 
     public function DarbiniekiSubmit(Request $dati) // Saglabā jaunu darbinieku
     {
@@ -75,6 +84,7 @@ class DarbiniekuController extends Controller // Izveido controller klasi
 
 
 
+
 public function edit($id) // Atver darbinieka rediģēšanas formu
 {
     $darbiniekis = Darbinieki::find($id); // Atrod darbinieku pēc ID
@@ -85,6 +95,8 @@ public function edit($id) // Atver darbinieka rediģēšanas formu
         'amati' => $amati // Nosūta amatu sarakstu
     ]);
 }
+
+
 
 
     public function editSubmit(Request $dati, $id) // Atjaunina darbinieka datus
@@ -104,4 +116,7 @@ public function edit($id) // Atver darbinieka rediģēšanas formu
          return redirect()->to('/Darbinieki')->with('success', 'Ieraksts tika atjaunināts');
          // Pāradresē uz darbinieku sarakstu
     }
+
+
+    
 }

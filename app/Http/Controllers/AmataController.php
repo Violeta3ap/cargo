@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB; // Ļauj izmantot DB komandas
 
 class AmataController extends Controller // Izveido controller klasi
 {
+
+
     public function showAllAmati() // Funkcija, kas parāda visus amatus
     {
      $amats= new Amati(); // Izveido Amati objekta instanci
@@ -15,6 +17,8 @@ class AmataController extends Controller // Izveido controller klasi
        return view('Amati', ['dati' => $amats->orderBy('AmataID', 'asc')->get()]);
        // Atver Amati skata failu un nosūta visus amatus sakārtotus pēc ID
     }
+
+
 
     public function delete($id) // Funkcija ieraksta dzēšanai
     {
@@ -25,11 +29,15 @@ class AmataController extends Controller // Izveido controller klasi
       // Pāradresē uz Amati lapu ar ziņojumu
     }
 
+
+
     public function create() // Funkcija pievienošanas formas atvēršanai
     {
       return view('AmataPiev'); 
       // Atver lapu, kur var pievienot jaunu amatu
     }
+
+
 
     public function details($id) // Funkcija viena amata apskatei
     {
@@ -37,6 +45,8 @@ class AmataController extends Controller // Izveido controller klasi
       return view('AmataApskate', ['amati' => $amats]);
       // Atver apskates lapu un nosūta amata datus
     }
+
+
 
     public function DatuSubmit(Request $dati) // Funkcija datu saglabāšanai no formas
     {
@@ -50,12 +60,16 @@ class AmataController extends Controller // Izveido controller klasi
         // Pāradresē uz Amati sarakstu ar paziņojumu
     }
 
+
+
     public function edit($id) // Funkcija rediģēšanas formas atvēršanai
     {
      $amats = Amati::find($id); // Atrod amatu pēc ID
        return view('AmataEdit', ['amati' => $amats]);
        // Atver rediģēšanas lapu un nosūta amata datus
     }
+
+
 
     public function editSubmit(Request $dati, $id) // Funkcija datu atjaunināšanai
     {
@@ -69,4 +83,7 @@ class AmataController extends Controller // Izveido controller klasi
          return redirect()->to('/Amati')->with('success', 'Ieraksts tika atjaunināts');
          // Pāradresē uz Amati sarakstu ar paziņojumu
     }
+
+
+    
 }

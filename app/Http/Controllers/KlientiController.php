@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB; // Ļauj izmantot DB komandas
 
 class KlientiController extends Controller // Izveido controller klasi
 {
+
+
+
     public function showAllKlienti() // Parāda visus klientus
     {
      $klientis= new Klienti(); // Izveido Klienti objekta instanci
@@ -15,6 +18,8 @@ class KlientiController extends Controller // Izveido controller klasi
        return view('Klienti', ['klientis' => $klientis->orderBy('KlientaID', 'asc')->get()]);
        // Atver Klienti lapu un nosūta klientu sarakstu sakārtotu pēc ID
     }
+
+
 
     public function delete($id) // Funkcija klienta dzēšanai
     {
@@ -25,11 +30,15 @@ class KlientiController extends Controller // Izveido controller klasi
       // Pāradresē uz klientu sarakstu ar paziņojumu
     }
 
+
+
     public function create() // Atver klienta pievienošanas formu
     {
       return view('KlientuPiev'); 
       // Atver lapu jauna klienta pievienošanai
     }
+
+
 
     public function details($id) // Parāda viena klienta informāciju
     {
@@ -37,6 +46,8 @@ class KlientiController extends Controller // Izveido controller klasi
       return view('KlientiApskate', ['klientis' => $klientis]);
       // Atver apskates lapu un nosūta klienta datus
     }
+
+
 
     public function KlientiSubmit(Request $dati) // Saglabā jaunu klientu
     {
@@ -77,12 +88,17 @@ class KlientiController extends Controller // Izveido controller klasi
         // Pāradresē uz klientu sarakstu
     }
 
+
+
     public function edit($id) // Atver klienta rediģēšanas formu
     {
      $klientis = Klienti::find($id); // Atrod klientu pēc ID
        return view('KlientiEdit', ['klientis' => $klientis]);
        // Atver rediģēšanas lapu un nosūta klienta datus
     }
+
+
+
 
     public function editSubmit(Request $dati, $id) // Atjaunina klienta datus
     {
@@ -104,5 +120,8 @@ class KlientiController extends Controller // Izveido controller klasi
          return redirect()->to('/Klienti')->with('success', 'Ieraksts tika atjaunināts');
          // Pāradresē uz klientu sarakstu
     }
+
+
+    
 
 }

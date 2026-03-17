@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB; // Ļauj izmantot DB komandas
 
 class KravasController extends Controller // Izveido controller klasi
 {
+
+
+
     public function showAllKrava() // Parāda visas kravas
     {
      $kravas= new Kravas(); // Izveido Kravas objekta instanci
@@ -15,6 +18,9 @@ class KravasController extends Controller // Izveido controller klasi
        return view('Kravas', ['dati' => $kravas->orderBy('KravasID', 'asc')->get()]);
        // Atver Kravas lapu un nosūta kravu sarakstu sakārtotu pēc ID
     }
+
+
+
 
     public function delete($id) // Funkcija kravas dzēšanai
     {
@@ -25,11 +31,16 @@ class KravasController extends Controller // Izveido controller klasi
       // Pāradresē uz kravu sarakstu ar paziņojumu
     }
 
+
+
     public function create() // Atver kravas pievienošanas formu
     {
       return view('KravasPiev'); 
       // Atver lapu jaunas kravas pievienošanai
     }
+
+
+
 
     public function details($id) // Parāda vienas kravas informāciju
     {
@@ -37,6 +48,8 @@ class KravasController extends Controller // Izveido controller klasi
       return view('KravasApskate', ['kravas' => $kravas]);
       // Atver apskates lapu un nosūta kravas datus
     }
+
+
 
     public function DatuSubmit(Request $dati) // Saglabā jaunu kravu
     {
@@ -51,12 +64,18 @@ class KravasController extends Controller // Izveido controller klasi
         // Pāradresē uz kravu sarakstu
     }
 
+
+
+
     public function edit($id) // Atver kravas rediģēšanas formu
     {
      $kravas = Kravas::find($id); // Atrod kravu pēc ID
        return view('KravasEdit', ['kravas' => $kravas]);
        // Atver rediģēšanas lapu un nosūta kravas datus
     }
+
+
+
 
     public function editSubmit(Request $dati, $id) // Atjaunina kravas datus
     {
@@ -70,4 +89,7 @@ class KravasController extends Controller // Izveido controller klasi
          return redirect()->to('/Kravas')->with('success', 'Ieraksts tika atjaunināts');
          // Pāradresē uz kravu sarakstu
     }
+
+
+    
 }

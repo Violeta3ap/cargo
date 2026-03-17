@@ -11,17 +11,27 @@ use App\Models\Kravas; // Kravas modelis
 
 class NomaController extends Controller
 {
+
+
+
+
     public function showAllNoma() // Parāda visas nomas ierakstus
     {
         $noma = new Noma();
         return view('Noma', ['noma' => $noma->orderBy('NomasID', 'asc')->get()]); // Nosūta uz skatu ar visām nomām
     }
 
+
+
+
     public function delete($id) // Dzēš konkrētu nomu pēc ID
     {
         DB::table('vagonunoma')->where('NomasID', $id)->delete(); // Dzēš no tabulas
         return redirect('/Noma')->with('success', 'Ieraksts tika dzēsts'); // Pāradresē un rāda ziņu
     }
+
+
+
 
     public function create() // Sagatavo formu jaunai nomai
     {
@@ -32,11 +42,17 @@ class NomaController extends Controller
         return view('NomaPiev', compact('klienti','darbinieki','kravas')); // Nosūta datus uz formu
     }
 
+
+
+
     public function details($id) // Parāda konkrētas nomas detaļas
     {
         $noma = Noma::find($id); // Atrod nomu pēc ID
         return view('NomaApskate', ['noma' => $noma]); // Nosūta uz detaļu skatu
     }
+
+
+
 
     public function NomaSubmit(Request $dati) // Saglabā jaunu nomu datubāzē
     {
@@ -55,6 +71,9 @@ class NomaController extends Controller
         return redirect()->to('/Noma')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
     }
 
+
+
+
     public function edit($id) // Sagatavo nomas rediģēšanas formu
     {
         $noma = Noma::find($id); // Atrod nomu pēc ID
@@ -64,6 +83,9 @@ class NomaController extends Controller
 
         return view('NomaEdit', compact('noma','klienti','darbinieki','kravas')); // Nosūta uz rediģēšanas skatu
     }
+
+
+
 
     public function editSubmit(Request $dati, $id) // Saglabā izmaiņas nomā
     {
@@ -83,4 +105,8 @@ class NomaController extends Controller
 
         return redirect()->to('/Noma')->with('success', 'Ieraksts tika atjaunināts'); // Pāradresē uz sarakstu
     }
+
+
+
+    
 }

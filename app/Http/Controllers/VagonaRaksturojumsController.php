@@ -11,11 +11,18 @@ use App\Models\Kravas; // Kravas modelis
 
 class VagonaRaksturojumsController extends Controller
 {
+
+
+
+
     public function showAllVagonaRaksturojums() // Parāda visu vagona raksturojumu sarakstu
     {
         $dati = new VagonaRaksturojums();
         return view('VagonaRaksturojums', ['dati' => $dati->orderBy('VagonaID', 'asc')->get()]); // Nosūta datus uz skatu
     }
+
+
+
 
     public function delete($id) // Dzēš konkrētu vagona raksturojumu
     {
@@ -23,19 +30,29 @@ class VagonaRaksturojumsController extends Controller
         return redirect('/VagonaRaksturojums')->with('success', 'Ieraksts tika dzēsts'); // Atpakaļ ar paziņojumu
     }
 
-public function create()
-{
+
+
+
+    public function create()
+    {
     $veidi = Veidi::all();     // paņem visus veidus
     $kravas = Kravas::all();   // paņem visas kravas
 
     return view('VagonaRaksturojumaPiev', compact('veidi','kravas'));
-}
+    }
+
+
+
 
     public function details($id) // Parāda konkrētā vagona raksturojuma detaļas
     {
         $raksturojums = VagonaRaksturojums::find($id); // Atrod ierakstu pēc ID
         return view('VagonaRaksturojumaApskate', ['vagonaraksturojums' => $raksturojums]); // Nosūta uz detaļu skatu
     }
+
+
+
+
 
     public function DatuSubmit(Request $dati) // Saglabā jaunu vagona raksturojumu
     {
@@ -49,8 +66,13 @@ public function create()
         return redirect()->to('/VagonaRaksturojums')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
     }
 
-public function edit($id)
-{
+
+
+
+
+
+    public function edit($id)
+    {
     $vagonaraksturojums = VagonaRaksturojums::find($id);
 
     $veidi = Veidi::all();     
@@ -59,7 +81,9 @@ public function edit($id)
     return view('VagonaRaksturojumaEdit', 
         compact('vagonaraksturojums','veidi','kravas')
     );
-}
+    }
+
+
 
     public function editSubmit(Request $dati, $id) // Saglabā izmaiņas vagona raksturojumā
     {
@@ -74,4 +98,7 @@ public function edit($id)
 
         return redirect()->to('/VagonaRaksturojums')->with('success', 'Ieraksts tika atjaunināts'); // Pāradresē uz sarakstu
     }
+
+
+    
 }

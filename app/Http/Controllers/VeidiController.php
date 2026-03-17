@@ -8,11 +8,17 @@ use Illuminate\Support\Facades\DB; // Datubāzes operācijas
 
 class VeidiController extends Controller
 {
+
+
+
     public function showAllVeidi() // Parāda visu veidu sarakstu
     {
         $veidi = new Veidi();
         return view('Veidi', ['dati' => $veidi->orderBy('VeidaID', 'asc')->get()]); // Nosūta datus uz skatu
     }
+
+
+
 
     public function delete($id) // Dzēš konkrētu veidu
     {
@@ -20,16 +26,25 @@ class VeidiController extends Controller
         return redirect('/Veidi')->with('success', 'Ieraksts tika dzēsts'); // Pāradresē ar paziņojumu
     }
 
+
+
+
     public function create() // Sagatavo formu jaunam veidam
     {
         return view('VeidiPiev'); // Nosūta uz pievienošanas skatu
     }
+
+
+
 
     public function details($id) // Parāda konkrētā veida detaļas
     {
         $veidi = Veidi::find($id); // Atrod ierakstu pēc ID
         return view('VeidiApskate', ['veidi' => $veidi]); // Nosūta uz detaļu skatu
     }
+
+
+
 
     public function DatuSubmit(Request $dati) // Saglabā jaunu veidu
     {
@@ -40,11 +55,18 @@ class VeidiController extends Controller
         return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
     }
 
+
+
+
+
     public function edit($id) // Sagatavo rediģēšanas formu konkrētam veidam
     {
         $veidi = Veidi::find($id); // Atrod ierakstu pēc ID
         return view('VeidiEdit', ['veidi' => $veidi]); // Nosūta uz rediģēšanas skatu
     }
+
+
+
 
     public function editSubmit(Request $dati, $id) // Saglabā izmaiņas veidā
     {
@@ -56,4 +78,8 @@ class VeidiController extends Controller
 
         return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts'); // Pāradresē uz sarakstu
     }
+
+
+
+    
 }

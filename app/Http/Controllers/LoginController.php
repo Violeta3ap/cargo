@@ -11,6 +11,9 @@ use App\Http\Controllers\Controller; // Pamata controller klase
 class LoginController extends Controller // Izveido Login controller klasi
 {
 
+
+
+
  public function login(Request $request) // Lietotāja pieslēgšanās funkcija
 {
     $credentials = $request->validate([ // Pārbauda ievadītos datus
@@ -28,6 +31,9 @@ class LoginController extends Controller // Izveido Login controller klasi
         'name' => 'Nepareizs lietotājvārds vai parole.', // Parāda kļūdas ziņu
     ])->onlyInput('name'); // Saglabā ievadīto lietotājvārdu
 }
+
+
+
 
 
 public function register(Request $request) // Lietotāja reģistrācijas funkcija
@@ -50,6 +56,10 @@ public function register(Request $request) // Lietotāja reģistrācijas funkcij
     // Pāradresē uz galveno lapu
 }
 
+
+
+
+
 public function logout(Request $request) // Lietotāja izrakstīšanās funkcija
 {
     Auth::logout(); // Izraksta lietotāju no sistēmas
@@ -60,4 +70,8 @@ public function logout(Request $request) // Lietotāja izrakstīšanās funkcija
     return redirect('/')->with('success', 'Esat veiksmīgi izrakstījies no sistēmas.');
     // Pāradresē uz galveno lapu
 }
+
+
+
+
 }
