@@ -45,7 +45,7 @@
 </table>
 
 <!-- Tabulas stils -->
-<style>
+<!-- <style>
     .table {
         border-collapse: collapse; /* Tabulas apmales saplūst */
     }
@@ -69,7 +69,7 @@
         border: 1px solid #ddd;
         padding: 10px;
     }
-</style>
+</style> -->
 
 @endsection
 
