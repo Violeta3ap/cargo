@@ -38,7 +38,7 @@
             <td>
                 <!-- Rediģēšanas poga -->
                 <a href="/Darbinieki/{{ $item->DarbiniekaID }}/edit"
-                   style="border-radius:8px; border:1px solid #59c1cf; padding: 5px 10px; color:#000; text-decoration:none; background-color:#59c1cf;"
+                   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background-color:#59c1cf;"
                    class="btn btn-sm btn-warning">
                     Rediģēt
                 </a>
