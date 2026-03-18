@@ -27,7 +27,7 @@
     </div>
 
     <!-- Izvēlne darbiniekam -->
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label for="DarbiniekaID">Darbinieks:</label>
         <select class="form-control" id="DarbiniekaID" name="DarbiniekaID" required>
             <option value="">Izvēlieties darbinieku</option>
@@ -37,7 +37,7 @@
                 </option>
             @endforeach
         </select>
-    </div>
+    </div> -->
 
     <!-- Izvēlne kravai -->
     <div class="form-group">

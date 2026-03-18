@@ -17,8 +17,8 @@
         <tr>
             <th>Nomas ID</th>
             <th>Klients</th>
-            <th>Uzņēmums</th>
-            <th>Darbinieks</th>
+            <th>Klienta uzņēmums</th>
+            <!-- <th>Darbinieks</th> -->
             <th>Krava</th>
             <th>Vagonu skaits</th>
             <th>Nomas sākums</th>
@@ -35,7 +35,7 @@
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
             <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID)}}</td>
-            <td>{{$item->darbinieki->Vards ?? ('ID: '.$item->DarbiniekaID)}} {{$item->darbinieki->Uzvards ?? ''}}</td>
+            <!-- <td>{{$item->darbinieki->Vards ?? ('ID: '.$item->DarbiniekaID)}} {{$item->darbinieki->Uzvards ?? ''}}</td> -->
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID)}}</td>
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>

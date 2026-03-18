@@ -22,7 +22,7 @@
     </select>
 </div>
 
-<div class="form-group">
+<!-- <div class="form-group">
     <label for="DarbiniekaID">Darbinieks:</label>
     <select class="form-control" id="DarbiniekaID" name="DarbiniekaID" required>
         @foreach($darbinieki as $darbinieks)
@@ -32,7 +32,7 @@
             </option>
         @endforeach
     </select>
-</div>
+</div> -->
 
 <div class="form-group">
     <label for="KravasID">Krava:</label>
