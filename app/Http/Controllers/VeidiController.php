@@ -49,13 +49,17 @@ class VeidiController extends Controller
     public function DatuSubmit(Request $dati) // Saglabā jaunu veidu
     {
         $veidi = new Veidi();
-        $veidi->Nosaukums = $dati->input('Nosaukums'); // Iestata veida nosaukumu
+        $veidi->Nosaukums = $dati->input('Nosaukums');
+        $veidi->Celtspeja = $dati->input('Celtspeja'); 
+        
+        $veidi->VagonuSkaits = $dati->input('VagonuSkaits');
+        $veidi->CenaParDiennakti = $dati->input('CenaParDiennakti');// Iestata veida nosaukumu
         $veidi->save(); // Saglabā datubāzē
 
         return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
     }
 
-
+	
 
 
 
@@ -74,6 +78,9 @@ class VeidiController extends Controller
             ->where('VeidaID', $id)
             ->update([
                 'Nosaukums' => $dati->input('Nosaukums'), // Atjaunina veida nosaukumu
+                'Celtspeja' => $dati->input('Celtspeja'),
+                'VagonuSkaits' => $dati->input('VagonuSkaits'),
+                'CenaParDiennakti' => $dati->input('CenaParDiennakti'),
             ]);
 
         return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts'); // Pāradresē uz sarakstu
