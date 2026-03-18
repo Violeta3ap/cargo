@@ -24,8 +24,8 @@
                     <div style="background: #ffffff; padding: 5px 5px; border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: bold; text-align: center;">
                         Par uzņēmumu
                     </div>
-                    <br><br>
                 </div>
+                    <br><br>
                 <!-- Uzņēmuma apraksts tekstā -->
                 SIA "LDZ CARGO" ir VAS "Latvijas dzelzceļš" meitas uzņēmums,
                 kurš klientiem piedāvā plašu pakalpojumu klāstu: starptautiskos
