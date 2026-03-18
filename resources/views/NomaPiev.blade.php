@@ -92,17 +92,16 @@
         <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" required>
     </div>
 
-    Nosūtīšanas stacija
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label for="NosutisanasStacija">Nosūtīšanas stacija:</label>
         <input type="text" class="form-control" id="NosutisanasStacija" name="NosutisanasStacija" required>
     </div>
 
-    <!-- Gala stacija -->
+
     <div class="form-group">
         <label for="Galastacija">Gala stacija:</label>
         <input type="text" class="form-control" id="Galastacija" name="Galastacija" required>
-    </div>
+    </div> -->
 
     <!-- Kopējā maksa -->
     <div class="form-group">
