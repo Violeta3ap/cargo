@@ -47,11 +47,29 @@
 </div>
 
 
+        <div class="form-group">
+            <label for="Svars">Svars:</label>
+            <input type="number" class="form-control" id="Svars" name="Svars" value="{{ $noma->Svars }}" min="1" required>
+        </div>
 
         <div class="form-group">
             <label for="VagonuSkaits">Vagonu skaits:</label>
             <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" value="{{ $noma->VagonuSkaits }}" min="1" required>
         </div>
+
+
+        <div class="form-group">
+    <label for="VeidaID">Vagona veida nosaukums:</label>
+    <select class="form-control" id="VeidaID" name="VeidaID" required>
+        @foreach($veidi as $veids)
+            <option value="{{ $veids->VeidaID }}"
+                {{ $veids->VeidaID == $noma->VeidaID ? 'selected' : '' }}>
+                {{ $veids->Nosaukums }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
         <div class="form-group">
             <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>

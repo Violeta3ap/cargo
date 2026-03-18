@@ -52,6 +52,28 @@
         </select>
     </div>
 
+
+
+    <div class="form-group">
+        <label for="Svars">Svars:</label>
+        <input type="number" class="form-control" id="Svars" name="Svars" min="1" required>
+    </div>
+
+
+    <!-- Izvēlne kravai -->
+    <div class="form-group">
+        <label for="VeidaID">Vagona veida nosaukums:</label>
+        <select class="form-control" id="VeidaID" name="VeidaID" required>
+            <option value="">Izvēlieties vagona veidu</option>
+            @foreach($veidi as $veids)
+                <option value="{{ $veids->VeidaID }}">
+                    {{ $veids->Nosaukums }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+
     <!-- Vagonu skaits -->
     <div class="form-group">
         <label for="VagonuSkaits">Vagonu skaits:</label>
