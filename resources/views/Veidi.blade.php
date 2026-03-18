@@ -2,7 +2,7 @@
 
 @section('content') 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-    <h2>Vagona veidi</h2>
+    <h2>Vagonu veidi</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Veidi/jauns">Jauns ieraksts</a>
         <a href="/Klasifikatori" style="border-radius:8px; padding: 5px 10px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff);">Atpakaļ</a>
