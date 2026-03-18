@@ -11,8 +11,8 @@
         <div class="mainContent" style="min-width: 0;">  
             <!-- Satura bloks attēlam -->
             <img src="https://ldzcargo.ldz.lv/sites/cargo.ldz.lv/files/styles/slideshow1/public/LDz-Cargo-kravu-parvadajumi-1_0.png?itok=HYB0_oGT"
-             alt="LDZ CARGO" style="width: 600px; border-radius: 8px;">
-             <!-- Uzņēmuma attēls ar platumu 800px un noapaļotiem stūriem -->
+             alt="LDZ CARGO" style="width: 800px; border-radius: 8px;">
+             <!-- Uzņēmuma attēls ar platumu 600px un noapaļotiem stūriem -->
         </div>
 
         <div class="mainContent" style="min-width: 0;">  
