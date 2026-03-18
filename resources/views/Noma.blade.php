@@ -41,7 +41,7 @@
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID)}}</td>
             <td>{{$item->Svars}}</td>
             <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID)}}</td>
-            <td>{{$item->VagonuSkaits}}</td>
+            <td>{{$item->Skaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
             <!-- <td>{{$item->NosutisanasStacija}}</td>
