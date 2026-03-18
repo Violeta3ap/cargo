@@ -20,8 +20,8 @@
         </div>
 
         <div class="form-group">
-            <label for="VagonuSkaits">Vagonu Skaits:</label>
-            <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" value="{{ $veidi->VagonuSkaits }}" required>
+            <label for="Skaits">Vagonu Skaits:</label>
+            <input type="number" class="form-control" id="Skaits" name="Skaits" value="{{ $veidi->Skaits }}" required>
         </div>
 
         <div class="form-group">

@@ -27,8 +27,8 @@
     </div>
 
     <div class="form-group">
-        <label for="VagonuSkaits">Vagonu Skaits:</label> <!-- Etiķete ievades laukam -->
-        <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" required>
+        <label for="Skaits">Vagonu Skaits:</label> <!-- Etiķete ievades laukam -->
+        <input type="number" class="form-control" id="Skaits" name="Skaits" required>
         <!-- Skaitliska lauks jauna veida vagonu skaitam, obligāts aizpildīt -->
     </div>
 
