@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB; // Datubāzes operācijas
 use App\Models\Klienti; // Klienti modelis
 use App\Models\Darbinieki; // Darbinieki modelis
 use App\Models\Kravas; // Kravas modelis
+use App\Models\Veidi; // Kravas modelis
 
 class NomaController extends Controller
 {
@@ -38,8 +39,9 @@ class NomaController extends Controller
         $klienti = Klienti::all();        // Ņem visus klientus
         $darbinieki = Darbinieki::all();  // Ņem visus darbiniekus
         $kravas = Kravas::all();           // Ņem visas kravas
+        $veidi = Veidi::all();             // Ņem visus vagona veidus
 
-        return view('NomaPiev', compact('klienti','darbinieki','kravas')); // Nosūta datus uz formu
+        return view('NomaPiev', compact('klienti','darbinieki','kravas','veidi')); // Nosūta datus uz formu
     }
 
 
@@ -60,6 +62,8 @@ class NomaController extends Controller
         $noma->KlientaID = $dati->input('KlientaID'); 
         $noma->DarbiniekaID = $dati->input('DarbiniekaID');
         $noma->KravasID = $dati->input('KravasID');
+        $noma->Svars = $dati->input('Svars');
+        $noma->VeidaID = $dati->input('VeidaID');
         $noma->VagonuSkaits = $dati->input('VagonuSkaits');
         $noma->NomasSakumaPeriods = $dati->input('NomasSakumaPeriods');
         $noma->NomasBeiguPeriods = $dati->input('NomasBeiguPeriods');
@@ -80,8 +84,9 @@ class NomaController extends Controller
         $klienti = Klienti::all(); // Ņem visus klientus
         $darbinieki = Darbinieki::all(); // Ņem visus darbiniekus
         $kravas = Kravas::all(); // Ņem visas kravas
+        $veidi = Veidi::all(); // Ņem visus vagona veidus
 
-        return view('NomaEdit', compact('noma','klienti','darbinieki','kravas')); // Nosūta uz rediģēšanas skatu
+        return view('NomaEdit', compact('noma','klienti','darbinieki','kravas','veidi')); // Nosūta uz rediģēšanas skatu
     }
 
 
@@ -95,6 +100,8 @@ class NomaController extends Controller
                 'KlientaID' => $dati->input('KlientaID'),
                 'DarbiniekaID' => $dati->input('DarbiniekaID'),
                 'KravasID' => $dati->input('KravasID'),
+                'Svars' => $dati->input('Svars'),
+                'VeidaID' => $dati->input('VeidaID'),
                 'VagonuSkaits' => $dati->input('VagonuSkaits'),
                 'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
                 'NomasBeiguPeriods' => $dati->input('NomasBeiguPeriods'),

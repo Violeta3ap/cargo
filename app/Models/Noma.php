@@ -32,4 +32,9 @@ class Noma extends Model
     {
         return $this->belongsTo(Kravas::class, 'KravasID', 'KravasID');
     }
+
+        public function veidi()
+    {
+        return $this->belongsTo(Veidi::class, 'VeidaID', 'VeidaID');
+    }
 }
