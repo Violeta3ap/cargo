@@ -12,9 +12,13 @@
 
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
+
         <tr>
             <th>Veida ID</th> 
             <th>Nosaukums</th> 
+            <th>Celtspeja</th> 
+            <th>Vagonu Skaits</th> 
+            <th>Cena Par Diennakti</th> 
             <th>Darbības</th> 
         </tr>
     </thead>
@@ -23,6 +27,9 @@
         <tr>
             <td>{{$item->VeidaID}}</td> 
             <td>{{$item->Nosaukums}}</td> 
+            <td>{{$item->Celtspeja}}</td>
+            <td>{{$item->VagonuSkaits}}</td>
+            <td>{{$item->CenaParDiennakti}}</td>
             <td>
                 <a href="/Veidi/{{ $item->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf;
                  padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a> 

@@ -14,6 +14,21 @@
             <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $veidi->Nosaukums }}" required>
         </div>
 
+        <div class="form-group">
+            <label for="Celtspeja">Celtspēja:</label>
+            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" value="{{ $veidi->Celtspeja }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="VagonuSkaits">Vagonu Skaits:</label>
+            <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" value="{{ $veidi->VagonuSkaits }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="CenaParDiennakti">Cena Par Diennakti:</label>
+            <input type="number" class="form-control" id="CenaParDiennakti" name="CenaParDiennakti" value="{{ $veidi->CenaParDiennakti }}" required>
+        </div>
+
 
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atjaunināt</button>

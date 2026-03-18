@@ -20,6 +20,25 @@
         <!-- Teksta lauks jauna veida nosaukumam, obligāts aizpildīt -->
     </div>
 
+        <div class="form-group">
+        <label for="Celtspeja">Celtspēja:</label> <!-- Etiķete ievades laukam -->
+        <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" required>
+        <!-- Skaitliska lauks jauna veida celtspējai, obligāts aizpildīt -->
+    </div>
+
+    <div class="form-group">
+        <label for="VagonuSkaits">Vagonu Skaits:</label> <!-- Etiķete ievades laukam -->
+        <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" required>
+        <!-- Skaitliska lauks jauna veida vagonu skaitam, obligāts aizpildīt -->
+    </div>
+
+    <div class="form-group">
+        <label for="CenaParDiennakti">Cena Par Diennakti:</label> <!-- Etiķete ievades laukam -->
+        <input type="number" class="form-control" id="CenaParDiennakti" name="CenaParDiennakti" step="0.01" required>
+        <!-- Skaitliska lauks jauna veida cenai par diennakti, obligāts aizpildīt -->
+    </div>
+
+
     <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; 
             padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
         Saglabāt
