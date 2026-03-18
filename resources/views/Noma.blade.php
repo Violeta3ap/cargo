@@ -7,7 +7,7 @@
     <h2>Noma</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noma/jauns">Jauns ieraksts</a>
-        <a href="/VagonuDati">Nomas papildinājums</a>
+        <!-- <a href="/VagonuDati">Nomas papildinājums</a> -->
     </nav>
 </div>
 
@@ -23,8 +23,8 @@
             <th>Vagonu skaits</th>
             <th>Nomas sākums</th>
             <th>Nomas beigas</th>
-            <th>Nosūtīšanas stacija</th>
-            <th>Galastacija</th>
+            <!-- <th>Nosūtīšanas stacija</th>
+            <th>Galastacija</th> -->
             <th>Kopējā maksa</th>
             <th>Darbības</th>
         </tr>
@@ -40,8 +40,8 @@
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
-            <td>{{$item->NosutisanasStacija}}</td>
-            <td>{{$item->Galastacija}}</td>
+            <!-- <td>{{$item->NosutisanasStacija}}</td>
+            <td>{{$item->Galastacija}}</td> -->
             <td>{{$item->KopejaMaksa}}</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">

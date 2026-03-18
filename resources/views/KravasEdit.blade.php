@@ -2,7 +2,7 @@
 
 @section('content') <!-- Satura sadaļas sākums -->
 
-<h2>Rediģēt kravas datus</h2> <!-- Lapas virsraksts -->
+<h2>Rediģēt krāvu veidus</h2> <!-- Lapas virsraksts -->
 
 <!-- Atpakaļ poga uz kravu sarakstu -->
 <a href="/Kravas"  

@@ -70,7 +70,7 @@
         <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" required>
     </div>
 
-    <!-- Nosūtīšanas stacija -->
+    Nosūtīšanas stacija
     <div class="form-group">
         <label for="NosutisanasStacija">Nosūtīšanas stacija:</label>
         <input type="text" class="form-control" id="NosutisanasStacija" name="NosutisanasStacija" required>

@@ -23,8 +23,8 @@
         <p class="card-text"><strong>Vagonu skaits:</strong> {{ $noma->VagonuSkaits }}</p>
         <p class="card-text"><strong>Nomas sākuma periods:</strong> {{ $noma->NomasSakumaPeriods }}</p>
         <p class="card-text"><strong>Nomas beigu periods:</strong> {{ $noma->NomasBeiguPeriods }}</p>
-        <p class="card-text"><strong>Nosūtīšanas stacija:</strong> {{ $noma->NosutisanasStacija }}</p>
-        <p class="card-text"><strong>Galastacija:</strong> {{ $noma->Galastacija }}</p>
+        <!-- <p class="card-text"><strong>Nosūtīšanas stacija:</strong> {{ $noma->NosutisanasStacija }}</p>
+        <p class="card-text"><strong>Galastacija:</strong> {{ $noma->Galastacija }}</p> -->
         <p class="card-text"><strong>Kopēja maksa:</strong> {{ $noma->KopejaMaksa }}</p>
     </div>
 </div>
