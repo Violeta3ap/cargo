@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Klienti;
 use App\Models\Darbinieki;
 use App\Models\Kravas;
+use App\Models\Veidi;
 
 class Noma extends Model
 {

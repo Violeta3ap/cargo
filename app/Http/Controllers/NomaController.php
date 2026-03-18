@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB; // Datubāzes operācijas
 use App\Models\Klienti; // Klienti modelis
 use App\Models\Darbinieki; // Darbinieki modelis
 use App\Models\Kravas; // Kravas modelis
-use App\Models\Veidi; // Kravas modelis
+use App\Models\Veidi; // veidu modelis
 
 class NomaController extends Controller
 {
