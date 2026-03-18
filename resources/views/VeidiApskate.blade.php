@@ -15,7 +15,7 @@
     <div class="card-body" style="padding-left: 50px;padding-top: 5px;padding-bottom: 5px;">
         <h5 class="card-title">Veida ID: {{ $veidi->VeidaID }}</h5> <!-- Parāda Veida ID -->
         <p class="card-text"><strong>Nosaukums:</strong> {{ $veidi->Nosaukums }}</p> 
-        <p class="card-text"><strong>Celtspeja:</strong> {{ $veidi->Celtspeja }}</p> 
+        <p class="card-text"><strong>Celtspeja tonnās:</strong> {{ $veidi->Celtspeja }}</p> 
         <p class="card-text"><strong>Vagonu Skaits:</strong> {{ $veidi->VagonuSkaits }}</p> 
         <p class="card-text"><strong>Cena Par Diennakti:</strong> {{ $veidi->CenaParDiennakti }}</p> 
         <!-- Parāda veida nosaukumu -->

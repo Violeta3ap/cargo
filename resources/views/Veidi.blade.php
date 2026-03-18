@@ -16,7 +16,7 @@
         <tr>
             <th>Veida ID</th> 
             <th>Nosaukums</th> 
-            <th>Celtspeja</th> 
+            <th>Celtspeja tonnās</th> 
             <th>Vagonu Skaits</th> 
             <th>Cena Par Diennakti</th> 
             <th>Darbības</th> 

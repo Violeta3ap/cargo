@@ -20,7 +20,7 @@
         <!-- <p class="card-text"><strong>Darbinieka vārds:</strong> {{ $noma->darbinieki->Vards }}</p>
         <p class="card-text"><strong>Darbinieka uzvārds:</strong> {{ $noma->darbinieki->Uzvards }}</p> -->
         <p class="card-text"><strong>Kravas nosaukums:</strong> {{ $noma->kravas->Nosaukums }}</p>
-        <p class="card-text"><strong>Svars:</strong> {{ $noma->Svars }}</p>
+        <p class="card-text"><strong>Svars tonnās:</strong> {{ $noma->Svars }}</p>
         <p class="card-text"><strong>Vagona veida nosaukums:</strong> {{ $noma->veidi->Nosaukums }}</p>
         <p class="card-text"><strong>Vagonu skaits:</strong> {{ $noma->VagonuSkaits }}</p>
         <p class="card-text"><strong>Nomas sākuma periods:</strong> {{ $noma->NomasSakumaPeriods }}</p>

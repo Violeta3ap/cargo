@@ -21,7 +21,7 @@
     </div>
 
         <div class="form-group">
-        <label for="Celtspeja">Celtspēja:</label> <!-- Etiķete ievades laukam -->
+        <label for="Celtspeja">Celtspēja tonnās:</label> <!-- Etiķete ievades laukam -->
         <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" required>
         <!-- Skaitliska lauks jauna veida celtspējai, obligāts aizpildīt -->
     </div>

@@ -20,7 +20,7 @@
             <th>Klienta uzņēmums</th>
             <!-- <th>Darbinieks</th> -->
             <th>Krava</th>
-            <th>Svars</th>
+            <th>Svars tonnās</th>
             <th>Vagona veids</th>
             <th>Vagonu skaits</th>
             <th>Nomas sākums</th>

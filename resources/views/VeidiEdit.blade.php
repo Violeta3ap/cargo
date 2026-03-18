@@ -15,7 +15,7 @@
         </div>
 
         <div class="form-group">
-            <label for="Celtspeja">Celtspēja:</label>
+            <label for="Celtspeja">Celtspēja tonnās:</label>
             <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" value="{{ $veidi->Celtspeja }}" required>
         </div>
 

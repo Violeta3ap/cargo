@@ -48,7 +48,7 @@
 
 
         <div class="form-group">
-            <label for="Svars">Svars:</label>
+            <label for="Svars">Svars tonnās:</label>
             <input type="number" class="form-control" id="Svars" name="Svars" value="{{ $noma->Svars }}" min="1" required>
         </div>
 
