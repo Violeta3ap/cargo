@@ -37,7 +37,7 @@
             <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID)}}</td>
             <!-- <td>{{$item->darbinieki->Vards ?? ('ID: '.$item->DarbiniekaID)}} {{$item->darbinieki->Uzvards ?? ''}}</td> -->
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID)}}</td>
-            <td>{{$item->VagonuSkaits}}</td>
+            <td>{{$item->Skaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
             <!-- <td>{{$item->NosutisanasStacija}}</td>
