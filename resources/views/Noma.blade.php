@@ -40,7 +40,7 @@
             <!-- <td>{{$item->darbinieki->Vards ?? ('ID: '.$item->DarbiniekaID)}} {{$item->darbinieki->Uzvards ?? ''}}</td> -->
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID)}}</td>
             <td>{{$item->Svars}}</td>
-            <td>{{$item->VeidaID}}</td>
+            <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID)}}</td>
             <td>{{$item->Skaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
