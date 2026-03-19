@@ -64,7 +64,7 @@ class NomaController extends Controller
         $noma->KravasID = $dati->input('KravasID');
         $noma->Svars = $dati->input('Svars');
         $noma->VeidaID = $dati->input('VeidaID');
-        $noma->Skaits = $dati->input('Skaits');
+        $noma->VagonuSkaits = $dati->input('VagonuSkaits');
         $noma->NomasSakumaPeriods = $dati->input('NomasSakumaPeriods');
         $noma->NomasBeiguPeriods = $dati->input('NomasBeiguPeriods');
         $noma->NosutisanasStacija = $dati->input('NosutisanasStacija');
@@ -102,7 +102,7 @@ class NomaController extends Controller
                 'KravasID' => $dati->input('KravasID'),
                 'Svars' => $dati->input('Svars'),
                 'VeidaID' => $dati->input('VeidaID'),
-                'Skaits' => $dati->input('Skaits'),
+                'VagonuSkaits' => $dati->input('VagonuSkaits'),
                 'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
                 'NomasBeiguPeriods' => $dati->input('NomasBeiguPeriods'),
                 'NosutisanasStacija' => $dati->input('NosutisanasStacija'),

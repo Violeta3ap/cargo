@@ -76,8 +76,8 @@
 
     <!-- Vagonu skaits -->
     <div class="form-group">
-        <label for="Skaits">Vagonu skaits:</label>
-        <input type="number" class="form-control" id="Skaits" name="Skaits" min="1" required>
+        <label for="VagonuSkaits">Vagonu skaits:</label>
+        <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" min="1" required>
     </div>
 
     <!-- Nomas sākuma datums -->
