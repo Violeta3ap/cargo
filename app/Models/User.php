@@ -56,7 +56,7 @@ class User extends Authenticatable
     // Pārbauda vai lietotājs ir administrators
     public function isAdmin(): bool
     {
-        return $this->amats && strtolower($this->amats->Nosaukums) === 'administrators';
+        return $this->amats && strtolower($this->amats->Nosaukums) === 'admins';
     }
 
     // Pārbauda vai lietotājs ir darbinieks
