@@ -139,12 +139,24 @@
 
         @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
             <a href="/">Par uzņēmumu</a>
-            <!-- <a href="/Klienti">Klienti</a> -->
-            <a href="/Noma">Noma</a>
-            <a href="/Darbinieki">Darbinieki</a>
-            <!-- <a href="/Klasifikatori">Klasifikatori</a> -->
-            <a href="/Veidi">Vagonu veidi</a>
-            <a href="/Kravas">Krāvu veidi</a>
+
+            @if(Auth::user()->isAdmin())
+                {{-- Administrators redz visas saites --}}
+                <a href="/Noma">Noma</a>
+                <a href="/Darbinieki">Darbinieki</a>
+                <a href="/Klienti">Klienti</a>
+                <a href="/VagonuDati">Vagonu dati</a>
+                <a href="/VagonaRaksturojums">Vagonu raksturojums</a>
+                <a href="/Veidi">Vagonu veidi</a>
+                <a href="/Kravas">Krāvu veidi</a>
+                <a href="/Amati">Amati</a>
+            @elseif(Auth::user()->isDarbinieks())
+                {{-- Darbinieks redz tikai pieļaujamās saites --}}
+                <a href="/Noma">Noma</a>
+                <a href="/Darbinieki">Darbinieki</a>
+                <a href="/Kravas">Krāvu veidi</a>
+            @endif
+
             <span style="position: absolute; right: 120px; font-size: 13px;">{{ Auth::user()->name }}</span>
             <a href="/logout" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #59c1cf; 
             padding: 5px; background:#ffffff; text-decoration: none; color: #000000;">Izlogoties</a>

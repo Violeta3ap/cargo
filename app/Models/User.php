@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
@@ -17,9 +18,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',     // Lietotāja vārds
-        'email',    // Lietotāja e-pasts
-        'password', // Lietotāja parole
+        'name',      // Lietotāja vārds
+        'email',     // Lietotāja e-pasts
+        'password',  // Lietotāja parole
+        'AmataID',   // Amata ID
     ];
 
     /**
@@ -43,5 +45,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime', // E-pasta apstiprinājuma laiks kā datetime
             'password' => 'hashed',            // Parole automātiski hashēta
         ];
+    }
+
+    // Saistība ar amata tabulu
+    public function amats(): BelongsTo
+    {
+        return $this->belongsTo(Amati::class, 'AmataID', 'AmataID');
+    }
+
+    // Pārbauda vai lietotājs ir administrators
+    public function isAdmin(): bool
+    {
+        return $this->amats && strtolower($this->amats->Nosaukums) === 'administrators';
+    }
+
+    // Pārbauda vai lietotājs ir darbinieks
+    public function isDarbinieks(): bool
+    {
+        return $this->amats && strtolower($this->amats->Nosaukums) === 'darbinieks';
     }
 }
