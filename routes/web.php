@@ -17,7 +17,7 @@ Route::post('/register', [LoginController::class, 'register'])->name('register.s
 
 Route::get('/Login', function () {
     return view('Login');
-});
+})->name('login');
 
 
 
@@ -33,7 +33,7 @@ Route::get('/Klasifikatori', function () {
     return view('Klasifikatori');
 });
 
-
+Route::middleware('auth')->group(function () {
 
 // Vagonu noma routes
 Route::get('/Noma', 'App\Http\Controllers\NomaController@showAllNoma');
@@ -111,6 +111,8 @@ Route::get('/Klienti/{id}/delete', 'App\Http\Controllers\KlientiController@delet
 Route::get('/Klienti/{id}/details', 'App\Http\Controllers\KlientiController@details');
 Route::get('/Klienti/{id}/edit', 'App\Http\Controllers\KlientiController@edit');
 Route::post('/Klienti/{id}/editSubmit', 'App\Http\Controllers\KlientiController@editSubmit');
+
+});
 
 
 

@@ -67,8 +67,8 @@ public function logout(Request $request) // Lietotāja izrakstīšanās funkcija
     $request->session()->invalidate(); // Dzēš veco sesiju
     $request->session()->regenerateToken(); // Izveido jaunu drošības tokenu
 
-    return redirect('/')->with('success', 'Esat veiksmīgi izrakstījies no sistēmas.');
-    // Pāradresē uz galveno lapu
+    return response()->redirect('/')->with('success', 'Esat veiksmīgi izrakstījies no sistēmas.')->header('Cache-Control', 'no-cache, no-store, must-revalidate')->header('Pragma', 'no-cache')->header('Expires', '0');
+    // Pāradresē uz galveno lapu ar cache control headeriem, lai novērstu back button piekļuvi
 }
 
 

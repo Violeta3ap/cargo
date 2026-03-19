@@ -6,6 +6,12 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    @if(Auth::check())
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+    @endif
+
     <style>
         /* Vispārējie iestatījumi lapas ķermenim */
         body {
