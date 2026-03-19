@@ -28,7 +28,7 @@
             <td>{{$item->VeidaID}}</td> 
             <td>{{$item->Nosaukums}}</td> 
             <td>{{$item->Celtspeja}}</td>
-            <td>{{$item->Skaits}}</td>
+            <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->CenaParDiennakti}}</td>
             <td>
                 <a href="/Veidi/{{ $item->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf;

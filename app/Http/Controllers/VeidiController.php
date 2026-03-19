@@ -52,7 +52,7 @@ class VeidiController extends Controller
         $veidi->Nosaukums = $dati->input('Nosaukums');
         $veidi->Celtspeja = $dati->input('Celtspeja'); 
         
-        $veidi->Skaits = $dati->input('Skaits'); // Iestata vagonu skaitu
+        $veidi->VagonuSkaits = $dati->input('VagonuSkaits'); // Iestata vagonu skaitu
         $veidi->CenaParDiennakti = $dati->input('CenaParDiennakti');// Iestata veida nosaukumu
         $veidi->save(); // Saglabā datubāzē
 
@@ -79,7 +79,7 @@ class VeidiController extends Controller
             ->update([
                 'Nosaukums' => $dati->input('Nosaukums'), // Atjaunina veida nosaukumu
                 'Celtspeja' => $dati->input('Celtspeja'),
-                'Skaits' => $dati->input('Skaits'),
+                'VagonuSkaits' => $dati->input('VagonuSkaits'),
                 'CenaParDiennakti' => $dati->input('CenaParDiennakti'),
             ]);
 
