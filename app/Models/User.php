@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->amats && strtolower($this->amats->Nosaukums) === 'darbinieks';
     }
+
+        public function isKlients(): bool
+    {
+        return $this->amats && strtolower($this->amats->Nosaukums) === 'klients';
+    }
 }

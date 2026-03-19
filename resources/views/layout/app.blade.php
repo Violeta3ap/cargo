@@ -151,6 +151,10 @@
                 {{-- Darbinieks redz tikai pieļaujamās saites --}}
                 <a href="/Noma">Noma</a>
                 <a href="/Darbinieki">Darbinieki</a>
+            @elseif(Auth::user()->isKlients())
+                {{-- Klients redz tikai pieļaujamās saites --}}
+                <a href="/Noma">Noma</a>
+                <a href="/Veidi">Vagonu veidi</a>
             @endif
 
             <span style="position: absolute; right: 120px; font-size: 13px;">{{ Auth::user()->name }}</span>
