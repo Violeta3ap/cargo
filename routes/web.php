@@ -33,7 +33,7 @@ Route::get('/Klasifikatori', function () {
     return view('Klasifikatori');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'nocache'])->group(function () {
 
 // Vagonu noma routes
 Route::get('/Noma', 'App\Http\Controllers\NomaController@showAllNoma');
