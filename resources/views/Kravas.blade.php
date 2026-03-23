@@ -5,6 +5,17 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Krāvu veidi</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
+
+             @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
+            @if(Auth::user()->isAdmin())
+                {{-- Administrators redz visas saites --}}
+                <a href="/Kravas/jauns">Jauns ieraksts</a>
+            @elseif(Auth::user()->isDarbinieks())
+                {{-- Darbinieks redz tikai pieļaujamās saites --}}
+                <a href="/Kravas/jauns">Jauns ieraksts</a>
+            @endif
+
+        
         <a href="/Kravas/jauns">Jauns ieraksts</a>
         <a href="/Klasifikatori" style="border-radius:8px; padding: 5px 10px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff);">Atpakaļ</a>
     </nav>
