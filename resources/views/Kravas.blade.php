@@ -13,7 +13,7 @@
             @elseif(Auth::user()->isDarbinieks())
                 {{-- Darbinieks redz tikai pieļaujamās saites --}}
                 <a href="/Kravas/jauns">Jauns ieraksts</a>
-            @endif
+            @endif            @endif
 
         
         <a href="/Kravas/jauns">Jauns ieraksts</a>
