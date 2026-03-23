@@ -4,7 +4,16 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Vagonu veidi</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
+
+                     @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
+            @if(Auth::user()->isAdmin())
+                {{-- Administrators redz visas saites --}}
         <a href="/Veidi/jauns">Jauns ieraksts</a>
+            @elseif(Auth::user()->isDarbinieks())
+                {{-- Darbinieks redz tikai pieļaujamās saites --}}
+        <a href="/Veidi/jauns">Jauns ieraksts</a>
+            @endif            @endif
+
         <a href="/Klasifikatori" style="border-radius:8px; padding: 5px 10px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff);">Atpakaļ</a>
     </nav>
 </div>
@@ -31,15 +40,31 @@
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->CenaParDiennakti}}</td>
             <td>
+
+
+                                     @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
+            @if(Auth::user()->isAdmin())
+                {{-- Administrators redz visas saites --}}
                 <a href="/Veidi/{{ $item->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf;
                  padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a> 
 
-                <a href="/Veidi/{{ $item->VeidaID }}/delete" 
+                    <a href="/Veidi/{{ $item->VeidaID }}/delete" 
                    onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
                    style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
                    Dzēst
                 </a> 
+            @elseif(Auth::user()->isDarbinieks())
+                {{-- Darbinieks redz tikai pieļaujamās saites --}}
+                <a href="/Veidi/{{ $item->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf;
+                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a> 
 
+                    <a href="/Veidi/{{ $item->VeidaID }}/delete" 
+                   onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+                   style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
+                   Dzēst
+                </a> 
+            @endif        
+                @endif
             </td>
         </tr>
         @endforeach
