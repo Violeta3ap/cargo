@@ -16,7 +16,7 @@
             @endif            @endif
 
         
-        <a href="/Kravas/jauns">Jauns ieraksts</a>
+        <!-- <a href="/Kravas/jauns">Jauns ieraksts</a> -->
         <a href="/Klasifikatori" style="border-radius:8px; padding: 5px 10px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff);">Atpakaļ</a>
     </nav>
 </div>
