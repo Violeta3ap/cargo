@@ -35,7 +35,7 @@
         <tr>
             <td>{{$item->KravasID}}</td>
             <td>{{$item->Nosaukums}}</td>
-            <td>{{$item->VeidaID}}</td>
+            <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID) }}</td>
             <td>
                 <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
                                  @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
