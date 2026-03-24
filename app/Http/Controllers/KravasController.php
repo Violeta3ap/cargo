@@ -59,7 +59,7 @@ class KravasController extends Controller // Izveido controller klasi
         $kravas = new Kravas(); // Izveido jaunu kravas objektu
 
         $kravas->Nosaukums = $dati->input('Nosaukums'); 
-         $raksturojums->VeidaID = $dati->input('VeidaID'); // Iestata veida ID
+         $kravas->VeidaID = $dati->input('VeidaID'); // Iestata veida ID
 
         // Saglabā kravas nosaukumu no formas
 
