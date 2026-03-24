@@ -11,7 +11,7 @@
 <hr> <!-- Horizontāla līnija -->
 
 @if ($errors->any())
-    <div class="alert alert-danger" style="margin-bottom: 15px;">
+    <div class="alert alert-danger" style="margin-bottom: 15px; color: #842029; background-color: #f8d7da; border: 1px solid #f5c2c7; border-radius: 6px; padding: 10px;">
         @foreach ($errors->all() as $error)
             <div>{{ $error }}</div>
         @endforeach
