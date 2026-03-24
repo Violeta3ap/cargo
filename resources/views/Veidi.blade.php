@@ -23,7 +23,6 @@
     <thead>
 
         <tr>
-            <th>Veida ID</th> 
             <th>Nosaukums</th> 
             <th>Celtspeja tonnās</th> 
             <th>Vagonu Skaits</th> 
@@ -34,7 +33,6 @@
     <tbody>
         @foreach ($dati as $item) 
         <tr>
-            <td>{{$item->VeidaID}}</td> 
             <td>{{$item->Nosaukums}}</td> 
             <td>{{$item->Celtspeja}}</td>
             <td>{{$item->VagonuSkaits}}</td>
