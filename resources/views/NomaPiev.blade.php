@@ -25,20 +25,6 @@
             @endforeach
         </select>
     </div>
-
-    <!-- Izvēlne darbiniekam -->
-    <!-- <div class="form-group">
-        <label for="DarbiniekaID">Darbinieks:</label>
-        <select class="form-control" id="DarbiniekaID" name="DarbiniekaID" required>
-            <option value="">Izvēlieties darbinieku</option>
-            @foreach($darbinieki as $darbinieks)
-                <option value="{{ $darbinieks->DarbiniekaID }}">
-                    {{ $darbinieks->Vards }} {{ $darbinieks->Uzvards }}
-                </option>
-            @endforeach
-        </select>
-    </div> -->
-
     <!-- Izvēlne kravai -->
     <div class="form-group">
         <label for="KravasID">Krava:</label>
@@ -91,17 +77,6 @@
         <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
         <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" required>
     </div>
-
-    <!-- <div class="form-group">
-        <label for="NosutisanasStacija">Nosūtīšanas stacija:</label>
-        <input type="text" class="form-control" id="NosutisanasStacija" name="NosutisanasStacija" required>
-    </div>
-
-
-    <div class="form-group">
-        <label for="Galastacija">Gala stacija:</label>
-        <input type="text" class="form-control" id="Galastacija" name="Galastacija" required>
-    </div> -->
 
     <!-- Kopējā maksa -->
     <div class="form-group">
