@@ -34,7 +34,7 @@ class KravasController extends Controller // Izveido controller klasi
 
 
     public function create() // Atver kravas pievienošanas formu
-    
+      {
 
         $veidi = Veidi::all();     // paņem visus veidus 
 
