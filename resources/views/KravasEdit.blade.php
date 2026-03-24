@@ -22,7 +22,7 @@
         <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $kravas->Nosaukums }}" required>
     </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
     <label for="VeidaID">Veids:</label>
     <select class="form-control" id="VeidaID" name="VeidaID" required>
         @foreach($veidi as $veids)
@@ -32,7 +32,7 @@
             </option>
         @endforeach
     </select>
-</div>
+</div> -->
 
     <!-- Saglabāšanas poga -->
     <button type="submit" 
