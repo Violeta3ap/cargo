@@ -15,7 +15,6 @@
 <table class="table table-striped" style="width:100%; border:1px solid #59c1cf; border-radius:8px; overflow:hidden; text-align:center;">
     <thead>
         <tr>
-            <th>Klienta ID</th>
             <th>Vārds</th>
             <th>Uzvārds</th>
             <th>E-pasts</th>
@@ -30,7 +29,6 @@
     <tbody>
         @foreach ($klientis as $item)
         <tr>
-            <td>{{$item->KlientaID}}</td>
             <td>{{$item->Vards}}</td>
             <td>{{$item->Uzvards}}</td>
             <td>{{$item->Epasts}}</td>
