@@ -23,9 +23,13 @@
     </div>
 
 
-        <div class="form-group">
+    <div class="form-group">
         <label for="VeidaID">Veida nosaukums:</label>
-        <input type="text" class="form-control" id="VeidaID" name="VeidaID" required>
+        <select class="form-control" id="VeidaID" name="VeidaID" required>
+            @foreach($veidi as $veids)
+                <option value="{{ $veids->VeidaID }}">{{ $veids->Nosaukums }}</option>
+            @endforeach
+        </select>
     </div>
 
 

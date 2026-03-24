@@ -22,6 +22,17 @@
         <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $kravas->Nosaukums }}" required>
     </div>
 
+    <div class="form-group">
+        <label for="VeidaID">Veida nosaukums:</label>
+        <select class="form-control" id="VeidaID" name="VeidaID" required>
+            @foreach($veidi as $veids)
+                <option value="{{ $veids->VeidaID }}" {{ $veids->VeidaID == $kravas->VeidaID ? 'selected' : '' }}>
+                    {{ $veids->Nosaukums }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
 
     <!-- Saglabāšanas poga -->
     <button type="submit" 
