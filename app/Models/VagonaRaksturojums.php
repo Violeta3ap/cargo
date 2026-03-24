@@ -8,21 +8,22 @@ use App\Models\Veidi;
 
 class VagonaRaksturojums extends Model
 {
-   protected $table = 'vagonaraksturojums'; // Tabulas nosaukums datubāzē
-   protected $primaryKey = 'VagonaID';       // Primārais atslēgas lauks
-   protected $keyType = 'int';               // Primārās atslēgas tips
-   public $incrementing = true;              // ID automātiski palielinās
-   public $timestamps = false;               // Nav created_at un updated_at lauku
+   // Tabulas iestatījumi.
+   protected $table = 'vagonaraksturojums';
+   protected $primaryKey = 'VagonaID';
+   protected $keyType = 'int';
+   public $incrementing = true;
+   public $timestamps = false;
 
-   // Saistība ar Kravas tabulu
+   // Saistība ar kravu.
    public function kravas()
    {
-       return $this->belongsTo(Kravas::class, 'KravasID', 'KravasID'); // Katrs vagons pieder konkrētai kravai
+       return $this->belongsTo(Kravas::class, 'KravasID', 'KravasID');
    }
 
-   // Saistība ar Veidi tabulu
+   // Saistība ar veidu.
    public function veidi()
    {
-       return $this->belongsTo(Veidi::class, 'VeidaID', 'VeidaID'); // Katrs vagons ir konkrēta veida
+       return $this->belongsTo(Veidi::class, 'VeidaID', 'VeidaID');
    }
 }

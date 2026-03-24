@@ -1,22 +1,23 @@
 <?php
 
 namespace App\Models;
-use App\Models\Veidi;
 
+use App\Models\Veidi;
 use Illuminate\Database\Eloquent\Model;
 
 class Kravas extends Model
 {
-    protected $table = 'krava'; // Modelis saistīts ar datu bāzes tabulu 'krava'
-    protected $primaryKey = 'KravasID'; // Tabulas primārā atslēga
-    protected $keyType = 'int'; // Primārās atslēgas datu tips ir vesels skaitlis
-    public $incrementing = true; // Primārā atslēga automātiski palielinās (auto-increment)
-    public $timestamps = false; // Nesaglabāt laika zīmogus created_at un updated_at
+    // Tabulas iestatījumi.
+    protected $table = 'krava';
+    protected $primaryKey = 'KravasID';
+    protected $keyType = 'int';
+    public $incrementing = true;
+    public $timestamps = false;
 
-       // Saistība ar Veidi tabulu
-   public function veidi()
-   {
-       return $this->belongsTo(Veidi::class, 'VeidaID', 'VeidaID'); // Katrs vagons ir konkrēta veida
-   }
+    // Saistība ar veidu.
+    public function veidi()
+    {
+        return $this->belongsTo(Veidi::class, 'VeidaID', 'VeidaID');
+    }
 
 }

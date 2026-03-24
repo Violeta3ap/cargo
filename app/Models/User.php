@@ -9,63 +9,52 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable; // Pievieno fabriku un paziņojumu funkcijas
+    // Lietotāja modelis ar notifikācijām.
+    use HasFactory, Notifiable;
 
-    /**
-     * Atribūti, kurus var masveidā pievienot (mass assignable)
-     *
-     * @var list<string>
-     */
+    // Masveidā aizpildāmie lauki.
     protected $fillable = [
-        'name',      // Lietotāja vārds
-        'email',     // Lietotāja e-pasts
-        'password',  // Lietotāja parole
-        'AmataID',   // Amata ID
+        'name',
+        'email',
+        'password',
+        'AmataID',
     ];
 
-    /**
-     * Atribūti, kas jāslēpj serializējot (piem., JSON)
-     *
-     * @var list<string>
-     */
+    // Slēptie lauki serializācijā.
     protected $hidden = [
-        'password',       // Slēpt paroli
-        'remember_token', // Slēpt atcerēšanās tokenu
+        'password',
+        'remember_token',
     ];
 
-    /**
-     * Atribūti, kurus jācastē uz noteiktu datu tipu
-     *
-     * @return array<string, string>
-     */
+    // Lauku tipa pārveides.
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime', // E-pasta apstiprinājuma laiks kā datetime
-            'password' => 'hashed',            // Parole automātiski hashēta
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
         ];
     }
 
-    // Saistība ar amata tabulu
+    // Saistība ar amatu.
     public function amats(): BelongsTo
     {
         return $this->belongsTo(Amati::class, 'AmataID', 'AmataID');
     }
 
-    // Pārbauda vai lietotājs ir administrators
+    // Pārbauda admin lomu.
     public function isAdmin(): bool
     {
         return $this->amats && strtolower($this->amats->Nosaukums) === 'admins';
     }
 
-    // Pārbauda vai lietotājs ir darbinieks
+    // Pārbauda darbinieka lomu.
     public function isDarbinieks(): bool
     {
         return $this->amats && strtolower($this->amats->Nosaukums) === 'darbinieks';
     }
 
-        public function isKlients(): bool
+    // Pārbauda klienta lomu.
+    public function isKlients(): bool
     {
         return $this->amats && strtolower($this->amats->Nosaukums) === 'klients';
     }

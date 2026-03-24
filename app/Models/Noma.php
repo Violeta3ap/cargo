@@ -9,28 +9,27 @@ use App\Models\Veidi;
 
 class Noma extends Model
 {
-    protected $table = 'vagonunoma'; // Modelis saistīts ar tabulu 'vagonunoma'
-    protected $primaryKey = 'NomasID'; // Tabulas primārā atslēga
-    protected $keyType = 'int'; // Primārās atslēgas datu tips ir vesels skaitlis
-    public $incrementing = true; // Primārā atslēga automātiski palielinās (auto-increment)
-    public $timestamps = false; // Nesaglabāt created_at un updated_at laika zīmogus
+    // Tabulas iestatījumi.
+    protected $table = 'vagonunoma';
+    protected $primaryKey = 'NomasID';
+    protected $keyType = 'int';
+    public $incrementing = true;
+    public $timestamps = false;
 
-    // Saistība ar klientu tabulu (viens noma pieder vienam klientam)
+    // Saistība ar klientu.
     public function klienti()
     {
         return $this->belongsTo(Klienti::class, 'KlientaID', 'KlientaID');
     }
 
-    // Saistība ar darbinieku tabulu (viena noma pieder vienam darbiniekam)
- 
-
-    // Saistība ar kravu tabulu (viena noma pieder vienai kravai)
+    // Saistība ar kravu.
     public function kravas()
     {
         return $this->belongsTo(Kravas::class, 'KravasID', 'KravasID');
     }
 
-        public function veidi()
+    // Saistība ar veidu.
+    public function veidi()
     {
         return $this->belongsTo(Veidi::class, 'VeidaID', 'VeidaID');
     }
