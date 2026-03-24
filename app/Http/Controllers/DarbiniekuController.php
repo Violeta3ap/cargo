@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class DarbiniekuController extends Controller
 {
+    private function darbinieksCannotModifyEmployees()
+    {
+        return auth()->check() && auth()->user()->isDarbinieks();
+    }
+
     // Darbinieku saraksts.
     public function showAllDarbinieki()
     {
@@ -19,6 +24,10 @@ class DarbiniekuController extends Controller
     // Dzēš darbinieku.
     public function delete($id)
     {
+        if ($this->darbinieksCannotModifyEmployees()) {
+            return redirect('/Darbinieki')->with('error', 'Darbiniekam nav tiesību dzēst darbiniekus.');
+        }
+
         DB::table('darbinieki')->where('DarbiniekaID', $id)->delete();
         return redirect('/Darbinieki')->with('success', 'Ieraksts tika dzēsts');
     }
@@ -55,6 +64,10 @@ class DarbiniekuController extends Controller
     // Atver rediģēšanas formu.
     public function edit($id)
     {
+        if ($this->darbinieksCannotModifyEmployees()) {
+            return redirect('/Darbinieki')->with('error', 'Darbiniekam nav tiesību rediģēt darbiniekus.');
+        }
+
         $darbiniekis = Darbinieki::find($id);
         $amati = Amati::orderBy('AmataID', 'asc')->get();
 
@@ -67,6 +80,10 @@ class DarbiniekuController extends Controller
     // Saglabā rediģētas vērtības.
     public function editSubmit(Request $dati, $id)
     {
+        if ($this->darbinieksCannotModifyEmployees()) {
+            return redirect('/Darbinieki')->with('error', 'Darbiniekam nav tiesību rediģēt darbiniekus.');
+        }
+
         DB::table('darbinieki')
             ->where('DarbiniekaID', $id)
             ->update([

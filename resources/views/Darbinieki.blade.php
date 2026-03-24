@@ -18,7 +18,9 @@
             <th>E-pasts</th>
             <th>Telefona numurs</th>
             <th>Amata nosaukums</th>
-            <th>Darbības</th>
+            @if(Auth::check() && !Auth::user()->isDarbinieks())
+                <th>Darbības</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -29,12 +31,14 @@
             <td>{{$item->Epasts}}</td>
             <td>{{$item->TelefonaNumurs}}</td>
             <td>{{$item->amati->Nosaukums ?? ('ID: '.$item->AmataID) }}</td>
-            <td>
-                <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
-                    <a href="/Darbinieki/{{ $item->DarbiniekaID }}/edit" class="btn-action">Rediģēt</a>
-                    <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
-                </div>
-            </td>
+            @if(Auth::check() && !Auth::user()->isDarbinieks())
+                <td>
+                    <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
+                        <a href="/Darbinieki/{{ $item->DarbiniekaID }}/edit" class="btn-action">Rediģēt</a>
+                        <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
+                    </div>
+                </td>
+            @endif
         </tr>
         @endforeach
     </tbody>
@@ -90,4 +94,10 @@
 <div class="alert alert-success" style="margin-top: 10px;">
     {{ session('success') }}
 </div>  
+@endif
+
+@if(session('error'))
+<div class="alert alert-danger" style="margin-top: 10px;">
+    {{ session('error') }}
+</div>
 @endif
