@@ -18,15 +18,12 @@
             <th>Nomas ID</th>
             <th>Klients</th>
             <th>Klienta uzņēmums</th>
-            <!-- <th>Darbinieks</th> -->
             <th>Krava</th>
             <th>Svars tonnās</th>
             <th>Vagona veids</th>
             <th>Vagonu skaits</th>
             <th>Nomas sākums</th>
             <th>Nomas beigas</th>
-            <!-- <th>Nosūtīšanas stacija</th>
-            <th>Galastacija</th> -->
             <th>Kopējā maksa</th>
             <th>Darbības</th>
         </tr>
@@ -37,15 +34,12 @@
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
             <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID)}}</td>
-            <!-- <td>{{$item->darbinieki->Vards ?? ('ID: '.$item->DarbiniekaID)}} {{$item->darbinieki->Uzvards ?? ''}}</td> -->
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID)}}</td>
             <td>{{$item->Svars}}</td>
             <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID)}}</td>
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
-            <!-- <td>{{$item->NosutisanasStacija}}</td>
-            <td>{{$item->Galastacija}}</td> -->
             <td>{{$item->KopejaMaksa}}</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
