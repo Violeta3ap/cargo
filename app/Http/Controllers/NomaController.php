@@ -64,8 +64,6 @@ class NomaController extends Controller
         $noma->VagonuSkaits = $dati->input('VagonuSkaits');
         $noma->NomasSakumaPeriods = $dati->input('NomasSakumaPeriods');
         $noma->NomasBeiguPeriods = $dati->input('NomasBeiguPeriods');
-        $noma->NosutisanasStacija = $dati->input('NosutisanasStacija');
-        $noma->Galastacija = $dati->input('Galastacija');
         $noma->KopejaMaksa = $dati->input('KopejaMaksa'); // Saglabā kopējo maksu
         $noma->save(); // Saglabā datubāzē
 
@@ -100,8 +98,6 @@ class NomaController extends Controller
                 'VagonuSkaits' => $dati->input('VagonuSkaits'),
                 'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
                 'NomasBeiguPeriods' => $dati->input('NomasBeiguPeriods'),
-                'NosutisanasStacija' => $dati->input('NosutisanasStacija'),
-                'Galastacija' => $dati->input('Galastacija'),
                 'KopejaMaksa' => $dati->input('KopejaMaksa'),
             ]); // Atjaunina datus tabulā
 
