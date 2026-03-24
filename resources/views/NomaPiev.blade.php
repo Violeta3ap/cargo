@@ -69,13 +69,13 @@
     <!-- Nomas sākuma datums -->
     <div class="form-group">
         <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>
-        <input type="date" class="form-control" id="NomasSakumaPeriods" name="NomasSakumaPeriods" lang="lv" required>
+        <input type="text" class="form-control datepicker" id="NomasSakumaPeriods" name="NomasSakumaPeriods" placeholder="YYYY-MM-DD" autocomplete="off" required>
     </div>
 
     <!-- Nomas beigu datums -->
     <div class="form-group">
         <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
-        <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" lang="lv" required>
+        <input type="text" class="form-control datepicker" id="NomasBeiguPeriods" name="NomasBeiguPeriods" placeholder="YYYY-MM-DD" autocomplete="off" required>
     </div>
 
     <!-- Kopējā maksa -->
@@ -89,6 +89,25 @@
         Saglabāt
     </button> <!-- Poga datu saglabāšanai -->
 </form>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/lv.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof flatpickr === 'undefined') {
+        return;
+    }
+
+    flatpickr('.datepicker', {
+        locale: 'lv',
+        dateFormat: 'Y-m-d',
+        altInput: true,
+        altFormat: 'd.m.Y',
+        allowInput: true
+    });
+});
+</script>
 
 <!-- CSS stili -->
 <style>

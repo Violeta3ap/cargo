@@ -61,12 +61,12 @@
 
         <div class="form-group">
             <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>
-            <input type="date" class="form-control" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ $noma->NomasSakumaPeriods }}" lang="lv" required>
+            <input type="text" class="form-control datepicker" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ $noma->NomasSakumaPeriods }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
         </div>
 
         <div class="form-group">
             <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
-            <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ $noma->NomasBeiguPeriods }}" lang="lv" required>
+            <input type="text" class="form-control datepicker" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ $noma->NomasBeiguPeriods }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
         </div>
 
         <div class="form-group">
@@ -77,6 +77,25 @@
         <button type="submit" style="border-radius:8px;  border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atjaunināt</button>
     </form>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/lv.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof flatpickr === 'undefined') {
+        return;
+    }
+
+    flatpickr('.datepicker', {
+        locale: 'lv',
+        dateFormat: 'Y-m-d',
+        altInput: true,
+        altFormat: 'd.m.Y',
+        allowInput: true
+    });
+});
+</script>
 
 <style>
     .form-group {
