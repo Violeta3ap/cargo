@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class VeidiController extends Controller
 {
+    private function klientsCannotModify()
+    {
+        return auth()->check() && auth()->user()->isKlients();
+    }
+
     // Veidu saraksts.
     public function showAllVeidi()
     {
@@ -18,6 +23,10 @@ class VeidiController extends Controller
     // Dzēš veidu.
     public function delete($id)
     {
+        if ($this->klientsCannotModify()) {
+            return redirect('/Veidi')->with('error', 'Klientam nav tiesību dzēst ierakstus.');
+        }
+
         DB::table('veidi')->where('VeidaID', $id)->delete();
         return redirect('/Veidi')->with('success', 'Ieraksts tika dzēsts');
     }
@@ -25,6 +34,10 @@ class VeidiController extends Controller
     // Atver pievienošanas formu.
     public function create()
     {
+        if ($this->klientsCannotModify()) {
+            return redirect('/Veidi')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
+        }
+
         return view('VeidiPiev');
     }
 
@@ -38,6 +51,10 @@ class VeidiController extends Controller
     // Saglabā jaunu veidu.
     public function DatuSubmit(Request $dati)
     {
+        if ($this->klientsCannotModify()) {
+            return redirect('/Veidi')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
+        }
+
         $veidi = new Veidi();
         $veidi->Nosaukums = $dati->input('Nosaukums');
         $veidi->Celtspeja = $dati->input('Celtspeja');
@@ -51,6 +68,10 @@ class VeidiController extends Controller
     // Atver rediģēšanas formu.
     public function edit($id)
     {
+        if ($this->klientsCannotModify()) {
+            return redirect('/Veidi')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
+        }
+
         $veidi = Veidi::find($id);
         return view('VeidiEdit', ['veidi' => $veidi]);
     }
@@ -58,6 +79,10 @@ class VeidiController extends Controller
     // Saglabā rediģētas vērtības.
     public function editSubmit(Request $dati, $id)
     {
+        if ($this->klientsCannotModify()) {
+            return redirect('/Veidi')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
+        }
+
         DB::table('veidi')
             ->where('VeidaID', $id)
             ->update([

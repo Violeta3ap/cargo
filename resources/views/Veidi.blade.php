@@ -5,14 +5,9 @@
     <h2>Vagonu veidi</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
 
-                     @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
-            @if(Auth::user()->isAdmin())
-                {{-- Administrators redz visas saites --}}
-        <a href="/Veidi/jauns">Jauns ieraksts</a>
-            @elseif(Auth::user()->isDarbinieks())
-                {{-- Darbinieks redz tikai pieļaujamās saites --}}
-        <a href="/Veidi/jauns">Jauns ieraksts</a>
-            @endif            @endif
+        @if(Auth::check() && !Auth::user()->isKlients())
+            <a href="/Veidi/jauns">Jauns ieraksts</a>
+        @endif
 
 
     </nav>
@@ -27,7 +22,9 @@
             <th>Celtspeja tonnās</th> 
             <th>Vagonu Skaits</th> 
             <th>Cena Par Diennakti</th> 
-            <th>Darbības</th> 
+            @if(Auth::check() && !Auth::user()->isKlients())
+                <th>Darbības</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -37,33 +34,18 @@
             <td>{{$item->Celtspeja}}</td>
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->CenaParDiennakti}}</td>
-            <td>
+            @if(Auth::check() && !Auth::user()->isKlients())
+                <td>
+                    <a href="/Veidi/{{ $item->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf;
+                     padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a>
 
-
-                                     @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
-            @if(Auth::user()->isAdmin())
-                {{-- Administrators redz visas saites --}}
-                <a href="/Veidi/{{ $item->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf;
-                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a> 
-
-                    <a href="/Veidi/{{ $item->VeidaID }}/delete" 
-                   onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                   style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
-                   Dzēst
-                </a> 
-            @elseif(Auth::user()->isDarbinieks())
-                {{-- Darbinieks redz tikai pieļaujamās saites --}}
-                <a href="/Veidi/{{ $item->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf;
-                 padding: 5px; color: #000000; text-decoration: none; background-color: #59c1cf;" class="btn btn-sm btn-warning">Rediģēt</a> 
-
-                    <a href="/Veidi/{{ $item->VeidaID }}/delete" 
-                   onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                   style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
-                   Dzēst
-                </a> 
-            @endif        
-                @endif
-            </td>
+                    <a href="/Veidi/{{ $item->VeidaID }}/delete"
+                       onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+                       style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #59c1cf; white-space: nowrap;">
+                       Dzēst
+                    </a>
+                </td>
+            @endif
         </tr>
         @endforeach
     </tbody>
@@ -101,4 +83,10 @@
     <div class="alert alert-success">
         {{ session('success') }}
     </div>  
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
 @endif

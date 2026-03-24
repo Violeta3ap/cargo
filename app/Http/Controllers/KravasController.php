@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class KravasController extends Controller
 {
+  private function klientsCannotModify()
+  {
+    return auth()->check() && auth()->user()->isKlients();
+  }
+
   // Kravu saraksts.
   public function showAllKrava()
   {
@@ -19,6 +24,10 @@ class KravasController extends Controller
   // Dzēš kravu.
   public function delete($id)
   {
+    if ($this->klientsCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Klientam nav tiesību dzēst ierakstus.');
+    }
+
     DB::table('krava')->where('KravasID', $id)->delete();
     return redirect('/Kravas')->with('success', 'Ieraksts tika dzēsts');
   }
@@ -26,6 +35,10 @@ class KravasController extends Controller
   // Atver pievienošanas formu.
   public function create()
   {
+    if ($this->klientsCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
+    }
+
     $veidi = Veidi::all();
     return view('KravasPiev', compact('veidi'));
   }
@@ -40,6 +53,10 @@ class KravasController extends Controller
   // Saglabā jaunu kravu.
   public function DatuSubmit(Request $dati)
   {
+    if ($this->klientsCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
+    }
+
     $kravas = new Kravas();
     $kravas->Nosaukums = $dati->input('Nosaukums');
     $kravas->VeidaID = $dati->input('VeidaID');
@@ -51,6 +68,10 @@ class KravasController extends Controller
   // Atver rediģēšanas formu.
   public function edit($id)
   {
+    if ($this->klientsCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
+    }
+
     $kravas = Kravas::find($id);
     $veidi = Veidi::all();
 
@@ -60,6 +81,10 @@ class KravasController extends Controller
   // Saglabā rediģētas vērtības.
   public function editSubmit(Request $dati, $id)
   {
+    if ($this->klientsCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
+    }
+
     DB::table('krava')
       ->where('KravasID', $id)
       ->update([

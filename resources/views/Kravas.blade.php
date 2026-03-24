@@ -6,14 +6,9 @@
     <h2>Krāvu veidi</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
 
-             @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
-            @if(Auth::user()->isAdmin())
-                {{-- Administrators redz visas saites --}}
-                <a href="/Kravas/jauns">Jauns ieraksts</a>
-            @elseif(Auth::user()->isDarbinieks())
-                {{-- Darbinieks redz tikai pieļaujamās saites --}}
-                <a href="/Kravas/jauns">Jauns ieraksts</a>
-            @endif            @endif
+        @if(Auth::check() && !Auth::user()->isKlients())
+            <a href="/Kravas/jauns">Jauns ieraksts</a>
+        @endif
 
         
         <!-- <a href="/Kravas/jauns">Jauns ieraksts</a> -->
@@ -26,7 +21,9 @@
         <tr>
             <th>Nosaukums</th>
             <th>Veida nosaukums</th>
-            <th>Darbības</th>
+            @if(Auth::check() && !Auth::user()->isKlients())
+                <th>Darbības</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -34,21 +31,14 @@
         <tr>
             <td>{{$item->Nosaukums}}</td>
             <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID) }}</td>
-            <td>
-                <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
-                                 @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
-            @if(Auth::user()->isAdmin())
-                {{-- Administrators redz visas saites --}}
-                    <a href="/Kravas/{{ $item->KravasID }}/edit" class="btn-action">Rediģēt</a>
-                    <a href="/Kravas/{{ $item->KravasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
-            @elseif(Auth::user()->isDarbinieks())
-                {{-- Darbinieks redz tikai pieļaujamās saites --}}
-                    <a href="/Kravas/{{ $item->KravasID }}/edit" class="btn-action">Rediģēt</a>
-                    <a href="/Kravas/{{ $item->KravasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
-            @endif            @endif
-
-                </div>
-            </td>
+            @if(Auth::check() && !Auth::user()->isKlients())
+                <td>
+                    <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
+                        <a href="/Kravas/{{ $item->KravasID }}/edit" class="btn-action">Rediģēt</a>
+                        <a href="/Kravas/{{ $item->KravasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
+                    </div>
+                </td>
+            @endif
         </tr>
         @endforeach
     </tbody>
@@ -104,4 +94,10 @@
 <div class="alert alert-success" style="margin-top: 10px;">
     {{ session('success') }}
 </div>  
+@endif
+
+@if(session('error'))
+<div class="alert alert-danger" style="margin-top: 10px;">
+    {{ session('error') }}
+</div>
 @endif
