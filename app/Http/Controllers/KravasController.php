@@ -5,7 +5,7 @@ namespace App\Http\Controllers; // Norāda controller mapes vietu Laravel projek
 use Illuminate\Http\Request; // Klase formu datu saņemšanai
 use App\Models\Kravas; // Modelis darbam ar kravas tabulu
 use Illuminate\Support\Facades\DB; // Ļauj izmantot DB komandas
-
+use App\Models\Veidi; // Veidu modelis
 class KravasController extends Controller // Izveido controller klasi
 {
 
@@ -34,8 +34,11 @@ class KravasController extends Controller // Izveido controller klasi
 
 
     public function create() // Atver kravas pievienošanas formu
-    {
-      return view('KravasPiev'); 
+    
+
+        $veidi = Veidi::all();     // paņem visus veidus 
+
+    return view('KravasPiev', compact('veidi'));
       // Atver lapu jaunas kravas pievienošanai
     }
 
@@ -56,6 +59,8 @@ class KravasController extends Controller // Izveido controller klasi
         $kravas = new Kravas(); // Izveido jaunu kravas objektu
 
         $kravas->Nosaukums = $dati->input('Nosaukums'); 
+         $raksturojums->VeidaID = $dati->input('VeidaID'); // Iestata veida ID
+
         // Saglabā kravas nosaukumu no formas
 
         $kravas->save(); // Saglabā kravu datubāzē
@@ -70,7 +75,12 @@ class KravasController extends Controller // Izveido controller klasi
     public function edit($id) // Atver kravas rediģēšanas formu
     {
      $kravas = Kravas::find($id); // Atrod kravu pēc ID
-       return view('KravasEdit', ['kravas' => $kravas]);
+    $veidi = Veidi::all();  
+
+    
+
+         return view('KravasEdit',  compact('kravas','veidi')
+
        // Atver rediģēšanas lapu un nosūta kravas datus
     }
 
@@ -83,6 +93,8 @@ class KravasController extends Controller // Izveido controller klasi
             ->where('KravasID', $id) // Atrod kravu pēc ID
             ->update([
                 'Nosaukums' => $dati->input('Nosaukums'), 
+                              'VeidaID' => $dati->input('VeidaID'), // Atjaunina veida ID
+
                 // Atjaunina kravas nosaukumu
             ]);
 
