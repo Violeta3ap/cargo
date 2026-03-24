@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Klienti;
-use App\Models\Darbinieki;
 use App\Models\Kravas;
 use App\Models\Veidi;
 
@@ -23,10 +22,7 @@ class Noma extends Model
     }
 
     // Saistība ar darbinieku tabulu (viena noma pieder vienam darbiniekam)
-    public function darbinieki()
-    {
-        return $this->belongsTo(Darbinieki::class, 'DarbiniekaID', 'DarbiniekaID');
-    }
+ 
 
     // Saistība ar kravu tabulu (viena noma pieder vienai kravai)
     public function kravas()
