@@ -74,13 +74,11 @@ class KravasController extends Controller // Izveido controller klasi
 
     public function edit($id) // Atver kravas rediģēšanas formu
     {
-     $kravas = Kravas::find($id); // Atrod kravu pēc ID
-    $veidi = Veidi::all();  
-
-    
+        $kravas = Kravas::find($id); // Atrod kravu pēc ID
+        $veidi = Veidi::all();  
 
          return view('KravasEdit',  compact('kravas','veidi')
-
+   );
        // Atver rediģēšanas lapu un nosūta kravas datus
     }
 
