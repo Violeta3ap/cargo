@@ -15,7 +15,6 @@
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
-            <th>Nomas ID</th>
             <th>Klients</th>
             <th>Klienta uzņēmums</th>
             <th>Krava</th>
@@ -31,7 +30,6 @@
     <tbody>
         @foreach ($noma as $item)
         <tr>
-            <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
             <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID)}}</td>
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID)}}</td>
