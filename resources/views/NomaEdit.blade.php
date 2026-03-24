@@ -22,18 +22,6 @@
     </select>
 </div>
 
-<!-- <div class="form-group">
-    <label for="DarbiniekaID">Darbinieks:</label>
-    <select class="form-control" id="DarbiniekaID" name="DarbiniekaID" required>
-        @foreach($darbinieki as $darbinieks)
-            <option value="{{ $darbinieks->DarbiniekaID }}"
-                {{ $darbinieks->DarbiniekaID == $noma->DarbiniekaID ? 'selected' : '' }}>
-                {{ $darbinieks->Vards }} {{ $darbinieks->Uzvards }}
-            </option>
-        @endforeach
-    </select>
-</div> -->
-
 <div class="form-group">
     <label for="KravasID">Krava:</label>
     <select class="form-control" id="KravasID" name="KravasID" required>
@@ -80,16 +68,6 @@
             <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
             <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ $noma->NomasBeiguPeriods }}" required>
         </div>
-
-        <!-- <div class="form-group">
-            <label for="NosutisanasStacija">Nosūtīšanas stacija:</label>
-            <input type="text" class="form-control" id="NosutisanasStacija" name="NosutisanasStacija" value="{{ $noma->NosutisanasStacija }}" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="Galastacija">Gala stacija:</label>
-            <input type="text" class="form-control" id="Galastacija" name="Galastacija" value="{{ $noma->Galastacija }}" required>
-        </div> -->
 
         <div class="form-group">
             <label for="KopejaMaksa">Kopēja maksa:</label>
