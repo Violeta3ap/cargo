@@ -18,10 +18,6 @@
         <h5 class="card-title">Klienta ID: {{ $klientis->KlientaID }}</h5> <!-- Klienta ID -->
         <p class="card-text"><strong>Vārds:</strong> {{ $klientis->Vards }}</p> <!-- Klienta vārds -->
         <p class="card-text"><strong>Uzvārds:</strong> {{ $klientis->Uzvards }}</p> <!-- Klienta uzvārds -->
-
-        <!-- Parole attēlota kā punkti -->
-        <p class="card-text"><strong>Parole:</strong> {{ str_repeat('•', strlen($klientis->Parole)) }}</p>  
-
         <p class="card-text"><strong>E-pasts:</strong> {{ $klientis->Epasts }}</p> <!-- Klienta e-pasts -->
         <p class="card-text"><strong>Telefona numurs:</strong> {{ $klientis->TelefonaNumurs }}</p> <!-- Telefona numurs -->
         <p class="card-text"><strong>Uzņēmuma nosaukums:</strong> {{ $klientis->UznemumaNosaukums }}</p> <!-- Uzņēmuma nosaukums -->
