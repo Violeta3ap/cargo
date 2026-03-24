@@ -28,12 +28,6 @@
         <input type="text" class="form-control" id="Uzvards" name="Uzvards" value="{{ $darbinieki->Uzvards }}" required>
     </div>
 
-    <!-- Parole -->
-    <div class="form-group">
-        <label for="Parole">Parole:</label>
-        <input type="password" class="form-control" id="Parole" name="Parole" value="{{ $darbinieki->Parole }}" required>
-    </div>
-
     <!-- E-pasts -->
     <div class="form-group">
         <label for="Epasts">E-pasts:</label>
