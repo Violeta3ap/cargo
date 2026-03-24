@@ -28,12 +28,6 @@
         <input type="text" class="form-control" id="Uzvards" name="Uzvards" required>
     </div>
 
-    <!-- Parole -->
-    <div class="form-group">
-        <label for="Parole">Parole:</label>
-        <input type="password" class="form-control" id="Parole" name="Parole" required>
-    </div>
-
     <!-- E-pasts -->
     <div class="form-group">
         <label for="Epasts">E-pasts:</label>
