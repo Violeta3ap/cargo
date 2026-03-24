@@ -1,92 +1,72 @@
 <?php
 
-namespace App\Http\Controllers; // Controlleru namespace
+namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; // Formu datu saņemšanai
-use App\Models\Veidi; // Veidu modelis
-use Illuminate\Support\Facades\DB; // Datubāzes operācijas
+use App\Models\Veidi;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VeidiController extends Controller
 {
-
-
-
-    public function showAllVeidi() // Parāda visu veidu sarakstu
+    // Veidu saraksts.
+    public function showAllVeidi()
     {
         $veidi = new Veidi();
-        return view('Veidi', ['dati' => $veidi->orderBy('VeidaID', 'asc')->get()]); // Nosūta datus uz skatu
+        return view('Veidi', ['dati' => $veidi->orderBy('VeidaID', 'asc')->get()]);
     }
 
-
-
-
-    public function delete($id) // Dzēš konkrētu veidu
+    // Dzēš veidu.
+    public function delete($id)
     {
-        DB::table('veidi')->where('VeidaID', $id)->delete(); // Dzēš ierakstu tabulā
-        return redirect('/Veidi')->with('success', 'Ieraksts tika dzēsts'); // Pāradresē ar paziņojumu
+        DB::table('veidi')->where('VeidaID', $id)->delete();
+        return redirect('/Veidi')->with('success', 'Ieraksts tika dzēsts');
     }
 
-
-
-
-    public function create() // Sagatavo formu jaunam veidam
+    // Atver pievienošanas formu.
+    public function create()
     {
-        return view('VeidiPiev'); // Nosūta uz pievienošanas skatu
+        return view('VeidiPiev');
     }
 
-
-
-
-    public function details($id) // Parāda konkrētā veida detaļas
+    // Parāda veida detaļas.
+    public function details($id)
     {
-        $veidi = Veidi::find($id); // Atrod ierakstu pēc ID
-        return view('VeidiApskate', ['veidi' => $veidi]); // Nosūta uz detaļu skatu
+        $veidi = Veidi::find($id);
+        return view('VeidiApskate', ['veidi' => $veidi]);
     }
 
-
-
-
-    public function DatuSubmit(Request $dati) // Saglabā jaunu veidu
+    // Saglabā jaunu veidu.
+    public function DatuSubmit(Request $dati)
     {
         $veidi = new Veidi();
         $veidi->Nosaukums = $dati->input('Nosaukums');
-        $veidi->Celtspeja = $dati->input('Celtspeja'); 
-        
-        $veidi->VagonuSkaits = $dati->input('VagonuSkaits'); // Iestata vagonu skaitu
-        $veidi->CenaParDiennakti = $dati->input('CenaParDiennakti');// Iestata veida nosaukumu
-        $veidi->save(); // Saglabā datubāzē
+        $veidi->Celtspeja = $dati->input('Celtspeja');
+        $veidi->VagonuSkaits = $dati->input('VagonuSkaits');
+        $veidi->CenaParDiennakti = $dati->input('CenaParDiennakti');
+        $veidi->save();
 
-        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
+        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots');
     }
 
-	
-
-
-
-    public function edit($id) // Sagatavo rediģēšanas formu konkrētam veidam
+    // Atver rediģēšanas formu.
+    public function edit($id)
     {
-        $veidi = Veidi::find($id); // Atrod ierakstu pēc ID
-        return view('VeidiEdit', ['veidi' => $veidi]); // Nosūta uz rediģēšanas skatu
+        $veidi = Veidi::find($id);
+        return view('VeidiEdit', ['veidi' => $veidi]);
     }
 
-
-
-
-    public function editSubmit(Request $dati, $id) // Saglabā izmaiņas veidā
+    // Saglabā rediģētas vērtības.
+    public function editSubmit(Request $dati, $id)
     {
         DB::table('veidi')
             ->where('VeidaID', $id)
             ->update([
-                'Nosaukums' => $dati->input('Nosaukums'), // Atjaunina veida nosaukumu
+                'Nosaukums' => $dati->input('Nosaukums'),
                 'Celtspeja' => $dati->input('Celtspeja'),
                 'VagonuSkaits' => $dati->input('VagonuSkaits'),
                 'CenaParDiennakti' => $dati->input('CenaParDiennakti'),
             ]);
 
-        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts'); // Pāradresē uz sarakstu
+        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts');
     }
-
-
-
-    
 }

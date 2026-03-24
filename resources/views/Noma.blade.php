@@ -2,16 +2,16 @@
 
 @section('content')
 
-<!-- Virsraksts un navigācija -->
+<!-- Lapas galvene -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Noma</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noma/jauns">Jauns ieraksts</a>
-        <!-- <a href="/VagonuDati">Nomas papildinājums</a> -->
+        <!-- Papildsaite rezervē -->
     </nav>
 </div>
 
-<!-- Nomas tabula -->
+<!-- Nomas saraksts -->
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
@@ -75,7 +75,7 @@
 </div>
 @endif
 
-<!-- CSS stili tabulai un pogām -->
+<!-- Noma tabulas un paginācijas stili -->
 <style>
     .table {
         border-collapse: collapse;
@@ -101,7 +101,7 @@
         padding: 10px;
     }
 
-    /* Pogas stils */
+    /* Darbību pogas */
     .btn-action {
         border-radius: 8px;
         border: 1px solid #59c1cf;
@@ -111,7 +111,7 @@
         background-color: #59c1cf;
         white-space: nowrap;
         font-size: 0.9rem;
-        width: 100%; /* lai aizņemtu visu šūnas platumu */
+        width: 100%;
         text-align: center;
     }
 

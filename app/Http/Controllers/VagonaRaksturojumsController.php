@@ -1,104 +1,80 @@
 <?php
 
-namespace App\Http\Controllers; // Controlleru namespace
+namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; // Formu datu saņemšanai
-use App\Models\VagonaRaksturojums; // Vagona raksturojumu modelis
-use Illuminate\Support\Facades\DB; // Datubāzes operācijas
-
-use App\Models\Veidi; // Veidu modelis
-use App\Models\Kravas; // Kravas modelis
+use App\Models\Kravas;
+use App\Models\VagonaRaksturojums;
+use App\Models\Veidi;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VagonaRaksturojumsController extends Controller
 {
-
-
-
-
-    public function showAllVagonaRaksturojums() // Parāda visu vagona raksturojumu sarakstu
+    // Vagonu raksturojumu saraksts.
+    public function showAllVagonaRaksturojums()
     {
         $dati = new VagonaRaksturojums();
-        return view('VagonaRaksturojums', ['dati' => $dati->orderBy('VagonaID', 'asc')->get()]); // Nosūta datus uz skatu
+        return view('VagonaRaksturojums', ['dati' => $dati->orderBy('VagonaID', 'asc')->get()]);
     }
 
-
-
-
-    public function delete($id) // Dzēš konkrētu vagona raksturojumu
+    // Dzēš ierakstu.
+    public function delete($id)
     {
-        DB::table('vagonaraksturojums')->where('VagonaID', $id)->delete(); // Dzēš ierakstu tabulā
-        return redirect('/VagonaRaksturojums')->with('success', 'Ieraksts tika dzēsts'); // Atpakaļ ar paziņojumu
+        DB::table('vagonaraksturojums')->where('VagonaID', $id)->delete();
+        return redirect('/VagonaRaksturojums')->with('success', 'Ieraksts tika dzēsts');
     }
 
-
-
-
+    // Atver pievienošanas formu.
     public function create()
     {
-    $veidi = Veidi::all();     // paņem visus veidus
-    $kravas = Kravas::all();   // paņem visas kravas
+        $veidi = Veidi::all();
+        $kravas = Kravas::all();
 
-    return view('VagonaRaksturojumaPiev', compact('veidi','kravas'));
+        return view('VagonaRaksturojumaPiev', compact('veidi', 'kravas'));
     }
 
-
-
-
-    public function details($id) // Parāda konkrētā vagona raksturojuma detaļas
+    // Parāda ieraksta detaļas.
+    public function details($id)
     {
-        $raksturojums = VagonaRaksturojums::find($id); // Atrod ierakstu pēc ID
-        return view('VagonaRaksturojumaApskate', ['vagonaraksturojums' => $raksturojums]); // Nosūta uz detaļu skatu
+        $raksturojums = VagonaRaksturojums::find($id);
+        return view('VagonaRaksturojumaApskate', ['vagonaraksturojums' => $raksturojums]);
     }
 
-
-
-
-
-    public function DatuSubmit(Request $dati) // Saglabā jaunu vagona raksturojumu
+    // Saglabā jaunu ierakstu.
+    public function DatuSubmit(Request $dati)
     {
         $raksturojums = new VagonaRaksturojums();
-        $raksturojums->VeidaID = $dati->input('VeidaID'); // Iestata veida ID
-        $raksturojums->KravasID = $dati->input('KravasID'); // Iestata kravas ID
-        $raksturojums->Celtspeja = $dati->input('Celtspeja'); // Iestata celtspēju
-        $raksturojums->VagonaNumurs = $dati->input('VagonaNumurs'); // Iestata vagona numuru
-        $raksturojums->save(); // Saglabā datubāzē
+        $raksturojums->VeidaID = $dati->input('VeidaID');
+        $raksturojums->KravasID = $dati->input('KravasID');
+        $raksturojums->Celtspeja = $dati->input('Celtspeja');
+        $raksturojums->VagonaNumurs = $dati->input('VagonaNumurs');
+        $raksturojums->save();
 
-        return redirect()->to('/VagonaRaksturojums')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
+        return redirect()->to('/VagonaRaksturojums')->with('success', 'Ieraksts tika pievienots');
     }
 
-
-
-
-
-
+    // Atver rediģēšanas formu.
     public function edit($id)
     {
-    $vagonaraksturojums = VagonaRaksturojums::find($id);
+        $vagonaraksturojums = VagonaRaksturojums::find($id);
+        $veidi = Veidi::all();
+        $kravas = Kravas::all();
 
-    $veidi = Veidi::all();     
-    $kravas = Kravas::all();
-
-    return view('VagonaRaksturojumaEdit', 
-        compact('vagonaraksturojums','veidi','kravas')
-    );
+        return view('VagonaRaksturojumaEdit', compact('vagonaraksturojums', 'veidi', 'kravas'));
     }
 
-
-
-    public function editSubmit(Request $dati, $id) // Saglabā izmaiņas vagona raksturojumā
+    // Saglabā rediģētas vērtības.
+    public function editSubmit(Request $dati, $id)
     {
         DB::table('vagonaraksturojums')
             ->where('VagonaID', $id)
             ->update([
-                'VeidaID' => $dati->input('VeidaID'), // Atjaunina veida ID
-                'KravasID' => $dati->input('KravasID'), // Atjaunina kravas ID
-                'Celtspeja' => $dati->input('Celtspeja'), // Atjaunina celtspēju
-                'VagonaNumurs' => $dati->input('VagonaNumurs'), // Atjaunina vagona numuru
+                'VeidaID' => $dati->input('VeidaID'),
+                'KravasID' => $dati->input('KravasID'),
+                'Celtspeja' => $dati->input('Celtspeja'),
+                'VagonaNumurs' => $dati->input('VagonaNumurs'),
             ]);
 
-        return redirect()->to('/VagonaRaksturojums')->with('success', 'Ieraksts tika atjaunināts'); // Pāradresē uz sarakstu
+        return redirect()->to('/VagonaRaksturojums')->with('success', 'Ieraksts tika atjaunināts');
     }
-
-
-    
 }

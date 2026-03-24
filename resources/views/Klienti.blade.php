@@ -1,17 +1,17 @@
-@extends('layout.app') <!-- Paplašina galveno layout failu -->
+@extends('layout.app')
 
-@section('content') <!-- Satura sadaļa -->
+@section('content')
 
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
-    <h2>Klienti</h2> <!-- Lapas virsraksts -->
+    <h2>Klienti</h2>
 
-    <!-- Navigācijas poga jauna klienta pievienošanai -->
+    <!-- Lapas galvene -->
     <nav class="navigacija" style="background-color: #ffffff;">
         <a href="/Klienti/jauns">Jauns ieraksts</a>
     </nav>
 </div>
 
-<!-- Klientu saraksta tabula -->
+<!-- Klientu saraksts -->
 <table class="table table-striped" style="width:100%; border:1px solid #59c1cf; border-radius:8px; overflow:hidden; text-align:center;">
     <thead>
         <tr>
@@ -38,29 +38,18 @@
             <td>{{$item->RegistracijasNumurs}}</td>
             <td>{{$item->KontaNumurs}}</td>
             <td>
-
-
-            
-
-    <!-- Pogas izvietotas flex konteinerā ar nelielu gap -->
-    <div style="display: flex; justify-content: center; gap: 8px;">
-        <a href="/Klienti/{{ $item->KlientaID }}/edit"
-           style="border-radius:8px; border:1px solid #59c1cf; padding:5px 10px; color:#000; text-decoration:none; background-color:#59c1cf;"
-           class="btn btn-sm btn-warning">
-            Rediģēt
-        </a>
-        <a href="/Klienti/{{ $item->KlientaID }}/delete"
-           onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-           style="border-radius:8px; border:1px solid #59c1cf; padding:5px 10px; color:#000; text-decoration:none; background-color:#59c1cf;">
-            Dzēst
-        </a>
-    </div>
-</td>
-
-
-
-
-
+                <div style="display: flex; justify-content: center; gap: 8px;">
+                    <a href="/Klienti/{{ $item->KlientaID }}/edit"
+                       style="border-radius:8px; border:1px solid #59c1cf; padding:5px 10px; color:#000; text-decoration:none; background-color:#59c1cf;"
+                       class="btn btn-sm btn-warning">
+                        Rediģēt
+                    </a>
+                    <a href="/Klienti/{{ $item->KlientaID }}/delete"
+                       onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
+                       style="border-radius:8px; border:1px solid #59c1cf; padding:5px 10px; color:#000; text-decoration:none; background-color:#59c1cf;">
+                        Dzēst
+                    </a>
+                </div>
             </td>
         </tr>
         @endforeach
@@ -91,7 +80,7 @@
 </div>
 @endif
 
-<!-- Tabulas stils -->
+<!-- Klientu tabulas un paginācijas stili -->
 <style>
     .table {
         border-collapse: collapse;

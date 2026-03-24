@@ -1,122 +1,83 @@
 <?php
 
-namespace App\Http\Controllers; // Norāda controller mapes vietu Laravel projektā
+namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; // Klase formu datu saņemšanai
-use App\Models\Darbinieki; // Modelis darbam ar darbinieku tabulu
-use Illuminate\Support\Facades\DB; // Ļauj izmantot DB komandas
-use App\Models\Amati; // Modelis darbam ar amatu tabulu
+use App\Models\Amati;
+use App\Models\Darbinieki;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class DarbiniekuController extends Controller // Izveido controller klasi
+class DarbiniekuController extends Controller
 {
-
-
-    public function showAllDarbinieki() // Parāda visus darbiniekus
+    // Darbinieku saraksts.
+    public function showAllDarbinieki()
     {
-     $darbiniekis= new Darbinieki(); // Izveido Darbinieki objekta instanci
-     //dd($data->all()); // Debug funkcija datu pārbaudei
-       return view('Darbinieki', ['darbiniekis' => $darbiniekis->orderBy('DarbiniekaID', 'asc')->get()]);
-       // Atver Darbinieki lapu un nosūta sakārtotu darbinieku sarakstu
+        $darbiniekis = new Darbinieki();
+        return view('Darbinieki', ['darbiniekis' => $darbiniekis->orderBy('DarbiniekaID', 'asc')->get()]);
     }
 
-
-
-    public function delete($id) // Funkcija darbinieka dzēšanai
+    // Dzēš darbinieku.
+    public function delete($id)
     {
-      DB::table('darbinieki')->where('DarbiniekaID', $id)->delete(); 
-      // Dzēš darbinieku no datubāzes pēc ID
-
-      return redirect('/Darbinieki')->with('success', 'Ieraksts tika dzēsts');
-      // Pāradresē uz darbinieku sarakstu ar paziņojumu
+        DB::table('darbinieki')->where('DarbiniekaID', $id)->delete();
+        return redirect('/Darbinieki')->with('success', 'Ieraksts tika dzēsts');
     }
 
-
-
-  public function create() // Atver darbinieka pievienošanas formu
-{
-    $amati = Amati::orderBy('AmataID','asc')->get(); 
-    // Iegūst visus amatus no datubāzes
-
-    return view('DarbiniekuPiev', ['amati' => $amati]); 
-    // Atver pievienošanas lapu un nosūta amatu sarakstu
-}
-
-
-
-    public function details($id) // Parāda viena darbinieka informāciju
+    // Atver pievienošanas formu.
+    public function create()
     {
-      $darbiniekis = Darbinieki::find($id); // Atrod darbinieku pēc ID
-      return view('DarbiniekiApskate', ['darbinieki' => $darbiniekis]);
-      // Atver apskates lapu un nosūta darbinieka datus
+        $amati = Amati::orderBy('AmataID', 'asc')->get();
+        return view('DarbiniekuPiev', ['amati' => $amati]);
     }
 
-
-
-    public function DarbiniekiSubmit(Request $dati) // Saglabā jaunu darbinieku
+    // Parāda darbinieka detaļas.
+    public function details($id)
     {
-        $darbiniekis = new Darbinieki(); // Izveido jaunu darbinieka objektu
+        $darbiniekis = Darbinieki::find($id);
+        return view('DarbiniekiApskate', ['darbinieki' => $darbiniekis]);
+    }
 
-        $darbiniekis->Vards = $dati->input('Vards'); 
-        // Saglabā vārdu no formas
-
-        $darbiniekis->Uzvards = $dati->input('Uzvards'); 
-        // Saglabā uzvārdu
-
-        $darbiniekis->Parole = $dati->input('Parole'); 
-        // Saglabā paroli
-
-        $darbiniekis->Epasts = $dati->input('Epasts'); 
-        // Saglabā e-pastu
-
-        $darbiniekis->TelefonaNumurs = $dati->input('TelefonaNumurs'); 
-        // Saglabā telefona numuru
-
-        $darbiniekis->AmataID = $dati->input('AmataID'); 
-        // Saglabā amata ID
-
-        // $darbiniekis->Admin = $dati->input('Admin'); // Admin lauks (ja nepieciešams)
-
-        $darbiniekis->save(); // Saglabā darbinieku datubāzē
+    // Saglabā jaunu darbinieku.
+    public function DarbiniekiSubmit(Request $dati)
+    {
+        $darbiniekis = new Darbinieki();
+        $darbiniekis->Vards = $dati->input('Vards');
+        $darbiniekis->Uzvards = $dati->input('Uzvards');
+        $darbiniekis->Parole = $dati->input('Parole');
+        $darbiniekis->Epasts = $dati->input('Epasts');
+        $darbiniekis->TelefonaNumurs = $dati->input('TelefonaNumurs');
+        $darbiniekis->AmataID = $dati->input('AmataID');
+        $darbiniekis->save();
 
         return redirect()->to('/Darbinieki')->with('success', 'Ieraksts tika pievienots');
-        // Pāradresē uz darbinieku sarakstu
     }
 
-
-
-
-public function edit($id) // Atver darbinieka rediģēšanas formu
-{
-    $darbiniekis = Darbinieki::find($id); // Atrod darbinieku pēc ID
-    $amati = Amati::orderBy('AmataID','asc')->get(); // Iegūst visus amatus
-
-    return view('DarbiniekiEdit', [
-        'darbinieki' => $darbiniekis, // Nosūta darbinieka datus
-        'amati' => $amati // Nosūta amatu sarakstu
-    ]);
-}
-
-
-
-
-    public function editSubmit(Request $dati, $id) // Atjaunina darbinieka datus
+    // Atver rediģēšanas formu.
+    public function edit($id)
     {
+        $darbiniekis = Darbinieki::find($id);
+        $amati = Amati::orderBy('AmataID', 'asc')->get();
 
+        return view('DarbiniekiEdit', [
+            'darbinieki' => $darbiniekis,
+            'amati' => $amati,
+        ]);
+    }
+
+    // Saglabā rediģētas vērtības.
+    public function editSubmit(Request $dati, $id)
+    {
         DB::table('darbinieki')
-            ->where('DarbiniekaID', $id) // Atrod darbinieku pēc ID
+            ->where('DarbiniekaID', $id)
             ->update([
-                'Vards' => $dati->input('Vards'), // Atjaunina vārdu
-                'Uzvards' => $dati->input('Uzvards'), // Atjaunina uzvārdu
-                'Parole' => $dati->input('Parole'), // Atjaunina paroli
-                'Epasts' => $dati->input('Epasts'), // Atjaunina e-pastu
-                'TelefonaNumurs' => $dati->input('TelefonaNumurs'), // Atjaunina telefona numuru
-                'AmataID' => $dati->input('AmataID'), // Atjaunina amata ID
+                'Vards' => $dati->input('Vards'),
+                'Uzvards' => $dati->input('Uzvards'),
+                'Parole' => $dati->input('Parole'),
+                'Epasts' => $dati->input('Epasts'),
+                'TelefonaNumurs' => $dati->input('TelefonaNumurs'),
+                'AmataID' => $dati->input('AmataID'),
             ]);
 
-         return redirect()->to('/Darbinieki')->with('success', 'Ieraksts tika atjaunināts');
-         // Pāradresē uz darbinieku sarakstu
+        return redirect()->to('/Darbinieki')->with('success', 'Ieraksts tika atjaunināts');
     }
-
-
-    
 }

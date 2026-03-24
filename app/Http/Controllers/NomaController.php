@@ -1,92 +1,77 @@
 <?php
 
-namespace App\Http\Controllers; // Controlleru namespace
+namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; // Formu datu saņemšanai
-use App\Models\Noma; // Noma modelis
-use Illuminate\Support\Facades\DB; // Datubāzes operācijas
-use App\Models\Klienti; // Klienti modeliS
-use App\Models\Kravas; // Kravas modelis
-use App\Models\Veidi; // veidu modelis
+use Illuminate\Http\Request;
+use App\Models\Noma;
+use Illuminate\Support\Facades\DB;
+use App\Models\Klienti;
+use App\Models\Kravas;
+use App\Models\Veidi;
 
 class NomaController extends Controller
 {
-
-
-
-
-    public function showAllNoma() // Parāda visas nomas ierakstus
+    // Nomas saraksts ar pagināciju.
+    public function showAllNoma()
     {
         $noma = new Noma();
-        return view('Noma', ['noma' => $noma->orderBy('NomasID', 'asc')->paginate(5)]); // Nosūta uz skatu ar nomām pa lapām
+        return view('Noma', ['noma' => $noma->orderBy('NomasID', 'asc')->paginate(5)]);
     }
 
-
-
-
-    public function delete($id) // Dzēš konkrētu nomu pēc ID
+    // Dzēš nomas ierakstu.
+    public function delete($id)
     {
-        DB::table('vagonunoma')->where('NomasID', $id)->delete(); // Dzēš no tabulas
-        return redirect('/Noma')->with('success', 'Ieraksts tika dzēsts'); // Pāradresē un rāda ziņu
+        DB::table('vagonunoma')->where('NomasID', $id)->delete();
+        return redirect('/Noma')->with('success', 'Ieraksts tika dzēsts');
     }
 
-
-
-
-    public function create() // Sagatavo formu jaunai nomai
+    // Atver pievienošanas formu ar saistītajiem sarakstiem.
+    public function create()
     {
-        $klienti = Klienti::all();        // Ņem visus klientus
-        $kravas = Kravas::all();           // Ņem visas kravas
-        $veidi = Veidi::all();             // Ņem visus vagona veidus
+        $klienti = Klienti::all();
+        $kravas = Kravas::all();
+        $veidi = Veidi::all();
 
-        return view('NomaPiev', compact('klienti','kravas','veidi')); // Nosūta datus uz formu
+        return view('NomaPiev', compact('klienti','kravas','veidi'));
     }
 
-
-
-
-    public function details($id) // Parāda konkrētas nomas detaļas
+    // Parāda viena ieraksta detaļas.
+    public function details($id)
     {
-        $noma = Noma::find($id); // Atrod nomu pēc ID
-        return view('NomaApskate', ['noma' => $noma]); // Nosūta uz detaļu skatu
+        $noma = Noma::find($id);
+        return view('NomaApskate', ['noma' => $noma]);
     }
 
-
-
-
-    public function NomaSubmit(Request $dati) // Saglabā jaunu nomu datubāzē
+    // Saglabā jaunu nomas ierakstu.
+    public function NomaSubmit(Request $dati)
     {
         $noma = new Noma();
-        $noma->KlientaID = $dati->input('KlientaID'); 
+        $noma->KlientaID = $dati->input('KlientaID');
         $noma->KravasID = $dati->input('KravasID');
         $noma->Svars = $dati->input('Svars');
         $noma->VeidaID = $dati->input('VeidaID');
         $noma->VagonuSkaits = $dati->input('VagonuSkaits');
         $noma->NomasSakumaPeriods = $dati->input('NomasSakumaPeriods');
         $noma->NomasBeiguPeriods = $dati->input('NomasBeiguPeriods');
-        $noma->KopejaMaksa = $dati->input('KopejaMaksa'); // Saglabā kopējo maksu
-        $noma->save(); // Saglabā datubāzē
+        $noma->KopejaMaksa = $dati->input('KopejaMaksa');
+        $noma->save();
 
-        return redirect()->to('/Noma')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
+        return redirect()->to('/Noma')->with('success', 'Ieraksts tika pievienots');
     }
 
-
-
-
-    public function edit($id) // Sagatavo nomas rediģēšanas formu
+    // Atver rediģēšanas formu.
+    public function edit($id)
     {
-        $noma = Noma::find($id); // Atrod nomu pēc ID
-        $klienti = Klienti::all(); // Ņem visus klientus
-        $kravas = Kravas::all(); // Ņem visas kravas
-        $veidi = Veidi::all(); // Ņem visus vagona veidus
+        $noma = Noma::find($id);
+        $klienti = Klienti::all();
+        $kravas = Kravas::all();
+        $veidi = Veidi::all();
 
-        return view('NomaEdit', compact('noma','klienti','kravas','veidi')); // Nosūta uz rediģēšanas skatu
+        return view('NomaEdit', compact('noma','klienti','kravas','veidi'));
     }
 
-
-
-
-    public function editSubmit(Request $dati, $id) // Saglabā izmaiņas nomā
+    // Saglabā rediģētas vērtības.
+    public function editSubmit(Request $dati, $id)
     {
         DB::table('vagonunoma')
             ->where('NomasID', $id)
@@ -99,12 +84,8 @@ class NomaController extends Controller
                 'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
                 'NomasBeiguPeriods' => $dati->input('NomasBeiguPeriods'),
                 'KopejaMaksa' => $dati->input('KopejaMaksa'),
-            ]); // Atjaunina datus tabulā
+            ]);
 
-        return redirect()->to('/Noma')->with('success', 'Ieraksts tika atjaunināts'); // Pāradresē uz sarakstu
+        return redirect()->to('/Noma')->with('success', 'Ieraksts tika atjaunināts');
     }
-
-
-
-    
 }

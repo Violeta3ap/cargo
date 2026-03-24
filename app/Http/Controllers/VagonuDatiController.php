@@ -1,85 +1,68 @@
 <?php
 
-namespace App\Http\Controllers; // Controlleru namespace
+namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; // Formu datu saņemšanai
-use App\Models\VagonuDati; // Vagonu datu modelis
-use Illuminate\Support\Facades\DB; // Datubāzes operācijas
+use App\Models\VagonuDati;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VagonuDatiController extends Controller
 {
-
-
-
-    public function showAllVagonuDati() // Parāda visu vagonu datu sarakstu
+    // Vagonu datu saraksts.
+    public function showAllVagonuDati()
     {
         $dati = new VagonuDati();
-        return view('VagonuDati', ['dati' => $dati->orderBy('DatuID', 'asc')->get()]); // Nosūta datus uz skatu
+        return view('VagonuDati', ['dati' => $dati->orderBy('DatuID', 'asc')->get()]);
     }
 
-
-
-
-    public function delete($id) // Dzēš konkrētu vagonu datu ierakstu
+    // Dzēš ierakstu.
+    public function delete($id)
     {
-        DB::table('vagonudati')->where('DatuID', $id)->delete(); // Dzēš ierakstu tabulā
-        return redirect('/VagonuDati')->with('success', 'Ieraksts tika dzēsts'); // Atpakaļ ar paziņojumu
+        DB::table('vagonudati')->where('DatuID', $id)->delete();
+        return redirect('/VagonuDati')->with('success', 'Ieraksts tika dzēsts');
     }
 
-
-
-
-    public function create() // Sagatavo formu jaunam vagonu datu ierakstam
+    // Atver pievienošanas formu.
+    public function create()
     {
-        return view('VagonuDatuPiev'); // Nosūta uz pievienošanas skatu
+        return view('VagonuDatuPiev');
     }
 
-
-
-
-    public function details($id) // Parāda konkrētā vagonu datu ieraksta detaļas
+    // Parāda ieraksta detaļas.
+    public function details($id)
     {
-        $datu = VagonuDati::find($id); // Atrod ierakstu pēc ID
-        return view('VagonuDatuApskate', ['vagonudati' => $datu]); // Nosūta uz detaļu skatu
+        $datu = VagonuDati::find($id);
+        return view('VagonuDatuApskate', ['vagonudati' => $datu]);
     }
 
-
-
-
-    public function DatuSubmit(Request $dati) // Saglabā jaunu vagonu datu ierakstu
+    // Saglabā jaunu ierakstu.
+    public function DatuSubmit(Request $dati)
     {
         $datu = new VagonuDati();
-        $datu->NomasID = $dati->input('NomasID'); // Iestata nomas ID
-        $datu->VagonaID = $dati->input('VagonaID'); // Iestata vagona ID
-        $datu->save(); // Saglabā datubāzē
+        $datu->NomasID = $dati->input('NomasID');
+        $datu->VagonaID = $dati->input('VagonaID');
+        $datu->save();
 
-        return redirect()->to('/VagonuDati')->with('success', 'Ieraksts tika pievienots'); // Pāradresē uz sarakstu
+        return redirect()->to('/VagonuDati')->with('success', 'Ieraksts tika pievienots');
     }
 
-
-
-
-    public function edit($id) // Sagatavo rediģēšanas formu konkrētam vagonu datu ierakstam
+    // Atver rediģēšanas formu.
+    public function edit($id)
     {
-        $datu = VagonuDati::find($id); // Atrod ierakstu pēc ID
-        return view('VagonuDatuEdit', ['vagonudati' => $datu]); // Nosūta uz rediģēšanas skatu
+        $datu = VagonuDati::find($id);
+        return view('VagonuDatuEdit', ['vagonudati' => $datu]);
     }
 
-
-
-
-    public function editSubmit(Request $dati, $id) // Saglabā izmaiņas vagonu datu ierakstā
+    // Saglabā rediģētas vērtības.
+    public function editSubmit(Request $dati, $id)
     {
         DB::table('vagonudati')
             ->where('DatuID', $id)
             ->update([
-                'NomasID' => $dati->input('NomasID'), // Atjaunina nomas ID
-                'VagonaID' => $dati->input('VagonaID'), // Atjaunina vagona ID
+                'NomasID' => $dati->input('NomasID'),
+                'VagonaID' => $dati->input('VagonaID'),
             ]);
 
-        return redirect()->to('/VagonuDati')->with('success', 'Ieraksts tika atjaunināts'); // Pāradresē uz sarakstu
+        return redirect()->to('/VagonuDati')->with('success', 'Ieraksts tika atjaunināts');
     }
-
-
-    
 }
