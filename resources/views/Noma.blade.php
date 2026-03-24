@@ -51,6 +51,10 @@
     </tbody>
 </table>
 
+<div style="margin-top: 15px; display: flex; justify-content: center;">
+    {{ $noma->links() }}
+</div>
+
 <!-- CSS stili tabulai un pogām -->
 <style>
     .table {

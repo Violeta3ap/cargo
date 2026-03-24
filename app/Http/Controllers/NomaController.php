@@ -18,7 +18,7 @@ class NomaController extends Controller
     public function showAllNoma() // Parāda visas nomas ierakstus
     {
         $noma = new Noma();
-        return view('Noma', ['noma' => $noma->orderBy('NomasID', 'asc')->get()]); // Nosūta uz skatu ar visām nomām
+        return view('Noma', ['noma' => $noma->orderBy('NomasID', 'asc')->paginate(10)]); // Nosūta uz skatu ar nomām pa lapām
     }
 
 
