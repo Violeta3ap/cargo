@@ -26,6 +26,7 @@
         <tr>
             <th>Kravas ID</th>
             <th>Nosaukums</th>
+            <th>Veida nosaukums</th>
             <th>Darbības</th>
         </tr>
     </thead>
@@ -34,6 +35,7 @@
         <tr>
             <td>{{$item->KravasID}}</td>
             <td>{{$item->Nosaukums}}</td>
+            <td>{{$item->VeidaID}}</td>
             <td>
                 <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
                                  @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
