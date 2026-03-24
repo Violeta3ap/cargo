@@ -18,10 +18,6 @@
         <h5 class="card-title">Darbinieka ID: {{ $darbinieki->DarbiniekaID }}</h5> <!-- Darbinieka ID -->
         <p class="card-text"><strong>Vārds:</strong> {{ $darbinieki->Vards }}</p> <!-- Vārds -->
         <p class="card-text"><strong>Uzvārds:</strong> {{ $darbinieki->Uzvards }}</p> <!-- Uzvārds -->
-
-        <!-- Paroles aizsardzība: rādām tikai punktus -->
-        <p class="card-text"><strong>Parole:</strong> {{ str_repeat('•', strlen($darbinieki->Parole)) }}</p>
-
         <p class="card-text"><strong>E-pasts:</strong> {{ $darbinieki->Epasts }}</p> <!-- E-pasts -->
         <p class="card-text"><strong>Telefona numurs:</strong> {{ $darbinieki->TelefonaNumurs }}</p> <!-- Telefona numurs -->
         <p class="card-text"><strong>Amata ID:</strong> {{ $darbinieki->AmataID }}</p> <!-- Amata ID -->
