@@ -61,12 +61,12 @@
 
         <div class="form-group">
             <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>
-            <input type="date" class="form-control" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ $noma->NomasSakumaPeriods }}" required>
+            <input type="date" class="form-control" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ $noma->NomasSakumaPeriods }}" lang="lv" required>
         </div>
 
         <div class="form-group">
             <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
-            <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ $noma->NomasBeiguPeriods }}" required>
+            <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ $noma->NomasBeiguPeriods }}" lang="lv" required>
         </div>
 
         <div class="form-group">

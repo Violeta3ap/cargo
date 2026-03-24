@@ -69,13 +69,13 @@
     <!-- Nomas sākuma datums -->
     <div class="form-group">
         <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>
-        <input type="date" class="form-control" id="NomasSakumaPeriods" name="NomasSakumaPeriods" required>
+        <input type="date" class="form-control" id="NomasSakumaPeriods" name="NomasSakumaPeriods" lang="lv" required>
     </div>
 
     <!-- Nomas beigu datums -->
     <div class="form-group">
         <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
-        <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" required>
+        <input type="date" class="form-control" id="NomasBeiguPeriods" name="NomasBeiguPeriods" lang="lv" required>
     </div>
 
     <!-- Kopējā maksa -->
