@@ -29,9 +29,6 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/Klasifikatori', function () {
-    return view('Klasifikatori');
-});
 
 Route::middleware(['auth', 'nocache'])->group(function () {
 
@@ -54,15 +51,6 @@ Route::get('/Darbinieki/{id}/details', 'App\Http\Controllers\DarbiniekuControlle
 Route::get('/Darbinieki/{id}/edit', 'App\Http\Controllers\DarbiniekuController@edit');
 Route::post('/Darbinieki/{id}/editSubmit', 'App\Http\Controllers\DarbiniekuController@editSubmit');
 
-// // Vagonu datu routes
-Route::get('/VagonuDati', 'App\Http\Controllers\VagonuDatiController@showAllVagonuDati');
-Route::get('/VagonuDati/jauns', 'App\Http\Controllers\VagonuDatiController@create');
-Route::post('/VagonuDati/jaunsSubmit', 'App\Http\Controllers\VagonuDatiController@DatuSubmit');
-Route::get('/VagonuDati/{id}/delete', 'App\Http\Controllers\VagonuDatiController@delete');
-Route::get('/VagonuDati/{id}/details', 'App\Http\Controllers\VagonuDatiController@details');
-Route::get('/VagonuDati/{id}/edit', 'App\Http\Controllers\VagonuDatiController@edit');
-Route::post('/VagonuDati/{id}/editSubmit', 'App\Http\Controllers\VagonuDatiController@editSubmit');
-
 
 // // Amata datu routes
 Route::get('/Amati', 'App\Http\Controllers\AmataController@showAllAmati');
@@ -83,16 +71,6 @@ Route::get('/Kravas/{id}/details', 'App\Http\Controllers\KravasController@detail
 Route::get('/Kravas/{id}/edit', 'App\Http\Controllers\KravasController@edit');
 Route::post('/Kravas/{id}/editSubmit', 'App\Http\Controllers\KravasController@editSubmit');
 
-
-
-// // Vagonu raksturojuma datu routes
-Route::get('/VagonaRaksturojums', 'App\Http\Controllers\VagonaRaksturojumsController@showAllVagonaRaksturojums');
-Route::get('/VagonaRaksturojums/jauns', 'App\Http\Controllers\VagonaRaksturojumsController@create');
-Route::post('/VagonaRaksturojums/jaunsSubmit', 'App\Http\Controllers\VagonaRaksturojumsController@DatuSubmit');
-Route::get('/VagonaRaksturojums/{id}/delete', 'App\Http\Controllers\VagonaRaksturojumsController@delete');
-Route::get('/VagonaRaksturojums/{id}/details', 'App\Http\Controllers\VagonaRaksturojumsController@details');
-Route::get('/VagonaRaksturojums/{id}/edit', 'App\Http\Controllers\VagonaRaksturojumsController@edit');
-Route::post('/VagonaRaksturojums/{id}/editSubmit', 'App\Http\Controllers\VagonaRaksturojumsController@editSubmit');
 
 // // Veidu  datu routes
 Route::get('/Veidi', 'App\Http\Controllers\VeidiController@showAllVeidi');
