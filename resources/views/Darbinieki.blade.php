@@ -16,7 +16,6 @@
             <th>Darbinieka ID</th>
             <th>Vārds</th>
             <th>Uzvārds</th>
-            <th>Parole</th>
             <th>E-pasts</th>
             <th>Telefona numurs</th>
             <th>Amata nosaukums</th>
@@ -29,7 +28,6 @@
             <td>{{$item->DarbiniekaID}}</td>
             <td>{{$item->Vards}}</td>
             <td>{{$item->Uzvards}}</td>
-            <td>{{$item->Parole}}</td>
             <td>{{$item->Epasts}}</td>
             <td>{{$item->TelefonaNumurs}}</td>
             <td>{{$item->amati->Nosaukums ?? ('ID: '.$item->AmataID) }}</td>
