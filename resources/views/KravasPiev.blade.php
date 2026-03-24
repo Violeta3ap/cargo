@@ -22,6 +22,13 @@
         <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" required>
     </div>
 
+
+        <div class="form-group">
+        <label for="VeidaID">Veida nosaukums:</label>
+        <input type="text" class="form-control" id="VeidaID" name="VeidaID" required>
+    </div>
+
+
     <!-- Saglabāšanas poga -->
     <button type="submit" 
         style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
