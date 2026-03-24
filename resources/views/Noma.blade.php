@@ -51,9 +51,29 @@
     </tbody>
 </table>
 
+@if ($noma->hasPages())
 <div style="margin-top: 15px; display: flex; justify-content: center;">
-    {{ $noma->links() }}
+    <nav class="noma-pagination" aria-label="Nomas lapu navigācija">
+        <a href="{{ $noma->onFirstPage() ? '#' : $noma->previousPageUrl() }}"
+           class="page-btn {{ $noma->onFirstPage() ? 'disabled' : '' }}"
+           {{ $noma->onFirstPage() ? 'aria-disabled=true tabindex=-1' : '' }}>
+            &lsaquo; Iepriekšējā
+        </a>
+
+        @foreach ($noma->getUrlRange(1, $noma->lastPage()) as $page => $url)
+            <a href="{{ $url }}" class="page-btn number {{ $page == $noma->currentPage() ? 'active' : '' }}">
+                {{ $page }}
+            </a>
+        @endforeach
+
+        <a href="{{ $noma->hasMorePages() ? $noma->nextPageUrl() : '#' }}"
+           class="page-btn {{ $noma->hasMorePages() ? '' : 'disabled' }}"
+           {{ $noma->hasMorePages() ? '' : 'aria-disabled=true tabindex=-1' }}>
+            Nākamā &rsaquo;
+        </a>
+    </nav>
 </div>
+@endif
 
 <!-- CSS stili tabulai un pogām -->
 <style>
@@ -98,6 +118,51 @@
     .btn-action:hover {
         background-color: #a2e0ed;
         color: #000;
+    }
+
+    .noma-pagination {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .page-btn {
+        border-radius: 8px;
+        border: 1px solid #59c1cf;
+        padding: 6px 12px;
+        color: #000000;
+        text-decoration: none;
+        background: linear-gradient(to right, #59c1cf, #ffffff);
+        white-space: nowrap;
+        font-size: 0.92rem;
+        line-height: 1;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .page-btn.number {
+        min-width: 34px;
+        text-align: center;
+        padding: 6px 10px;
+    }
+
+    .page-btn:hover {
+        background: #a2e0ed;
+        color: #000;
+        transform: translateY(-1px);
+    }
+
+    .page-btn.active {
+        background: #59c1cf;
+        color: #000;
+        font-weight: 600;
+    }
+
+    .page-btn.disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        pointer-events: none;
     }
 </style>
 
