@@ -67,6 +67,30 @@
     </tbody>
 </table>
 
+@if ($klientis->hasPages())
+<div style="margin-top: 15px; display: flex; justify-content: center;">
+    <nav class="klienti-pagination" aria-label="Klientu lapu navigācija">
+        <a href="{{ $klientis->onFirstPage() ? '#' : $klientis->previousPageUrl() }}"
+           class="page-btn {{ $klientis->onFirstPage() ? 'disabled' : '' }}"
+           {{ $klientis->onFirstPage() ? 'aria-disabled=true tabindex=-1' : '' }}>
+            &lsaquo; Iepriekšējā
+        </a>
+
+        @foreach ($klientis->getUrlRange(1, $klientis->lastPage()) as $page => $url)
+            <a href="{{ $url }}" class="page-btn number {{ $page == $klientis->currentPage() ? 'active' : '' }}">
+                {{ $page }}
+            </a>
+        @endforeach
+
+        <a href="{{ $klientis->hasMorePages() ? $klientis->nextPageUrl() : '#' }}"
+           class="page-btn {{ $klientis->hasMorePages() ? '' : 'disabled' }}"
+           {{ $klientis->hasMorePages() ? '' : 'aria-disabled=true tabindex=-1' }}>
+            Nākamā &rsaquo;
+        </a>
+    </nav>
+</div>
+@endif
+
 <!-- Tabulas stils -->
 <style>
     .table {
@@ -91,6 +115,51 @@
     .table tbody td {
         border: 1px solid #ddd;
         padding: 10px;
+    }
+
+    .klienti-pagination {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .page-btn {
+        border-radius: 8px;
+        border: 1px solid #59c1cf;
+        padding: 6px 12px;
+        color: #000000;
+        text-decoration: none;
+        background: linear-gradient(to right, #59c1cf, #ffffff);
+        white-space: nowrap;
+        font-size: 0.92rem;
+        line-height: 1;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .page-btn.number {
+        min-width: 34px;
+        text-align: center;
+        padding: 6px 10px;
+    }
+
+    .page-btn:hover {
+        background: #a2e0ed;
+        color: #000;
+        transform: translateY(-1px);
+    }
+
+    .page-btn.active {
+        background: #59c1cf;
+        color: #000;
+        font-weight: 600;
+    }
+
+    .page-btn.disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        pointer-events: none;
     }
 </style>
 

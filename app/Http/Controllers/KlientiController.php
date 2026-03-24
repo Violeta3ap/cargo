@@ -15,7 +15,7 @@ class KlientiController extends Controller // Izveido controller klasi
     {
      $klientis= new Klienti(); // Izveido Klienti objekta instanci
      //dd($data->all()); // Debug funkcija datu pārbaudei
-       return view('Klienti', ['klientis' => $klientis->orderBy('KlientaID', 'asc')->get()]);
+       return view('Klienti', ['klientis' => $klientis->orderBy('KlientaID', 'asc')->paginate(5)]);
        // Atver Klienti lapu un nosūta klientu sarakstu sakārtotu pēc ID
     }
 
