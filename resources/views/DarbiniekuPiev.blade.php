@@ -27,11 +27,6 @@
         <input type="text" class="form-control" id="Uzvards" name="Uzvards" required>
     </div>
 
-    <!-- Paroles lauks -->
-    <div class="form-group">
-        <label for="Parole">Parole:</label>
-        <input type="password" class="form-control" id="Parole" name="Parole" required>
-    </div>
 
     <!-- E-pasta lauks -->
     <div class="form-group">
