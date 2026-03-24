@@ -11,6 +11,24 @@ use App\Models\Veidi;
 
 class NomaController extends Controller
 {
+    private function validateVagonuSkaitsLimit(Request $dati): ?string
+    {
+        $veidaId = (int) $dati->input('VeidaID');
+        $pieprasitsSkaits = (int) $dati->input('VagonuSkaits');
+
+        $veids = Veidi::find($veidaId);
+
+        if (!$veids) {
+            return 'Izvēlētais vagona veids nav atrasts.';
+        }
+
+        if ($pieprasitsSkaits > (int) $veids->VagonuSkaits) {
+            return 'Vagonu skaits nevar būt lielāks par izvēlētā veida pieejamo skaitu (' . $veids->VagonuSkaits . ').';
+        }
+
+        return null;
+    }
+
     // Nomas saraksts ar pagināciju.
     public function showAllNoma()
     {
@@ -45,6 +63,22 @@ class NomaController extends Controller
     // Saglabā jaunu nomas ierakstu.
     public function NomaSubmit(Request $dati)
     {
+        $dati->validate([
+            'KlientaID' => ['required', 'integer'],
+            'KravasID' => ['required', 'integer'],
+            'Svars' => ['required', 'numeric', 'min:1'],
+            'VeidaID' => ['required', 'integer'],
+            'VagonuSkaits' => ['required', 'integer', 'min:1'],
+            'NomasSakumaPeriods' => ['required', 'date'],
+            'NomasBeiguPeriods' => ['required', 'date'],
+            'KopejaMaksa' => ['required', 'numeric', 'min:1'],
+        ]);
+
+        $vagonuSkaitsError = $this->validateVagonuSkaitsLimit($dati);
+        if ($vagonuSkaitsError) {
+            return back()->withInput()->withErrors(['VagonuSkaits' => $vagonuSkaitsError]);
+        }
+
         $noma = new Noma();
         $noma->KlientaID = $dati->input('KlientaID');
         $noma->KravasID = $dati->input('KravasID');
@@ -73,6 +107,22 @@ class NomaController extends Controller
     // Saglabā rediģētas vērtības.
     public function editSubmit(Request $dati, $id)
     {
+        $dati->validate([
+            'KlientaID' => ['required', 'integer'],
+            'KravasID' => ['required', 'integer'],
+            'Svars' => ['required', 'numeric', 'min:1'],
+            'VeidaID' => ['required', 'integer'],
+            'VagonuSkaits' => ['required', 'integer', 'min:1'],
+            'NomasSakumaPeriods' => ['required', 'date'],
+            'NomasBeiguPeriods' => ['required', 'date'],
+            'KopejaMaksa' => ['required', 'numeric', 'min:1'],
+        ]);
+
+        $vagonuSkaitsError = $this->validateVagonuSkaitsLimit($dati);
+        if ($vagonuSkaitsError) {
+            return back()->withInput()->withErrors(['VagonuSkaits' => $vagonuSkaitsError]);
+        }
+
         DB::table('vagonunoma')
             ->where('NomasID', $id)
             ->update([

@@ -10,6 +10,14 @@
 
 <hr> <!-- Horizontāla līnija -->
 
+@if ($errors->any())
+    <div class="alert alert-danger" style="margin-bottom: 15px;">
+        @foreach ($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
+@endif
+
 <form method="POST" action="/Noma/jaunsSubmit"> <!-- Forma datu pievienošanai -->
     @csrf <!-- CSRF aizsardzība -->
 
@@ -19,7 +27,7 @@
         <select class="form-control" id="KlientaID" name="KlientaID" required>
             <option value="">Izvēlieties klientu</option>
             @foreach($klienti as $klientis)
-                <option value="{{ $klientis->KlientaID }}">
+                <option value="{{ $klientis->KlientaID }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
                     {{ $klientis->Vards }} {{ $klientis->Uzvards }}
                 </option>
             @endforeach
@@ -31,7 +39,7 @@
         <select class="form-control" id="KravasID" name="KravasID" required>
             <option value="">Izvēlieties kravu</option>
             @foreach($kravas as $krava)
-                <option value="{{ $krava->KravasID }}">
+                <option value="{{ $krava->KravasID }}" {{ old('KravasID') == $krava->KravasID ? 'selected' : '' }}>
                     {{ $krava->Nosaukums }}
                 </option>
             @endforeach
@@ -42,7 +50,7 @@
 
     <div class="form-group">
         <label for="Svars">Svars tonnās:</label>
-        <input type="number" class="form-control" id="Svars" name="Svars" min="1" required>
+        <input type="number" class="form-control" id="Svars" name="Svars" min="1" value="{{ old('Svars') }}" required>
     </div>
 
 
@@ -52,7 +60,7 @@
         <select class="form-control" id="VeidaID" name="VeidaID" required>
             <option value="">Izvēlieties vagona veidu</option>
             @foreach($veidi as $veids)
-                <option value="{{ $veids->VeidaID }}">
+                <option value="{{ $veids->VeidaID }}" {{ old('VeidaID') == $veids->VeidaID ? 'selected' : '' }}>
                     {{ $veids->Nosaukums }}
                 </option>
             @endforeach
@@ -63,25 +71,25 @@
     <!-- Vagonu skaits -->
     <div class="form-group">
         <label for="VagonuSkaits">Vagonu skaits:</label>
-        <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" min="1" required>
+        <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" min="1" value="{{ old('VagonuSkaits') }}" required>
     </div>
 
     <!-- Nomas sākuma datums -->
     <div class="form-group">
         <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>
-        <input type="text" class="form-control datepicker" id="NomasSakumaPeriods" name="NomasSakumaPeriods" placeholder="YYYY-MM-DD" autocomplete="off" required>
+        <input type="text" class="form-control datepicker" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ old('NomasSakumaPeriods') }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
     </div>
 
     <!-- Nomas beigu datums -->
     <div class="form-group">
         <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
-        <input type="text" class="form-control datepicker" id="NomasBeiguPeriods" name="NomasBeiguPeriods" placeholder="YYYY-MM-DD" autocomplete="off" required>
+        <input type="text" class="form-control datepicker" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ old('NomasBeiguPeriods') }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
     </div>
 
     <!-- Kopējā maksa -->
     <div class="form-group">
         <label for="KopejaMaksa">Kopēja maksa:</label>
-        <input type="number" class="form-control" id="KopejaMaksa" name="KopejaMaksa" min="1" required>
+        <input type="number" class="form-control" id="KopejaMaksa" name="KopejaMaksa" min="1" value="{{ old('KopejaMaksa') }}" required>
     </div>
 
     <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; 

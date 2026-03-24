@@ -7,6 +7,14 @@
 
     <hr>
 
+    @if ($errors->any())
+        <div class="alert alert-danger" style="margin-bottom: 15px;">
+            @foreach ($errors->all() as $error)
+                <div>{{ $error }}</div>
+            @endforeach
+        </div>
+    @endif
+
     <form action="/Noma/{{ $noma->NomasID }}/editSubmit" method="POST">
         @csrf
 
