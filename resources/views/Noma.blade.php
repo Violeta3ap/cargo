@@ -2,29 +2,6 @@
 
 @section('content')
 
-@php
-    $sort = $sort ?? 'id';
-    $direction = $direction ?? 'asc';
-
-    $buildSortUrl = function ($column) use ($sort, $direction) {
-        $nextDirection = ($sort === $column && $direction === 'asc') ? 'desc' : 'asc';
-
-        return request()->fullUrlWithQuery([
-            'sort' => $column,
-            'direction' => $nextDirection,
-            'page' => 1,
-        ]);
-    };
-
-    $sortIcon = function ($column) use ($sort, $direction) {
-        if ($sort !== $column) {
-            return '⇅';
-        }
-
-        return $direction === 'asc' ? '↑' : '↓';
-    };
-@endphp
-
 <!-- Lapas galvene -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Noma</h2>
@@ -38,15 +15,15 @@
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
-            <th><a href="{{ $buildSortUrl('klients') }}" class="sort-link">Klients <span>{{ $sortIcon('klients') }}</span></a></th>
-            <th><a href="{{ $buildSortUrl('uznemums') }}" class="sort-link">Klienta uzņēmums <span>{{ $sortIcon('uznemums') }}</span></a></th>
-            <th><a href="{{ $buildSortUrl('krava') }}" class="sort-link">Kravas veids <span>{{ $sortIcon('krava') }}</span></a></th>
-            <th><a href="{{ $buildSortUrl('svars') }}" class="sort-link">Svars tonnās <span>{{ $sortIcon('svars') }}</span></a></th>
-            <th><a href="{{ $buildSortUrl('vagons') }}" class="sort-link">Vagona nosaukums <span>{{ $sortIcon('vagons') }}</span></a></th>
-            <th><a href="{{ $buildSortUrl('skaits') }}" class="sort-link">Vagonu skaits <span>{{ $sortIcon('skaits') }}</span></a></th>
-            <th><a href="{{ $buildSortUrl('sakums') }}" class="sort-link">Nomas sākuma periods <span>{{ $sortIcon('sakums') }}</span></a></th>
-            <th><a href="{{ $buildSortUrl('beigas') }}" class="sort-link">Nomas beigu periods <span>{{ $sortIcon('beigas') }}</span></a></th>
-            <th><a href="{{ $buildSortUrl('maksa') }}" class="sort-link">Kopējā maksa <span>{{ $sortIcon('maksa') }}</span></a></th>
+            <th>Klients</th>
+            <th>Klienta uzņēmums</th>
+            <th>Kravas veids</th>
+            <th>Svars tonnās</th>
+            <th>Vagona nosaukums</th>
+            <th>Vagonu skaits</th>
+            <th>Nomas sākuma periods</th>
+            <th>Nomas beigu periods</th>
+            <th>Kopējā maksa</th>
             <th>Darbības</th>
         </tr>
     </thead>
@@ -112,18 +89,6 @@
         border: 1px solid #59c1cf;
         padding: 12px;
         font-weight: bold;
-    }
-
-    .sort-link {
-        color: white;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .sort-link:hover {
-        text-decoration: underline;
     }
     
     .table tbody tr:hover {

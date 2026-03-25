@@ -29,44 +29,11 @@ class NomaController extends Controller
         return null;
     }
 
-    // Nomas saraksts ar pagināciju un kārtošanu.
-    public function showAllNoma(Request $request)
+    // Nomas saraksts ar pagināciju.
+    public function showAllNoma()
     {
-        $sortableColumns = [
-            'id' => 'vagonunoma.NomasID',
-            'klients' => 'klienti.Vards',
-            'uznemums' => 'klienti.UznemumaNosaukums',
-            'krava' => 'krava.Nosaukums',
-            'svars' => 'vagonunoma.Svars',
-            'vagons' => 'veidi.Nosaukums',
-            'skaits' => 'vagonunoma.VagonuSkaits',
-            'sakums' => 'vagonunoma.NomasSakumaPeriods',
-            'beigas' => 'vagonunoma.NomasBeiguPeriods',
-            'maksa' => 'vagonunoma.KopejaMaksa',
-        ];
-
-        $sort = $request->query('sort', 'id');
-        $direction = strtolower((string) $request->query('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
-
-        if (!array_key_exists($sort, $sortableColumns)) {
-            $sort = 'id';
-        }
-
-        $query = Noma::query()
-            ->with(['klienti', 'kravas', 'veidi'])
-            ->leftJoin('klienti', 'vagonunoma.KlientaID', '=', 'klienti.KlientaID')
-            ->leftJoin('krava', 'vagonunoma.KravasID', '=', 'krava.KravasID')
-            ->leftJoin('veidi', 'vagonunoma.VeidaID', '=', 'veidi.VeidaID')
-            ->select('vagonunoma.*')
-            ->orderBy($sortableColumns[$sort], $direction);
-
-        if ($sort !== 'id') {
-            $query->orderBy('vagonunoma.NomasID', 'asc');
-        }
-
-        $noma = $query->paginate(5)->appends($request->query());
-
-        return view('Noma', compact('noma', 'sort', 'direction'));
+        $noma = new Noma();
+        return view('Noma', ['noma' => $noma->orderBy('NomasID', 'asc')->paginate(5)]);
     }
 
     // Dzēš nomas ierakstu.
