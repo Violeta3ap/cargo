@@ -21,17 +21,29 @@
 <form method="POST" action="/Noma/jaunsSubmit" id="nomaForm">
     @csrf
 
-    <!-- Klienta izvēlne -->
+    <!-- Klienta vārds -->
     <div class="form-group">
-        <label for="KlientaID">Klients:</label>
-        <select class="form-control" id="KlientaID" name="KlientaID" required>
-            <option value="">Izvēlieties klientu</option>
+        <label for="KlientaID_Vards">Klienta vārds:</label>
+        <select class="form-control" id="KlientaID_Vards" name="KlientaID" required>
+            <option value="">Izvēlieties klienta vārdu</option>
             @foreach($klienti as $klientis)
-                <option value="{{ $klientis->KlientaID }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
-                    {{ $klientis->Vards }} {{ $klientis->Uzvards }} ({{ $klientis->UznemumaNosaukums }})
+                <option value="{{ $klientis->KlientaID }}" data-uzvards="{{ $klientis->Uzvards }}" data-uznemums="{{ $klientis->UznemumaNosaukums }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
+                    {{ $klientis->Vards }}
                 </option>
             @endforeach
         </select>
+    </div>
+
+    <!-- Klienta uzvārds (tiek automātiski aizpildīts) -->
+    <div class="form-group">
+        <label for="KlientaUzvards">Klienta uzvārds:</label>
+        <input type="text" class="form-control" id="KlientaUzvards" readonly style="background-color: #f5f5f5;" placeholder="Uzvārds tiks ielādēts automātiski">
+    </div>
+
+    <!-- Klienta uzņēmuma nosaukums (tiek automātiski aizpildīts) -->
+    <div class="form-group">
+        <label for="KlientaUznemums">Klienta uzņēmuma nosaukums:</label>
+        <input type="text" class="form-control" id="KlientaUznemums" readonly style="background-color: #f5f5f5;" placeholder="Uzņēmums tiks ielādēts automātiski">
     </div>
 
     <!-- Kravas izvēlne -->
@@ -40,18 +52,23 @@
         <select class="form-control" id="KravasID" name="KravasID" required>
             <option value="">Izvēlieties kravas veidu</option>
             @foreach($kravas as $krava)
-                <option value="{{ $krava->KravasID }}" {{ old('KravasID') == $krava->KravasID ? 'selected' : '' }}>
+                <option value="{{ $krava->KravasID }}" data-veida-id="{{ $krava->VeidaID }}" {{ old('KravasID') == $krava->KravasID ? 'selected' : '' }}>
                     {{ $krava->Nosaukums }}
                 </option>
             @endforeach
         </select>
     </div>
 
-    <!-- Vagona veids -->
+    <!-- Vagona veids (tiks automātiski aizpildīts) -->
     <div class="form-group">
         <label for="VeidaID">Vagona veida nosaukums:</label>
         <select class="form-control" id="VeidaID" name="VeidaID" required>
             <option value="">Vispirms izvēlieties kravu</option>
+            @foreach($veidi as $veids)
+                <option value="{{ $veids->VeidaID }}" data-cena="{{ $veids->CenaParDiennakti }}">
+                    {{ $veids->Nosaukums }}
+                </option>
+            @endforeach
         </select>
         <small style="font-size: 12px; color: #6c757d;">Vagona veids tiks automātiski ielādēts pēc kravas izvēles</small>
     </div>
@@ -74,10 +91,10 @@
         <input type="text" class="form-control datepicker" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ old('NomasBeiguPeriods') }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
     </div>
 
-    <!-- Cena par diennakti (automātiski) -->
+    <!-- Cena par diennakti (tikai lasīšanai, ņem no Veidi tabulas) -->
     <div class="form-group">
         <label for="CenaParDiennakti">Cena par diennakti (€):</label>
-        <input type="text" class="form-control" id="CenaParDiennakti" readonly style="background-color: #f5f5f5;">
+        <input type="text" class="form-control" id="CenaParDiennakti" readonly style="background-color: #f5f5f5;" placeholder="Tiks aprēķināta automātiski">
     </div>
 
     <!-- Dienu skaits (automātiski) -->
@@ -115,40 +132,61 @@ $(document).ready(function() {
         allowInput: true
     });
     
+    // Kad tiek izvēlēts klienta vārds, automātiski aizpilda uzvārdu un uzņēmumu
+    $('#KlientaID_Vards').change(function() {
+        var selectedOption = $(this).find('option:selected');
+        var uzvards = selectedOption.data('uzvards');
+        var uznemums = selectedOption.data('uznemums');
+        
+        if ($(this).val()) {
+            $('#KlientaUzvards').val(uzvards || '');
+            $('#KlientaUznemums').val(uznemums || '');
+        } else {
+            $('#KlientaUzvards').val('');
+            $('#KlientaUznemums').val('');
+        }
+    });
+    
+    // Ielādē sākotnējās vērtības, ja ir izvēlēts klients
+    if ($('#KlientaID_Vards').val()) {
+        $('#KlientaID_Vards').trigger('change');
+    }
+    
     // Kad tiek izvēlēta krava, ielādē atbilstošo vagona veidu
     $('#KravasID').change(function() {
-        var kravasId = $(this).val();
+        var selectedOption = $(this).find('option:selected');
+        var veidaId = selectedOption.data('veida-id');
         
-        if (kravasId) {
-            $.ajax({
-                url: '/api/krava/' + kravasId + '/veids',
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    if (data.success) {
-                        // Atjauno vagona veidu dropdown
-                        $('#VeidaID').empty();
-                        $('#VeidaID').append('<option value="' + data.veida_id + '">' + data.veida_nosaukums + '</option>');
-                        
-                        // Parāda cenu par diennakti
-                        $('#CenaParDiennakti').val(data.cena_par_diennakti);
-                        
-                        // Aprēķina kopējo maksu
-                        calculateTotal();
-                    } else {
-                        alert('Kļūda: ' + data.message);
-                    }
-                },
-                error: function() {
-                    alert('Kļūda ielādējot vagona veidu');
-                }
-            });
+        if (veidaId) {
+            // Atrod un izvēlas atbilstošo vagona veidu dropdownā
+            $('#VeidaID').val(veidaId);
+            
+            // Iegūst cenu no izvēlētā vagona veida
+            var selectedVeids = $('#VeidaID option:selected');
+            var cena = selectedVeids.data('cena');
+            
+            if (cena) {
+                $('#CenaParDiennakti').val(cena);
+            }
+            
+            // Aprēķina kopējo maksu
+            calculateTotal();
         } else {
-            $('#VeidaID').empty();
-            $('#VeidaID').append('<option value="">Vispirms izvēlieties kravu</option>');
+            $('#VeidaID').val('');
             $('#CenaParDiennakti').val('');
             $('#DienuSkaits').val('');
             $('#KopejaMaksa').val('');
+        }
+    });
+    
+    // Kad mainās vagona veids, atjauno cenu un pārrēķina
+    $('#VeidaID').change(function() {
+        var selectedOption = $(this).find('option:selected');
+        var cena = selectedOption.data('cena');
+        
+        if (cena) {
+            $('#CenaParDiennakti').val(cena);
+            calculateTotal();
         }
     });
     
@@ -158,29 +196,27 @@ $(document).ready(function() {
         var vagonuSkaits = $('#VagonuSkaits').val();
         var sakumaDatums = $('#NomasSakumaPeriods').val();
         var beiguDatums = $('#NomasBeiguPeriods').val();
+        var cenaParDiennakti = $('#CenaParDiennakti').val();
         
-        if (veidaId && vagonuSkaits && sakumaDatums && beiguDatums) {
-            $.ajax({
-                url: '/api/noma/calculate',
-                type: 'POST',
-                data: {
-                    veida_id: veidaId,
-                    vagonu_skaits: vagonuSkaits,
-                    sakuma_datums: sakumaDatums,
-                    beigu_datums: beiguDatums,
-                    _token: '{{ csrf_token() }}'
-                },
-                dataType: 'json',
-                success: function(data) {
-                    if (data.success) {
-                        $('#CenaParDiennakti').val(data.cena_par_diennakti);
-                        $('#DienuSkaits').val(data.dienu_skaits);
-                        $('#KopejaMaksa').val(data.kopeja_maksa);
-                    } else {
-                        $('#KopejaMaksa').val('');
-                    }
-                }
-            });
+        if (veidaId && vagonuSkaits && sakumaDatums && beiguDatums && cenaParDiennakti) {
+            // Aprēķina dienu skaitu
+            var start = new Date(sakumaDatums);
+            var end = new Date(beiguDatums);
+            var dienuSkaits = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
+            
+            if (dienuSkaits > 0 && !isNaN(dienuSkaits)) {
+                $('#DienuSkaits').val(dienuSkaits);
+                
+                // Aprēķina kopējo maksu
+                var kopejaMaksa = parseFloat(cenaParDiennakti) * parseInt(vagonuSkaits) * dienuSkaits;
+                $('#KopejaMaksa').val(kopejaMaksa.toFixed(2));
+            } else {
+                $('#DienuSkaits').val('');
+                $('#KopejaMaksa').val('');
+            }
+        } else {
+            $('#DienuSkaits').val('');
+            $('#KopejaMaksa').val('');
         }
     }
     
@@ -193,16 +229,56 @@ $(document).ready(function() {
     $('#VagonuSkaits').on('input', function() {
         calculateTotal();
     });
+    
+    // Ielādē sākotnējo cenu, ja jau ir izvēlēts vagona veids
+    if ($('#VeidaID').val()) {
+        $('#VeidaID').trigger('change');
+    }
+    
+    // Ielādē sākotnējo kravas veidu, ja tāds ir izvēlēts (no old())
+    if ($('#KravasID').val()) {
+        $('#KravasID').trigger('change');
+    }
 });
 </script>
 
 <style>
-    .form-group { margin-bottom: 20px; } 
-    .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; } 
-    .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box; } 
-    .form-control:focus { outline: none; border-color: #59c1cf; box-shadow: 0 0 5px rgba(89, 193, 207, 0.3); } 
-    button[type="submit"] { cursor: pointer; font-size: 16px; font-weight: 500; transition: transform 0.2s; } 
-    button[type="submit"]:hover { transform: scale(1.05); }
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #59c1cf;
+        box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
+    }
+
+    button[type="submit"] {
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: transform 0.2s;
+    }
+
+    button[type="submit"]:hover {
+        transform: scale(1.05);
+    }
 </style>
 
 @endsection
