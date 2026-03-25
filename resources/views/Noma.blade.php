@@ -23,7 +23,7 @@
     <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas veids">
     <input type="text" name="veidii" value="{{ $veidii }}" placeholder="Vagona nosaukums">
 
-    <button type="submit" class="btn-action filter-btn" style="display: flex; flex-direction: column; gap: 5px; align-items: center;">Meklēt</button>
+    <button type="submit" class="btn-action filter-btn">Meklēt</button>
     <a href="/Noma" class="btn-action filter-btn reset-btn">Notīrīt</a>
 </form>
 
@@ -117,9 +117,10 @@
 
     .filter-btn {
         width: auto;
-        min-width: 120px;
+        min-width: 90px;
         flex: 0 0 auto;
-        padding: 8px 10px;
+        padding: 5px 8px;
+        font-size: 0.82rem;
     }
 
     .reset-btn {
