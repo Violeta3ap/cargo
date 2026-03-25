@@ -35,7 +35,6 @@ class NomaController extends Controller
         $klients = trim((string) $request->query('klients', ''));
         $krava = trim((string) $request->query('krava', ''));
         $veidaid = trim((string) $request->query('veidaid', ''));
-        $periods = trim((string) $request->query('periods', ''));
 
         $query = Noma::query()
             ->with(['klienti', 'kravas', 'veidi'])
@@ -46,8 +45,7 @@ class NomaController extends Controller
         if ($klients !== '') {
             $query->where(function ($q) use ($klients) {
                 $q->where('klienti.Vards', 'like', '%' . $klients . '%')
-                    ->orWhere('klienti.Uzvards', 'like', '%' . $klients . '%')
-                    ->orWhere('klienti.UznemumaNosaukums', 'like', '%' . $klients . '%');
+                    ->orWhere('klienti.Uzvards', 'like', '%' . $klients . '%');
             });
         }
 
@@ -59,24 +57,12 @@ class NomaController extends Controller
             $query->where('vagonunoma.VeidaID', (int) $veidaid);
         }
 
-        if ($periods !== '') {
-            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $periods)) {
-                $query->whereDate('vagonunoma.NomasSakumaPeriods', '<=', $periods)
-                    ->whereDate('vagonunoma.NomasBeiguPeriods', '>=', $periods);
-            } else {
-                $query->where(function ($q) use ($periods) {
-                    $q->where('vagonunoma.NomasSakumaPeriods', 'like', '%' . $periods . '%')
-                        ->orWhere('vagonunoma.NomasBeiguPeriods', 'like', '%' . $periods . '%');
-                });
-            }
-        }
-
         $noma = $query
             ->orderBy('vagonunoma.NomasID', 'asc')
             ->paginate(5)
             ->appends($request->query());
 
-        return view('Noma', compact('noma', 'klients', 'krava', 'veidaid', 'periods'));
+        return view('Noma', compact('noma', 'klients', 'krava', 'veidaid'));
     }
 
     // Dzēš nomas ierakstu.
