@@ -32,8 +32,8 @@
             <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums">
             <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
             <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
-            <input type="date" name="periods_no" value="{{ $periodsNo }}" title="Periods no">
-            <input type="date" name="periods_lidz" value="{{ $periodsLidz }}" title="Periods līdz">
+            <input type="text" class="datepicker" name="periods_no" value="{{ $periodsNo }}" title="Periods no" placeholder="YYYY-MM-DD" autocomplete="off">
+            <input type="text" class="datepicker" name="periods_lidz" value="{{ $periodsLidz }}" title="Periods līdz" placeholder="YYYY-MM-DD" autocomplete="off">
             <button type="submit" class="filter-btn">Filtrēt</button>
         </div>
     </div>
@@ -49,6 +49,25 @@
     </div>
     <a href="/Noma" class="filter-btn">Notīrīt</a>
 </form>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/lv.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof flatpickr === 'undefined') {
+        return;
+    }
+
+    flatpickr('.datepicker', {
+        locale: 'lv',
+        dateFormat: 'Y-m-d',
+        altInput: true,
+        altFormat: 'd.m.Y',
+        allowInput: true
+    });
+});
+</script>
 
 <!-- Nomas saraksts -->
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
