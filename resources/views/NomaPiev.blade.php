@@ -47,18 +47,18 @@
         </select>
     </div>
 
-    <!-- Vagona veids (tiks automātiski aizpildīts) -->
+    <!-- Vagona veids (var mainīt) -->
     <div class="form-group">
         <label for="VeidaID">Vagona veida nosaukums:</label>
         <select class="form-control" id="VeidaID" name="VeidaID" required>
-            <option value="">Vispirms izvēlieties kravu</option>
+            <option value="">Izvēlieties vagona veidu</option>
             @foreach($veidi as $veids)
                 <option value="{{ $veids->VeidaID }}" data-cena="{{ $veids->CenaParDiennakti }}">
                     {{ $veids->Nosaukums }}
                 </option>
             @endforeach
         </select>
-        <small style="font-size: 12px; color: #6c757d;">Vagona veids tiks automātiski ielādēts pēc kravas izvēles</small>
+        <small style="font-size: 12px; color: #6c757d;">Pēc kravas izvēles vagona veids tiks ielādēts automātiski, bet to var mainīt</small>
     </div>
 
     <!-- Vagonu skaits -->
@@ -120,7 +120,7 @@ $(document).ready(function() {
         allowInput: true
     });
     
-    // Kad tiek izvēlēta krava, ielādē atbilstošo vagona veidu
+    // Kad tiek izvēlēta krava, ielādē atbilstošo vagona veidu (bet lietotājs var mainīt)
     $('#KravasID').change(function() {
         var selectedOption = $(this).find('option:selected');
         var veidaId = selectedOption.data('veida-id');
@@ -129,13 +129,8 @@ $(document).ready(function() {
             // Atrod un izvēlas atbilstošo vagona veidu dropdownā
             $('#VeidaID').val(veidaId);
             
-            // Iegūst cenu no izvēlētā vagona veida
-            var selectedVeids = $('#VeidaID option:selected');
-            var cena = selectedVeids.data('cena');
-            
-            if (cena) {
-                $('#CenaParDiennakti').val(cena);
-            }
+            // Iegūst cenu no izvēlētā vagona veida un atjauno
+            updatePriceFromVehicle();
             
             // Aprēķina kopējo maksu
             calculateTotal();
@@ -147,15 +142,22 @@ $(document).ready(function() {
         }
     });
     
-    // Kad mainās vagona veids, atjauno cenu un pārrēķina
-    $('#VeidaID').change(function() {
-        var selectedOption = $(this).find('option:selected');
-        var cena = selectedOption.data('cena');
+    // Funkcija, kas atjauno cenu no izvēlētā vagona veida
+    function updatePriceFromVehicle() {
+        var selectedVeids = $('#VeidaID option:selected');
+        var cena = selectedVeids.data('cena');
         
         if (cena) {
             $('#CenaParDiennakti').val(cena);
-            calculateTotal();
+        } else {
+            $('#CenaParDiennakti').val('');
         }
+    }
+    
+    // Kad lietotājs manuāli maina vagona veidu, atjauno cenu un pārrēķina
+    $('#VeidaID').change(function() {
+        updatePriceFromVehicle();
+        calculateTotal();
     });
     
     // Funkcija kopējās maksas aprēķināšanai
@@ -200,7 +202,7 @@ $(document).ready(function() {
     
     // Ielādē sākotnējo cenu, ja jau ir izvēlēts vagona veids
     if ($('#VeidaID').val()) {
-        $('#VeidaID').trigger('change');
+        updatePriceFromVehicle();
     }
     
     // Ielādē sākotnējo kravas veidu, ja tāds ir izvēlēts (no old())
