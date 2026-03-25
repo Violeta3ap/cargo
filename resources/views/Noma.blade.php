@@ -27,7 +27,7 @@
 <!-- Meklēšanas un filtrēšanas logi -->
 <form method="GET" action="/Noma" class="noma-filter-form" style="padding: 8px 10px;">
     <div class="filter-window">
-        <h4>Filtrēšana (noma)</h4>
+        <h4>Filtrēšana</h4>
         <div class="filter-row">
             <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums">
             <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
@@ -39,7 +39,7 @@
     </div>
 
     <div class="filter-window">
-        <h4>Meklēšana (klients)</h4>
+        <h4>Meklēšana</h4>
         <div class="filter-row">
             <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
             <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
