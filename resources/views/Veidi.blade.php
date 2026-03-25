@@ -3,6 +3,7 @@
 @section('content') 
 
 @php
+    $search = $search ?? request('search', '');
     $sortBy = $sortBy ?? request('sort_by', 'VeidaID');
     $sortOrder = $sortOrder ?? request('sort_order', 'asc');
     
@@ -42,11 +43,11 @@
     </div>
 @endif
 
-<!-- Meklēšanas logs (pēc izvēles) -->
+<!-- Meklēšanas logs -->
 <form method="GET" action="/Veidi" class="veidi-search-form" style="margin-bottom: 15px;">
     <div class="search-window" style="border: 1px solid #59c1cf; border-radius: 10px; padding: 10px; background: #f8fdfe;">
         <div class="search-row" style="display: flex; gap: 10px; align-items: center;">
-            <input type="text" name="search" value="{{ request('search', '') }}" placeholder="Meklēt pēc vagona veida..." style="flex: 1; border: 1px solid #59c1cf; border-radius: 8px; padding: 8px 10px;">
+            <input type="text" name="search" value="{{ $search }}" placeholder="Meklēt pēc vagona veida..." style="flex: 1; border: 1px solid #59c1cf; border-radius: 8px; padding: 8px 10px;">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
             <button type="submit" class="filter-btn" style="padding: 8px 15px;">Meklēt</button>
@@ -55,11 +56,17 @@
     </div>
 </form>
 
+@if($search !== '')
+    <div style="margin-bottom: 10px; padding: 8px; background-color: #e8f5f7; border-radius: 8px;">
+        <strong>Meklēšanas rezultāti:</strong> Atrasti {{ $dati->count() }} ieraksti pēc frāzes "{{ $search }}"
+    </div>
+@endif
+
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
-         <tr>
+        <tr>
             <th>
-                <a href="{{ getSortUrl('Nosaukums', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ getSortUrl('Nosaukums', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
                    class="sort-link {{ $sortBy == 'Nosaukums' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Vagona tipa nosaukums
                     @if($sortBy == 'Nosaukums')
@@ -68,7 +75,7 @@
                 </a>
             </th> 
             <th>
-                <a href="{{ getSortUrl('Celtspeja', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ getSortUrl('Celtspeja', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
                    class="sort-link {{ $sortBy == 'Celtspeja' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Celtspēja tonnās
                     @if($sortBy == 'Celtspeja')
@@ -77,7 +84,7 @@
                 </a>
             </th> 
             <th>
-                <a href="{{ getSortUrl('VagonuSkaits', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ getSortUrl('VagonuSkaits', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
                    class="sort-link {{ $sortBy == 'VagonuSkaits' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Vagonu Skaits
                     @if($sortBy == 'VagonuSkaits')
@@ -86,7 +93,7 @@
                 </a>
             </th> 
             <th>
-                <a href="{{ getSortUrl('CenaParDiennakti', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ getSortUrl('CenaParDiennakti', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
                    class="sort-link {{ $sortBy == 'CenaParDiennakti' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Cena Par Diennakti
                     @if($sortBy == 'CenaParDiennakti')
@@ -97,11 +104,11 @@
             @if(Auth::check() && !Auth::user()->isKlients())
                 <th>Darbības</th>
             @endif
-         </tr>
+          </tr>
     </thead>
     <tbody>
         @forelse ($dati as $item) 
-         <tr>
+          <tr>
             <td>{{$item->Nosaukums}}</td> 
             <td>{{$item->Celtspeja}} t</td>
             <td>{{$item->VagonuSkaits}}</td>
@@ -124,13 +131,17 @@
                     </div>
                 </td>
             @endif
-         </tr>
+          </tr>
         @empty
-         <tr>
+          <tr>
             <td colspan="{{ Auth::check() && !Auth::user()->isKlients() ? 5 : 4 }}" style="text-align: center; padding: 20px;">
-                Nav atrasts neviens vagona veids
+                @if($search !== '')
+                    Nav atrasts neviens vagona veids pēc meklēšanas frāzes "{{ $search }}"
+                @else
+                    Nav atrasts neviens vagona veids
+                @endif
             </td>
-         </tr>
+          </tr>
         @endforelse
     </tbody>
 </table>

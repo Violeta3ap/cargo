@@ -13,9 +13,12 @@ class VeidiController extends Controller
         return auth()->check() && auth()->user()->isKlients();
     }
 
-    // Veidu saraksts ar kārtošanu.
+    // Veidu saraksts ar meklēšanu un kārtošanu.
     public function showAllVeidi(Request $request)
     {
+        // Meklēšanas parametrs
+        $search = trim((string) $request->query('search', ''));
+        
         // Kārtošanas parametri
         $sortBy = $request->query('sort_by', 'VeidaID');
         $sortOrder = $request->query('sort_order', 'asc');
@@ -39,10 +42,18 @@ class VeidiController extends Controller
             $sortOrder = 'asc';
         }
         
-        $veidi = new Veidi();
-        $dati = $veidi->orderBy($sortBy, $sortOrder)->get();
+        // Veidojam vaicājumu
+        $query = Veidi::query();
         
-        return view('Veidi', compact('dati', 'sortBy', 'sortOrder'));
+        // Meklēšana pēc nosaukuma
+        if ($search !== '') {
+            $query->where('Nosaukums', 'like', '%' . $search . '%');
+        }
+        
+        // Pievienojam kārtošanu un izgūstam datus
+        $dati = $query->orderBy($sortBy, $sortOrder)->get();
+        
+        return view('Veidi', compact('dati', 'sortBy', 'sortOrder', 'search'));
     }
 
     // Dzēš veidu.
