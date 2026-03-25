@@ -35,9 +35,9 @@
     </div>
     <!-- Izvēlne kravai -->
     <div class="form-group">
-        <label for="KravasID">Krava:</label>
+        <label for="KravasID">Kravas veids:</label>
         <select class="form-control" id="KravasID" name="KravasID" required>
-            <option value="">Izvēlieties kravu</option>
+            <option value="">Izvēlieties kravas veidu</option>
             @foreach($kravas as $krava)
                 <option value="{{ $krava->KravasID }}" {{ old('KravasID') == $krava->KravasID ? 'selected' : '' }}>
                     {{ $krava->Nosaukums }}
@@ -54,11 +54,11 @@
     </div>
 
 
-    <!-- Izvēlne kravai -->
+    <!-- Izvēlne vagona veidam -->
     <div class="form-group">
-        <label for="VeidaID">Vagona veida nosaukums:</label>
+        <label for="VeidaID">Vagona nosaukums:</label>
         <select class="form-control" id="VeidaID" name="VeidaID" required>
-            <option value="">Izvēlieties vagona veidu</option>
+            <option value="">Izvēlieties vagona nosaukumu</option>
             @foreach($veidi as $veids)
                 <option value="{{ $veids->VeidaID }}" {{ old('VeidaID') == $veids->VeidaID ? 'selected' : '' }}>
                     {{ $veids->Nosaukums }}

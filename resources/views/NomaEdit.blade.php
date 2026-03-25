@@ -31,7 +31,7 @@
 </div>
 
 <div class="form-group">
-    <label for="KravasID">Krava:</label>
+    <label for="KravasID">Kravas veids:</label>
     <select class="form-control" id="KravasID" name="KravasID" required>
         @foreach($kravas as $krava)
             <option value="{{ $krava->KravasID }}"
@@ -55,7 +55,7 @@
 
 
         <div class="form-group">
-    <label for="VeidaID">Vagona veida nosaukums:</label>
+    <label for="VeidaID">Vagona nosaukums:</label>
     <select class="form-control" id="VeidaID" name="VeidaID" required>
         @foreach($veidi as $veids)
             <option value="{{ $veids->VeidaID }}"

@@ -17,12 +17,12 @@
         <tr>
             <th>Klients</th>
             <th>Klienta uzņēmums</th>
-            <th>Krava</th>
+            <th>Kravas veids</th>
             <th>Svars tonnās</th>
-            <th>Vagona veids</th>
+            <th>Vagona nosaukums</th>
             <th>Vagonu skaits</th>
-            <th>Nomas sākums</th>
-            <th>Nomas beigas</th>
+            <th>Nomas sākuma periods</th>
+            <th>Nomas beigu periods</th>
             <th>Kopējā maksa</th>
             <th>Darbības</th>
         </tr>
