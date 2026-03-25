@@ -23,9 +23,9 @@
 
     <!-- Izvēlne klientam -->
     <div class="form-group">
-        <label for="KlientaID">Klients:</label>
+        <label for="KlientaID">Klienta vārds:</label>
         <select class="form-control" id="KlientaID" name="KlientaID" required>
-            <option value="">Izvēlieties klientu</option>
+            <option value="">Izvēlieties klienta vārdu</option>
             @foreach($klienti as $klientis)
                 <option value="{{ $klientis->KlientaID }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
                     {{ $klientis->Vards }} 
@@ -38,9 +38,9 @@
 
         <!-- Izvēlne klientam -->
     <div class="form-group">
-        <label for="KlientaID">Klients:</label>
+        <label for="KlientaID">Klienta uzvārds:</label>
         <select class="form-control" id="KlientaID" name="KlientaID" required>
-            <option value="">Izvēlieties klientu</option>
+            <option value="">Izvēlieties klienta uzvārdu</option>
             @foreach($klienti as $klientis)
                 <option value="{{ $klientis->KlientaID }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
                {{ $klientis->Uzvards }}
@@ -49,6 +49,19 @@
         </select>
     </div>
 
+
+            <!-- Izvēlne klientam -->
+    <div class="form-group">
+        <label for="KlientaID">Klienta uzņēmuma nosaukums:</label>
+        <select class="form-control" id="KlientaID" name="KlientaID" required>
+            <option value="">Izvēlieties klienta uzņēmuma nosaukumu</option>
+            @foreach($klienti as $klientis)
+                <option value="{{ $klientis->KlientaID }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
+               {{ $klientis->UznemumaNosaukums }}
+                </option>
+            @endforeach
+        </select>
+    </div>
 
     <!-- Izvēlne kravai -->
     <div class="form-group">
