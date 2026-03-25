@@ -9,8 +9,8 @@
     $filtraUznemums = $filtraUznemums ?? request('filtra_uznemums');
     $krava = $krava ?? request('krava');
     $veids = $veids ?? request('veids');
-    $periodsNo = $periodsNo ?? request('periods_no');
-    $periodsLidz = $periodsLidz ?? request('periods_lidz');
+    $nomasSakumaPeriods = $nomasSakumaPeriods ?? request('nomas_sakuma_periods');
+    $nomasBeiguPeriods = $nomasBeiguPeriods ?? request('nomas_beigu_periods');
 @endphp
 
 <!-- Lapas galvene -->
@@ -32,8 +32,8 @@
             <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums">
             <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
             <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
-            <input type="text" class="datepicker" name="periods_no" value="{{ $periodsNo }}" title="Periods no" placeholder="YYYY-MM-DD" autocomplete="off">
-            <input type="text" class="datepicker" name="periods_lidz" value="{{ $periodsLidz }}" title="Periods līdz" placeholder="YYYY-MM-DD" autocomplete="off">
+            <input type="text" class="datepicker" name="nomas_sakuma_periods" value="{{ $nomasSakumaPeriods }}" title="Nomas sākuma periods" placeholder="Nomas sākuma periods" autocomplete="off">
+            <input type="text" class="datepicker" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}" title="Nomas beigu periods" placeholder="Nomas beigu periods" autocomplete="off">
             <button type="submit" class="filter-btn">Filtrēt</button>
         </div>
     </div>

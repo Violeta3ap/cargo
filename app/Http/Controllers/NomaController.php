@@ -61,10 +61,10 @@ class NomaController extends Controller
         $filtraUznemums = trim((string) $request->query('filtra_uznemums', ''));
         $krava = trim((string) $request->query('krava', ''));
         $veids = trim((string) $request->query('veids', ''));
-        $periodsNo = trim((string) $request->query('periods_no', ''));
-        $periodsLidz = trim((string) $request->query('periods_lidz', ''));
-        $periodsNoSql = $this->normalizeFilterDate($periodsNo);
-        $periodsLidzSql = $this->normalizeFilterDate($periodsLidz);
+        $nomasSakumaPeriods = trim((string) $request->query('nomas_sakuma_periods', ''));
+        $nomasBeiguPeriods = trim((string) $request->query('nomas_beigu_periods', ''));
+        $nomasSakumaPeriodsSql = $this->normalizeFilterDate($nomasSakumaPeriods);
+        $nomasBeiguPeriodsSql = $this->normalizeFilterDate($nomasBeiguPeriods);
 
         $query = Noma::query()
             ->with(['klienti', 'kravas', 'veidi']);
@@ -103,12 +103,12 @@ class NomaController extends Controller
             });
         }
 
-        if ($periodsNoSql !== null) {
-            $query->whereDate('NomasBeiguPeriods', '>=', $periodsNoSql);
+        if ($nomasSakumaPeriodsSql !== null) {
+            $query->whereDate('NomasSakumaPeriods', '=', $nomasSakumaPeriodsSql);
         }
 
-        if ($periodsLidzSql !== null) {
-            $query->whereDate('NomasSakumaPeriods', '<=', $periodsLidzSql);
+        if ($nomasBeiguPeriodsSql !== null) {
+            $query->whereDate('NomasBeiguPeriods', '=', $nomasBeiguPeriodsSql);
         }
 
         $noma = $query
@@ -118,7 +118,7 @@ class NomaController extends Controller
 
         return view(
             'Noma',
-            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'filtraUznemums', 'krava', 'veids', 'periodsNo', 'periodsLidz')
+            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'filtraUznemums', 'krava', 'veids', 'nomasSakumaPeriods', 'nomasBeiguPeriods')
         );
     }
 
