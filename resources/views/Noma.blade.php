@@ -3,7 +3,9 @@
 @section('content')
 
 @php
-    $klients = $klients ?? request('klients');
+    $klientaVards = $klientaVards ?? request('klienta_vards');
+    $klientaUzvards = $klientaUzvards ?? request('klienta_uzvards');
+    $klientaUznemums = $klientaUznemums ?? request('klienta_uznemums');
     $krava = $krava ?? request('krava');
     $veids = $veids ?? request('veids');
     $periodsNo = $periodsNo ?? request('periods_no');
@@ -21,13 +23,22 @@
     </nav>
 </div>
 
-<!-- Meklēšanas filtri -->
+<!-- Meklēšanas un filtrēšanas logi -->
 <form method="GET" action="/Noma" class="noma-filter-form" style="padding: 8px 10px;">
-    <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta vārds, uzvārds vai uzņēmums">
-    <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
-    <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
-    <input type="date" name="periods_no" value="{{ $periodsNo }}" title="Periods no">
-    <input type="date" name="periods_lidz" value="{{ $periodsLidz }}" title="Periods līdz">
+    <div class="filter-window">
+        <h4>Meklēšana (klients)</h4>
+        <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
+        <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
+        <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
+    </div>
+
+    <div class="filter-window">
+        <h4>Filtrēšana (noma)</h4>
+        <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
+        <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
+        <input type="date" name="periods_no" value="{{ $periodsNo }}" title="Periods no">
+        <input type="date" name="periods_lidz" value="{{ $periodsLidz }}" title="Periods līdz">
+    </div>
 
     <button type="submit" class="filter-btn">Filtrēt</button>
     <a href="/Noma" class="filter-btn">Notīrīt</a>
@@ -117,11 +128,28 @@
 
     .noma-filter-form {
         display: flex;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 14px;
+        align-items: flex-end;
+    }
+
+    .filter-window {
+        border: 1px solid #59c1cf;
+        border-radius: 10px;
+        padding: 10px;
+        background: #f8fdfe;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
         align-items: center;
-        overflow-x: auto;
+        flex: 1 1 360px;
+    }
+
+    .filter-window h4 {
+        width: 100%;
+        margin: 0 0 4px 0;
+        font-size: 0.95rem;
     }
 
     .noma-filter-form input {
@@ -131,7 +159,7 @@
         font-size: 0.92rem;
         width: auto;
         box-sizing: border-box;
-        flex: 0 0 230px;
+        flex: 1 1 180px;
     }
 
     .filter-btn {

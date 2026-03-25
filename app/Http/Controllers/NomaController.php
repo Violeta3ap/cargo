@@ -32,7 +32,9 @@ class NomaController extends Controller
     // Nomas saraksts ar pagināciju, meklēšanu un filtriem.
     public function showAllNoma(Request $request)
     {
-        $klients = trim((string) $request->query('klients', ''));
+        $klientaVards = trim((string) $request->query('klienta_vards', ''));
+        $klientaUzvards = trim((string) $request->query('klienta_uzvards', ''));
+        $klientaUznemums = trim((string) $request->query('klienta_uznemums', ''));
         $krava = trim((string) $request->query('krava', ''));
         $veids = trim((string) $request->query('veids', ''));
         $periodsNo = trim((string) $request->query('periods_no', ''));
@@ -41,11 +43,19 @@ class NomaController extends Controller
         $query = Noma::query()
             ->with(['klienti', 'kravas', 'veidi']);
 
-        if ($klients !== '') {
-            $query->whereHas('klienti', function ($q) use ($klients) {
-                $q->where('Vards', 'like', '%' . $klients . '%')
-                    ->orWhere('Uzvards', 'like', '%' . $klients . '%')
-                    ->orWhere('UznemumaNosaukums', 'like', '%' . $klients . '%');
+        if ($klientaVards !== '' || $klientaUzvards !== '' || $klientaUznemums !== '') {
+            $query->whereHas('klienti', function ($q) use ($klientaVards, $klientaUzvards, $klientaUznemums) {
+                if ($klientaVards !== '') {
+                    $q->where('Vards', 'like', '%' . $klientaVards . '%');
+                }
+
+                if ($klientaUzvards !== '') {
+                    $q->where('Uzvards', 'like', '%' . $klientaUzvards . '%');
+                }
+
+                if ($klientaUznemums !== '') {
+                    $q->where('UznemumaNosaukums', 'like', '%' . $klientaUznemums . '%');
+                }
             });
         }
 
@@ -74,7 +84,10 @@ class NomaController extends Controller
             ->paginate(5)
             ->appends($request->query());
 
-        return view('Noma', compact('noma', 'klients', 'krava', 'veids', 'periodsNo', 'periodsLidz'));
+        return view(
+            'Noma',
+            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'krava', 'veids', 'periodsNo', 'periodsLidz')
+        );
     }
 
     // Dzēš nomas ierakstu.
