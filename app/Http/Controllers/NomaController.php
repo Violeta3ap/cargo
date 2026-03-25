@@ -34,24 +34,15 @@ class NomaController extends Controller
     {
         $klients = trim((string) $request->query('klients', ''));
 
-
         $query = Noma::query()
-            ->with(['klienti'])
-            ->leftJoin('klienti', 'vagonunoma.KlientaID', '=', 'klienti.Vards')
-            ->leftJoin('klienti', 'vagonunoma.KravasID', '=', 'klienti.Uzvards')
-            ->leftJoin('klienti', 'vagonunoma.VeidaID', '=', 'klienti.UznemumaNosaukums')
-            ->select('vagonunoma.*');
+            ->with(['klienti', 'kravas', 'veidi']);
 
         if ($klients !== '') {
-            $query->where('klienti.Vards', 'like', '%' . $klients . '%');
-        }
-
-        if ($klients !== '') {
-            $query->where('klienti.Uzvards', 'like', '%' . $klients . '%');
-        }
-
-        if ($klients !== '') {
-            $query->where('klienti.UznemumaNosaukums', 'like', '%' . $klients . '%');
+            $query->whereHas('klienti', function ($q) use ($klients) {
+                $q->where('Vards', 'like', '%' . $klients . '%')
+                    ->orWhere('Uzvards', 'like', '%' . $klients . '%')
+                    ->orWhere('UznemumaNosaukums', 'like', '%' . $klients . '%');
+            });
         }
 
         $noma = $query
@@ -59,7 +50,7 @@ class NomaController extends Controller
             ->paginate(5)
             ->appends($request->query());
 
-        return view('Noma', compact('klients'));
+        return view('Noma', compact('noma', 'klients'));
     }
 
     // Dzēš nomas ierakstu.
