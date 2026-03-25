@@ -34,16 +34,30 @@
         </select>
     </div>
 
-    <!-- Klienta uzvārds (tiek automātiski aizpildīts) -->
+    <!-- Klienta uzvards -->
     <div class="form-group">
-        <label for="KlientaUzvards">Klienta uzvārds:</label>
-        <input type="text" class="form-control" id="KlientaUzvards" readonly style="background-color: #f5f5f5;" placeholder="Uzvārds tiks ielādēts automātiski">
+        <label for="KlientaID_Uzvards">Klienta uzvārds:</label>
+        <select class="form-control" id="KlientaID_Uzvards" name="KlientaID" required>
+            <option value="">Izvēlieties klienta uzvārdu</option>
+            @foreach($klienti as $klientis)
+                <option value="{{ $klientis->KlientaID }}" data-uzvards="{{ $klientis->Uzvards }}" data-uznemums="{{ $klientis->UznemumaNosaukums }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
+                    {{ $klientis->Uzvards }}
+                </option>
+            @endforeach
+        </select>
     </div>
 
-    <!-- Klienta uzņēmuma nosaukums (tiek automātiski aizpildīts) -->
+    <!-- Klienta uzņēmuma nosaukums -->
     <div class="form-group">
-        <label for="KlientaUznemums">Klienta uzņēmuma nosaukums:</label>
-        <input type="text" class="form-control" id="KlientaUznemums" readonly style="background-color: #f5f5f5;" placeholder="Uzņēmums tiks ielādēts automātiski">
+        <label for="KlientaID_Uznemums">Klienta uzņēmuma nosaukums:</label>
+        <select class="form-control" id="KlientaID_Uznemums" name="KlientaID" required>
+            <option value="">Izvēlieties klienta uzņēmumu</option>
+            @foreach($klienti as $klientis)
+                <option value="{{ $klientis->KlientaID }}" data-uzvards="{{ $klientis->Uzvards }}" data-uznemums="{{ $klientis->UznemumaNosaukums }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
+                    {{ $klientis->UznemumaNosaukums }}
+                </option>
+            @endforeach
+        </select>
     </div>
 
     <!-- Kravas izvēlne -->
