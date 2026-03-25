@@ -24,23 +24,23 @@
     <!-- Klienta vārds -->
     <div class="form-group">
         <label for="KlientaID_Vards">Klienta vārds:</label>
-        <select class="form-control" id="KlientaID_Vards" name="KlientaID" required>
+        <select class="form-control" id="KlientaID_Vards" name="KlientaID_Vards" required>
             <option value="">Izvēlieties klienta vārdu</option>
             @foreach($klienti as $klientis)
-                <option value="{{ $klientis->KlientaID }}" data-uzvards="{{ $klientis->Uzvards }}" data-uznemums="{{ $klientis->UznemumaNosaukums }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
+                <option value="{{ $klientis->KlientaID }}" data-uzvards="{{ $klientis->Uzvards }}" data-uznemums="{{ $klientis->UznemumaNosaukums }}" {{ old('KlientaID_Vards') == $klientis->KlientaID ? 'selected' : '' }}>
                     {{ $klientis->Vards }}
                 </option>
             @endforeach
         </select>
     </div>
 
-    <!-- Klienta uzvards -->
+    <!-- Klienta uzvārds -->
     <div class="form-group">
         <label for="KlientaID_Uzvards">Klienta uzvārds:</label>
-        <select class="form-control" id="KlientaID_Uzvards" name="KlientaID" required>
+        <select class="form-control" id="KlientaID_Uzvards" name="KlientaID_Uzvards" required>
             <option value="">Izvēlieties klienta uzvārdu</option>
             @foreach($klienti as $klientis)
-                <option value="{{ $klientis->KlientaID }}" data-uzvards="{{ $klientis->Uzvards }}" data-uznemums="{{ $klientis->UznemumaNosaukums }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
+                <option value="{{ $klientis->KlientaID }}" data-vards="{{ $klientis->Vards }}" data-uznemums="{{ $klientis->UznemumaNosaukums }}" {{ old('KlientaID_Uzvards') == $klientis->KlientaID ? 'selected' : '' }}>
                     {{ $klientis->Uzvards }}
                 </option>
             @endforeach
@@ -50,15 +50,18 @@
     <!-- Klienta uzņēmuma nosaukums -->
     <div class="form-group">
         <label for="KlientaID_Uznemums">Klienta uzņēmuma nosaukums:</label>
-        <select class="form-control" id="KlientaID_Uznemums" name="KlientaID" required>
-            <option value="">Izvēlieties klienta uzņēmumu</option>
+        <select class="form-control" id="KlientaID_Uznemums" name="KlientaID_Uznemums" required>
+            <option value="">Izvēlieties klienta uzņēmuma nosaukumu</option>
             @foreach($klienti as $klientis)
-                <option value="{{ $klientis->KlientaID }}" data-uzvards="{{ $klientis->Uzvards }}" data-uznemums="{{ $klientis->UznemumaNosaukums }}" {{ old('KlientaID') == $klientis->KlientaID ? 'selected' : '' }}>
+                <option value="{{ $klientis->KlientaID }}" data-vards="{{ $klientis->Vards }}" data-uzvards="{{ $klientis->Uzvards }}" {{ old('KlientaID_Uznemums') == $klientis->KlientaID ? 'selected' : '' }}>
                     {{ $klientis->UznemumaNosaukums }}
                 </option>
             @endforeach
         </select>
     </div>
+
+    <!-- Slēptais lauks, kurā tiks saglabāts galīgais KlientaID -->
+    <input type="hidden" id="KlientaID" name="KlientaID" value="{{ old('KlientaID') }}">
 
     <!-- Kravas izvēlne -->
     <div class="form-group">
@@ -146,25 +149,65 @@ $(document).ready(function() {
         allowInput: true
     });
     
-    // Kad tiek izvēlēts klienta vārds, automātiski aizpilda uzvārdu un uzņēmumu
-    $('#KlientaID_Vards').change(function() {
-        var selectedOption = $(this).find('option:selected');
-        var uzvards = selectedOption.data('uzvards');
-        var uznemums = selectedOption.data('uznemums');
-        
-        if ($(this).val()) {
-            $('#KlientaUzvards').val(uzvards || '');
-            $('#KlientaUznemums').val(uznemums || '');
+    // Funkcija, kas sinhronizē visus trīs klienta laukus
+    function syncClientFields(selectedId, sourceField) {
+        if (selectedId) {
+            // Atrod izvēlēto klientu datus
+            var selectedOption = null;
+            
+            if (sourceField === 'vards') {
+                selectedOption = $('#KlientaID_Vards option:selected');
+            } else if (sourceField === 'uzvards') {
+                selectedOption = $('#KlientaID_Uzvards option:selected');
+            } else if (sourceField === 'uznemums') {
+                selectedOption = $('#KlientaID_Uznemums option:selected');
+            }
+            
+            if (selectedOption && selectedOption.val()) {
+                var vards = selectedOption.data('vards') || selectedOption.text();
+                var uzvards = selectedOption.data('uzvards');
+                var uznemums = selectedOption.data('uznemums');
+                
+                // Atjauno pārējos laukus
+                if (sourceField !== 'vards') {
+                    $('#KlientaID_Vards').val(selectedId);
+                }
+                if (sourceField !== 'uzvards') {
+                    $('#KlientaID_Uzvards').val(selectedId);
+                }
+                if (sourceField !== 'uznemums') {
+                    $('#KlientaID_Uznemums').val(selectedId);
+                }
+                
+                // Iestata slēptā lauka vērtību
+                $('#KlientaID').val(selectedId);
+            }
         } else {
-            $('#KlientaUzvards').val('');
-            $('#KlientaUznemums').val('');
+            // Ja nav izvēlēts, notīra visus laukus
+            if (sourceField !== 'vards') $('#KlientaID_Vards').val('');
+            if (sourceField !== 'uzvards') $('#KlientaID_Uzvards').val('');
+            if (sourceField !== 'uznemums') $('#KlientaID_Uznemums').val('');
+            $('#KlientaID').val('');
         }
+    }
+    
+    // Kad tiek izvēlēts klienta vārds
+    $('#KlientaID_Vards').change(function() {
+        var selectedId = $(this).val();
+        syncClientFields(selectedId, 'vards');
     });
     
-    // Ielādē sākotnējās vērtības, ja ir izvēlēts klients
-    if ($('#KlientaID_Vards').val()) {
-        $('#KlientaID_Vards').trigger('change');
-    }
+    // Kad tiek izvēlēts klienta uzvārds
+    $('#KlientaID_Uzvards').change(function() {
+        var selectedId = $(this).val();
+        syncClientFields(selectedId, 'uzvards');
+    });
+    
+    // Kad tiek izvēlēts klienta uzņēmums
+    $('#KlientaID_Uznemums').change(function() {
+        var selectedId = $(this).val();
+        syncClientFields(selectedId, 'uznemums');
+    });
     
     // Kad tiek izvēlēta krava, ielādē atbilstošo vagona veidu
     $('#KravasID').change(function() {
@@ -243,6 +286,12 @@ $(document).ready(function() {
     $('#VagonuSkaits').on('input', function() {
         calculateTotal();
     });
+    
+    // Ielādē sākotnējās vērtības, ja ir izvēlēts klients (no old())
+    var initialClientId = $('#KlientaID_Vards').val();
+    if (initialClientId) {
+        syncClientFields(initialClientId, 'vards');
+    }
     
     // Ielādē sākotnējo cenu, ja jau ir izvēlēts vagona veids
     if ($('#VeidaID').val()) {
