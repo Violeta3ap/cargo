@@ -30,6 +30,7 @@
         <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
         <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
         <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
+        <button type="submit" class="filter-btn">Meklēt</button>
     </div>
 
     <div class="filter-window">
@@ -38,9 +39,8 @@
         <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
         <input type="date" name="periods_no" value="{{ $periodsNo }}" title="Periods no">
         <input type="date" name="periods_lidz" value="{{ $periodsLidz }}" title="Periods līdz">
+        <button type="submit" class="filter-btn">Filtrēt</button>
     </div>
-
-    <button type="submit" class="filter-btn">Filtrēt</button>
     <a href="/Noma" class="filter-btn">Notīrīt</a>
 </form>
 
