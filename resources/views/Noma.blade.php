@@ -17,7 +17,7 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Noma</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
-        <a href="/Noma/jauns">Jauns ieraksts</a>
+        <a href="/Noma/jauns">Izveidot jaunu nomu</a>
 
           <a type="button" onclick="window.print()" title="Printēt dokumentu" class="print-btn"><i class="fas fa-print"></i> Drukāt</a>
          <!-- Papildsaite rezervē -->
@@ -33,10 +33,10 @@
         <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
         <button type="submit" class="filter-btn">Meklēt</button>
     </div>
-
+<br><br>
     <div class="filter-window">
         <h4>Filtrēšana (noma)</h4>
-        <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums (filtrs)">
+        <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums ">
         <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
         <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
         <input type="date" name="periods_no" value="{{ $periodsNo }}" title="Periods no">

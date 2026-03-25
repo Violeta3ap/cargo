@@ -6,7 +6,7 @@
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
 
         @if(Auth::check() && !Auth::user()->isKlients())
-            <a href="/Veidi/jauns">Jauns ieraksts</a>
+            <a href="/Veidi/jauns">Izveidot jaunu vagona veidu</a>
         @endif
 
 
@@ -18,7 +18,7 @@
     <thead>
 
         <tr>
-            <th>Vagona nosaukums</th> 
+            <th>Vagona tipa nosaukums</th> 
             <th>Celtspeja tonnās</th> 
             <th>Vagonu Skaits</th> 
             <th>Cena Par Diennakti</th> 

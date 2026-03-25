@@ -18,12 +18,12 @@
 
     <!-- Kravas nosaukums -->
     <div class="form-group">
-        <label for="Nosaukums">Kravas veids:</label>
+        <label for="Nosaukums">Kravas veida nosaukums:</label>
         <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $kravas->Nosaukums }}" required>
     </div>
 
     <div class="form-group">
-        <label for="VeidaID">Vagona nosaukums:</label>
+        <label for="VeidaID">Vagona veida nosaukums:</label>
         <select class="form-control" id="VeidaID" name="VeidaID" required>
             @foreach($veidi as $veids)
                 <option value="{{ $veids->VeidaID }}" {{ $veids->VeidaID == $kravas->VeidaID ? 'selected' : '' }}>

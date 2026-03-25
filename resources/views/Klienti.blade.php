@@ -13,7 +13,7 @@
 
     <!-- Lapas galvene -->
     <nav class="navigacija" style="background-color: #ffffff;">
-        <a href="/Klienti/jauns">Jauns ieraksts</a>
+        <a href="/Klienti/jauns">Izveidot jaunu klientu</a>
     </nav>
 </div>
 

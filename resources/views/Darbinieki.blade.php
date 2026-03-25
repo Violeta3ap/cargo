@@ -5,7 +5,7 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Darbinieki</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
-        <a href="/Darbinieki/jauns">Jauns ieraksts</a>
+        <a href="/Darbinieki/jauns">Izveidot jaunu darbinieku</a>
     </nav>
 </div>
 

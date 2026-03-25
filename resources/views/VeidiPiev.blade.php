@@ -15,7 +15,7 @@
     @csrf <!-- CSRF aizsardzība -->
 
     <div class="form-group">
-        <label for="Nosaukums">Vagona nosaukums:</label> <!-- Etiķete ievades laukam -->
+        <label for="Nosaukums">Vagona veida nosaukums:</label> <!-- Etiķete ievades laukam -->
         <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" required>
         <!-- Teksta lauks jauna veida nosaukumam, obligāts aizpildīt -->
     </div>

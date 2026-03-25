@@ -10,7 +10,7 @@
     <form action="/Veidi/{{ $veidi->VeidaID }}/editSubmit" method="POST">
         @csrf
         <div class="form-group">
-            <label for="Nosaukums">Vagona nosaukums:</label>
+            <label for="Nosaukums">Vagona veida nosaukums:</label>
             <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $veidi->Nosaukums }}" required>
         </div>
 
