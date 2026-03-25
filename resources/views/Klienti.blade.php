@@ -26,9 +26,9 @@
             <input type="text" name="uzvards" value="{{ $uzvards }}" placeholder="Uzvārds">
             <input type="text" name="uznemumanos" value="{{ $uznemumanos }}" placeholder="Uzņēmuma nosaukums">
             <button type="submit" class="filter-btn">Meklēt</button>
+               <a href="/Klienti" class="filter-btn">Notīrīt</a>
         </div>
     </div>
-    <a href="/Klienti" class="filter-btn">Notīrīt</a>
 </form>
 
 <!-- Klientu saraksts -->
