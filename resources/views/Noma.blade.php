@@ -14,7 +14,7 @@
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noma/jauns">Jauns ieraksts</a>
 
-          <a type="button" onclick="window.print()" title="Printēt dokumentu" class="print-btn"><i class="fas fa-print"></i> Printēt</a>
+          <a type="button" onclick="window.print()" title="Printēt dokumentu" class="print-btn"><i class="fas fa-print"></i> Drukāt</a>
          <!-- Papildsaite rezervē -->
     </nav>
 </div>
