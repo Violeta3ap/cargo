@@ -40,21 +40,19 @@ class NomaController extends Controller
             ->with(['klienti', 'kravas', 'veidi'])
             ->leftJoin('klienti', 'vagonunoma.KlientaID', '=', 'klienti.KlientaID')
             ->leftJoin('krava', 'vagonunoma.KravasID', '=', 'krava.KravasID')
+            ->leftJoin('veidi', 'vagonunoma.VeidaID', '=', 'veidi.VeidaID')
             ->select('vagonunoma.*');
 
         if ($klients !== '') {
-            $query->where(function ($q) use ($klients) {
-                $q->where('klienti.Vards', 'like', '%' . $klients . '%')
-                    ->orWhere('klienti.Uzvards', 'like', '%' . $klients . '%');
-            });
+            $query->where('klienti.UznemumaNosaukums', 'like', '%' . $klients . '%');
         }
 
         if ($krava !== '') {
             $query->where('krava.Nosaukums', 'like', '%' . $krava . '%');
         }
 
-        if ($veidaid !== '' && ctype_digit($veidaid)) {
-            $query->where('vagonunoma.VeidaID', (int) $veidaid);
+        if ($veidaid !== '') {
+            $query->where('veidi.Nosaukums', 'like', '%' . $veidaid . '%');
         }
 
         $noma = $query

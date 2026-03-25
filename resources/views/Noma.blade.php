@@ -19,9 +19,9 @@
 
 <!-- Meklēšanas filtri -->
 <form method="GET" action="/Noma" class="noma-filter-form">
-    <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta vārds un uzvārds">
+    <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta uzņēmuma nosaukums">
     <input type="text" name="krava" value="{{ $krava }}" placeholder="Krava">
-    <input type="number" name="veidaid" value="{{ $veidaid }}" placeholder="VeidaID" min="1">
+    <input type="text" name="veidaid" value="{{ $veidaid }}" placeholder="VeidaID nosaukums">
 
     <button type="submit" class="btn-action filter-btn">Meklēt</button>
     <a href="/Noma" class="btn-action filter-btn reset-btn">Notīrīt</a>
@@ -97,8 +97,8 @@
     }
 
     .noma-filter-form {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        display: flex;
+        flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 14px;
         align-items: center;
@@ -111,10 +111,12 @@
         font-size: 0.92rem;
         width: 100%;
         box-sizing: border-box;
+        flex: 1 1 210px;
     }
 
     .filter-btn {
-        width: 100%;
+        width: auto;
+        min-width: 120px;
         padding: 8px 10px;
     }
 
