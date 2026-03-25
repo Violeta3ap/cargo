@@ -14,7 +14,7 @@
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noma/jauns">Jauns ieraksts</a>
 
-          <a type="button" onclick="window.print()" title="Printēt dokumentu"><i class="fas fa-print"></i> Printēt</a>
+          <a type="button" onclick="window.print()" title="Printēt dokumentu" class="print-btn"><i class="fas fa-print"></i> Printēt</a>
          <!-- Papildsaite rezervē -->
     </nav>
 </div>
@@ -94,6 +94,21 @@
 
 <!-- Noma tabulas un paginācijas stili -->
 <style>
+    .print-btn {
+        border-radius: 8px;
+        border: 1px solid #59c1cf;
+        padding: 5px 10px;
+        color: #000;
+        text-decoration: none;
+        background-color: #59c1cf;
+        white-space: nowrap;
+        margin-left: 8px;
+    }
+
+    .print-btn:hover {
+        background-color: #a2e0ed;
+    }
+
     .table {
         border-collapse: collapse;
     }
@@ -216,6 +231,45 @@
         opacity: 0.45;
         cursor: not-allowed;
         pointer-events: none;
+    }
+
+    @media print {
+        .navigacija,
+        .noma-filter-form,
+        .noma-pagination,
+        .alert,
+        .btn-action,
+        th:last-child,
+        td:last-child {
+            display: none !important;
+        }
+
+        h2 {
+            margin: 0 0 12px 0;
+            font-size: 20px;
+        }
+
+        .table {
+            width: 100% !important;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .table thead {
+            background: #fff !important;
+            color: #000 !important;
+        }
+
+        .table thead th,
+        .table tbody td {
+            border: 1px solid #000 !important;
+            padding: 6px !important;
+        }
+
+        .table tbody tr:hover {
+            background: transparent !important;
+        }
     }
 </style>
 
