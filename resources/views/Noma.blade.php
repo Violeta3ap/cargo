@@ -5,7 +5,7 @@
 @php
     $klients = $klients ?? request('klients');
     $krava = $krava ?? request('krava');
-    $veidaid = $veidaid ?? request('veidaid');
+    $veidii = $veidii ?? request('veidii');
 @endphp
 
 <!-- Lapas galvene -->
@@ -18,7 +18,7 @@
 </div>
 
 <!-- Meklēšanas filtri -->
-<form method="GET" action="/Noma" class="noma-filter-form" style="padding: 8px 10px; gap: 80px;">
+<form method="GET" action="/Noma" class="noma-filter-form" style="padding: 8px 10px;">
     <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta uzņēmuma nosaukums">
     <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas veids">
     <input type="text" name="veidii" value="{{ $veidii }}" placeholder="Vagona nosaukums">
@@ -98,10 +98,11 @@
 
     .noma-filter-form {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 10px;
         margin-bottom: 14px;
         align-items: center;
+        overflow-x: auto;
     }
 
     .noma-filter-form input {
@@ -109,14 +110,15 @@
         border-radius: 8px;
         padding: 8px 10px;
         font-size: 0.92rem;
-        width: 100%;
+        width: auto;
         box-sizing: border-box;
-        flex: 1 1 210px;
+        flex: 0 0 230px;
     }
 
     .filter-btn {
         width: auto;
         min-width: 120px;
+        flex: 0 0 auto;
         padding: 8px 10px;
     }
 
