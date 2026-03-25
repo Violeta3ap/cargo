@@ -2,6 +2,12 @@
 
 @section('content')
 
+@php
+    $vards = $vards ?? request('vards');
+    $uzvards = $uzvards ?? request('uzvards');
+    $uznemumanos = $uznemumanos ?? request('uznemumanos');
+@endphp
+
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
     <h2>Klienti</h2>
 
@@ -10,6 +16,16 @@
         <a href="/Klienti/jauns">Jauns ieraksts</a>
     </nav>
 </div>
+
+<!-- Meklēšanas filtri -->
+<form method="GET" action="/Klienti" class="klienti-filter-form" style="padding: 8px 10px;">
+    <input type="text" name="vards" value="{{ $vards }}" placeholder="Vārds">
+    <input type="text" name="uzvards" value="{{ $uzvards }}" placeholder="Uzvārds">
+    <input type="text" name="uznemumanos" value="{{ $uznemumanos }}" placeholder="Uzņēmuma nosaukums">
+
+    <button type="submit" class="filter-btn">Meklēt</button>
+    <a href="/Klienti" class="filter-btn">Notīrīt</a>
+</form>
 
 <!-- Klientu saraksts -->
 <table class="table table-striped" style="width:100%; border:1px solid #59c1cf; border-radius:8px; overflow:hidden; text-align:center;">
@@ -82,6 +98,42 @@
 
 <!-- Klientu tabulas un paginācijas stili -->
 <style>
+    .klienti-filter-form {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 10px;
+        margin-bottom: 14px;
+        align-items: center;
+        overflow-x: auto;
+    }
+
+    .klienti-filter-form input {
+        border: 1px solid #59c1cf;
+        border-radius: 8px;
+        padding: 8px 10px;
+        font-size: 0.92rem;
+        width: auto;
+        box-sizing: border-box;
+        flex: 0 0 220px;
+    }
+
+    .filter-btn {
+        flex: 0 0 auto;
+        padding: 4px 12px;
+        font-size: 0.8rem;
+        border-radius: 6px;
+        border: 1px solid #59c1cf;
+        background-color: #59c1cf;
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .filter-btn:hover {
+        background-color: #a2e0ed;
+    }
+
     .table {
         border-collapse: collapse;
     }

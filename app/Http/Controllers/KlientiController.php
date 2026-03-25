@@ -8,11 +8,33 @@ use Illuminate\Support\Facades\DB;
 
 class KlientiController extends Controller
 {
-  // Klientu saraksts ar pagināciju.
-  public function showAllKlienti()
+  // Klientu saraksts ar pagināciju un meklēšanu.
+  public function showAllKlienti(Request $request)
   {
-    $klientis = new Klienti();
-    return view('Klienti', ['klientis' => $klientis->orderBy('KlientaID', 'asc')->paginate(5)]);
+    $vards = trim((string) $request->query('vards', ''));
+    $uzvards = trim((string) $request->query('uzvards', ''));
+    $uznemumanos = trim((string) $request->query('uznemumanos', ''));
+
+    $query = Klienti::query();
+
+    if ($vards !== '') {
+      $query->where('Vards', 'like', '%' . $vards . '%');
+    }
+
+    if ($uzvards !== '') {
+      $query->where('Uzvards', 'like', '%' . $uzvards . '%');
+    }
+
+    if ($uznemumanos !== '') {
+      $query->where('UznemumaNosaukums', 'like', '%' . $uznemumanos . '%');
+    }
+
+    $klientis = $query
+      ->orderBy('KlientaID', 'asc')
+      ->paginate(5)
+      ->appends($request->query());
+
+    return view('Klienti', compact('klientis', 'vards', 'uzvards', 'uznemumanos'));
   }
 
   // Dzēš klienta ierakstu.
