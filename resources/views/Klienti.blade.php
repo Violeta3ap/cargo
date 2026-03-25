@@ -17,13 +17,17 @@
     </nav>
 </div>
 
-<!-- Meklēšanas filtri -->
+<!-- Meklēšanas logs -->
 <form method="GET" action="/Klienti" class="klienti-filter-form" style="padding: 8px 10px;">
-    <input type="text" name="vards" value="{{ $vards }}" placeholder="Vārds">
-    <input type="text" name="uzvards" value="{{ $uzvards }}" placeholder="Uzvārds">
-    <input type="text" name="uznemumanos" value="{{ $uznemumanos }}" placeholder="Uzņēmuma nosaukums">
-
-    <button type="submit" class="filter-btn">Meklēt</button>
+    <div class="filter-window">
+        <h4>Meklēšana</h4>
+        <div class="filter-row">
+            <input type="text" name="vards" value="{{ $vards }}" placeholder="Vārds">
+            <input type="text" name="uzvards" value="{{ $uzvards }}" placeholder="Uzvārds">
+            <input type="text" name="uznemumanos" value="{{ $uznemumanos }}" placeholder="Uzņēmuma nosaukums">
+            <button type="submit" class="filter-btn">Meklēt</button>
+        </div>
+    </div>
     <a href="/Klienti" class="filter-btn">Notīrīt</a>
 </form>
 
@@ -100,9 +104,33 @@
 <style>
     .klienti-filter-form {
         display: flex;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 14px;
+        align-items: flex-end;
+    }
+
+    .filter-window {
+        border: 1px solid #59c1cf;
+        border-radius: 10px;
+        padding: 10px;
+        background: #f8fdfe;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .filter-window h4 {
+        margin: 0 0 4px 0;
+        font-size: 0.95rem;
+    }
+
+    .filter-row {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 10px;
         align-items: center;
         overflow-x: auto;
     }
