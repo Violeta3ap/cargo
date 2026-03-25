@@ -143,14 +143,12 @@
             @if(Auth::user()->isAdmin())
                 {{-- Administrators redz visas saites --}}
                 <a href="/Noma">Noma</a>
-                <a href="/Darbinieki">Darbinieki</a>
                 <a href="/Klienti">Klienti</a>
                 <a href="/Veidi">Vagonu veidi</a>
                 <a href="/Kravas">Krāvu veidi</a>
             @elseif(Auth::user()->isDarbinieks())
                 {{-- Darbinieks redz tikai pieļaujamās saites --}}
                 <a href="/Noma">Noma</a>
-                <a href="/Darbinieki">Darbinieki</a>
                 <a href="/Klienti">Klienti</a>
                 <a href="/Veidi">Vagonu veidi</a>
                 <a href="/Kravas">Krāvu veidi</a>
