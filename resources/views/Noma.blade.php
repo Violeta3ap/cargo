@@ -23,8 +23,8 @@
     <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas veids">
     <input type="text" name="veidii" value="{{ $veidii }}" placeholder="Vagona nosaukums">
 
-    <button type="submit" class="btn-action filter-btn">Meklēt</button>
-    <a href="/Noma" class="btn-action filter-btn reset-btn">Notīrīt</a>
+    <button type="submit" class="filter-btn">Meklēt</button>
+    <a href="/Noma" class="filter-btn">Notīrīt</a>
 </form>
 
 <!-- Nomas saraksts -->
@@ -116,14 +116,20 @@
     }
 
     .filter-btn {
-        min-width: 20px;
         flex: 0 0 auto;
-        padding: 5px 8px;
-        font-size: 0.82rem;
+        padding: 4px 12px;
+        font-size: 0.8rem;
+        border-radius: 6px;
+        border: 1px solid #59c1cf;
+        background-color: #59c1cf;
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
     }
 
-    .reset-btn {
-        display: inline-block;
+    .filter-btn:hover {
+        background-color: #a2e0ed;
     }
     
     .table thead {
