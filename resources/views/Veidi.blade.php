@@ -56,11 +56,7 @@
     </div>
 </form>
 
-@if($search !== '')
-    <div style="margin-bottom: 10px; padding: 8px; background-color: #e8f5f7; border-radius: 8px;">
-        <strong>Meklēšanas rezultāti:</strong> Atrasti {{ $dati->count() }} ieraksti pēc frāzes "{{ $search }}"
-    </div>
-@endif
+
 
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
