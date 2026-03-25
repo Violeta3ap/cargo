@@ -8,9 +8,32 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Klienti;
 use App\Models\Kravas;
 use App\Models\Veidi;
+use Carbon\Carbon;
 
 class NomaController extends Controller
 {
+    private function normalizeFilterDate(?string $value): ?string
+    {
+        $value = trim((string) $value);
+
+        if ($value === '') {
+            return null;
+        }
+
+        foreach (['Y-m-d', 'd.m.Y'] as $format) {
+            try {
+                $date = Carbon::createFromFormat($format, $value);
+                if ($date && $date->format($format) === $value) {
+                    return $date->format('Y-m-d');
+                }
+            } catch (\Throwable $e) {
+                // Continue trying the next format.
+            }
+        }
+
+        return null;
+    }
+
     private function validateVagonuSkaitsLimit(Request $dati): ?string
     {
         $veidaId = (int) $dati->input('VeidaID');
@@ -40,6 +63,8 @@ class NomaController extends Controller
         $veids = trim((string) $request->query('veids', ''));
         $periodsNo = trim((string) $request->query('periods_no', ''));
         $periodsLidz = trim((string) $request->query('periods_lidz', ''));
+        $periodsNoSql = $this->normalizeFilterDate($periodsNo);
+        $periodsLidzSql = $this->normalizeFilterDate($periodsLidz);
 
         $query = Noma::query()
             ->with(['klienti', 'kravas', 'veidi']);
@@ -78,12 +103,12 @@ class NomaController extends Controller
             });
         }
 
-        if ($periodsNo !== '') {
-            $query->whereDate('NomasBeiguPeriods', '>=', $periodsNo);
+        if ($periodsNoSql !== null) {
+            $query->whereDate('NomasBeiguPeriods', '>=', $periodsNoSql);
         }
 
-        if ($periodsLidz !== '') {
-            $query->whereDate('NomasSakumaPeriods', '<=', $periodsLidz);
+        if ($periodsLidzSql !== null) {
+            $query->whereDate('NomasSakumaPeriods', '<=', $periodsLidzSql);
         }
 
         $noma = $query
