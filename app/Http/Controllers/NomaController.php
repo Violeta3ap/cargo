@@ -43,6 +43,63 @@ public function recalculateAll()
 }
 
 
+
+
+// Pārbauda pieejamo vagonu skaitu izvēlētajā periodā
+private function getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $iznemtNomasID = null)
+{
+    // Iegūst kopējo vagonu skaitu izvēlētajam veidam
+    $veids = Veidi::find($veidaId);
+    if (!$veids) {
+        return 0;
+    }
+    
+    $kopējaisVagonuSkaits = $veids->VagonuSkaits;
+    
+    // Aprēķina aizņemto vagonu skaitu izvēlētajā periodā
+    $query = Noma::where('VeidaID', $veidaId)
+        ->where(function($q) use ($sakumaDatums, $beiguDatums) {
+            $q->whereBetween('NomasSakumaPeriods', [$sakumaDatums, $beiguDatums])
+              ->orWhereBetween('NomasBeiguPeriods', [$sakumaDatums, $beiguDatums])
+              ->orWhere(function($q2) use ($sakumaDatums, $beiguDatums) {
+                  $q2->where('NomasSakumaPeriods', '<=', $sakumaDatums)
+                     ->where('NomasBeiguPeriods', '>=', $beiguDatums);
+              });
+        });
+    
+    // Ja rediģē, izņem pašreizējo ierakstu no aprēķina
+    if ($iznemtNomasID) {
+        $query->where('NomasID', '!=', $iznemtNomasID);
+    }
+    
+    $aiznemtaisSkaits = $query->sum('VagonuSkaits');
+    
+    // Pieejamais vagonu skaits
+    return $kopējaisVagonuSkaits - $aiznemtaisSkaits;
+}
+
+// API: Pārbauda pieejamo vagonu skaitu
+public function checkAvailability(Request $request)
+{
+    $veidaId = $request->input('veida_id');
+    $sakumaDatums = $request->input('sakuma_datums');
+    $beiguDatums = $request->input('beigu_datums');
+    $pieprasitaisSkaits = $request->input('vagonu_skaits', 1);
+    $nomasId = $request->input('nomas_id', null);
+    
+    $pieejamaisSkaits = $this->getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $nomasId);
+    
+    return response()->json([
+        'success' => true,
+        'pieejamais_skaits' => $pieejamaisSkaits,
+        'pieprasitais_skaits' => $pieprasitaisSkaits,
+        'ir_pieejams' => $pieprasitaisSkaits <= $pieejamaisSkaits,
+        'kopejais_skaits' => Veidi::find($veidaId)->VagonuSkaits ?? 0
+    ]);
+}
+
+
+
     private function normalizeFilterDate(?string $value): ?string
     {
         $value = trim((string) $value);

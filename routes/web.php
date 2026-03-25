@@ -39,6 +39,8 @@ Route::post('/api/noma/calculate', [NomaController::class, 'calculateTotal']);
 
 Route::get('/Noma/recalculate', [NomaController::class, 'recalculateAll']);
 
+Route::post('/api/noma/check-availability', [NomaController::class, 'checkAvailability']);
+
 
 // Vagonu noma routes
 Route::get('/Noma', 'App\Http\Controllers\NomaController@showAllNoma');

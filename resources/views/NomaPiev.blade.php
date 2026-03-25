@@ -21,7 +21,7 @@
 <form method="POST" action="/Noma/jaunsSubmit" id="nomaForm">
     @csrf
 
-    <!-- Klienta izvēlne ar pilnu informāciju -->
+    <!-- 1. Klienta izvēlne -->
     <div class="form-group">
         <label for="KlientaID">Klients (vārds, uzvārds, uzņēmums):</label>
         <select class="form-control" id="KlientaID" name="KlientaID" required>
@@ -34,65 +34,65 @@
         </select>
     </div>
 
-    <!-- Kravas izvēlne -->
+    <!-- 2. Laika periods (nomas sākuma un beigu datumi) -->
+    <div class="form-group">
+        <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>
+        <input type="text" class="form-control datepicker" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ old('NomasSakumaPeriods') }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
+    </div>
+
+    <div class="form-group">
+        <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
+        <input type="text" class="form-control datepicker" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ old('NomasBeiguPeriods') }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
+    </div>
+
+    <!-- 3. Kravas izvēlne -->
     <div class="form-group">
         <label for="KravasID">Kravas veida nosaukums:</label>
         <select class="form-control" id="KravasID" name="KravasID" required>
             <option value="">Izvēlieties kravas veidu</option>
             @foreach($kravas as $krava)
-                <option value="{{ $krava->KravasID }}" data-veida-id="{{ $krava->VeidaID }}" data-veida-nosaukums="{{ $krava->veidi->Nosaukums ?? '' }}" data-cena="{{ $krava->veidi->CenaParDiennakti ?? 0 }}" {{ old('KravasID') == $krava->KravasID ? 'selected' : '' }}>
+                <option value="{{ $krava->KravasID }}" data-veida-id="{{ $krava->VeidaID }}" data-veida-nosaukums="{{ $krava->veidi->Nosaukums ?? '' }}" data-cena="{{ $krava->veidi->CenaParDiennakti ?? 0 }}" data-kopejais-vagonu-skaits="{{ $krava->veidi->VagonuSkaits ?? 0 }}">
                     {{ $krava->Nosaukums }}
                 </option>
             @endforeach
         </select>
     </div>
 
-    <!-- Vagona veids (tikai lasīšanai, automātiski ielādēts) -->
+    <!-- 4. Vagona veids (tikai lasīšanai) -->
     <div class="form-group">
-        <label for="VeidaID">Vagona veida nosaukums:</label>
+        <label for="VeidaID_Nosaukums">Vagona veida nosaukums:</label>
         <input type="text" class="form-control" id="VeidaID_Nosaukums" readonly style="background-color: #f5f5f5;" placeholder="Tiks ielādēts automātiski pēc kravas izvēles">
         <input type="hidden" id="VeidaID" name="VeidaID">
-        <small style="font-size: 12px; color: #6c757d;">Vagona veids tiek automātiski ielādēts pēc kravas izvēles un to nevar mainīt</small>
+        <div id="vehicleInfo" style="font-size: 12px; color: #6c757d; margin-top: 5px;"></div>
     </div>
 
-    <!-- Vagonu skaits -->
+    <!-- 5. Vagonu skaits (ar pieejamības pārbaudi) -->
     <div class="form-group">
         <label for="VagonuSkaits">Vagonu skaits:</label>
         <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" min="1" value="{{ old('VagonuSkaits', 1) }}" required>
+        <div id="availabilityMessage" style="font-size: 12px; margin-top: 5px;"></div>
     </div>
 
-    <!-- Nomas sākuma datums -->
-    <div class="form-group">
-        <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>
-        <input type="text" class="form-control datepicker" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ old('NomasSakumaPeriods') }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
-    </div>
-
-    <!-- Nomas beigu datums -->
-    <div class="form-group">
-        <label for="NomasBeiguPeriods">Nomas beigu periods:</label>
-        <input type="text" class="form-control datepicker" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ old('NomasBeiguPeriods') }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
-    </div>
-
-    <!-- Cena par diennakti (tikai lasīšanai, ņem no Veidi tabulas) -->
+    <!-- Cena par diennakti -->
     <div class="form-group">
         <label for="CenaParDiennakti">Cena par diennakti (€):</label>
         <input type="text" class="form-control" id="CenaParDiennakti" readonly style="background-color: #f5f5f5;" placeholder="Tiks aprēķināta automātiski">
     </div>
 
-    <!-- Dienu skaits (automātiski) -->
+    <!-- Dienu skaits -->
     <div class="form-group">
         <label for="DienuSkaits">Dienu skaits:</label>
         <input type="text" class="form-control" id="DienuSkaits" readonly style="background-color: #f5f5f5;">
     </div>
 
-    <!-- Kopējā maksa (automātiski aprēķināta) -->
+    <!-- Kopējā maksa -->
     <div class="form-group">
         <label for="KopejaMaksa">Kopējā maksa (€):</label>
         <input type="number" class="form-control" id="KopejaMaksa" name="KopejaMaksa" step="0.01" readonly style="background-color: #f5f5f5;" required>
         <small style="font-size: 12px; color: #6c757d;">Kopējā maksa tiek aprēķināta automātiski</small>
     </div>
 
-    <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; 
+    <button type="submit" id="submitBtn" style="border-radius:8px; border: 1px solid #59c1cf; 
             padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
         Saglabāt
     </button>
@@ -114,28 +114,70 @@ $(document).ready(function() {
         allowInput: true
     });
     
-    // Kad tiek izvēlēta krava, ielādē atbilstošo vagona veidu (nevar mainīt)
+    // Funkcija pieejamības pārbaudei
+    function checkAvailability() {
+        var veidaId = $('#VeidaID').val();
+        var vagonuSkaits = $('#VagonuSkaits').val();
+        var sakumaDatums = $('#NomasSakumaPeriods').val();
+        var beiguDatums = $('#NomasBeiguPeriods').val();
+        
+        if (veidaId && vagonuSkaits && sakumaDatums && beiguDatums) {
+            $.ajax({
+                url: '/api/noma/check-availability',
+                type: 'POST',
+                data: {
+                    veida_id: veidaId,
+                    vagonu_skaits: vagonuSkaits,
+                    sakuma_datums: sakumaDatums,
+                    beigu_datums: beiguDatums,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success) {
+                        var messageDiv = $('#availabilityMessage');
+                        var submitBtn = $('#submitBtn');
+                        
+                        if (data.ir_pieejams) {
+                            messageDiv.html('<span style="color: green;">✓ Pieejams: ' + data.pieejamais_skaits + ' vagons(-i) no ' + data.kopejais_skaits + '</span>');
+                            messageDiv.css('color', 'green');
+                            submitBtn.prop('disabled', false);
+                            submitBtn.style.opacity = '1';
+                        } else {
+                            messageDiv.html('<span style="color: red;">✗ Nav pietiekami vagoni! Pieejami tikai ' + data.pieejamais_skaits + ' vagons(-i) no ' + data.kopejais_skaits + '</span>');
+                            messageDiv.css('color', 'red');
+                            submitBtn.prop('disabled', true);
+                            submitBtn.style.opacity = '0.5';
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    // Kad tiek izvēlēta krava, ielādē atbilstošo vagona veidu
     $('#KravasID').change(function() {
         var selectedOption = $(this).find('option:selected');
         var veidaId = selectedOption.data('veida-id');
         var veidaNosaukums = selectedOption.data('veida-nosaukums');
         var cena = selectedOption.data('cena');
+        var kopejaisVagonuSkaits = selectedOption.data('kopejais-vagonu-skaits');
         
         if (veidaId && veidaNosaukums) {
-            // Iestata vagona veida nosaukumu (tikai lasīšanai)
             $('#VeidaID_Nosaukums').val(veidaNosaukums);
             $('#VeidaID').val(veidaId);
-            
-            // Iestata cenu
             $('#CenaParDiennakti').val(cena);
+            $('#vehicleInfo').html('Kopējais vagonu skaits šim tipam: ' + kopejaisVagonuSkaits);
             
-            // Aprēķina kopējo maksu
+            // Pārbauda pieejamību
+            checkAvailability();
             calculateTotal();
         } else {
-            // Notīra laukus
             $('#VeidaID_Nosaukums').val('');
             $('#VeidaID').val('');
             $('#CenaParDiennakti').val('');
+            $('#vehicleInfo').html('');
+            $('#availabilityMessage').html('');
             $('#DienuSkaits').val('');
             $('#KopejaMaksa').val('');
         }
@@ -150,15 +192,12 @@ $(document).ready(function() {
         var cenaParDiennakti = $('#CenaParDiennakti').val();
         
         if (veidaId && vagonuSkaits && sakumaDatums && beiguDatums && cenaParDiennakti) {
-            // Aprēķina dienu skaitu
             var start = new Date(sakumaDatums);
             var end = new Date(beiguDatums);
             var dienuSkaits = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
             
             if (dienuSkaits > 0 && !isNaN(dienuSkaits)) {
                 $('#DienuSkaits').val(dienuSkaits);
-                
-                // Aprēķina kopējo maksu
                 var kopejaMaksa = parseFloat(cenaParDiennakti) * parseInt(vagonuSkaits) * dienuSkaits;
                 $('#KopejaMaksa').val(kopejaMaksa.toFixed(2));
             } else {
@@ -171,17 +210,18 @@ $(document).ready(function() {
         }
     }
     
-    // Aprēķini pie datumu izmaiņām
+    // Event listeners
     $('#NomasSakumaPeriods, #NomasBeiguPeriods').change(function() {
+        checkAvailability();
         calculateTotal();
     });
     
-    // Aprēķini pie vagonu skaita izmaiņām
     $('#VagonuSkaits').on('input', function() {
+        checkAvailability();
         calculateTotal();
     });
     
-    // Ielādē sākotnējo kravas veidu, ja tāds ir izvēlēts (no old())
+    // Ielādē sākotnējo kravas veidu, ja tāds ir izvēlēts
     if ($('#KravasID').val()) {
         $('#KravasID').trigger('change');
     }
@@ -224,6 +264,10 @@ $(document).ready(function() {
 
     button[type="submit"]:hover {
         transform: scale(1.05);
+    }
+    
+    button[type="submit"]:disabled {
+        cursor: not-allowed;
     }
 </style>
 
