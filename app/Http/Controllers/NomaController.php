@@ -52,7 +52,7 @@ class NomaController extends Controller
         }
 
         if ($veidaid !== '') {
-            $query->where('veidi.Nosaukums', 'like', '%' . $veidaid . '%');
+            $query->where('veidi.Nosaukums', 'like', '%' . $veidi . '%');
         }
 
         $noma = $query
@@ -60,7 +60,7 @@ class NomaController extends Controller
             ->paginate(5)
             ->appends($request->query());
 
-        return view('Noma', compact('noma', 'klients', 'krava', 'veidaid'));
+        return view('Noma', compact('noma', 'klients', 'krava', 'veidi'));
     }
 
     // Dzēš nomas ierakstu.
