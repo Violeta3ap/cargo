@@ -40,25 +40,19 @@
         <select class="form-control" id="KravasID" name="KravasID" required>
             <option value="">Izvēlieties kravas veidu</option>
             @foreach($kravas as $krava)
-                <option value="{{ $krava->KravasID }}" data-veida-id="{{ $krava->VeidaID }}" {{ old('KravasID') == $krava->KravasID ? 'selected' : '' }}>
+                <option value="{{ $krava->KravasID }}" data-veida-id="{{ $krava->VeidaID }}" data-veida-nosaukums="{{ $krava->veidi->Nosaukums ?? '' }}" data-cena="{{ $krava->veidi->CenaParDiennakti ?? 0 }}" {{ old('KravasID') == $krava->KravasID ? 'selected' : '' }}>
                     {{ $krava->Nosaukums }}
                 </option>
             @endforeach
         </select>
     </div>
 
-    <!-- Vagona veids (var mainīt) -->
+    <!-- Vagona veids (tikai lasīšanai, automātiski ielādēts) -->
     <div class="form-group">
         <label for="VeidaID">Vagona veida nosaukums:</label>
-        <select class="form-control" id="VeidaID" name="VeidaID" required>
-            <option value="">Izvēlieties vagona veidu</option>
-            @foreach($veidi as $veids)
-                <option value="{{ $veids->VeidaID }}" data-cena="{{ $veids->CenaParDiennakti }}">
-                    {{ $veids->Nosaukums }}
-                </option>
-            @endforeach
-        </select>
-        <small style="font-size: 12px; color: #6c757d;">Pēc kravas izvēles vagona veids tiks ielādēts automātiski, bet to var mainīt</small>
+        <input type="text" class="form-control" id="VeidaID_Nosaukums" readonly style="background-color: #f5f5f5;" placeholder="Tiks ielādēts automātiski pēc kravas izvēles">
+        <input type="hidden" id="VeidaID" name="VeidaID">
+        <small style="font-size: 12px; color: #6c757d;">Vagona veids tiek automātiski ielādēts pēc kravas izvēles un to nevar mainīt</small>
     </div>
 
     <!-- Vagonu skaits -->
@@ -120,44 +114,31 @@ $(document).ready(function() {
         allowInput: true
     });
     
-    // Kad tiek izvēlēta krava, ielādē atbilstošo vagona veidu (bet lietotājs var mainīt)
+    // Kad tiek izvēlēta krava, ielādē atbilstošo vagona veidu (nevar mainīt)
     $('#KravasID').change(function() {
         var selectedOption = $(this).find('option:selected');
         var veidaId = selectedOption.data('veida-id');
+        var veidaNosaukums = selectedOption.data('veida-nosaukums');
+        var cena = selectedOption.data('cena');
         
-        if (veidaId) {
-            // Atrod un izvēlas atbilstošo vagona veidu dropdownā
+        if (veidaId && veidaNosaukums) {
+            // Iestata vagona veida nosaukumu (tikai lasīšanai)
+            $('#VeidaID_Nosaukums').val(veidaNosaukums);
             $('#VeidaID').val(veidaId);
             
-            // Iegūst cenu no izvēlētā vagona veida un atjauno
-            updatePriceFromVehicle();
+            // Iestata cenu
+            $('#CenaParDiennakti').val(cena);
             
             // Aprēķina kopējo maksu
             calculateTotal();
         } else {
+            // Notīra laukus
+            $('#VeidaID_Nosaukums').val('');
             $('#VeidaID').val('');
             $('#CenaParDiennakti').val('');
             $('#DienuSkaits').val('');
             $('#KopejaMaksa').val('');
         }
-    });
-    
-    // Funkcija, kas atjauno cenu no izvēlētā vagona veida
-    function updatePriceFromVehicle() {
-        var selectedVeids = $('#VeidaID option:selected');
-        var cena = selectedVeids.data('cena');
-        
-        if (cena) {
-            $('#CenaParDiennakti').val(cena);
-        } else {
-            $('#CenaParDiennakti').val('');
-        }
-    }
-    
-    // Kad lietotājs manuāli maina vagona veidu, atjauno cenu un pārrēķina
-    $('#VeidaID').change(function() {
-        updatePriceFromVehicle();
-        calculateTotal();
     });
     
     // Funkcija kopējās maksas aprēķināšanai
@@ -199,11 +180,6 @@ $(document).ready(function() {
     $('#VagonuSkaits').on('input', function() {
         calculateTotal();
     });
-    
-    // Ielādē sākotnējo cenu, ja jau ir izvēlēts vagona veids
-    if ($('#VeidaID').val()) {
-        updatePriceFromVehicle();
-    }
     
     // Ielādē sākotnējo kravas veidu, ja tāds ir izvēlēts (no old())
     if ($('#KravasID').val()) {
