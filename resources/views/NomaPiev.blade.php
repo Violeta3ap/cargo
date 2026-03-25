@@ -117,11 +117,11 @@ $(document).ready(function() {
     // Funkcija pieejamības pārbaudei
     function checkAvailability() {
         var veidaId = $('#VeidaID').val();
-        var vagonuSkaits = $('#VagonuSkaits').val();
+        var vagonuSkaits = parseInt($('#VagonuSkaits').val()) || 0;
         var sakumaDatums = $('#NomasSakumaPeriods').val();
         var beiguDatums = $('#NomasBeiguPeriods').val();
         
-        if (veidaId && vagonuSkaits && sakumaDatums && beiguDatums) {
+        if (veidaId && vagonuSkaits > 0 && sakumaDatums && beiguDatums) {
             $.ajax({
                 url: '/api/noma/check-availability',
                 type: 'POST',
@@ -139,17 +139,18 @@ $(document).ready(function() {
                         var submitBtn = $('#submitBtn');
                         
                         if (data.ir_pieejams) {
-                            messageDiv.html('<span style="color: green;">✓ Pieejams: ' + data.pieejamais_skaits + ' vagons(-i) no ' + data.kopejais_skaits + '</span>');
-                            messageDiv.css('color', 'green');
+                            messageDiv.html('<span style="color: green;">✓ Pieejami ' + data.pieejamais_skaits + ' vagoni. Jūs pieprasāt ' + data.pieprasitais_skaits + ' vagonus.</span>');
                             submitBtn.prop('disabled', false);
-                            submitBtn.style.opacity = '1';
+                            submitBtn.css('opacity', '1');
                         } else {
-                            messageDiv.html('<span style="color: red;">✗ Nav pietiekami vagoni! Pieejami tikai ' + data.pieejamais_skaits + ' vagons(-i) no ' + data.kopejais_skaits + '</span>');
-                            messageDiv.css('color', 'red');
+                            messageDiv.html('<span style="color: red;">✗ NAV PIETIEKAMI VAGONI! Pieejami tikai ' + data.pieejamais_skaits + ' vagoni, bet jūs pieprasāt ' + data.pieprasitais_skaits + ' vagonus.</span>');
                             submitBtn.prop('disabled', true);
-                            submitBtn.style.opacity = '0.5';
+                            submitBtn.css('opacity', '0.5');
                         }
                     }
+                },
+                error: function() {
+                    $('#availabilityMessage').html('<span style="color: orange;">⚠ Nevar pārbaudīt pieejamību</span>');
                 }
             });
         }
@@ -268,6 +269,7 @@ $(document).ready(function() {
     
     button[type="submit"]:disabled {
         cursor: not-allowed;
+        opacity: 0.5;
     }
 </style>
 

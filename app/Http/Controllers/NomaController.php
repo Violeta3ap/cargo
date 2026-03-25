@@ -13,92 +13,88 @@ use Carbon\Carbon;
 class NomaController extends Controller
 {
 
-
-
-// Pārrēķina visu nomu kopējās maksas
-public function recalculateAll()
-{
-    $nomas = Noma::with('veidi')->get();
-    $updatedCount = 0;
-    
-    foreach ($nomas as $noma) {
-        // Aprēķina dienu skaitu
-        $start = Carbon::parse($noma->NomasSakumaPeriods);
-        $end = Carbon::parse($noma->NomasBeiguPeriods);
-        $dienuSkaits = $start->diffInDays($end) + 1;
+    // Pārrēķina visu nomu kopējās maksas
+    public function recalculateAll()
+    {
+        $nomas = Noma::with('veidi')->get();
+        $updatedCount = 0;
         
-        // Aprēķina kopējo maksu
-        $cenaParDiennakti = $noma->veidi->CenaParDiennakti;
-        $kopejaMaksa = $cenaParDiennakti * $noma->VagonuSkaits * $dienuSkaits;
-        
-        // Atjauno datubāzē
-        if ($noma->KopejaMaksa != $kopejaMaksa) {
-            $noma->KopejaMaksa = $kopejaMaksa;
-            $noma->save();
-            $updatedCount++;
+        foreach ($nomas as $noma) {
+            // Aprēķina dienu skaitu
+            $start = Carbon::parse($noma->NomasSakumaPeriods);
+            $end = Carbon::parse($noma->NomasBeiguPeriods);
+            $dienuSkaits = $start->diffInDays($end) + 1;
+            
+            // Aprēķina kopējo maksu
+            $cenaParDiennakti = $noma->veidi->CenaParDiennakti;
+            $kopejaMaksa = $cenaParDiennakti * $noma->VagonuSkaits * $dienuSkaits;
+            
+            // Atjauno datubāzē
+            if ($noma->KopejaMaksa != $kopejaMaksa) {
+                $noma->KopejaMaksa = $kopejaMaksa;
+                $noma->save();
+                $updatedCount++;
+            }
         }
+        
+        return redirect('/Noma')->with('success', "Pārrēķinātas $updatedCount nomas kopējās maksas.");
     }
-    
-    return redirect('/Noma')->with('success', "Pārrēķinātas $updatedCount nomas kopējās maksas.");
-}
 
-
-
-
-// Pārbauda pieejamo vagonu skaitu izvēlētajā periodā
-private function getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $iznemtNomasID = null)
-{
-    // Iegūst kopējo vagonu skaitu izvēlētajam veidam
-    $veids = Veidi::find($veidaId);
-    if (!$veids) {
-        return 0;
+    // Pārbauda pieejamo vagonu skaitu izvēlētajā periodā
+    private function getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $iznemtNomasID = null)
+    {
+        // Iegūst kopējo vagonu skaitu izvēlētajam veidam
+        $veids = Veidi::find($veidaId);
+        if (!$veids) {
+            return 0;
+        }
+        
+        $kopējaisVagonuSkaits = $veids->VagonuSkaits;
+        
+        // Aprēķina aizņemto vagonu skaitu izvēlētajā periodā
+        // Pareizs pārklāšanās nosacījums
+        $query = Noma::where('VeidaID', $veidaId)
+            ->where(function($q) use ($sakumaDatums, $beiguDatums) {
+                $q->where('NomasSakumaPeriods', '<=', $beiguDatums)
+                  ->where('NomasBeiguPeriods', '>=', $sakumaDatums);
+            });
+        
+        // Ja rediģē, izņem pašreizējo ierakstu no aprēķina
+        if ($iznemtNomasID) {
+            $query->where('NomasID', '!=', $iznemtNomasID);
+        }
+        
+        $aiznemtaisSkaits = $query->sum('VagonuSkaits');
+        
+        // Pieejamais vagonu skaits
+        $pieejamaisSkaits = $kopējaisVagonuSkaits - $aiznemtaisSkaits;
+        
+        // Nodrošina, ka pieejamais skaits nav negatīvs
+        return max(0, $pieejamaisSkaits);
     }
-    
-    $kopējaisVagonuSkaits = $veids->VagonuSkaits;
-    
-    // Aprēķina aizņemto vagonu skaitu izvēlētajā periodā
-    $query = Noma::where('VeidaID', $veidaId)
-        ->where(function($q) use ($sakumaDatums, $beiguDatums) {
-            $q->whereBetween('NomasSakumaPeriods', [$sakumaDatums, $beiguDatums])
-              ->orWhereBetween('NomasBeiguPeriods', [$sakumaDatums, $beiguDatums])
-              ->orWhere(function($q2) use ($sakumaDatums, $beiguDatums) {
-                  $q2->where('NomasSakumaPeriods', '<=', $sakumaDatums)
-                     ->where('NomasBeiguPeriods', '>=', $beiguDatums);
-              });
-        });
-    
-    // Ja rediģē, izņem pašreizējo ierakstu no aprēķina
-    if ($iznemtNomasID) {
-        $query->where('NomasID', '!=', $iznemtNomasID);
+
+    // API: Pārbauda pieejamo vagonu skaitu
+    public function checkAvailability(Request $request)
+    {
+        $veidaId = $request->input('veida_id');
+        $sakumaDatums = $request->input('sakuma_datums');
+        $beiguDatums = $request->input('beigu_datums');
+        $pieprasitaisSkaits = (int) $request->input('vagonu_skaits', 1);
+        $nomasId = $request->input('nomas_id', null);
+        
+        $veids = Veidi::find($veidaId);
+        $kopejaisSkaits = $veids ? $veids->VagonuSkaits : 0;
+        $pieejamaisSkaits = $this->getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $nomasId);
+        
+        return response()->json([
+            'success' => true,
+            'pieejamais_skaits' => $pieejamaisSkaits,
+            'pieprasitais_skaits' => $pieprasitaisSkaits,
+            'ir_pieejams' => $pieprasitaisSkaits <= $pieejamaisSkaits,
+            'kopejais_skaits' => $kopejaisSkaits,
+            'aiznemtais_skaits' => $kopejaisSkaits - $pieejamaisSkaits
+        ]);
     }
-    
-    $aiznemtaisSkaits = $query->sum('VagonuSkaits');
-    
-    // Pieejamais vagonu skaits
-    return $kopējaisVagonuSkaits - $aiznemtaisSkaits;
-}
-
-// API: Pārbauda pieejamo vagonu skaitu
-public function checkAvailability(Request $request)
-{
-    $veidaId = $request->input('veida_id');
-    $sakumaDatums = $request->input('sakuma_datums');
-    $beiguDatums = $request->input('beigu_datums');
-    $pieprasitaisSkaits = $request->input('vagonu_skaits', 1);
-    $nomasId = $request->input('nomas_id', null);
-    
-    $pieejamaisSkaits = $this->getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $nomasId);
-    
-    return response()->json([
-        'success' => true,
-        'pieejamais_skaits' => $pieejamaisSkaits,
-        'pieprasitais_skaits' => $pieprasitaisSkaits,
-        'ir_pieejams' => $pieprasitaisSkaits <= $pieejamaisSkaits,
-        'kopejais_skaits' => Veidi::find($veidaId)->VagonuSkaits ?? 0
-    ]);
-}
-
-
 
     private function normalizeFilterDate(?string $value): ?string
     {
@@ -122,10 +118,13 @@ public function checkAvailability(Request $request)
         return null;
     }
 
-    private function validateVagonuSkaitsLimit(Request $dati): ?string
+    // Atjauninātā validateVagonuSkaitsLimit funkcija ar perioda pārbaudi
+    private function validateVagonuSkaitsLimit(Request $dati, $nomasId = null)
     {
         $veidaId = (int) $dati->input('VeidaID');
         $pieprasitsSkaits = (int) $dati->input('VagonuSkaits');
+        $sakumaDatums = $dati->input('NomasSakumaPeriods');
+        $beiguDatums = $dati->input('NomasBeiguPeriods');
 
         $veids = Veidi::find($veidaId);
 
@@ -133,8 +132,16 @@ public function checkAvailability(Request $request)
             return 'Izvēlētais vagona veids nav atrasts.';
         }
 
+        // Pārbauda vai pieprasītais skaits nepārsniedz kopējo pieejamo skaitu
         if ($pieprasitsSkaits > (int) $veids->VagonuSkaits) {
-            return 'Vagonu skaits nevar būt lielāks par izvēlētā veida pieejamo skaitu (' . $veids->VagonuSkaits . ').';
+            return 'Vagonu skaits nevar būt lielāks par izvēlētā veida kopējo skaitu (' . $veids->VagonuSkaits . ').';
+        }
+        
+        // Pārbauda pieejamību izvēlētajā periodā
+        $pieejamaisSkaits = $this->getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $nomasId);
+        
+        if ($pieprasitsSkaits > $pieejamaisSkaits) {
+            return 'Izvēlētajā periodā nav pietiekami daudz brīvu vagonu. Pieejami: ' . $pieejamaisSkaits . ' no ' . $veids->VagonuSkaits . '.';
         }
 
         return null;
@@ -273,6 +280,7 @@ public function checkAvailability(Request $request)
             'KopejaMaksa' => ['required', 'numeric', 'min:1'],
         ]);
 
+        // Pārbauda vagonu skaitu (ieskaitot perioda pieejamību)
         $vagonuSkaitsError = $this->validateVagonuSkaitsLimit($dati);
         if ($vagonuSkaitsError) {
             return back()->withInput()->withErrors(['VagonuSkaits' => $vagonuSkaitsError]);
@@ -315,7 +323,8 @@ public function checkAvailability(Request $request)
             'KopejaMaksa' => ['required', 'numeric', 'min:1'],
         ]);
 
-        $vagonuSkaitsError = $this->validateVagonuSkaitsLimit($dati);
+        // Pārbauda vagonu skaitu (ieskaitot perioda pieejamību, izņemot pašreizējo ierakstu)
+        $vagonuSkaitsError = $this->validateVagonuSkaitsLimit($dati, $id);
         if ($vagonuSkaitsError) {
             return back()->withInput()->withErrors(['VagonuSkaits' => $vagonuSkaitsError]);
         }
@@ -347,7 +356,8 @@ public function checkAvailability(Request $request)
                 'success' => true,
                 'veida_id' => $krava->veidi->VeidaID,
                 'veida_nosaukums' => $krava->veidi->Nosaukums,
-                'cena_par_diennakti' => $krava->veidi->CenaParDiennakti
+                'cena_par_diennakti' => $krava->veidi->CenaParDiennakti,
+                'kopejais_vagonu_skaits' => $krava->veidi->VagonuSkaits
             ]);
         }
         
@@ -381,7 +391,7 @@ public function checkAvailability(Request $request)
             try {
                 $start = Carbon::parse($sakumaDatums);
                 $end = Carbon::parse($beiguDatums);
-                $dienuSkaits = $start->diffInDays($end) + 1; // +1 lai ieskaitītu abus datumus
+                $dienuSkaits = $start->diffInDays($end) + 1;
                 if ($dienuSkaits < 0) $dienuSkaits = 0;
             } catch (\Exception $e) {
                 $dienuSkaits = 0;
