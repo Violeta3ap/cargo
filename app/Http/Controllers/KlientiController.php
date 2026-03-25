@@ -8,12 +8,39 @@ use Illuminate\Support\Facades\DB;
 
 class KlientiController extends Controller
 {
-  // Klientu saraksts ar pagināciju un meklēšanu.
+  // Klientu saraksts ar pagināciju, meklēšanu un kārtošanu.
   public function showAllKlienti(Request $request)
   {
     $vards = trim((string) $request->query('vards', ''));
     $uzvards = trim((string) $request->query('uzvards', ''));
     $uznemumanos = trim((string) $request->query('uznemumanos', ''));
+    
+    // Kārtošanas parametri
+    $sortBy = $request->query('sort_by', 'KlientaID');
+    $sortOrder = $request->query('sort_order', 'asc');
+    
+    // Atļauto kārtošanas lauku saraksts (drošībai)
+    $allowedSortFields = [
+      'Vards', 
+      'Uzvards', 
+      'Epasts', 
+      'TelefonaNumurs', 
+      'UznemumaNosaukums', 
+      'JuridiskaAdrese', 
+      'RegistracijasNumurs', 
+      'KontaNumurs',
+      'KlientaID'
+    ];
+    
+    // Pārbauda vai kārtošanas lauks ir atļauts
+    if (!in_array($sortBy, $allowedSortFields)) {
+      $sortBy = 'KlientaID';
+    }
+    
+    // Pārbauda kārtošanas virzienu
+    if (!in_array($sortOrder, ['asc', 'desc'])) {
+      $sortOrder = 'asc';
+    }
 
     $query = Klienti::query();
 
@@ -30,11 +57,11 @@ class KlientiController extends Controller
     }
 
     $klientis = $query
-      ->orderBy('KlientaID', 'asc')
+      ->orderBy($sortBy, $sortOrder)
       ->paginate(5)
       ->appends($request->query());
 
-    return view('Klienti', compact('klientis', 'vards', 'uzvards', 'uznemumanos'));
+    return view('Klienti', compact('klientis', 'vards', 'uzvards', 'uznemumanos', 'sortBy', 'sortOrder'));
   }
 
   // Dzēš klienta ierakstu.

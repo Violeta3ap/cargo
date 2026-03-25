@@ -6,6 +6,22 @@
     $vards = $vards ?? request('vards');
     $uzvards = $uzvards ?? request('uzvards');
     $uznemumanos = $uznemumanos ?? request('uznemumanos');
+    $sortBy = $sortBy ?? request('sort_by', 'KlientaID');
+    $sortOrder = $sortOrder ?? request('sort_order', 'asc');
+    
+    // Palīgfunkcija kārtošanas URL ģenerēšanai
+    function getSortUrl($field, $currentSortBy, $currentSortOrder, $params) {
+        if ($currentSortBy == $field) {
+            $newOrder = $currentSortOrder == 'asc' ? 'desc' : 'asc';
+        } else {
+            $newOrder = 'asc';
+        }
+        
+        $params['sort_by'] = $field;
+        $params['sort_order'] = $newOrder;
+        
+        return '?' . http_build_query($params);
+    }
 @endphp
 
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
@@ -25,30 +41,102 @@
             <input type="text" name="vards" value="{{ $vards }}" placeholder="Vārds">
             <input type="text" name="uzvards" value="{{ $uzvards }}" placeholder="Uzvārds">
             <input type="text" name="uznemumanos" value="{{ $uznemumanos }}" placeholder="Uzņēmuma nosaukums">
+            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
             <button type="submit" class="filter-btn">Meklēt</button>
-               <a href="/Klienti" class="filter-btn">Notīrīt</a>
+            <a href="/Klienti" class="filter-btn">Notīrīt</a>
         </div>
     </div>
 </form>
 
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>  
+@endif
+
 <!-- Klientu saraksts -->
 <table class="table table-striped" style="width:100%; border:1px solid #59c1cf; border-radius:8px; overflow:hidden; text-align:center;">
     <thead>
-        <tr>
-            <th>Vārds</th>
-            <th>Uzvārds</th>
-            <th>E-pasts</th>
-            <th>Telefona numurs</th>
-            <th>Uzņēmuma nosaukums</th>
-            <th>Juridiska adrese</th>
-            <th>Registrācijas numurs</th>
-            <th>Konta numurs</th>
+         <tr>
+            <th>
+                <a href="{{ getSortUrl('Vards', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'Vards' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Vārds
+                    @if($sortBy == 'Vards')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('Uzvards', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'Uzvards' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Uzvārds
+                    @if($sortBy == 'Uzvards')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('Epasts', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'Epasts' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    E-pasts
+                    @if($sortBy == 'Epasts')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('TelefonaNumurs', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'TelefonaNumurs' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Telefona numurs
+                    @if($sortBy == 'TelefonaNumurs')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('UznemumaNosaukums', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'UznemumaNosaukums' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Uzņēmuma nosaukums
+                    @if($sortBy == 'UznemumaNosaukums')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('JuridiskaAdrese', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'JuridiskaAdrese' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Juridiska adrese
+                    @if($sortBy == 'JuridiskaAdrese')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('RegistracijasNumurs', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'RegistracijasNumurs' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Reģistrācijas numurs
+                    @if($sortBy == 'RegistracijasNumurs')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('KontaNumurs', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'KontaNumurs' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Konta numurs
+                    @if($sortBy == 'KontaNumurs')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
             <th>Darbības</th>
-        </tr>
+         </tr>
     </thead>
     <tbody>
         @foreach ($klientis as $item)
-        <tr>
+         <tr>
             <td>{{$item->Vards}}</td>
             <td>{{$item->Uzvards}}</td>
             <td>{{$item->Epasts}}</td>
@@ -71,7 +159,7 @@
                     </a>
                 </div>
             </td>
-        </tr>
+         </tr>
         @endforeach
     </tbody>
 </table>
@@ -175,6 +263,25 @@
         border: 1px solid #59c1cf;
         padding: 12px;
         font-weight: bold;
+        position: relative;
+    }
+
+    .table thead th a.sort-link {
+        color: white;
+        text-decoration: none;
+        display: inline-block;
+        padding: 5px;
+        transition: opacity 0.2s ease;
+    }
+
+    .table thead th a.sort-link:hover {
+        opacity: 0.8;
+    }
+
+    .table thead th .sort-icon {
+        display: inline-block;
+        margin-left: 5px;
+        font-size: 12px;
     }
 
     .table tbody tr:hover {
@@ -230,12 +337,18 @@
         cursor: not-allowed;
         pointer-events: none;
     }
+    
+    .alert {
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    
+    .alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+    }
 </style>
 
 @endsection
-
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>  
-@endif
