@@ -32,6 +32,14 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'nocache'])->group(function () {
 
+
+// API routes nomas aprēķiniem
+Route::get('/api/krava/{id}/veids', [NomaController::class, 'getVeidsByKrava']);
+Route::post('/api/noma/calculate', [NomaController::class, 'calculateTotal']);
+
+Route::get('/Noma/recalculate', [NomaController::class, 'recalculateAll']);
+
+
 // Vagonu noma routes
 Route::get('/Noma', 'App\Http\Controllers\NomaController@showAllNoma');
 Route::get('/Noma/jauns', 'App\Http\Controllers\NomaController@create');

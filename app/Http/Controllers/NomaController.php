@@ -12,6 +12,37 @@ use Carbon\Carbon;
 
 class NomaController extends Controller
 {
+
+
+
+// Pārrēķina visu nomu kopējās maksas
+public function recalculateAll()
+{
+    $nomas = Noma::with('veidi')->get();
+    $updatedCount = 0;
+    
+    foreach ($nomas as $noma) {
+        // Aprēķina dienu skaitu
+        $start = Carbon::parse($noma->NomasSakumaPeriods);
+        $end = Carbon::parse($noma->NomasBeiguPeriods);
+        $dienuSkaits = $start->diffInDays($end) + 1;
+        
+        // Aprēķina kopējo maksu
+        $cenaParDiennakti = $noma->veidi->CenaParDiennakti;
+        $kopejaMaksa = $cenaParDiennakti * $noma->VagonuSkaits * $dienuSkaits;
+        
+        // Atjauno datubāzē
+        if ($noma->KopejaMaksa != $kopejaMaksa) {
+            $noma->KopejaMaksa = $kopejaMaksa;
+            $noma->save();
+            $updatedCount++;
+        }
+    }
+    
+    return redirect('/Noma')->with('success', "Pārrēķinātas $updatedCount nomas kopējās maksas.");
+}
+
+
     private function normalizeFilterDate(?string $value): ?string
     {
         $value = trim((string) $value);
@@ -245,5 +276,71 @@ class NomaController extends Controller
             ]);
 
         return redirect()->to('/Noma')->with('success', 'Ieraksts tika atjaunināts');
+    }
+
+    // **** JAUNĀS FUNKCIJAS ****
+    
+    // API: Iegūst vagona veidu pēc izvēlētās kravas
+    public function getVeidsByKrava($kravasId)
+    {
+        $krava = Kravas::with('veidi')->find($kravasId);
+        
+        if ($krava && $krava->veidi) {
+            return response()->json([
+                'success' => true,
+                'veida_id' => $krava->veidi->VeidaID,
+                'veida_nosaukums' => $krava->veidi->Nosaukums,
+                'cena_par_diennakti' => $krava->veidi->CenaParDiennakti
+            ]);
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Krava vai vagona veids nav atrasts'
+        ]);
+    }
+    
+    // API: Aprēķina kopējo maksu
+    public function calculateTotal(Request $request)
+    {
+        $veidaId = $request->input('veida_id');
+        $vagonuSkaits = $request->input('vagonu_skaits', 1);
+        $sakumaDatums = $request->input('sakuma_datums');
+        $beiguDatums = $request->input('beigu_datums');
+        
+        // Iegūst vagona veidu
+        $veids = Veidi::find($veidaId);
+        
+        if (!$veids) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vagona veids nav atrasts'
+            ]);
+        }
+        
+        // Aprēķina dienu skaitu
+        $dienuSkaits = 0;
+        if ($sakumaDatums && $beiguDatums) {
+            try {
+                $start = Carbon::parse($sakumaDatums);
+                $end = Carbon::parse($beiguDatums);
+                $dienuSkaits = $start->diffInDays($end) + 1; // +1 lai ieskaitītu abus datumus
+                if ($dienuSkaits < 0) $dienuSkaits = 0;
+            } catch (\Exception $e) {
+                $dienuSkaits = 0;
+            }
+        }
+        
+        // Aprēķina kopējo maksu
+        $cenaParDiennakti = $veids->CenaParDiennakti;
+        $kopejaMaksa = $cenaParDiennakti * $vagonuSkaits * $dienuSkaits;
+        
+        return response()->json([
+            'success' => true,
+            'cena_par_diennakti' => $cenaParDiennakti,
+            'dienu_skaits' => $dienuSkaits,
+            'kopeja_maksa' => $kopejaMaksa,
+            'formated_kopeja_maksa' => number_format($kopejaMaksa, 2)
+        ]);
     }
 }
