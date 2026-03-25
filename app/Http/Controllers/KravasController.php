@@ -14,11 +14,34 @@ class KravasController extends Controller
     return auth()->check() && auth()->user()->isKlients();
   }
 
-  // Kravu saraksts.
-  public function showAllKrava()
+  // Kravu saraksts ar kārtošanu.
+  public function showAllKrava(Request $request)
   {
+    // Kārtošanas parametri
+    $sortBy = $request->query('sort_by', 'KravasID');
+    $sortOrder = $request->query('sort_order', 'asc');
+    
+    // Atļauto kārtošanas lauku saraksts (drošībai)
+    $allowedSortFields = [
+      'Nosaukums',
+      'VeidaID',
+      'KravasID'
+    ];
+    
+    // Pārbauda vai kārtošanas lauks ir atļauts
+    if (!in_array($sortBy, $allowedSortFields)) {
+      $sortBy = 'KravasID';
+    }
+    
+    // Pārbauda kārtošanas virzienu
+    if (!in_array($sortOrder, ['asc', 'desc'])) {
+      $sortOrder = 'asc';
+    }
+    
     $kravas = new Kravas();
-    return view('Kravas', ['dati' => $kravas->orderBy('KravasID', 'asc')->get()]);
+    $dati = $kravas->orderBy($sortBy, $sortOrder)->get();
+    
+    return view('Kravas', compact('dati', 'sortBy', 'sortOrder'));
   }
 
   // Dzēš kravu.
