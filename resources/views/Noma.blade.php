@@ -18,7 +18,7 @@
 </div>
 
 <!-- Meklēšanas filtri -->
-<form method="GET" action="/Noma" class="noma-filter-form">
+<form method="GET" action="/Noma" class="noma-filter-form" style="padding: 8px 10px;">
     <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta uzņēmuma nosaukums">
     <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas veids">
     <input type="text" name="veidii" value="{{ $veidii }}" placeholder="Vagona nosaukums">
