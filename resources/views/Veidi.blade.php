@@ -128,7 +128,9 @@
                 </td>
             @endif
           </tr>
-       
+        @empty
+          
+        @endforelse
     </tbody>
 </table>
 
