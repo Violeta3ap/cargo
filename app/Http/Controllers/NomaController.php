@@ -51,7 +51,7 @@ class NomaController extends Controller
             $query->where('krava.Nosaukums', 'like', '%' . $krava . '%');
         }
 
-        if ($veidaid !== '') {
+        if ($veidii !== '') {
             $query->where('veidi.Nosaukums', 'like', '%' . $veidii . '%');
         }
 
