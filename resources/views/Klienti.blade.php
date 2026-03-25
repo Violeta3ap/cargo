@@ -188,6 +188,7 @@
 </div>
 @endif
 
+
 <!-- Klientu tabulas un paginācijas stili -->
 <style>
     .klienti-filter-form {

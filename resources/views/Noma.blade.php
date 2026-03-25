@@ -210,6 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 @endif
 
+
 <!-- Noma tabulas un paginācijas stili -->
 <style>
     .print-btn {

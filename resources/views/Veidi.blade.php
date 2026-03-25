@@ -128,17 +128,7 @@
                 </td>
             @endif
           </tr>
-        @empty
-          <tr>
-            <td colspan="{{ Auth::check() && !Auth::user()->isKlients() ? 5 : 4 }}" style="text-align: center; padding: 20px;">
-                @if($search !== '')
-                    Nav atrasts neviens vagona veids pēc meklēšanas frāzes "{{ $search }}"
-                @else
-                    Nav atrasts neviens vagona veids
-                @endif
-            </td>
-          </tr>
-        @endforelse
+       
     </tbody>
 </table>
 

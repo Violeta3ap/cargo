@@ -88,6 +88,7 @@
     </tbody>
 </table>
 
+
 <!-- Tabulas un pogu stils -->
 <style>
 .table {
