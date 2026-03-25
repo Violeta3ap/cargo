@@ -5,7 +5,9 @@
 @php
     $klients = $klients ?? request('klients');
     $krava = $krava ?? request('krava');
-    $veidii = $veidii ?? request('veidii');
+    $veids = $veids ?? request('veids');
+    $periodsNo = $periodsNo ?? request('periods_no');
+    $periodsLidz = $periodsLidz ?? request('periods_lidz');
 @endphp
 
 <!-- Lapas galvene -->
@@ -21,11 +23,13 @@
 
 <!-- Meklēšanas filtri -->
 <form method="GET" action="/Noma" class="noma-filter-form" style="padding: 8px 10px;">
-    <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta vārds ">
-    <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta uzvārds">
-    <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta uzņēmuma nosaukums">
+    <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta vārds, uzvārds vai uzņēmums">
+    <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
+    <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
+    <input type="date" name="periods_no" value="{{ $periodsNo }}" title="Periods no">
+    <input type="date" name="periods_lidz" value="{{ $periodsLidz }}" title="Periods līdz">
 
-    <button type="submit" class="filter-btn">Meklēt</button>
+    <button type="submit" class="filter-btn">Filtrēt</button>
     <a href="/Noma" class="filter-btn">Notīrīt</a>
 </form>
 
@@ -36,7 +40,6 @@
             <th>Klients</th>
             <th>Klienta uzņēmums</th>
             <th>Kravas veids</th>
-            <th>Svars tonnās</th>
             <th>Vagona nosaukums</th>
             <th>Vagonu skaits</th>
             <th>Nomas sākuma periods</th>
@@ -51,7 +54,6 @@
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
             <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID)}}</td>
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID)}}</td>
-            <td>{{$item->Svars}}</td>
             <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID)}}</td>
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>

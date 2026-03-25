@@ -46,14 +46,7 @@
         </select>
     </div>
 
-
-
-    <div class="form-group">
-        <label for="Svars">Svars tonnās:</label>
-        <input type="number" class="form-control" id="Svars" name="Svars" min="1" value="{{ old('Svars') }}" required>
-    </div>
-
-
+    
     <!-- Izvēlne vagona veidam -->
     <div class="form-group">
         <label for="VeidaID">Vagona nosaukums:</label>

@@ -44,11 +44,6 @@
 
 
         <div class="form-group">
-            <label for="Svars">Svars tonnās:</label>
-            <input type="number" class="form-control" id="Svars" name="Svars" value="{{ $noma->Svars }}" min="1" required>
-        </div>
-
-        <div class="form-group">
             <label for="VagonuSkaits">Vagonu skaits:</label>
             <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" value="{{ $noma->VagonuSkaits }}" min="1" required>
         </div>

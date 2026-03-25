@@ -29,10 +29,14 @@ class NomaController extends Controller
         return null;
     }
 
-    // Nomas saraksts ar pagināciju un meklēšanu.
+    // Nomas saraksts ar pagināciju, meklēšanu un filtriem.
     public function showAllNoma(Request $request)
     {
         $klients = trim((string) $request->query('klients', ''));
+        $krava = trim((string) $request->query('krava', ''));
+        $veids = trim((string) $request->query('veids', ''));
+        $periodsNo = trim((string) $request->query('periods_no', ''));
+        $periodsLidz = trim((string) $request->query('periods_lidz', ''));
 
         $query = Noma::query()
             ->with(['klienti', 'kravas', 'veidi']);
@@ -45,12 +49,32 @@ class NomaController extends Controller
             });
         }
 
+        if ($krava !== '') {
+            $query->whereHas('kravas', function ($q) use ($krava) {
+                $q->where('Nosaukums', 'like', '%' . $krava . '%');
+            });
+        }
+
+        if ($veids !== '') {
+            $query->whereHas('veidi', function ($q) use ($veids) {
+                $q->where('Nosaukums', 'like', '%' . $veids . '%');
+            });
+        }
+
+        if ($periodsNo !== '') {
+            $query->whereDate('NomasBeiguPeriods', '>=', $periodsNo);
+        }
+
+        if ($periodsLidz !== '') {
+            $query->whereDate('NomasSakumaPeriods', '<=', $periodsLidz);
+        }
+
         $noma = $query
             ->orderBy('vagonunoma.NomasID', 'asc')
             ->paginate(5)
             ->appends($request->query());
 
-        return view('Noma', compact('noma', 'klients'));
+        return view('Noma', compact('noma', 'klients', 'krava', 'veids', 'periodsNo', 'periodsLidz'));
     }
 
     // Dzēš nomas ierakstu.
@@ -83,7 +107,6 @@ class NomaController extends Controller
         $dati->validate([
             'KlientaID' => ['required', 'integer'],
             'KravasID' => ['required', 'integer'],
-            'Svars' => ['required', 'numeric', 'min:1'],
             'VeidaID' => ['required', 'integer'],
             'VagonuSkaits' => ['required', 'integer', 'min:1'],
             'NomasSakumaPeriods' => ['required', 'date'],
@@ -99,7 +122,6 @@ class NomaController extends Controller
         $noma = new Noma();
         $noma->KlientaID = $dati->input('KlientaID');
         $noma->KravasID = $dati->input('KravasID');
-        $noma->Svars = $dati->input('Svars');
         $noma->VeidaID = $dati->input('VeidaID');
         $noma->VagonuSkaits = $dati->input('VagonuSkaits');
         $noma->NomasSakumaPeriods = $dati->input('NomasSakumaPeriods');
@@ -127,7 +149,6 @@ class NomaController extends Controller
         $dati->validate([
             'KlientaID' => ['required', 'integer'],
             'KravasID' => ['required', 'integer'],
-            'Svars' => ['required', 'numeric', 'min:1'],
             'VeidaID' => ['required', 'integer'],
             'VagonuSkaits' => ['required', 'integer', 'min:1'],
             'NomasSakumaPeriods' => ['required', 'date'],
@@ -145,7 +166,6 @@ class NomaController extends Controller
             ->update([
                 'KlientaID' => $dati->input('KlientaID'),
                 'KravasID' => $dati->input('KravasID'),
-                'Svars' => $dati->input('Svars'),
                 'VeidaID' => $dati->input('VeidaID'),
                 'VagonuSkaits' => $dati->input('VagonuSkaits'),
                 'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
