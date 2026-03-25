@@ -29,11 +29,54 @@ class NomaController extends Controller
         return null;
     }
 
-    // Nomas saraksts ar pagināciju.
-    public function showAllNoma()
+    // Nomas saraksts ar pagināciju un meklēšanu.
+    public function showAllNoma(Request $request)
     {
-        $noma = new Noma();
-        return view('Noma', ['noma' => $noma->orderBy('NomasID', 'asc')->paginate(5)]);
+        $klients = trim((string) $request->query('klients', ''));
+        $krava = trim((string) $request->query('krava', ''));
+        $veidaid = trim((string) $request->query('veidaid', ''));
+        $periods = trim((string) $request->query('periods', ''));
+
+        $query = Noma::query()
+            ->with(['klienti', 'kravas', 'veidi'])
+            ->leftJoin('klienti', 'vagonunoma.KlientaID', '=', 'klienti.KlientaID')
+            ->leftJoin('krava', 'vagonunoma.KravasID', '=', 'krava.KravasID')
+            ->select('vagonunoma.*');
+
+        if ($klients !== '') {
+            $query->where(function ($q) use ($klients) {
+                $q->where('klienti.Vards', 'like', '%' . $klients . '%')
+                    ->orWhere('klienti.Uzvards', 'like', '%' . $klients . '%')
+                    ->orWhere('klienti.UznemumaNosaukums', 'like', '%' . $klients . '%');
+            });
+        }
+
+        if ($krava !== '') {
+            $query->where('krava.Nosaukums', 'like', '%' . $krava . '%');
+        }
+
+        if ($veidaid !== '' && ctype_digit($veidaid)) {
+            $query->where('vagonunoma.VeidaID', (int) $veidaid);
+        }
+
+        if ($periods !== '') {
+            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $periods)) {
+                $query->whereDate('vagonunoma.NomasSakumaPeriods', '<=', $periods)
+                    ->whereDate('vagonunoma.NomasBeiguPeriods', '>=', $periods);
+            } else {
+                $query->where(function ($q) use ($periods) {
+                    $q->where('vagonunoma.NomasSakumaPeriods', 'like', '%' . $periods . '%')
+                        ->orWhere('vagonunoma.NomasBeiguPeriods', 'like', '%' . $periods . '%');
+                });
+            }
+        }
+
+        $noma = $query
+            ->orderBy('vagonunoma.NomasID', 'asc')
+            ->paginate(5)
+            ->appends($request->query());
+
+        return view('Noma', compact('noma', 'klients', 'krava', 'veidaid', 'periods'));
     }
 
     // Dzēš nomas ierakstu.

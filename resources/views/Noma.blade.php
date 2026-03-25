@@ -2,6 +2,13 @@
 
 @section('content')
 
+@php
+    $klients = $klients ?? request('klients');
+    $krava = $krava ?? request('krava');
+    $veidaid = $veidaid ?? request('veidaid');
+    $periods = $periods ?? request('periods');
+@endphp
+
 <!-- Lapas galvene -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Noma</h2>
@@ -10,6 +17,17 @@
         <!-- Papildsaite rezervē -->
     </nav>
 </div>
+
+<!-- Meklēšanas filtri -->
+<form method="GET" action="/Noma" class="noma-filter-form">
+    <input type="text" name="klients" value="{{ $klients }}" placeholder="Klients (vārds/uzvārds/uzņēmums)">
+    <input type="text" name="krava" value="{{ $krava }}" placeholder="Krava">
+    <input type="number" name="veidaid" value="{{ $veidaid }}" placeholder="VeidaID" min="1">
+    <input type="text" name="periods" value="{{ $periods }}" placeholder="Periods (YYYY-MM-DD vai teksts)">
+
+    <button type="submit" class="btn-action filter-btn">Meklēt</button>
+    <a href="/Noma" class="btn-action filter-btn reset-btn">Notīrīt</a>
+</form>
 
 <!-- Nomas saraksts -->
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
@@ -78,6 +96,32 @@
 <style>
     .table {
         border-collapse: collapse;
+    }
+
+    .noma-filter-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 10px;
+        margin-bottom: 14px;
+        align-items: center;
+    }
+
+    .noma-filter-form input {
+        border: 1px solid #59c1cf;
+        border-radius: 8px;
+        padding: 8px 10px;
+        font-size: 0.92rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .filter-btn {
+        width: 100%;
+        padding: 8px 10px;
+    }
+
+    .reset-btn {
+        display: inline-block;
     }
     
     .table thead {
