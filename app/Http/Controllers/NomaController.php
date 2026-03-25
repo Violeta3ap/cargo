@@ -35,6 +35,7 @@ class NomaController extends Controller
         $klientaVards = trim((string) $request->query('klienta_vards', ''));
         $klientaUzvards = trim((string) $request->query('klienta_uzvards', ''));
         $klientaUznemums = trim((string) $request->query('klienta_uznemums', ''));
+        $filtraUznemums = trim((string) $request->query('filtra_uznemums', ''));
         $krava = trim((string) $request->query('krava', ''));
         $veids = trim((string) $request->query('veids', ''));
         $periodsNo = trim((string) $request->query('periods_no', ''));
@@ -71,6 +72,12 @@ class NomaController extends Controller
             });
         }
 
+        if ($filtraUznemums !== '') {
+            $query->whereHas('klienti', function ($q) use ($filtraUznemums) {
+                $q->where('UznemumaNosaukums', 'like', '%' . $filtraUznemums . '%');
+            });
+        }
+
         if ($periodsNo !== '') {
             $query->whereDate('NomasBeiguPeriods', '>=', $periodsNo);
         }
@@ -86,7 +93,7 @@ class NomaController extends Controller
 
         return view(
             'Noma',
-            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'krava', 'veids', 'periodsNo', 'periodsLidz')
+            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'filtraUznemums', 'krava', 'veids', 'periodsNo', 'periodsLidz')
         );
     }
 

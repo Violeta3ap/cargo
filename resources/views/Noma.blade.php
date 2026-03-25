@@ -6,6 +6,7 @@
     $klientaVards = $klientaVards ?? request('klienta_vards');
     $klientaUzvards = $klientaUzvards ?? request('klienta_uzvards');
     $klientaUznemums = $klientaUznemums ?? request('klienta_uznemums');
+    $filtraUznemums = $filtraUznemums ?? request('filtra_uznemums');
     $krava = $krava ?? request('krava');
     $veids = $veids ?? request('veids');
     $periodsNo = $periodsNo ?? request('periods_no');
@@ -35,6 +36,7 @@
 
     <div class="filter-window">
         <h4>Filtrēšana (noma)</h4>
+        <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums (filtrs)">
         <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
         <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
         <input type="date" name="periods_no" value="{{ $periodsNo }}" title="Periods no">
@@ -155,7 +157,7 @@
     .noma-filter-form input {
         border: 1px solid #59c1cf;
         border-radius: 8px;
-        padding: 8px 10px;
+        padding: 4px 5px;
         font-size: 0.92rem;
         width: auto;
         box-sizing: border-box;
@@ -164,7 +166,7 @@
 
     .filter-btn {
         flex: 0 0 auto;
-        padding: 4px 12px;
+        padding: 2px 8px; 
         font-size: 0.8rem;
         border-radius: 6px;
         border: 1px solid #59c1cf;
