@@ -116,7 +116,6 @@
     }
 
     .filter-btn {
-        width: auto;
         min-width: 20px;
         flex: 0 0 auto;
         padding: 5px 8px;
