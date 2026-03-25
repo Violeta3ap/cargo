@@ -23,7 +23,7 @@
     <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas veids">
     <input type="text" name="veidii" value="{{ $veidii }}" placeholder="Vagona nosaukums">
 
-    <button type="submit" class="btn-action filter-btn">Meklēt</button>
+    <button type="submit" class="btn-action filter-btn" style="display: flex; flex-direction: column; gap: 5px; align-items: center;">Meklēt</button>
     <a href="/Noma" class="btn-action filter-btn reset-btn">Notīrīt</a>
 </form>
 
