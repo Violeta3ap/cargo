@@ -18,7 +18,7 @@
     <thead>
 
         <tr>
-            <th>Nosaukums</th> 
+            <th>Vagona nosaukums</th> 
             <th>Celtspeja tonnās</th> 
             <th>Vagonu Skaits</th> 
             <th>Cena Par Diennakti</th> 

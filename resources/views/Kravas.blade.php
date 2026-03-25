@@ -19,8 +19,8 @@
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
-            <th>Nosaukums</th>
-            <th>Veida nosaukums</th>
+            <th>Kravas veids</th>
+            <th>Vagona nosaukums</th>
             @if(Auth::check() && !Auth::user()->isKlients())
                 <th>Darbības</th>
             @endif

@@ -15,7 +15,7 @@
     @csrf <!-- CSRF aizsardzība -->
 
     <div class="form-group">
-        <label for="Nosaukums">Nosaukums:</label> <!-- Etiķete ievades laukam -->
+        <label for="Nosaukums">Vagona nosaukums:</label> <!-- Etiķete ievades laukam -->
         <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" required>
         <!-- Teksta lauks jauna veida nosaukumam, obligāts aizpildīt -->
     </div>
@@ -27,13 +27,13 @@
     </div>
 
     <div class="form-group">
-        <label for="VagonuSkaits">Vagonu Skaits:</label> <!-- Etiķete ievades laukam -->
+        <label for="VagonuSkaits">Vagonu skaits:</label> <!-- Etiķete ievades laukam -->
         <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" required>
         <!-- Skaitliska lauks jauna veida vagonu skaitam, obligāts aizpildīt -->
     </div>
 
     <div class="form-group">
-        <label for="CenaParDiennakti">Cena Par Diennakti:</label> <!-- Etiķete ievades laukam -->
+        <label for="CenaParDiennakti">Cena par diennakti:</label> <!-- Etiķete ievades laukam -->
         <input type="number" class="form-control" id="CenaParDiennakti" name="CenaParDiennakti" step="0.01" required>
         <!-- Skaitliska lauks jauna veida cenai par diennakti, obligāts aizpildīt -->
     </div>

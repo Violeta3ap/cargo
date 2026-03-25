@@ -10,7 +10,7 @@
     <form action="/Veidi/{{ $veidi->VeidaID }}/editSubmit" method="POST">
         @csrf
         <div class="form-group">
-            <label for="Nosaukums">Nosaukums:</label>
+            <label for="Nosaukums">Vagona nosaukums:</label>
             <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $veidi->Nosaukums }}" required>
         </div>
 
@@ -20,12 +20,12 @@
         </div>
 
         <div class="form-group">
-            <label for="VagonuSkaits">Vagonu Skaits:</label>
+            <label for="VagonuSkaits">Vagonu skaits:</label>
             <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" value="{{ $veidi->VagonuSkaits }}" required>
         </div>
 
         <div class="form-group">
-            <label for="CenaParDiennakti">Cena Par Diennakti:</label>
+            <label for="CenaParDiennakti">Cena par diennakti:</label>
             <input type="number" class="form-control" id="CenaParDiennakti" name="CenaParDiennakti" value="{{ $veidi->CenaParDiennakti }}" required>
         </div>
 

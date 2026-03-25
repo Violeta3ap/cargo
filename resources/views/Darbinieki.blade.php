@@ -17,7 +17,7 @@
             <th>Uzvārds</th>
             <th>E-pasts</th>
             <th>Telefona numurs</th>
-            <th>Amata nosaukums</th>
+            <th>Amats</th>
             @if(Auth::check() && !Auth::user()->isDarbinieks())
                 <th>Darbības</th>
             @endif
