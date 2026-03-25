@@ -13,11 +13,36 @@ class VeidiController extends Controller
         return auth()->check() && auth()->user()->isKlients();
     }
 
-    // Veidu saraksts.
-    public function showAllVeidi()
+    // Veidu saraksts ar kārtošanu.
+    public function showAllVeidi(Request $request)
     {
+        // Kārtošanas parametri
+        $sortBy = $request->query('sort_by', 'VeidaID');
+        $sortOrder = $request->query('sort_order', 'asc');
+        
+        // Atļauto kārtošanas lauku saraksts (drošībai)
+        $allowedSortFields = [
+            'Nosaukums',
+            'Celtspeja',
+            'VagonuSkaits',
+            'CenaParDiennakti',
+            'VeidaID'
+        ];
+        
+        // Pārbauda vai kārtošanas lauks ir atļauts
+        if (!in_array($sortBy, $allowedSortFields)) {
+            $sortBy = 'VeidaID';
+        }
+        
+        // Pārbauda kārtošanas virzienu
+        if (!in_array($sortOrder, ['asc', 'desc'])) {
+            $sortOrder = 'asc';
+        }
+        
         $veidi = new Veidi();
-        return view('Veidi', ['dati' => $veidi->orderBy('VeidaID', 'asc')->get()]);
+        $dati = $veidi->orderBy($sortBy, $sortOrder)->get();
+        
+        return view('Veidi', compact('dati', 'sortBy', 'sortOrder'));
     }
 
     // Dzēš veidu.
