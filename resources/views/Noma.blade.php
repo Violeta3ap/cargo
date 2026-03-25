@@ -11,6 +11,22 @@
     $veids = $veids ?? request('veids');
     $nomasSakumaPeriods = $nomasSakumaPeriods ?? request('nomas_sakuma_periods');
     $nomasBeiguPeriods = $nomasBeiguPeriods ?? request('nomas_beigu_periods');
+    $sortBy = $sortBy ?? request('sort_by', 'NomasID');
+    $sortOrder = $sortOrder ?? request('sort_order', 'asc');
+    
+    // Palīgfunkcija kārtošanas URL ģenerēšanai
+    function getSortUrl($field, $currentSortBy, $currentSortOrder, $params) {
+        if ($currentSortBy == $field) {
+            $newOrder = $currentSortOrder == 'asc' ? 'desc' : 'asc';
+        } else {
+            $newOrder = 'asc';
+        }
+        
+        $params['sort_by'] = $field;
+        $params['sort_order'] = $newOrder;
+        
+        return '?' . http_build_query($params);
+    }
 @endphp
 
 <!-- Lapas galvene -->
@@ -18,9 +34,7 @@
     <h2>Noma</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noma/jauns">Izveidot jaunu nomu</a>
-
-          <a type="button" onclick="window.print()" title="Printēt dokumentu" class="print-btn"><i class="fas fa-print"></i> Drukāt</a>
-         <!-- Papildsaite rezervē -->
+        <a type="button" onclick="window.print()" title="Printēt dokumentu" class="print-btn"><i class="fas fa-print"></i> Drukāt</a>
     </nav>
 </div>
 
@@ -34,6 +48,8 @@
             <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
             <input type="text" class="datepicker" name="nomas_sakuma_periods" value="{{ $nomasSakumaPeriods }}" title="Nomas sākuma periods" placeholder="Nomas sākuma periods" autocomplete="off">
             <input type="text" class="datepicker" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}" title="Nomas beigu periods" placeholder="Nomas beigu periods" autocomplete="off">
+            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
             <button type="submit" class="filter-btn">Filtrēt</button>
         </div>
     </div>
@@ -44,6 +60,8 @@
             <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
             <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
             <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
+            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
             <button type="submit" class="filter-btn">Meklēt</button>
         </div>
     </div>
@@ -69,24 +87,86 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+@if(session('success'))
+    <div class="alert alert-success" style="margin-top: 10px;">
+        {{ session('success') }}
+    </div>  
+@endif
+
 <!-- Nomas saraksts -->
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
-        <tr>
-            <th>Klients</th>
+         <tr>
+            <th>
+                <a href="{{ getSortUrl('KlientaID', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'KlientaID' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Klients
+                    @if($sortBy == 'KlientaID')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
             <th>Klienta uzņēmums</th>
-            <th>Kravas veids</th>
-            <th>Vagona nosaukums</th>
-            <th>Vagonu skaits</th>
-            <th>Nomas sākuma periods</th>
-            <th>Nomas beigu periods</th>
-            <th>Kopējā maksa</th>
+            <th>
+                <a href="{{ getSortUrl('KravasID', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'KravasID' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Kravas veids
+                    @if($sortBy == 'KravasID')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('VeidaID', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'VeidaID' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Vagona nosaukums
+                    @if($sortBy == 'VeidaID')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('VagonuSkaits', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'VagonuSkaits' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Vagonu skaits
+                    @if($sortBy == 'VagonuSkaits')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('NomasSakumaPeriods', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'NomasSakumaPeriods' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Nomas sākuma periods
+                    @if($sortBy == 'NomasSakumaPeriods')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('NomasBeiguPeriods', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'NomasBeiguPeriods' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Nomas beigu periods
+                    @if($sortBy == 'NomasBeiguPeriods')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('KopejaMaksa', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'KopejaMaksa' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Kopējā maksa
+                    @if($sortBy == 'KopejaMaksa')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
             <th>Darbības</th>
-        </tr>
+         </tr>
     </thead>
     <tbody>
         @foreach ($noma as $item)
-        <tr>
+         <tr>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
             <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID)}}</td>
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID)}}</td>
@@ -101,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <a href="/Noma/{{ $item->NomasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
                 </div>
             </td>
-        </tr>
+         </tr>
         @endforeach
     </tbody>
 </table>
@@ -220,6 +300,25 @@ document.addEventListener('DOMContentLoaded', function () {
         border: 1px solid #59c1cf;
         padding: 12px;
         font-weight: bold;
+        position: relative;
+    }
+    
+    .table thead th a.sort-link {
+        color: white;
+        text-decoration: none;
+        display: inline-block;
+        padding: 5px;
+        transition: opacity 0.2s ease;
+    }
+    
+    .table thead th a.sort-link:hover {
+        opacity: 0.8;
+    }
+    
+    .table thead th .sort-icon {
+        display: inline-block;
+        margin-left: 5px;
+        font-size: 12px;
     }
     
     .table tbody tr:hover {
@@ -294,6 +393,18 @@ document.addEventListener('DOMContentLoaded', function () {
         cursor: not-allowed;
         pointer-events: none;
     }
+    
+    .alert {
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    
+    .alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+    }
 
     @media print {
         .page-wrapper > div:first-child,
@@ -334,13 +445,12 @@ document.addEventListener('DOMContentLoaded', function () {
         .table tbody tr:hover {
             background: transparent !important;
         }
+        
+        .table thead th a.sort-link {
+            color: #000 !important;
+            text-decoration: none;
+        }
     }
 </style>
 
 @endsection
-
-@if(session('success'))
-    <div class="alert alert-success" style="margin-top: 10px;">
-        {{ session('success') }}
-    </div>  
-@endif

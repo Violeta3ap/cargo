@@ -52,7 +52,7 @@ class NomaController extends Controller
         return null;
     }
 
-    // Nomas saraksts ar pagināciju, meklēšanu un filtriem.
+    // Nomas saraksts ar pagināciju, meklēšanu, filtriem un kārtošanu.
     public function showAllNoma(Request $request)
     {
         $klientaVards = trim((string) $request->query('klienta_vards', ''));
@@ -65,6 +65,32 @@ class NomaController extends Controller
         $nomasBeiguPeriods = trim((string) $request->query('nomas_beigu_periods', ''));
         $nomasSakumaPeriodsSql = $this->normalizeFilterDate($nomasSakumaPeriods);
         $nomasBeiguPeriodsSql = $this->normalizeFilterDate($nomasBeiguPeriods);
+        
+        // Kārtošanas parametri
+        $sortBy = $request->query('sort_by', 'NomasID');
+        $sortOrder = $request->query('sort_order', 'asc');
+        
+        // Atļauto kārtošanas lauku saraksts (drošībai)
+        $allowedSortFields = [
+            'KlientaID',
+            'KravasID',
+            'VeidaID',
+            'VagonuSkaits',
+            'NomasSakumaPeriods',
+            'NomasBeiguPeriods',
+            'KopejaMaksa',
+            'NomasID'
+        ];
+        
+        // Pārbauda vai kārtošanas lauks ir atļauts
+        if (!in_array($sortBy, $allowedSortFields)) {
+            $sortBy = 'NomasID';
+        }
+        
+        // Pārbauda kārtošanas virzienu
+        if (!in_array($sortOrder, ['asc', 'desc'])) {
+            $sortOrder = 'asc';
+        }
 
         $query = Noma::query()
             ->with(['klienti', 'kravas', 'veidi']);
@@ -112,13 +138,13 @@ class NomaController extends Controller
         }
 
         $noma = $query
-            ->orderBy('vagonunoma.NomasID', 'asc')
+            ->orderBy($sortBy, $sortOrder)
             ->paginate(5)
             ->appends($request->query());
 
         return view(
             'Noma',
-            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'filtraUznemums', 'krava', 'veids', 'nomasSakumaPeriods', 'nomasBeiguPeriods')
+            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'filtraUznemums', 'krava', 'veids', 'nomasSakumaPeriods', 'nomasBeiguPeriods', 'sortBy', 'sortOrder')
         );
     }
 
