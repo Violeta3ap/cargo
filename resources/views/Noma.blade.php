@@ -27,21 +27,25 @@
 <!-- Meklēšanas un filtrēšanas logi -->
 <form method="GET" action="/Noma" class="noma-filter-form" style="padding: 8px 10px;">
     <div class="filter-window">
-        <h4>Meklēšana (klients)</h4>
-        <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
-        <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
-        <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
-        <button type="submit" class="filter-btn">Meklēt</button>
-    </div>
-<br><br>
-    <div class="filter-window">
         <h4>Filtrēšana (noma)</h4>
-        <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums ">
-        <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
-        <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
-        <input type="date" name="periods_no" value="{{ $periodsNo }}" title="Periods no">
-        <input type="date" name="periods_lidz" value="{{ $periodsLidz }}" title="Periods līdz">
-        <button type="submit" class="filter-btn">Filtrēt</button>
+        <div class="filter-row">
+            <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums">
+            <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
+            <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
+            <input type="date" name="periods_no" value="{{ $periodsNo }}" title="Periods no">
+            <input type="date" name="periods_lidz" value="{{ $periodsLidz }}" title="Periods līdz">
+            <button type="submit" class="filter-btn">Filtrēt</button>
+        </div>
+    </div>
+
+    <div class="filter-window">
+        <h4>Meklēšana (klients)</h4>
+        <div class="filter-row">
+            <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
+            <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
+            <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
+            <button type="submit" class="filter-btn">Meklēt</button>
+        </div>
     </div>
     <a href="/Noma" class="filter-btn">Notīrīt</a>
 </form>
@@ -142,16 +146,23 @@
         padding: 10px;
         background: #f8fdfe;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 8px;
-        align-items: center;
-        flex: 1 1 360px;
+        align-items: stretch;
+        width: 100%;
     }
 
     .filter-window h4 {
-        width: 100%;
         margin: 0 0 4px 0;
         font-size: 0.95rem;
+    }
+
+    .filter-row {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        align-items: center;
+        overflow-x: auto;
     }
 
     .noma-filter-form input {
@@ -161,7 +172,7 @@
         font-size: 0.92rem;
         width: auto;
         box-sizing: border-box;
-        flex: 1 1 180px;
+        flex: 0 0 190px;
     }
 
     .filter-btn {
