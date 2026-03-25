@@ -21,7 +21,7 @@
 <form method="GET" action="/Noma" class="noma-filter-form">
     <input type="text" name="klients" value="{{ $klients }}" placeholder="Klienta uzņēmuma nosaukums">
     <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas veids">
-    <input type="text" name="veidi" value="{{ $veidi }}" placeholder="Vagona nosaukums">
+    <input type="text" name="veidii" value="{{ $veidii }}" placeholder="Vagona nosaukums">
 
     <button type="submit" class="btn-action filter-btn">Meklēt</button>
     <a href="/Noma" class="btn-action filter-btn reset-btn">Notīrīt</a>
