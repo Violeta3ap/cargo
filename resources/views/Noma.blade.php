@@ -234,9 +234,11 @@
     }
 
     @media print {
+        .page-wrapper > div:first-child,
         .navigacija,
         .noma-filter-form,
         .noma-pagination,
+        footer,
         .alert,
         .btn-action,
         th:last-child,
