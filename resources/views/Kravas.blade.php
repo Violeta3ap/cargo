@@ -3,6 +3,7 @@
 @section('content')
 
 @php
+    $search = $search ?? request('search', '');
     $sortBy = $sortBy ?? request('sort_by', 'KravasID');
     $sortOrder = $sortOrder ?? request('sort_order', 'asc');
     
@@ -43,12 +44,25 @@
     </div>
 @endif
 
+<!-- Meklēšanas logs -->
+<form method="GET" action="/Kravas" class="veidi-search-form" style="margin-bottom: 15px;">
+    <div class="search-window" style="border: 1px solid #59c1cf; border-radius: 10px; padding: 10px; background: #f8fdfe;">
+        <div class="search-row" style="display: flex; gap: 10px; align-items: center;">
+            <input type="text" name="search" value="{{ $search }}" placeholder="Meklēt pēc kravas veida..." style="flex: 1; border: 1px solid #59c1cf; border-radius: 8px; padding: 8px 10px;">
+            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+            <button type="submit" class="filter-btn" style="padding: 8px 15px;">Meklēt</button>
+            <a href="/Kravas" class="filter-btn" style="padding: 8px 15px;">Notīrīt</a>
+        </div>
+    </div>
+</form>
+
 <!-- Kravas tabula -->
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
          <tr>
             <th>
-                <a href="{{ getSortUrl('Nosaukums', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ getSortUrl('Nosaukums', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
                    class="sort-link {{ $sortBy == 'Nosaukums' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Kravas veids
                     @if($sortBy == 'Nosaukums')
@@ -57,7 +71,7 @@
                 </a>
             </th>
             <th>
-                <a href="{{ getSortUrl('VeidaID', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ getSortUrl('VeidaID', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
                    class="sort-link {{ $sortBy == 'VeidaID' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Vagona nosaukums
                     @if($sortBy == 'VeidaID')
@@ -132,6 +146,30 @@
 .table tbody td {
     border: 1px solid #ddd;
     padding: 8px; /* samazināts padding, lai tabula kompaktāka */
+}
+
+.veidi-search-form input {
+    border: 1px solid #59c1cf;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 0.92rem;
+}
+
+.filter-btn {
+    flex: 0 0 auto;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #59c1cf;
+    background-color: #59c1cf;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.filter-btn:hover {
+    background-color: #a2e0ed;
 }
 
 /* Pogas horizontāli ar atstarpēm */

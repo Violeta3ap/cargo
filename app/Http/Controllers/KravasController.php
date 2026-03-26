@@ -14,9 +14,12 @@ class KravasController extends Controller
     return auth()->check() && auth()->user()->isKlients();
   }
 
-  // Kravu saraksts ar kārtošanu.
+  // Kravu saraksts ar meklēšanu un kārtošanu.
   public function showAllKrava(Request $request)
   {
+    // Meklēšanas parametrs
+    $search = trim((string) $request->query('search', ''));
+
     // Kārtošanas parametri
     $sortBy = $request->query('sort_by', 'KravasID');
     $sortOrder = $request->query('sort_order', 'asc');
@@ -38,10 +41,17 @@ class KravasController extends Controller
       $sortOrder = 'asc';
     }
     
-    $kravas = new Kravas();
-    $dati = $kravas->orderBy($sortBy, $sortOrder)->get();
+    // Veidojam vaicājumu
+    $query = Kravas::query();
+
+    // Meklēšana pēc nosaukuma
+    if ($search !== '') {
+      $query->where('Nosaukums', 'like', '%' . $search . '%');
+    }
+
+    $dati = $query->orderBy($sortBy, $sortOrder)->get();
     
-    return view('Kravas', compact('dati', 'sortBy', 'sortOrder'));
+    return view('Kravas', compact('dati', 'sortBy', 'sortOrder', 'search'));
   }
 
   // Dzēš kravu.
