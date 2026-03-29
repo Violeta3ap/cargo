@@ -13,61 +13,54 @@
     @endif
 
     <style>
-        /* Vispārējie iestatījumi lapas ķermenim */
         body {
-            margin: 0; /* no margin */
-            font-family: Arial, sans-serif; /* fonta stils */
-            background-color: #ffffff; /* lapas fons */
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
         }
 
-        /* Attēlu pielāgošana */
         img {
-            max-width: 100%; /* nepārsniegt konteineru */
-            height: auto;    /* automātiski augstums */
+            max-width: 100%;
+            height: auto;
         }
 
-        /* Galvenes stils */
         .header {
-            background-color: rgb(195, 227, 238); /* fonā krāsa */
+            background-color: rgb(195, 227, 238);
             color: white;
             padding: 10px 20px;
             font-weight: bold;
         }
 
-        /* Navigācijas josla */
         .navigacija {
             background-color: #59c1cf;
             padding: 8px 10px;
             display: flex;
-            gap: 80px; /* attālums starp saitēm */
+            gap: 80px;
             align-items: center;
             justify-content: center;
         }
 
-        /* Navigācijas saites stils */
         .navigacija a {
-            text-decoration: none;  
+            text-decoration: none;
             background: linear-gradient(to right, #59c1cf, #ffffff);
             border: 1px solid #59c1cf;
             padding: 6px 14px;
             border-radius: 10px;
             color: black;
             font-size: 14px;
-            gap: 20px;  
+            gap: 20px;
         }
 
         .navigacija a:hover {
-            background-color: #59c1cf; /* hover efekts */
+            background-color: #59c1cf;
         }
 
-        /* Galvenā satura konteiners */
-        .content {  
-            padding: 20px 150px; /* attālums no malas */
+        .content {
+            padding: 20px 150px;
             background-color: #ffffff;
             min-height: 200px;
         }
 
-        /* Footer stils */
         footer {
             background-color: #59c1cf;
             color: #000000;
@@ -77,15 +70,14 @@
             align-items: center;
             padding: 10px 20px;
             font-size: 0.95rem;
-            position: fixed; /* vienmēr pie apakšas */
+            position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             z-index: 100;
-            gap: 30px;  
+            gap: 30px;
         }
 
-        /* Papildus navigācijas stils (var tikt izmantots citur) */
         .navigacijaa {
             background-color: #59c1cf;
             padding: 8px 10px;
@@ -96,33 +88,30 @@
         }
 
         .navigacijaa a {
-            text-decoration: none;  
+            text-decoration: none;
             background: linear-gradient(to right, #59c1cf, #ffffff);
             padding: 6px 14px;
             border-radius: 10px;
             color: black;
             font-size: 14px;
-            gap: 20px;  
+            gap: 20px;
         }
 
         .navigacijaa a:hover {
             background-color: #59c1cf;
         }
 
-        /* Galvenais saturs ar 50% platumu */
         .mainContent {
             float: left;
             width: 50%;
         }
 
-        /* Responsīvais dizains mazākiem ekrāniem */
         @media screen and (max-width: 800px) {
             .mainContent {
-                width: 100%; /* pilns platums mobilajās ierīcēs */
+                width: 100%;
             }
         }
 
-        /* Kopīgie paziņojumu stili tabulu lapām */
         .page-klienti .alert,
         .page-kravas .alert,
         .page-veidi .alert,
@@ -148,7 +137,6 @@
             color: #721c24;
         }
 
-        /* Klienti lapa */
         .page-klienti .klienti-filter-form {
             display: flex;
             flex-wrap: wrap;
@@ -209,46 +197,46 @@
             background-color: #a2e0ed;
         }
 
-            .page-print-noma .page-wrapper > div:first-child,
-            .page-print-noma .navigacija,
-            .page-print-noma .noma-filter-form,
-            .page-print-noma .noma-pagination,
-            .page-print-noma footer,
-            .page-print-noma .alert,
-            .page-print-noma .btn-action,
-            .page-print-noma th:last-child,
-            .page-print-noma td:last-child {
+        .page-klienti .table {
+            border-collapse: collapse;
+        }
+
+        .page-klienti .table thead {
+            background-color: #59c1cf;
+            color: white;
+        }
+
         .page-klienti .table thead th {
             border: 1px solid #59c1cf;
             padding: 12px;
-            .page-print-noma h2 {
+            font-weight: bold;
             position: relative;
         }
 
         .page-klienti .table thead th a.sort-link {
-            .page-print-noma .table {
+            color: white;
             text-decoration: none;
             display: inline-block;
             padding: 5px;
             transition: opacity 0.2s ease;
         }
 
-            .page-print-noma .table thead {
+        .page-klienti .table thead th a.sort-link:hover {
             opacity: 0.8;
         }
 
         .page-klienti .table thead th .sort-icon {
-            .page-print-noma .table thead th,
-            .page-print-noma .table tbody td {
+            display: inline-block;
+            margin-left: 5px;
             font-size: 12px;
         }
 
         .page-klienti .table tbody tr:hover {
-            .page-print-noma .table tbody tr:hover {
+            background-color: #e8f5f7;
         }
 
         .page-klienti .table tbody td {
-            .page-print-noma .table thead th a.sort-link {
+            border: 1px solid #ddd;
             padding: 10px;
         }
 
@@ -297,7 +285,6 @@
             pointer-events: none;
         }
 
-        /* Kravas lapa */
         .page-kravas .table {
             border-collapse: collapse;
         }
@@ -381,7 +368,6 @@
             color: #000;
         }
 
-        /* Veidi lapa */
         .page-veidi .veidi-search-form input {
             border: 1px solid #59c1cf;
             border-radius: 8px;
@@ -458,7 +444,6 @@
             color: #000;
         }
 
-        /* Noma lapa */
         .page-noma .print-btn {
             border-radius: 8px;
             border: 1px solid #59c1cf;
@@ -641,54 +626,53 @@
         }
 
         @media print {
-            .page-noma .page-wrapper > div:first-child,
-            .page-noma .navigacija,
-            .page-noma .noma-filter-form,
-            .page-noma .noma-pagination,
-            .page-noma footer,
-            .page-noma .alert,
-            .page-noma .btn-action,
-            .page-noma th:last-child,
-            .page-noma td:last-child {
+            .page-print-noma .page-wrapper > div:first-child,
+            .page-print-noma .navigacija,
+            .page-print-noma .noma-filter-form,
+            .page-print-noma .noma-pagination,
+            .page-print-noma footer,
+            .page-print-noma .alert,
+            .page-print-noma .btn-action,
+            .page-print-noma th:last-child,
+            .page-print-noma td:last-child {
                 display: none !important;
             }
 
-            .page-noma h2 {
+            .page-print-noma h2 {
                 margin: 0 0 12px 0;
                 font-size: 20px;
             }
 
-            .page-noma .table {
+            .page-print-noma .table {
                 width: 100% !important;
                 border: 1px solid #000;
                 border-collapse: collapse;
                 font-size: 12px;
             }
 
-            .page-noma .table thead {
+            .page-print-noma .table thead {
                 background: #fff !important;
                 color: #000 !important;
             }
 
-            .page-noma .table thead th,
-            .page-noma .table tbody td {
+            .page-print-noma .table thead th,
+            .page-print-noma .table tbody td {
                 border: 1px solid #000 !important;
                 padding: 6px !important;
             }
 
-            .page-noma .table tbody tr:hover {
+            .page-print-noma .table tbody tr:hover {
                 background: transparent !important;
             }
 
-            .page-noma .table thead th a.sort-link {
+            .page-print-noma .table thead th a.sort-link {
                 color: #000 !important;
                 text-decoration: none;
             }
         }
-
     </style>
 </head>
-<body>
+<body class="{{ request()->is('Noma*') ? 'page-print-noma' : '' }}">
 
 <div class="page-wrapper">
 
