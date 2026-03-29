@@ -167,9 +167,6 @@ $(document).ready(function() {
                         }
                     }
                 },
-                error: function() {
-                    setAvailabilityState('⚠ Nevar pārbaudīt pieejamību', 'orange', false);
-                }
             });
         } else {
             messageDiv.html('');
