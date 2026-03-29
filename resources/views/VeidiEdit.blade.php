@@ -16,17 +16,17 @@
 
         <div class="form-group">
             <label for="Celtspeja">Celtspēja tonnās:</label>
-            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" value="{{ $veidi->Celtspeja }}" required>
+            <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" value="{{ $veidi->Celtspeja }}" min="1" required>
         </div>
 
         <div class="form-group">
             <label for="VagonuSkaits">Vagonu skaits:</label>
-            <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" value="{{ $veidi->VagonuSkaits }}" required>
+            <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" value="{{ $veidi->VagonuSkaits }}" min="1" required>
         </div>
 
         <div class="form-group">
             <label for="CenaParDiennakti">Cena par diennakti:</label>
-            <input type="number" class="form-control" id="CenaParDiennakti" name="CenaParDiennakti" value="{{ $veidi->CenaParDiennakti }}" required>
+            <input type="number" class="form-control" id="CenaParDiennakti" name="CenaParDiennakti" value="{{ $veidi->CenaParDiennakti }}" step="0.01" min="0.01" required>
         </div>
 
 

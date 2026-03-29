@@ -22,19 +22,19 @@
 
         <div class="form-group">
         <label for="Celtspeja">Celtspēja tonnās:</label> <!-- Etiķete ievades laukam -->
-        <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" required>
+        <input type="number" class="form-control" id="Celtspeja" name="Celtspeja" min="1" required>
         <!-- Skaitliska lauks jauna veida celtspējai, obligāts aizpildīt -->
     </div>
 
     <div class="form-group">
         <label for="VagonuSkaits">Vagonu skaits:</label> <!-- Etiķete ievades laukam -->
-        <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" required>
+        <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" min="1" required>
         <!-- Skaitliska lauks jauna veida vagonu skaitam, obligāts aizpildīt -->
     </div>
 
     <div class="form-group">
         <label for="CenaParDiennakti">Cena par diennakti:</label> <!-- Etiķete ievades laukam -->
-        <input type="number" class="form-control" id="CenaParDiennakti" name="CenaParDiennakti" step="0.01" required>
+        <input type="number" class="form-control" id="CenaParDiennakti" name="CenaParDiennakti" step="0.01" min="0.01" required>
         <!-- Skaitliska lauks jauna veida cenai par diennakti, obligāts aizpildīt -->
     </div>
 
