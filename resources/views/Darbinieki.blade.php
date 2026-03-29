@@ -4,6 +4,7 @@
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Darbinieki</h2>
+    <!-- Saite jauna darbinieka pievienošanai -->
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Darbinieki/jauns">Izveidot jaunu darbinieku</a>
     </nav>
@@ -18,21 +19,25 @@
             <th>E-pasts</th>
             <th>Telefona numurs</th>
             <th>Amats</th>
+            <!-- Darbību kolonna redzama tikai adminam/vadītājam -->
             @if(Auth::check() && !Auth::user()->isDarbinieks())
                 <th>Darbības</th>
             @endif
         </tr>
     </thead>
     <tbody>
+        <!-- Darbinieku saraksta rindas -->
         @foreach ($darbiniekis as $item)
         <tr>
             <td>{{$item->Vards}}</td>
             <td>{{$item->Uzvards}}</td>
             <td>{{$item->Epasts}}</td>
             <td>{{$item->TelefonaNumurs}}</td>
+            <!-- Ja nav saistītā amata, rāda amata ID -->
             <td>{{$item->amati->Nosaukums ?? ('ID: '.$item->AmataID) }}</td>
             @if(Auth::check() && !Auth::user()->isDarbinieks())
                 <td>
+                    <!-- Rediģēšanas/dzēšanas pogas -->
                     <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
                         <a href="/Darbinieki/{{ $item->DarbiniekaID }}/edit" class="btn-action">Rediģēt</a>
                         <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
