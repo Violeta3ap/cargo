@@ -33,10 +33,6 @@
                 style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 14px; background: #59c1cf; color: #000; cursor: pointer; font-size: 14px;">
             Skatīt
         </button>
-        <a href="/Noslogojums"
-           style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 14px; background: linear-gradient(to right, #59c1cf, #ffffff); color: #000; text-decoration: none; font-size: 14px;">
-            Šodiena
-        </a>
     </div>
 </form>
 
