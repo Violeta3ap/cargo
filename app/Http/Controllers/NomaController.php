@@ -233,20 +233,30 @@ class NomaController extends Controller
         $query = Noma::query()
             ->with(['klienti', 'kravas', 'veidi']);
 
-        if ($klientaVards !== '' || $klientaUzvards !== '' || $klientaUznemums !== '') {
-            $query->whereHas('klienti', function ($q) use ($klientaVards, $klientaUzvards, $klientaUznemums) {
-                if ($klientaVards !== '') {
-                    $q->where('Vards', 'like', '%' . $klientaVards . '%');
-                }
+        // Ja lietotājs ir klients, rāda tikai viņa pašā nomas
+        if (auth()->user()->isKlients()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if ($klientsIeraksts) {
+                $query->where('KlientaID', $klientsIeraksts->KlientaID);
+            } else {
+                $query->whereRaw('0=1');
+            }
+        } else {
+            if ($klientaVards !== '' || $klientaUzvards !== '' || $klientaUznemums !== '') {
+                $query->whereHas('klienti', function ($q) use ($klientaVards, $klientaUzvards, $klientaUznemums) {
+                    if ($klientaVards !== '') {
+                        $q->where('Vards', 'like', '%' . $klientaVards . '%');
+                    }
 
-                if ($klientaUzvards !== '') {
-                    $q->where('Uzvards', 'like', '%' . $klientaUzvards . '%');
-                }
+                    if ($klientaUzvards !== '') {
+                        $q->where('Uzvards', 'like', '%' . $klientaUzvards . '%');
+                    }
 
-                if ($klientaUznemums !== '') {
-                    $q->where('UznemumaNosaukums', 'like', '%' . $klientaUznemums . '%');
-                }
-            });
+                    if ($klientaUznemums !== '') {
+                        $q->where('UznemumaNosaukums', 'like', '%' . $klientaUznemums . '%');
+                    }
+                });
+            }
         }
 
         if ($krava !== '') {
@@ -307,6 +317,18 @@ class NomaController extends Controller
     public function details($id)
     {
         $noma = Noma::find($id);
+
+        if (!$noma) {
+            return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
+        }
+
+        if (auth()->user()->isKlients()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
+                return redirect('/Noma')->with('error', 'Jums nav tiesību skatīt šo nomas ierakstu.');
+            }
+        }
+
         return view('NomaApskate', ['noma' => $noma]);
     }
 

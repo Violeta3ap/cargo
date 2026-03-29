@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -57,5 +58,11 @@ class User extends Authenticatable
     public function isKlients(): bool
     {
         return $this->amats && strtolower($this->amats->Nosaukums) === 'klients';
+    }
+
+    // Saistība ar klienta ierakstu (caur e-pastu).
+    public function klienti(): HasOne
+    {
+        return $this->hasOne(Klienti::class, 'Epasts', 'email');
     }
 }
