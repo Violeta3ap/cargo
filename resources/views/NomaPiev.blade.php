@@ -70,6 +70,7 @@
     <div class="form-group">
         <label for="VagonuSkaits">Vagonu skaits:</label>
         <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" min="1" value="{{ old('VagonuSkaits', 1) }}" required>
+        <div id="availabilityLimitHint" style="font-size: 12px; color: #6c757d; margin-top: 5px;"></div>
         <div id="availabilityMessage" style="font-size: 12px; margin-top: 5px;"></div>
     </div>
 
@@ -106,6 +107,7 @@
 <script>
 $(document).ready(function() {
     var messageDiv = $('#availabilityMessage');
+    var limitHintDiv = $('#availabilityLimitHint');
     var submitBtn = $('#submitBtn');
     var vagonuSkaitsInput = $('#VagonuSkaits');
 
@@ -125,8 +127,10 @@ $(document).ready(function() {
 
         if (maxCount && maxCount > 0) {
             vagonuSkaitsInput.attr('max', maxCount);
+            limitHintDiv.text('Maksimāli vari izvēlēties ' + maxCount + ' vagonus šajā periodā.');
         } else {
             vagonuSkaitsInput.removeAttr('max');
+            limitHintDiv.text('');
         }
     }
     
@@ -169,6 +173,7 @@ $(document).ready(function() {
             });
         } else {
             messageDiv.html('');
+            limitHintDiv.text('');
             submitBtn.prop('disabled', false);
             submitBtn.css('opacity', '1');
             vagonuSkaitsInput.removeAttr('max');
@@ -198,6 +203,7 @@ $(document).ready(function() {
             $('#CenaParDiennakti').val('');
             $('#vehicleInfo').html('');
             $('#availabilityMessage').html('');
+            $('#availabilityLimitHint').html('');
             $('#DienuSkaits').val('');
             $('#KopejaMaksa').val('');
             $('#VagonuSkaits').removeAttr('max');
