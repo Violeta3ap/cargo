@@ -299,6 +299,7 @@ class NomaController extends Controller
     // Dzēš nomas ierakstu.
     public function delete($id)
     {
+        DB::table('noslogojums')->where('NomasID', $id)->delete();
         DB::table('vagonunoma')->where('NomasID', $id)->delete();
         return redirect('/Noma')->with('success', 'Ieraksts tika dzēsts');
     }
@@ -361,6 +362,16 @@ class NomaController extends Controller
         $noma->KopejaMaksa = $dati->input('KopejaMaksa');
         $noma->save();
 
+        // Sinhronizē noslogojums tabulu
+        DB::table('noslogojums')->updateOrInsert(
+            ['NomasID' => $noma->NomasID],
+            [
+                'NomasSakumaPeriods' => $noma->NomasSakumaPeriods,
+                'NomasBeiguPeriods'  => $noma->NomasBeiguPeriods,
+                'VeidaID'           => $noma->VeidaID,
+            ]
+        );
+
         return redirect()->to('/Noma')->with('success', 'Ieraksts tika pievienots');
     }
 
@@ -405,6 +416,16 @@ class NomaController extends Controller
                 'NomasBeiguPeriods' => $dati->input('NomasBeiguPeriods'),
                 'KopejaMaksa' => $dati->input('KopejaMaksa'),
             ]);
+
+        // Sinhronizē noslogojums tabulu
+        DB::table('noslogojums')->updateOrInsert(
+            ['NomasID' => $id],
+            [
+                'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
+                'NomasBeiguPeriods'  => $dati->input('NomasBeiguPeriods'),
+                'VeidaID'           => $dati->input('VeidaID'),
+            ]
+        );
 
         return redirect()->to('/Noma')->with('success', 'Ieraksts tika atjaunināts');
     }

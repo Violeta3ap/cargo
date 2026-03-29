@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DarbiniekuController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NoslogojumsController;
 
 
 Route::post('/Login/submit', [LoginController::class, 'login'])->name('login.submit');
@@ -98,6 +99,10 @@ Route::get('/Klienti/{id}/delete', 'App\Http\Controllers\KlientiController@delet
 Route::get('/Klienti/{id}/details', 'App\Http\Controllers\KlientiController@details');
 Route::get('/Klienti/{id}/edit', 'App\Http\Controllers\KlientiController@edit');
 Route::post('/Klienti/{id}/editSubmit', 'App\Http\Controllers\KlientiController@editSubmit');
+
+// Noslogojums routes
+Route::get('/Noslogojums', [NoslogojumsController::class, 'show']);
+Route::get('/Noslogojums/sync', [NoslogojumsController::class, 'syncAll']);
 
 });
 

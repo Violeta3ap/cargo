@@ -89,9 +89,12 @@
                 <a href="/" style="color: #59c1cf; text-decoration: none; font-size: 14px;">Atpakaļ uz sākumlapu</a>
             </div>
 
-            <p> Admins:  Violeta parole:parole123;
-                Darbinieks: Darbinieks  parole:parole123;
-                Klients1: Anna  parole:parole123;
+            <p> Admins:  Violeta parole:parole123;</p>
+                <p>
+                Darbinieks: Darbinieks  parole:parole123;</p>
+                <p>
+                Klients1: Anna  parole:parole123;</p>
+                <p>
                 Klients2: Roberts  parole:parole123;</p>
             
         </div>
