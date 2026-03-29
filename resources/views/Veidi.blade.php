@@ -56,8 +56,6 @@
     </div>
 </form>
 
-
-
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
@@ -108,7 +106,7 @@
             <td>{{$item->Nosaukums}}</td> 
             <td>{{$item->Celtspeja}} t</td>
             <td>{{$item->VagonuSkaits}}</td>
-            <td>€ {{ number_format($item->CenaParDiennakti, 2) }}</td>
+            <td>{{ number_format($item->CenaParDiennakti, 2) }} €</td>
             @if(Auth::check() && !Auth::user()->isKlients())
                 <td>
                     <div style="display: flex; gap: 8px; justify-content: center;">
@@ -129,7 +127,11 @@
             @endif
           </tr>
         @empty
-          
+          <tr>
+            <td colspan="{{ Auth::check() && !Auth::user()->isKlients() ? 5 : 4 }}" style="text-align: center; padding: 20px;">
+                Nav atrasts neviens vagona veids
+            </td>
+          </tr>
         @endforelse
     </tbody>
 </table>

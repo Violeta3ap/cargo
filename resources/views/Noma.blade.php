@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <th>
                 <a href="{{ getSortUrl('KopejaMaksa', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'KopejaMaksa' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
-                    Kopējā maksa
+                    Kopējā maksa (€)
                     @if($sortBy == 'KopejaMaksa')
                         <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
                     @endif
@@ -174,14 +174,14 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
-            <td>{{$item->KopejaMaksa}}</td>
+            <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
                     <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
                     <a href="/Noma/{{ $item->NomasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
                 </div>
             </td>
-         </tr>
+          </tr>
         @endforeach
     </tbody>
 </table>
@@ -209,7 +209,6 @@ document.addEventListener('DOMContentLoaded', function () {
     </nav>
 </div>
 @endif
-
 
 <!-- Noma tabulas un paginācijas stili -->
 <style>
