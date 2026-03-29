@@ -172,7 +172,11 @@ $(document).ready(function() {
                     }
                 },
                 error: function() {
-                    setAvailabilityState('⚠ Nevar pārbaudīt pieejamību', 'orange', false);
+                    messageDiv.html('');
+                    limitHintDiv.text('');
+                    submitBtn.prop('disabled', false);
+                    submitBtn.css('opacity', '1');
+                    vagonuSkaitsInput.removeAttr('max');
                 }
             });
         } else {
