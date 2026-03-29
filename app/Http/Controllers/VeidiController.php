@@ -85,21 +85,32 @@ class VeidiController extends Controller
     }
 
     // Saglabā jaunu veidu.
-    public function DatuSubmit(Request $dati)
-    {
-        if ($this->klientsCannotModify()) {
-            return redirect('/Veidi')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
-        }
 
-        $veidi = new Veidi();
-        $veidi->Nosaukums = $dati->input('Nosaukums');
-        $veidi->Celtspeja = $dati->input('Celtspeja');
-        $veidi->VagonuSkaits = $dati->input('VagonuSkaits');
-        $veidi->CenaParDiennakti = $dati->input('CenaParDiennakti');
-        $veidi->save();
 
-        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots');
+    
+   public function DatuSubmit(Request $dati)
+{
+    if ($this->klientsCannotModify()) {
+        return redirect('/Veidi')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
     }
+
+    // ✅ Validācija
+    $dati->validate([
+        'Nosaukums' => 'required|string|max:255',
+        'Celtspeja' => 'required|numeric|min:1',
+        'VagonuSkaits' => 'required|integer|min:1',
+        'CenaParDiennakti' => 'required|numeric|min:1',
+    ]);
+
+    $veidi = new Veidi();
+    $veidi->Nosaukums = $dati->input('Nosaukums');
+    $veidi->Celtspeja = $dati->input('Celtspeja');
+    $veidi->VagonuSkaits = $dati->input('VagonuSkaits');
+    $veidi->CenaParDiennakti = $dati->input('CenaParDiennakti');
+    $veidi->save();
+
+    return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots');
+}
 
     // Atver rediģēšanas formu.
     public function edit($id)
@@ -113,21 +124,30 @@ class VeidiController extends Controller
     }
 
     // Saglabā rediģētas vērtības.
+
+
+
     public function editSubmit(Request $dati, $id)
-    {
-        if ($this->klientsCannotModify()) {
-            return redirect('/Veidi')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
-        }
-
-        DB::table('veidi')
-            ->where('VeidaID', $id)
-            ->update([
-                'Nosaukums' => $dati->input('Nosaukums'),
-                'Celtspeja' => $dati->input('Celtspeja'),
-                'VagonuSkaits' => $dati->input('VagonuSkaits'),
-                'CenaParDiennakti' => $dati->input('CenaParDiennakti'),
-            ]);
-
-        return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts');
+{
+    if ($this->klientsCannotModify()) {
+        return redirect('/Veidi')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
     }
+
+    // ✅ Validācija
+    $dati->validate([
+        'Celtspeja' => 'required|numeric|min:1',
+        'VagonuSkaits' => 'required|integer|min:1',
+        'CenaParDiennakti' => 'required|numeric|min:1',
+    ]);
+
+    DB::table('veidi')
+        ->where('VeidaID', $id)
+        ->update([
+            'Nosaukums' => $dati->input('Nosaukums'),
+            'Celtspeja' => $dati->input('Celtspeja'),
+            'VagonuSkaits' => $dati->input('VagonuSkaits'),
+            'CenaParDiennakti' => $dati->input('CenaParDiennakti'),
+        ]);
+
+    return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts');
 }
