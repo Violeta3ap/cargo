@@ -40,37 +40,82 @@ class NomaController extends Controller
         return redirect('/Noma')->with('success', "Pārrēķinātas $updatedCount nomas kopējās maksas.");
     }
 
-    // Pārbauda pieejamo vagonu skaitu izvēlētajā periodā
-    private function getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $iznemtNomasID = null)
+    private function getDatePeriodOccupancy($veidaId, $sakumaDatums, $beiguDatums, $iznemtNomasID = null): array
     {
-        // Iegūst kopējo vagonu skaitu izvēlētajam veidam
         $veids = Veidi::find($veidaId);
-        if (!$veids) {
-            return 0;
+        if (!$veids || !$sakumaDatums || !$beiguDatums) {
+            return ['kopejais' => 0, 'aiznemtais' => 0, 'pieejamais' => 0];
         }
-        
-        $kopējaisVagonuSkaits = $veids->VagonuSkaits;
-        
-        // Aprēķina aizņemto vagonu skaitu izvēlētajā periodā
-        // Pareizs pārklāšanās nosacījums
+
+        try {
+            $periodaSakums = Carbon::parse($sakumaDatums)->startOfDay();
+            $periodaBeigas = Carbon::parse($beiguDatums)->startOfDay();
+        } catch (\Throwable $e) {
+            return ['kopejais' => (int) $veids->VagonuSkaits, 'aiznemtais' => 0, 'pieejamais' => (int) $veids->VagonuSkaits];
+        }
+
+        if ($periodaBeigas->lt($periodaSakums)) {
+            return ['kopejais' => (int) $veids->VagonuSkaits, 'aiznemtais' => 0, 'pieejamais' => (int) $veids->VagonuSkaits];
+        }
+
         $query = Noma::where('VeidaID', $veidaId)
-            ->where(function($q) use ($sakumaDatums, $beiguDatums) {
-                $q->where('NomasSakumaPeriods', '<=', $beiguDatums)
-                  ->where('NomasBeiguPeriods', '>=', $sakumaDatums);
+            ->where(function ($q) use ($periodaSakums, $periodaBeigas) {
+                $q->where('NomasSakumaPeriods', '<=', $periodaBeigas->toDateString())
+                  ->where('NomasBeiguPeriods', '>=', $periodaSakums->toDateString());
             });
-        
-        // Ja rediģē, izņem pašreizējo ierakstu no aprēķina
+
         if ($iznemtNomasID) {
             $query->where('NomasID', '!=', $iznemtNomasID);
         }
-        
-        $aiznemtaisSkaits = $query->sum('VagonuSkaits');
-        
-        // Pieejamais vagonu skaits
-        $pieejamaisSkaits = $kopējaisVagonuSkaits - $aiznemtaisSkaits;
-        
-        // Nodrošina, ka pieejamais skaits nav negatīvs
-        return max(0, $pieejamaisSkaits);
+
+        $nomas = $query->get(['NomasSakumaPeriods', 'NomasBeiguPeriods', 'VagonuSkaits']);
+        $notikumi = [];
+
+        foreach ($nomas as $noma) {
+            try {
+                $nomaSakums = Carbon::parse($noma->NomasSakumaPeriods)->startOfDay();
+                $nomaBeigas = Carbon::parse($noma->NomasBeiguPeriods)->startOfDay();
+            } catch (\Throwable $e) {
+                continue;
+            }
+
+            $sakums = $nomaSakums->greaterThan($periodaSakums) ? $nomaSakums->copy() : $periodaSakums->copy();
+            $beigas = $nomaBeigas->lessThan($periodaBeigas) ? $nomaBeigas->copy() : $periodaBeigas->copy();
+
+            if ($beigas->lt($sakums)) {
+                continue;
+            }
+
+            $notikumi[$sakums->toDateString()] = ($notikumi[$sakums->toDateString()] ?? 0) + (int) $noma->VagonuSkaits;
+
+            $pecBeigam = $beigas->copy()->addDay()->toDateString();
+            $notikumi[$pecBeigam] = ($notikumi[$pecBeigam] ?? 0) - (int) $noma->VagonuSkaits;
+        }
+
+        ksort($notikumi);
+
+        $maksimalaisAiznemtaisSkaits = 0;
+        $pasreizejaisAiznemtaisSkaits = 0;
+
+        foreach ($notikumi as $izmainas) {
+            $pasreizejaisAiznemtaisSkaits += $izmainas;
+            $maksimalaisAiznemtaisSkaits = max($maksimalaisAiznemtaisSkaits, $pasreizejaisAiznemtaisSkaits);
+        }
+
+        $kopejaisVagonuSkaits = (int) $veids->VagonuSkaits;
+        $pieejamaisSkaits = max(0, $kopejaisVagonuSkaits - $maksimalaisAiznemtaisSkaits);
+
+        return [
+            'kopejais' => $kopejaisVagonuSkaits,
+            'aiznemtais' => $maksimalaisAiznemtaisSkaits,
+            'pieejamais' => $pieejamaisSkaits,
+        ];
+    }
+
+    // Pārbauda pieejamo vagonu skaitu izvēlētajā periodā
+    private function getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $iznemtNomasID = null)
+    {
+        return $this->getDatePeriodOccupancy($veidaId, $sakumaDatums, $beiguDatums, $iznemtNomasID)['pieejamais'];
     }
 
     // API: Pārbauda pieejamo vagonu skaitu
@@ -82,17 +127,15 @@ class NomaController extends Controller
         $pieprasitaisSkaits = (int) $request->input('vagonu_skaits', 1);
         $nomasId = $request->input('nomas_id', null);
         
-        $veids = Veidi::find($veidaId);
-        $kopejaisSkaits = $veids ? $veids->VagonuSkaits : 0;
-        $pieejamaisSkaits = $this->getAvailableWagonsCount($veidaId, $sakumaDatums, $beiguDatums, $nomasId);
+        $pieejamiba = $this->getDatePeriodOccupancy($veidaId, $sakumaDatums, $beiguDatums, $nomasId);
         
         return response()->json([
             'success' => true,
-            'pieejamais_skaits' => $pieejamaisSkaits,
+            'pieejamais_skaits' => $pieejamiba['pieejamais'],
             'pieprasitais_skaits' => $pieprasitaisSkaits,
-            'ir_pieejams' => $pieprasitaisSkaits <= $pieejamaisSkaits,
-            'kopejais_skaits' => $kopejaisSkaits,
-            'aiznemtais_skaits' => $kopejaisSkaits - $pieejamaisSkaits
+            'ir_pieejams' => $pieprasitaisSkaits <= $pieejamiba['pieejamais'],
+            'kopejais_skaits' => $pieejamiba['kopejais'],
+            'aiznemtais_skaits' => $pieejamiba['aiznemtais']
         ]);
     }
 
@@ -276,7 +319,7 @@ class NomaController extends Controller
             'VeidaID' => ['required', 'integer'],
             'VagonuSkaits' => ['required', 'integer', 'min:1'],
             'NomasSakumaPeriods' => ['required', 'date'],
-            'NomasBeiguPeriods' => ['required', 'date'],
+            'NomasBeiguPeriods' => ['required', 'date', 'after_or_equal:NomasSakumaPeriods'],
             'KopejaMaksa' => ['required', 'numeric', 'min:1'],
         ]);
 
@@ -319,7 +362,7 @@ class NomaController extends Controller
             'VeidaID' => ['required', 'integer'],
             'VagonuSkaits' => ['required', 'integer', 'min:1'],
             'NomasSakumaPeriods' => ['required', 'date'],
-            'NomasBeiguPeriods' => ['required', 'date'],
+            'NomasBeiguPeriods' => ['required', 'date', 'after_or_equal:NomasSakumaPeriods'],
             'KopejaMaksa' => ['required', 'numeric', 'min:1'],
         ]);
 

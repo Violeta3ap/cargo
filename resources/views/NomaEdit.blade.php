@@ -107,6 +107,10 @@
 
 <script>
 $(document).ready(function() {
+    var messageDiv = $('#availabilityMessage');
+    var submitBtn = $('#submitBtn');
+    var vagonuSkaitsInput = $('#VagonuSkaits');
+
     // Inicializē datuma izvēli
     flatpickr('.datepicker', {
         locale: 'lv',
@@ -115,6 +119,18 @@ $(document).ready(function() {
         altFormat: 'd.m.Y',
         allowInput: true
     });
+
+    function setAvailabilityState(message, color, isDisabled, maxCount) {
+        messageDiv.html('<span style="color: ' + color + ';">' + message + '</span>');
+        submitBtn.prop('disabled', isDisabled);
+        submitBtn.css('opacity', isDisabled ? '0.5' : '1');
+
+        if (maxCount && maxCount > 0) {
+            vagonuSkaitsInput.attr('max', maxCount);
+        } else {
+            vagonuSkaitsInput.removeAttr('max');
+        }
+    }
     
     // Funkcija pieejamības pārbaudei
     function checkAvailability() {
@@ -123,6 +139,11 @@ $(document).ready(function() {
         var sakumaDatums = $('#NomasSakumaPeriods').val();
         var beiguDatums = $('#NomasBeiguPeriods').val();
         var nomasId = {{ $noma->NomasID }};
+
+        if (sakumaDatums && beiguDatums && new Date(beiguDatums) < new Date(sakumaDatums)) {
+            setAvailabilityState('Nomas beigu datumam jābūt vienādam ar sākuma datumu vai vēlākam.', 'red', true);
+            return;
+        }
         
         if (veidaId && vagonuSkaits > 0 && sakumaDatums && beiguDatums) {
             $.ajax({
@@ -139,24 +160,22 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(data) {
                     if (data.success) {
-                        var messageDiv = $('#availabilityMessage');
-                        var submitBtn = $('#submitBtn');
-                        
                         if (data.ir_pieejams) {
-                            messageDiv.html('<span style="color: green;">✓ Pieejami ' + data.pieejamais_skaits + ' vagoni. Jūs pieprasāt ' + data.pieprasitais_skaits + ' vagonus.</span>');
-                            submitBtn.prop('disabled', false);
-                            submitBtn.css('opacity', '1');
+                            setAvailabilityState('✓ Šajā periodā pieejami ' + data.pieejamais_skaits + ' vagoni. Jūs pieprasāt ' + data.pieprasitais_skaits + ' vagonus.', 'green', false, data.pieejamais_skaits);
                         } else {
-                            messageDiv.html('<span style="color: red;">✗ NAV PIETIEKAMI VAGONI! Pieejami tikai ' + data.pieejamais_skaits + ' vagoni, bet jūs pieprasāt ' + data.pieprasitais_skaits + ' vagonus.</span>');
-                            submitBtn.prop('disabled', true);
-                            submitBtn.css('opacity', '0.5');
+                            setAvailabilityState('✗ Šajā periodā pieejami tikai ' + data.pieejamais_skaits + ' vagoni, bet jūs pieprasāt ' + data.pieprasitais_skaits + '.', 'red', true, data.pieejamais_skaits);
                         }
                     }
                 },
                 error: function() {
-                    $('#availabilityMessage').html('<span style="color: orange;">⚠ Nevar pārbaudīt pieejamību</span>');
+                    setAvailabilityState('⚠ Nevar pārbaudīt pieejamību', 'orange', false);
                 }
             });
+        } else {
+            messageDiv.html('');
+            submitBtn.prop('disabled', false);
+            submitBtn.css('opacity', '1');
+            vagonuSkaitsInput.removeAttr('max');
         }
     }
     
@@ -216,6 +235,7 @@ $(document).ready(function() {
             $('#DienuSkaits').val('');
             $('#KopejaMaksa_Display').val('');
             $('#KopejaMaksa').val('');
+            $('#VagonuSkaits').removeAttr('max');
         }
     });
     
@@ -226,6 +246,13 @@ $(document).ready(function() {
     });
     
     $('#VagonuSkaits').on('input', function() {
+        var maxSkaits = parseInt($(this).attr('max'), 10);
+        var currentValue = parseInt($(this).val(), 10);
+
+        if (!isNaN(maxSkaits) && maxSkaits > 0 && currentValue > maxSkaits) {
+            $(this).val(maxSkaits);
+        }
+
         checkAvailability();
         calculateTotal();
     });
