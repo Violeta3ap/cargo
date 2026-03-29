@@ -307,7 +307,17 @@ class NomaController extends Controller
     // Atver pievienošanas formu ar saistītajiem sarakstiem.
     public function create()
     {
-        $klienti = Klienti::all();
+        if (auth()->user()->isKlients()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts) {
+                return redirect('/Noma')->with('error', 'Jūsu kontam nav piesaistīts klienta ieraksts.');
+            }
+
+            $klienti = Klienti::where('KlientaID', $klientsIeraksts->KlientaID)->get();
+        } else {
+            $klienti = Klienti::all();
+        }
+
         $kravas = Kravas::all();
         $veidi = Veidi::all();
 
@@ -346,6 +356,16 @@ class NomaController extends Controller
             'KopejaMaksa' => ['required', 'numeric', 'min:1'],
         ]);
 
+        $klientaId = (int) $dati->input('KlientaID');
+        if (auth()->user()->isKlients()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts) {
+                return back()->withInput()->withErrors(['KlientaID' => 'Jūsu kontam nav piesaistīts klienta ieraksts.']);
+            }
+
+            $klientaId = (int) $klientsIeraksts->KlientaID;
+        }
+
         // Pārbauda vagonu skaitu (ieskaitot perioda pieejamību)
         $vagonuSkaitsError = $this->validateVagonuSkaitsLimit($dati);
         if ($vagonuSkaitsError) {
@@ -353,7 +373,7 @@ class NomaController extends Controller
         }
 
         $noma = new Noma();
-        $noma->KlientaID = $dati->input('KlientaID');
+        $noma->KlientaID = $klientaId;
         $noma->KravasID = $dati->input('KravasID');
         $noma->VeidaID = $dati->input('VeidaID');
         $noma->VagonuSkaits = $dati->input('VagonuSkaits');
@@ -379,7 +399,22 @@ class NomaController extends Controller
     public function edit($id)
     {
         $noma = Noma::find($id);
-        $klienti = Klienti::all();
+
+        if (!$noma) {
+            return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
+        }
+
+        if (auth()->user()->isKlients()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
+                return redirect('/Noma')->with('error', 'Jums nav tiesību rediģēt šo nomas ierakstu.');
+            }
+
+            $klienti = Klienti::where('KlientaID', $klientsIeraksts->KlientaID)->get();
+        } else {
+            $klienti = Klienti::all();
+        }
+
         $kravas = Kravas::all();
         $veidi = Veidi::all();
 
@@ -389,6 +424,18 @@ class NomaController extends Controller
     // Saglabā rediģētas vērtības.
     public function editSubmit(Request $dati, $id)
     {
+        $noma = Noma::find($id);
+        if (!$noma) {
+            return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
+        }
+
+        if (auth()->user()->isKlients()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
+                return redirect('/Noma')->with('error', 'Jums nav tiesību rediģēt šo nomas ierakstu.');
+            }
+        }
+
         $dati->validate([
             'KlientaID' => ['required', 'integer'],
             'KravasID' => ['required', 'integer'],
@@ -399,6 +446,16 @@ class NomaController extends Controller
             'KopejaMaksa' => ['required', 'numeric', 'min:1'],
         ]);
 
+        $klientaId = (int) $dati->input('KlientaID');
+        if (auth()->user()->isKlients()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts) {
+                return back()->withInput()->withErrors(['KlientaID' => 'Jūsu kontam nav piesaistīts klienta ieraksts.']);
+            }
+
+            $klientaId = (int) $klientsIeraksts->KlientaID;
+        }
+
         // Pārbauda vagonu skaitu (ieskaitot perioda pieejamību, izņemot pašreizējo ierakstu)
         $vagonuSkaitsError = $this->validateVagonuSkaitsLimit($dati, $id);
         if ($vagonuSkaitsError) {
@@ -408,7 +465,7 @@ class NomaController extends Controller
         DB::table('vagonunoma')
             ->where('NomasID', $id)
             ->update([
-                'KlientaID' => $dati->input('KlientaID'),
+                'KlientaID' => $klientaId,
                 'KravasID' => $dati->input('KravasID'),
                 'VeidaID' => $dati->input('VeidaID'),
                 'VagonuSkaits' => $dati->input('VagonuSkaits'),

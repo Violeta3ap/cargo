@@ -21,14 +21,26 @@
         <!-- 1. Klienta izvēlne -->
         <div class="form-group">
             <label for="KlientaID">Klients (vārds, uzvārds, uzņēmums):</label>
-            <select class="form-control" id="KlientaID" name="KlientaID" required>
-                @foreach($klienti as $klientis)
-                    <option value="{{ $klientis->KlientaID }}"
-                        {{ $klientis->KlientaID == $noma->KlientaID ? 'selected' : '' }}>
-                        {{ $klientis->Vards }} {{ $klientis->Uzvards }} ({{ $klientis->UznemumaNosaukums }})
-                    </option>
-                @endforeach
-            </select>
+            @if(Auth::check() && Auth::user()->isKlients())
+                @php $authKlients = Auth::user()->klienti; @endphp
+                @if($authKlients)
+                    <input type="text" class="form-control" readonly style="background-color: #f5f5f5;"
+                           value="{{ $authKlients->Vards }} {{ $authKlients->Uzvards }} ({{ $authKlients->UznemumaNosaukums }})">
+                    <input type="hidden" id="KlientaID" name="KlientaID" value="{{ $authKlients->KlientaID }}">
+                @else
+                    <input type="text" class="form-control" readonly style="background-color: #f5f5f5;" value="Nav atrasts piesaistīts klienta ieraksts">
+                    <input type="hidden" id="KlientaID" name="KlientaID" value="">
+                @endif
+            @else
+                <select class="form-control" id="KlientaID" name="KlientaID" required>
+                    @foreach($klienti as $klientis)
+                        <option value="{{ $klientis->KlientaID }}"
+                            {{ $klientis->KlientaID == $noma->KlientaID ? 'selected' : '' }}>
+                            {{ $klientis->Vards }} {{ $klientis->Uzvards }} ({{ $klientis->UznemumaNosaukums }})
+                        </option>
+                    @endforeach
+                </select>
+            @endif
         </div>
 
         <!-- 2. Laika periods -->
