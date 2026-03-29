@@ -151,3 +151,4 @@ class VeidiController extends Controller
 
     return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts');
 }
+    }
