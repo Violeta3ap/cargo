@@ -27,7 +27,7 @@
 <form method="GET" action="/Noslogojums" style="margin-bottom: 20px;">
     <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 12px 16px; background: #f8fdfe; display: inline-flex; gap: 12px; align-items: center;">
         <label for="datums" style="font-weight: 500; white-space: nowrap;">Izvēlieties datumu:</label>
-        <input type="date" id="datums" name="datums" value="{{ $datums }}"
+        <input type="text" id="datums" name="datums" value="{{ $datums }}" autocomplete="off"
                style="border: 1px solid #59c1cf; border-radius: 6px; padding: 6px 10px; font-size: 14px;">
         <button type="submit"
                 style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 14px; background: #59c1cf; color: #000; cursor: pointer; font-size: 14px;">
@@ -35,6 +35,25 @@
         </button>
     </div>
 </form>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/lv.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof flatpickr === 'undefined') {
+        return;
+    }
+
+    flatpickr('#datums', {
+        locale: 'lv',
+        dateFormat: 'Y-m-d',
+        altInput: true,
+        altFormat: 'd.m.Y',
+        allowInput: true
+    });
+});
+</script>
 
 <p style="color: #555; font-size: 14px; margin-bottom: 20px;">
     Rādīts datums: <strong>{{ \Carbon\Carbon::parse($datums)->format('d.m.Y') }}</strong>
@@ -125,7 +144,7 @@
         border: 1px solid #59c1cf;
         border-radius: 8px;
         overflow: hidden;
-        text-align: left;
+        text-align: center;
     }
     .page-noslogojums .nos-table thead {
         background-color: #59c1cf;
@@ -135,10 +154,12 @@
         padding: 12px 14px;
         font-weight: bold;
         border: 1px solid #59c1cf;
+        text-align: center;
     }
     .page-noslogojums .nos-table tbody td {
         padding: 10px 14px;
         border: 1px solid #ddd;
+        text-align: center;
     }
     .page-noslogojums .nos-table tbody tr:hover {
         background-color: #e8f5f7;
