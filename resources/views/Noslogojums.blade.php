@@ -3,8 +3,15 @@
 @section('content')
 <div class="page-noslogojums">
 
+
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Vagonu noslogojums</h2>
+
+
+        <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
+        <a href="/Noma">Atpakaļ</a>
+        </nav>
+
     @if(Auth::check() && !Auth::user()->isKlients())
         <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
             <a href="/Noslogojums/sync"
