@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Veidi;
 use Illuminate\Database\Eloquent\Model;
 
+// Kravas tabulas modelis.
 class Kravas extends Model
 {
     // Tabulas iestatījumi.

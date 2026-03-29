@@ -7,8 +7,10 @@ use App\Models\Darbinieki;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+// Pārvalda darbinieku ierakstu CRUD un piekļuves tiesības.
 class DarbiniekuController extends Controller
 {
+    // Pārbauda vai parasts darbinieks drīkst mainīt darbinieku datus.
     private function darbinieksCannotModifyEmployees()
     {
         return auth()->check() && auth()->user()->isDarbinieks();
@@ -49,6 +51,7 @@ class DarbiniekuController extends Controller
     // Saglabā jaunu darbinieku.
     public function DarbiniekiSubmit(Request $dati)
     {
+        // Izveido jaunu darbinieka ierakstu no formas datiem.
         $darbiniekis = new Darbinieki();
         $darbiniekis->Vards = $dati->input('Vards');
         $darbiniekis->Uzvards = $dati->input('Uzvards');
@@ -84,6 +87,7 @@ class DarbiniekuController extends Controller
             return redirect('/Darbinieki')->with('error', 'Darbiniekam nav tiesību rediģēt darbiniekus.');
         }
 
+        // Atjauno darbinieka laukus pēc ID.
         DB::table('darbinieki')
             ->where('DarbiniekaID', $id)
             ->update([

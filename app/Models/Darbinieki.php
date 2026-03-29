@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Amati;
 use Illuminate\Database\Eloquent\Model;
 
+// Darbinieku tabulas modelis.
 class Darbinieki extends Model
 {
     // Tabulas iestatījumi.

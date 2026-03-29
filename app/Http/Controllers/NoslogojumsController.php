@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+// Pārvalda noslogojuma datu attēlošanu un sinhronizāciju.
 class NoslogojumsController extends Controller
 {
     // Attēlo noslogojuma lapu ar datuma filtru.
     public function show(Request $request)
     {
+        // Nolasa izvēlēto datumu vai izmanto šodienu.
         $datums = $request->query('datums', now()->format('Y-m-d'));
 
         // Validē datuma formātu
@@ -59,6 +61,7 @@ class NoslogojumsController extends Controller
             return redirect('/Noslogojums')->with('error', 'Nav tiesību veikt sinhronizāciju.');
         }
 
+        // Nolasa visas nomas un sinhronizē ar noslogojuma tabulu.
         $nomas = DB::table('vagonunoma')->get();
 
         foreach ($nomas as $noma) {

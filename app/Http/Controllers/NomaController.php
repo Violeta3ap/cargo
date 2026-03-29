@@ -10,6 +10,7 @@ use App\Models\Kravas;
 use App\Models\Veidi;
 use Carbon\Carbon;
 
+// Pārvalda nomas sarakstu, pieejamību, aprēķinus un CRUD darbības.
 class NomaController extends Controller
 {
 
@@ -42,6 +43,7 @@ class NomaController extends Controller
 
     private function getDatePeriodOccupancy($veidaId, $sakumaDatums, $beiguDatums, $iznemtNomasID = null): array
     {
+        // Iegūst izvēlēto vagona veidu un sākotnējo validāciju.
         $veids = Veidi::find($veidaId);
         if (!$veids || !$sakumaDatums || !$beiguDatums) {
             return ['kopejais' => 0, 'aiznemtais' => 0, 'pieejamais' => 0];
@@ -58,6 +60,7 @@ class NomaController extends Controller
             return ['kopejais' => (int) $veids->VagonuSkaits, 'aiznemtais' => 0, 'pieejamais' => (int) $veids->VagonuSkaits];
         }
 
+        // Atrod nomas, kas pārklājas ar izvēlēto periodu.
         $query = Noma::where('VeidaID', $veidaId)
             ->where(function ($q) use ($periodaSakums, $periodaBeigas) {
                 $q->where('NomasSakumaPeriods', '<=', $periodaBeigas->toDateString())
@@ -71,6 +74,7 @@ class NomaController extends Controller
         $nomas = $query->get(['NomasSakumaPeriods', 'NomasBeiguPeriods', 'VagonuSkaits']);
         $notikumi = [];
 
+        // Veido notikumu sarakstu noslodzes aprēķinam pa datumiem.
         foreach ($nomas as $noma) {
             try {
                 $nomaSakums = Carbon::parse($noma->NomasSakumaPeriods)->startOfDay();
@@ -97,6 +101,7 @@ class NomaController extends Controller
         $maksimalaisAiznemtaisSkaits = 0;
         $pasreizejaisAiznemtaisSkaits = 0;
 
+        // Atrod maksimālo vienlaicīgi aizņemto vagonu skaitu periodā.
         foreach ($notikumi as $izmainas) {
             $pasreizejaisAiznemtaisSkaits += $izmainas;
             $maksimalaisAiznemtaisSkaits = max($maksimalaisAiznemtaisSkaits, $pasreizejaisAiznemtaisSkaits);
@@ -141,12 +146,14 @@ class NomaController extends Controller
 
     private function normalizeFilterDate(?string $value): ?string
     {
+        // Notīra ievadi no liekajām atstarpēm.
         $value = trim((string) $value);
 
         if ($value === '') {
             return null;
         }
 
+        // Atbalsta divus ievades formātus un pārvērš uz SQL formātu.
         foreach (['Y-m-d', 'd.m.Y'] as $format) {
             try {
                 $date = Carbon::createFromFormat($format, $value);
@@ -193,6 +200,7 @@ class NomaController extends Controller
     // Nomas saraksts ar pagināciju, meklēšanu, filtriem un kārtošanu.
     public function showAllNoma(Request $request)
     {
+        // Nolasa filtrēšanas un meklēšanas parametrus no URL.
         $klientaVards = trim((string) $request->query('klienta_vards', ''));
         $klientaUzvards = trim((string) $request->query('klienta_uzvards', ''));
         $klientaUznemums = trim((string) $request->query('klienta_uznemums', ''));
@@ -260,6 +268,7 @@ class NomaController extends Controller
         }
 
         if ($krava !== '') {
+            // Filtrs pēc kravas nosaukuma.
             $query->whereHas('kravas', function ($q) use ($krava) {
                 $q->where('Nosaukums', 'like', '%' . $krava . '%');
             });
@@ -307,6 +316,7 @@ class NomaController extends Controller
     // Atver pievienošanas formu ar saistītajiem sarakstiem.
     public function create()
     {
+        // Klientam atļauj tikai viņa klienta ierakstu.
         if (auth()->user()->isKlients()) {
             $klientsIeraksts = auth()->user()->klienti;
             if (!$klientsIeraksts) {
@@ -346,6 +356,7 @@ class NomaController extends Controller
     // Saglabā jaunu nomas ierakstu.
     public function NomaSubmit(Request $dati)
     {
+        // Validē obligātos laukus un to ierobežojumus.
         $dati->validate([
             'KlientaID' => ['required', 'integer'],
             'KravasID' => ['required', 'integer'],
@@ -358,6 +369,7 @@ class NomaController extends Controller
 
         $klientaId = (int) $dati->input('KlientaID');
         if (auth()->user()->isKlients()) {
+            // Klientam vienmēr piesaista viņa paša KlientaID.
             $klientsIeraksts = auth()->user()->klienti;
             if (!$klientsIeraksts) {
                 return back()->withInput()->withErrors(['KlientaID' => 'Jūsu kontam nav piesaistīts klienta ieraksts.']);
@@ -424,6 +436,7 @@ class NomaController extends Controller
     // Saglabā rediģētas vērtības.
     public function editSubmit(Request $dati, $id)
     {
+        // Pārbauda vai rediģējamais ieraksts eksistē.
         $noma = Noma::find($id);
         if (!$noma) {
             return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');

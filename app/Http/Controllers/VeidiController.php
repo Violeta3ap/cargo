@@ -6,8 +6,10 @@ use App\Models\Veidi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+// Pārvalda vagona veidu sarakstu un CRUD darbības.
 class VeidiController extends Controller
 {
+    // Pārbauda vai klientam ir liegta datu modificēšana.
     private function klientsCannotModify()
     {
         return auth()->check() && auth()->user()->isKlients();
@@ -90,6 +92,7 @@ class VeidiController extends Controller
     
    public function DatuSubmit(Request $dati)
 {
+    // Klientam liedz pievienot jaunus veidus.
     if ($this->klientsCannotModify()) {
         return redirect('/Veidi')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
     }
@@ -102,6 +105,7 @@ class VeidiController extends Controller
         'CenaParDiennakti' => 'required|numeric|min:1',
     ]);
 
+    // Izveido jaunu vagona veida ierakstu.
     $veidi = new Veidi();
     $veidi->Nosaukums = $dati->input('Nosaukums');
     $veidi->Celtspeja = $dati->input('Celtspeja');
@@ -130,6 +134,7 @@ class VeidiController extends Controller
 
     public function editSubmit(Request $dati, $id)
 {
+    // Klientam liedz rediģēt veidu datus.
     if ($this->klientsCannotModify()) {
         return redirect('/Veidi')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
     }
@@ -141,6 +146,7 @@ class VeidiController extends Controller
         'CenaParDiennakti' => 'required|numeric|min:1',
     ]);
 
+    // Atjauno vagona veida laukus pēc ID.
     DB::table('veidi')
         ->where('VeidaID', $id)
         ->update([

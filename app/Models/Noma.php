@@ -7,6 +7,7 @@ use App\Models\Klienti;
 use App\Models\Kravas;
 use App\Models\Veidi;
 
+// Nomas tabulas modelis.
 class Noma extends Model
 {
     // Tabulas iestatījumi.

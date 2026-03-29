@@ -7,8 +7,10 @@ use App\Models\Veidi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+// Pārvalda kravu ierakstu sarakstu un CRUD darbības.
 class KravasController extends Controller
 {
+  // Pārbauda vai klientam ir liegta datu modificēšana.
   private function klientsCannotModify()
   {
     return auth()->check() && auth()->user()->isKlients();
@@ -90,6 +92,7 @@ class KravasController extends Controller
       return redirect('/Kravas')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
     }
 
+    // Izveido jaunu kravas ierakstu.
     $kravas = new Kravas();
     $kravas->Nosaukums = $dati->input('Nosaukums');
     $kravas->VeidaID = $dati->input('VeidaID');
@@ -118,6 +121,7 @@ class KravasController extends Controller
       return redirect('/Kravas')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
     }
 
+    // Atjauno kravas ierakstu pēc ID.
     DB::table('krava')
       ->where('KravasID', $id)
       ->update([

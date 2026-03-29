@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+// Lietotāju tabulas modelis autentifikācijai un lomām.
 class User extends Authenticatable
 {
     // Lietotāja modelis ar notifikācijām.

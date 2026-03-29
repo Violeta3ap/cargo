@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Klienti;
 use Illuminate\Support\Facades\DB;
 
+// Pārvalda klientu ierakstu sarakstu un CRUD darbības.
 class KlientiController extends Controller
 {
   // Klientu saraksts ar pagināciju, meklēšanu un kārtošanu.
   public function showAllKlienti(Request $request)
   {
+    // Nolasa filtrēšanas vērtības no URL parametriem.
     $vards = trim((string) $request->query('vards', ''));
     $uzvards = trim((string) $request->query('uzvards', ''));
     $uznemumanos = trim((string) $request->query('uznemumanos', ''));
@@ -44,6 +46,7 @@ class KlientiController extends Controller
 
     $query = Klienti::query();
 
+    // Pievieno filtrus tikai ja tie ir aizpildīti.
     if ($vards !== '') {
       $query->where('Vards', 'like', '%' . $vards . '%');
     }
@@ -87,6 +90,7 @@ class KlientiController extends Controller
   // Saglabā jaunu klientu.
   public function KlientiSubmit(Request $dati)
   {
+    // Izveido jaunu klienta ierakstu.
     $klientis = new Klienti();
     $klientis->Vards = $dati->input('Vards');
     $klientis->Uzvards = $dati->input('Uzvards');
@@ -112,6 +116,7 @@ class KlientiController extends Controller
   // Saglabā rediģētas vērtības.
   public function editSubmit(Request $dati, $id)
   {
+    // Atjauno klienta laukus pēc ID.
     DB::table('klienti')
       ->where('KlientaID', $id)
       ->update([

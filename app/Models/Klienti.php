@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+// Klientu tabulas modelis.
 class Klienti extends Model
 {
     // Tabulas iestatījumi.

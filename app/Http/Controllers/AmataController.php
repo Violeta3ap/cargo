@@ -6,6 +6,7 @@ use App\Models\Amati;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+// Pārvalda amata ierakstu CRUD darbības.
 class AmataController extends Controller
 {
   // Amatu saraksts.
@@ -38,6 +39,7 @@ class AmataController extends Controller
   // Saglabā jaunu amatu.
   public function DatuSubmit(Request $dati)
   {
+    // Izveido jaunu amata ierakstu.
     $amats = new Amati();
     $amats->Nosaukums = $dati->input('Nosaukums');
     $amats->save();
@@ -55,6 +57,7 @@ class AmataController extends Controller
   // Saglabā rediģētas vērtības.
   public function editSubmit(Request $dati, $id)
   {
+    // Atjauno tikai amata nosaukumu pēc ID.
     DB::table('amats')
       ->where('AmataID', $id)
       ->update([
