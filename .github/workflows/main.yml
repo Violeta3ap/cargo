@@ -22,8 +22,8 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ftpupload.net
-          username: if0_41175232
-          password: Doxc7nXigTF96h3
+          username: if0_41506411
+          password: WDab5EjJVRAd
           server-dir: /htdocs/  # For addon domains
           timeout: 86400000
           log-level: standard
