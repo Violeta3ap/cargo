@@ -109,16 +109,6 @@ class VeidiController extends Controller
     $veidi->CenaParDiennakti = $dati->input('CenaParDiennakti');
     $veidi->save();
 
-
-
-
-    
-    $veidi->Celtspeja = max(1, $dati->input('Celtspeja'));
-$veidi->VagonuSkaits = max(1, $dati->input('VagonuSkaits'));
-$veidi->CenaParDiennakti = max(1, $dati->input('CenaParDiennakti'));
-
-
-
     
     return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots');
 }
