@@ -224,7 +224,6 @@
             @endif
             <a href="/Veidi">Vagonu veidi</a>
             <a href="/Kravas">Krāvu veidi</a>
-            <a href="/Noslogojums">Noslogojums</a>
 
             <span style="position: absolute; right: 120px; font-size: 13px;">{{ Auth::user()->name }}</span>
             <a href="/logout" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #59c1cf; 

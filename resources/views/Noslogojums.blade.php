@@ -55,7 +55,6 @@
                 <th>Nomātie vagoni</th>
                 <th>Kopā pieejami</th>
                 <th>Brīvie vagoni</th>
-                <th>Noslogojums</th>
             </tr>
         </thead>
         <tbody>
@@ -64,20 +63,12 @@
                     $nomati   = (int) $row->NomatiVagoni;
                     $kopejais = (int) $row->KopejaisVagonuSkaits;
                     $brivi    = max(0, $kopejais - $nomati);
-                    $procenti = $kopejais > 0 ? round($nomati / $kopejais * 100) : 0;
-                    $barColor = $procenti >= 90 ? '#e74c3c' : ($procenti >= 60 ? '#f39c12' : '#27ae60');
                 @endphp
                 <tr>
                     <td><strong>{{ $row->VeidaNosaukums }}</strong></td>
                     <td style="text-align: center;">{{ $nomati }}</td>
                     <td style="text-align: center;">{{ $kopejais }}</td>
                     <td style="text-align: center;">{{ $brivi }}</td>
-                    <td style="min-width: 160px;">
-                        <div style="background: #e0e0e0; border-radius: 6px; height: 18px; overflow: hidden;">
-                            <div style="width: {{ $procenti }}%; background: {{ $barColor }}; height: 100%; border-radius: 6px; transition: width 0.4s;"></div>
-                        </div>
-                        <span style="font-size: 12px; color: #555;">{{ $procenti }}%</span>
-                    </td>
                 </tr>
             @endforeach
         </tbody>
