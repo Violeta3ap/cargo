@@ -51,7 +51,11 @@ class KravasController extends Controller
       $query->where('Nosaukums', 'like', '%' . $search . '%');
     }
 
-    $dati = $query->orderBy($sortBy, $sortOrder)->get();
+    $dati = $query
+      ->with('veidi')
+      ->orderBy($sortBy, $sortOrder)
+      ->paginate(5)
+      ->appends($request->query());
     
     return view('Kravas', compact('dati', 'sortBy', 'sortOrder', 'search'));
   }

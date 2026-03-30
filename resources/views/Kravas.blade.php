@@ -47,14 +47,14 @@
 @endif
 
 <!-- Meklēšanas logs -->
-<form method="GET" action="/Kravas" class="veidi-search-form" style="margin-bottom: 15px;">
-    <div class="search-window" style="border: 1px solid #59c1cf; border-radius: 10px; padding: 10px; background: #f8fdfe;">
-        <div class="search-row" style="display: flex; gap: 10px; align-items: center;">
-            <input type="text" name="search" value="{{ $search }}" placeholder="Meklēt pēc kravas veida..." style="flex: 1; border: 1px solid #59c1cf; border-radius: 8px; padding: 8px 10px;">
+<form method="GET" action="/Kravas" class="veidi-search-form" style="margin-bottom: 15px; padding: 8px 10px;">
+    <div class="search-window" style="border: 1px solid #59c1cf; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
+        <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
+            <input type="text" name="search" value="{{ $search }}" placeholder="Meklēt pēc kravas veida..." style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px;">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
-            <button type="submit" class="filter-btn" style="padding: 8px 15px;">Meklēt</button>
-            <a href="/Kravas" class="filter-btn" style="padding: 8px 15px;">Notīrīt</a>
+            <button type="submit" class="filter-btn" style="padding: 2px 8px;">Meklēt</button>
+            <a href="/Kravas" class="filter-btn" style="padding: 2px 8px;">Notīrīt</a>
         </div>
     </div>
 </form>
@@ -103,6 +103,31 @@
         @endforeach
     </tbody>
 </table>
+
+@if ($dati->hasPages())
+<div style="margin-top: 15px; display: flex; justify-content: center;">
+    <nav class="kravas-pagination" aria-label="Kravu lapu navigācija" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center;">
+        <a href="{{ $dati->onFirstPage() ? '#' : $dati->previousPageUrl() }}"
+           style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 12px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff); white-space: nowrap; font-size: 0.92rem; line-height: 1; {{ $dati->onFirstPage() ? 'opacity:0.45; pointer-events:none;' : '' }}"
+           {{ $dati->onFirstPage() ? 'aria-disabled=true tabindex=-1' : '' }}>
+            &lsaquo; Iepriekšējā
+        </a>
+
+        @foreach ($dati->getUrlRange(1, $dati->lastPage()) as $page => $url)
+            <a href="{{ $url }}"
+               style="border-radius: 8px; border: 1px solid #59c1cf; min-width: 34px; text-align: center; padding: 6px 10px; color: #000000; text-decoration: none; background: {{ $page == $dati->currentPage() ? '#59c1cf' : 'linear-gradient(to right, #59c1cf, #ffffff)' }}; font-weight: {{ $page == $dati->currentPage() ? '600' : '400' }};">
+                {{ $page }}
+            </a>
+        @endforeach
+
+        <a href="{{ $dati->hasMorePages() ? $dati->nextPageUrl() : '#' }}"
+           style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 12px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff); white-space: nowrap; font-size: 0.92rem; line-height: 1; {{ $dati->hasMorePages() ? '' : 'opacity:0.45; pointer-events:none;' }}"
+           {{ $dati->hasMorePages() ? '' : 'aria-disabled=true tabindex=-1' }}>
+            Nākamā &rsaquo;
+        </a>
+    </nav>
+</div>
+@endif
 
 
 </div>

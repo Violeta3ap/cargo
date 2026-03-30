@@ -53,7 +53,10 @@ class VeidiController extends Controller
         }
         
         // Pievienojam kārtošanu un izgūstam datus
-        $dati = $query->orderBy($sortBy, $sortOrder)->get();
+        $dati = $query
+            ->orderBy($sortBy, $sortOrder)
+            ->paginate(5)
+            ->appends($request->query());
         
         return view('Veidi', compact('dati', 'sortBy', 'sortOrder', 'search'));
     }
