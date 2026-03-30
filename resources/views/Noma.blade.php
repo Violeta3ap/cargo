@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <th>
                 <a href="{{ getSortUrl('KopejaMaksa', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'KopejaMaksa' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
-                    Kopējā maksa (€)
+                    Kopējā maksa
                     @if($sortBy == 'KopejaMaksa')
                         <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
                     @endif

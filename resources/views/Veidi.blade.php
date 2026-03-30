@@ -64,7 +64,7 @@
             <th>
                 <a href="{{ getSortUrl('Nosaukums', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
                    class="sort-link {{ $sortBy == 'Nosaukums' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
-                    Vagona tipa nosaukums
+                    Vagona nosaukums
                     @if($sortBy == 'Nosaukums')
                         <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
                     @endif
@@ -82,7 +82,7 @@
             <th>
                 <a href="{{ getSortUrl('VagonuSkaits', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
                    class="sort-link {{ $sortBy == 'VagonuSkaits' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
-                    Vagonu Skaits
+                    Vagonu skaits
                     @if($sortBy == 'VagonuSkaits')
                         <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
                     @endif
@@ -91,7 +91,7 @@
             <th>
                 <a href="{{ getSortUrl('CenaParDiennakti', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
                    class="sort-link {{ $sortBy == 'CenaParDiennakti' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
-                    Cena Par Diennakti
+                    Cena par diennakti
                     @if($sortBy == 'CenaParDiennakti')
                         <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
                     @endif
