@@ -10,7 +10,7 @@
 
         <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noma">Atpakaļ</a>
-        
+
     @if(Auth::check() && !Auth::user()->isKlients())
             <a href="/Noslogojums/sync"
                onclick="return confirm('Sinhronizēt visus noslogojuma datus no nomas tabulas?');"
@@ -103,17 +103,15 @@ document.addEventListener('DOMContentLoaded', function () {
     <table class="nos-table" style="width: 100%;">
         <thead>
             <tr>
-                <th>Nomas Nr.</th>
                 <th>Vagona veids</th>
-                <th>Vagonu skaits</th>
-                <th>Nomas sākums</th>
-                <th>Nomas beigas</th>
+                <th>Iznomāto vagonu skaits</th>
+                <th>Nomas sākuma periods</th>
+                <th>Nomas beigu periods</th>
             </tr>
         </thead>
         <tbody>
             @foreach($detali as $row)
                 <tr>
-                    <td style="text-align: center;">{{ $row->NomasID }}</td>
                     <td>{{ $row->VeidaNosaukums }}</td>
                     <td style="text-align: center;">{{ $row->VagonuSkaits }}</td>
                     <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasSakumaPeriods)->format('d.m.Y') }}</td>

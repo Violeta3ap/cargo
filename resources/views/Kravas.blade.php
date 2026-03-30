@@ -29,7 +29,7 @@
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
 
         @if(Auth::check() && !Auth::user()->isKlients())
-            <a href="/Kravas/jauns">Izveidot jaunu kravas veidu</a>
+            <a href="/Kravas/jauns">Izveidot kravas veidu</a>
         @endif
     </nav>
 </div>

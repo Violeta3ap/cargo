@@ -31,7 +31,7 @@
 
     <!-- Lapas galvene -->
     <nav class="navigacija" style="background-color: #ffffff;">
-        <a href="/Klienti/jauns">Izveidot jaunu klientu</a>
+        <a href="/Klienti/jauns">Izveidot klientu</a>
     </nav>
 </div>
 

@@ -28,7 +28,7 @@
     <h2>Vagonu veidi</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         @if(Auth::check() && !Auth::user()->isKlients())
-            <a href="/Veidi/jauns">Izveidot jaunu vagona veidu</a>
+            <a href="/Veidi/jauns">Izveidot vagona veidu</a>
         @endif
     </nav>
 </div>
