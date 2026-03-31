@@ -41,8 +41,9 @@
     </nav>
 </div>
 
+
 <!-- Meklēšanas un filtrēšanas logi -->
-<form method="GET" action="/Noma" class="noma-filter-form" style="padding: 8px 10px;">
+<form method="GET" action="/Noma" class="noma-filter-form" style="margin-bottom: 15px; padding: 8px 10px;">
     <div class="filter-window">
         <h4>Filtrēšana</h4>
         <div class="filter-row">
