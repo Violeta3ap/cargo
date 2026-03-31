@@ -125,16 +125,32 @@ class KlientiController extends Controller
       return $response;
     }
 
+    $epasts = trim((string) $dati->input('Epasts'));
+    $registracijasNumurs = trim((string) $dati->input('RegistracijasNumurs'));
+    $kontaNumurs = trim((string) $dati->input('KontaNumurs'));
+
+    $duplicateExists = Klienti::query()
+      ->where(function ($query) use ($epasts, $registracijasNumurs, $kontaNumurs) {
+        $query->whereRaw('LOWER(Epasts) = ?', [strtolower($epasts)])
+          ->orWhere('RegistracijasNumurs', $registracijasNumurs)
+          ->orWhere('KontaNumurs', $kontaNumurs);
+      })
+      ->exists();
+
+    if ($duplicateExists) {
+      return redirect('/Klienti')->with('error', 'Tāds klients jau eksistē.');
+    }
+
     // Izveido jaunu klienta ierakstu.
     $klientis = new Klienti();
     $klientis->Vards = $dati->input('Vards');
     $klientis->Uzvards = $dati->input('Uzvards');
-    $klientis->Epasts = $dati->input('Epasts');
+    $klientis->Epasts = $epasts;
     $klientis->TelefonaNumurs = $dati->input('TelefonaNumurs');
     $klientis->UznemumaNosaukums = $dati->input('UznemumaNosaukums');
     $klientis->JuridiskaAdrese = $dati->input('JuridiskaAdrese');
-    $klientis->RegistracijasNumurs = $dati->input('RegistracijasNumurs');
-    $klientis->KontaNumurs = $dati->input('KontaNumurs');
+    $klientis->RegistracijasNumurs = $registracijasNumurs;
+    $klientis->KontaNumurs = $kontaNumurs;
     $klientis->save();
 
     return redirect()->to('/Klienti')->with('success', 'Ieraksts tika pievienots');
