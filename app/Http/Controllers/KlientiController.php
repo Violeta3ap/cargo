@@ -61,7 +61,7 @@ class KlientiController extends Controller
 
     $klientis = $query
       ->orderBy($sortBy, $sortOrder)
-      ->paginate(5)
+      ->paginate(15)
       ->appends($request->query());
 
     return view('Klienti', compact('klientis', 'vards', 'uzvards', 'uznemumanos', 'sortBy', 'sortOrder'));
