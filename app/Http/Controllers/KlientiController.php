@@ -126,12 +126,18 @@ class KlientiController extends Controller
     }
 
     $epasts = trim((string) $dati->input('Epasts'));
+    $telefonaNumurs = trim((string) $dati->input('TelefonaNumurs'));
+    $uznemumaNosaukums = trim((string) $dati->input('UznemumaNosaukums'));
+    $juridiskaAdrese = trim((string) $dati->input('JuridiskaAdrese'));
     $registracijasNumurs = trim((string) $dati->input('RegistracijasNumurs'));
     $kontaNumurs = trim((string) $dati->input('KontaNumurs'));
 
     $duplicateExists = Klienti::query()
-      ->where(function ($query) use ($epasts, $registracijasNumurs, $kontaNumurs) {
+      ->where(function ($query) use ($epasts, $telefonaNumurs, $uznemumaNosaukums, $juridiskaAdrese, $registracijasNumurs, $kontaNumurs) {
         $query->whereRaw('LOWER(Epasts) = ?', [strtolower($epasts)])
+          ->orWhere('TelefonaNumurs', $telefonaNumurs)
+          ->orWhere('UznemumaNosaukums', $uznemumaNosaukums)
+          ->orWhere('JuridiskaAdrese', $juridiskaAdrese)
           ->orWhere('RegistracijasNumurs', $registracijasNumurs)
           ->orWhere('KontaNumurs', $kontaNumurs);
       })
@@ -146,9 +152,9 @@ class KlientiController extends Controller
     $klientis->Vards = $dati->input('Vards');
     $klientis->Uzvards = $dati->input('Uzvards');
     $klientis->Epasts = $epasts;
-    $klientis->TelefonaNumurs = $dati->input('TelefonaNumurs');
-    $klientis->UznemumaNosaukums = $dati->input('UznemumaNosaukums');
-    $klientis->JuridiskaAdrese = $dati->input('JuridiskaAdrese');
+    $klientis->TelefonaNumurs = $telefonaNumurs;
+    $klientis->UznemumaNosaukums = $uznemumaNosaukums;
+    $klientis->JuridiskaAdrese = $juridiskaAdrese;
     $klientis->RegistracijasNumurs = $registracijasNumurs;
     $klientis->KontaNumurs = $kontaNumurs;
     $klientis->save();
