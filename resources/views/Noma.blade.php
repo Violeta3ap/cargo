@@ -59,9 +59,10 @@
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
             <button type="submit" class="filter-btn">Filtrēt</button>
+            <a href="/Noma" class="filter-btn">Notīrīt</a>
         </div>
     </div>
-    <a href="/Noma" class="filter-btn">Notīrīt</a>
+
 </form>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">

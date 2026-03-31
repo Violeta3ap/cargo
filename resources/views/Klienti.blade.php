@@ -38,14 +38,14 @@
 <!-- Meklēšanas logs -->
 <form method="GET" action="/Klienti" class="klienti-filter-form" style="padding: 8px 10px;">
     <div class="filter-window" style="width: fit-content; max-width: 100%;">
-        <h4>Meklēšana</h4>
+        <h4>Filtrēšana</h4>
         <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
             <input type="text" name="vards" value="{{ $vards }}" placeholder="Vārds" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             <input type="text" name="uzvards" value="{{ $uzvards }}" placeholder="Uzvārds" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             <input type="text" name="uznemumanos" value="{{ $uznemumanos }}" placeholder="Uzņēmuma nosaukums" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
-            <button type="submit" class="filter-btn" style="padding: 2px 8px;">Meklēt</button>
+            <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
             <a href="/Klienti" class="filter-btn" style="padding: 2px 8px;">Notīrīt</a>
         </div>
     </div>
