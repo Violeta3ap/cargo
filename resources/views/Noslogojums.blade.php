@@ -123,6 +123,46 @@ document.addEventListener('DOMContentLoaded', function () {
         </tbody>
     </table>
 
+
+
+
+
+
+        @if(Auth::check() && Auth::user()->isKlients())
+        <!-- Detalizētais saraksts tikai klientam -->
+        <h3 style="margin-bottom: 10px;">Aktīvās nomas</h3>
+        <table class="nos-table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Nomas Nr.</th>
+                    <th>Kravas veids</th>
+                    <th>Vagona veids</th>
+                    <th>Vagonu skaits</th>
+                    <th>Nomas sākuma periods</th>
+                    <th>Nomas beigu periods</th>
+                    <th>Kopējā maksa</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($detali as $row)
+                    <tr>
+                        <td>{{ $row->NomasID }}</td>
+                        <td>{{ $row->KravasNosaukums ?? ('ID: ' . $row->KravasID) }}</td>
+                        <td>{{ $row->VeidaNosaukums ?? ('ID: ' . $row->VeidaID) }}</td>
+                        <td style="text-align: center;">{{ $row->VagonuSkaits }}</td>
+                        <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasSakumaPeriods)->format('d.m.Y') }}</td>
+                        <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasBeiguPeriods)->format('d.m.Y') }}</td>
+                        <td style="text-align: center;">{{ number_format((float) $row->KopejaMaksa, 2) }} €</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @endif
+
+
+
+
+
     @if(Auth::check() && Auth::user()->isAdmin())
         <!-- Detalizētais saraksts tikai administratoram -->
         <h3 style="margin-bottom: 10px;">Aktīvās nomas</h3>
@@ -133,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     <th>Klients</th>
                     <th>Uzņēmums</th>
                     <th>Kravas veids</th>
-                    <th>Veida ID</th>
                     <th>Vagona veids</th>
                     <th>Vagonu skaits</th>
                     <th>Nomas sākuma periods</th>
@@ -148,7 +187,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td>{{ trim(($row->KlientaVards ?? '') . ' ' . ($row->KlientaUzvards ?? '')) ?: ('ID: ' . $row->KlientaID) }}</td>
                         <td>{{ $row->KlientaUznemums ?? ('ID: ' . $row->KlientaID) }}</td>
                         <td>{{ $row->KravasNosaukums ?? ('ID: ' . $row->KravasID) }}</td>
-                        <td>{{ $row->VeidaID }}</td>
                         <td>{{ $row->VeidaNosaukums ?? ('ID: ' . $row->VeidaID) }}</td>
                         <td style="text-align: center;">{{ $row->VagonuSkaits }}</td>
                         <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasSakumaPeriods)->format('d.m.Y') }}</td>
