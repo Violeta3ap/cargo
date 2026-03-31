@@ -296,7 +296,7 @@ class NomaController extends Controller
 
         $noma = $query
             ->orderBy($sortBy, $sortOrder)
-            ->paginate(5)
+            ->paginate(15)
             ->appends($request->query());
 
         return view(
