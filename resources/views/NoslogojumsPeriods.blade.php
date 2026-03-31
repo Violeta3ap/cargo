@@ -74,6 +74,39 @@ document.addEventListener('DOMContentLoaded', function () {
         Izvēlētajā periodā nav aktīvu nomu.
     </div>
 @else
+    @if(Auth::check() && Auth::user()->isKlients())
+    <!-- Detalizētais saraksts tikai klientam -->
+    <h3 style="margin-bottom: 10px;">Perioda nomas</h3>
+    <table class="nos-table" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Vagona veids</th>
+                <th>Maksimāli nomātie vagoni periodā</th>
+                <th>Kopā pieejami</th>
+                <th>Brīvie vagoni (pēc maksimuma)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($periodaKopsavilkums as $row)
+                @php
+                    $maksNomati = (int) $row->MaksimaliNomatiVagoni;
+                    $kopejais = (int) $row->KopejaisVagonuSkaits;
+                    $brivi = max(0, $kopejais - $maksNomati);
+                @endphp
+                <tr>
+                    <td><strong>{{ $row->VeidaNosaukums }}</strong></td>
+                    <td style="text-align: center;">{{ $maksNomati }}</td>
+                    <td style="text-align: center;">{{ $kopejais }}</td>
+                    <td style="text-align: center;">{{ $brivi }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    @endif
+
+    @if(Auth::check() && Auth::user()->isAdmin())
+    <!-- Detalizētais saraksts tikai administratoram -->
+    <h3 style="margin-bottom: 10px;">Perioda nomas</h3>
     <table class="nos-table" style="width: 100%; margin-bottom: 10px;">
         <thead>
             <tr>
@@ -99,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
             @endforeach
         </tbody>
     </table>
+    @endif
 @endif
 
 </div>
