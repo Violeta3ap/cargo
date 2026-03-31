@@ -54,7 +54,7 @@ class KravasController extends Controller
     $dati = $query
       ->with('veidi')
       ->orderBy($sortBy, $sortOrder)
-      ->paginate(5)
+      ->paginate(15)
       ->appends($request->query());
     
     return view('Kravas', compact('dati', 'sortBy', 'sortOrder', 'search'));
