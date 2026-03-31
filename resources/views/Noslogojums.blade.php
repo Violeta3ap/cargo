@@ -96,10 +96,8 @@ document.addEventListener('DOMContentLoaded', function () {
             <thead>
                 <tr>
                     <th>Nomas Nr.</th>
-                    <th>Klienta ID</th>
                     <th>Klients</th>
                     <th>Uzņēmums</th>
-                    <th>Kravas ID</th>
                     <th>Kravas veids</th>
                     <th>Veida ID</th>
                     <th>Vagona veids</th>
@@ -113,10 +111,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 @foreach($detali as $row)
                     <tr>
                         <td>{{ $row->NomasID }}</td>
-                        <td>{{ $row->KlientaID }}</td>
                         <td>{{ trim(($row->KlientaVards ?? '') . ' ' . ($row->KlientaUzvards ?? '')) ?: ('ID: ' . $row->KlientaID) }}</td>
                         <td>{{ $row->KlientaUznemums ?? ('ID: ' . $row->KlientaID) }}</td>
-                        <td>{{ $row->KravasID }}</td>
                         <td>{{ $row->KravasNosaukums ?? ('ID: ' . $row->KravasID) }}</td>
                         <td>{{ $row->VeidaID }}</td>
                         <td>{{ $row->VeidaNosaukums ?? ('ID: ' . $row->VeidaID) }}</td>
