@@ -6,6 +6,7 @@
 
 @php
     $search = $search ?? request('search', '');
+    $veidaOptions = $veidaOptions ?? collect();
     $sortBy = $sortBy ?? request('sort_by', 'VeidaID');
     $sortOrder = $sortOrder ?? request('sort_order', 'asc');
     
@@ -50,7 +51,12 @@
     <div class="search-window" style="border: 1px solid #59c1cf; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
             <h4>Filtrēšana</h4>
         <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
-            <input type="text" name="search" value="{{ $search }}" placeholder="Meklēt pēc vagona veida..." style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px;">
+            <select name="search" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px; background-color: #fff;">
+                <option value="">Veida nosaukums</option>
+                @foreach($veidaOptions as $option)
+                    <option value="{{ $option }}" {{ $search === $option ? 'selected' : '' }}>{{ $option }}</option>
+                @endforeach
+            </select>
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
             <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>

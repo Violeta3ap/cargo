@@ -20,6 +20,12 @@ class VeidiController extends Controller
     {
         // Meklēšanas parametrs
         $search = trim((string) $request->query('search', ''));
+
+        $veidaOptions = Veidi::query()
+            ->select('Nosaukums')
+            ->distinct()
+            ->orderBy('Nosaukums')
+            ->pluck('Nosaukums');
         
         // Kārtošanas parametri
         $sortBy = $request->query('sort_by', 'VeidaID');
@@ -49,7 +55,7 @@ class VeidiController extends Controller
         
         // Meklēšana pēc nosaukuma
         if ($search !== '') {
-            $query->where('Nosaukums', 'like', '%' . $search . '%');
+            $query->where('Nosaukums', $search);
         }
         
         // Pievienojam kārtošanu un izgūstam datus
@@ -58,7 +64,7 @@ class VeidiController extends Controller
             ->paginate(5)
             ->appends($request->query());
         
-        return view('Veidi', compact('dati', 'sortBy', 'sortOrder', 'search'));
+        return view('Veidi', compact('dati', 'sortBy', 'sortOrder', 'search', 'veidaOptions'));
     }
 
     // Dzēš veidu.

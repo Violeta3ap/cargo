@@ -22,6 +22,12 @@ class KravasController extends Controller
     // Meklēšanas parametrs
     $search = trim((string) $request->query('search', ''));
 
+    $kravasOptions = Kravas::query()
+      ->select('Nosaukums')
+      ->distinct()
+      ->orderBy('Nosaukums')
+      ->pluck('Nosaukums');
+
     // Kārtošanas parametri
     $sortBy = $request->query('sort_by', 'KravasID');
     $sortOrder = $request->query('sort_order', 'asc');
@@ -48,7 +54,7 @@ class KravasController extends Controller
 
     // Meklēšana pēc nosaukuma
     if ($search !== '') {
-      $query->where('Nosaukums', 'like', '%' . $search . '%');
+      $query->where('Nosaukums', $search);
     }
 
     $dati = $query
@@ -57,7 +63,7 @@ class KravasController extends Controller
       ->paginate(15)
       ->appends($request->query());
     
-    return view('Kravas', compact('dati', 'sortBy', 'sortOrder', 'search'));
+    return view('Kravas', compact('dati', 'sortBy', 'sortOrder', 'search', 'kravasOptions'));
   }
 
   // Dzēš kravu.

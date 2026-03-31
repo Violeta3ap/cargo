@@ -243,6 +243,18 @@ class NomaController extends Controller
             $sortOrder = 'asc';
         }
 
+        $kravaOptions = Kravas::query()
+            ->orderBy('Nosaukums')
+            ->pluck('Nosaukums')
+            ->unique()
+            ->values();
+
+        $veidaOptions = Veidi::query()
+            ->orderBy('Nosaukums')
+            ->pluck('Nosaukums')
+            ->unique()
+            ->values();
+
         $query = Noma::query()
             ->with(['klienti', 'kravas', 'veidi']);
 
@@ -273,15 +285,15 @@ class NomaController extends Controller
         }
 
         if ($krava !== '') {
-            // Filtrs pēc kravas nosaukuma.
+            // Filtrs pēc kravas nosaukuma no izkrītošā saraksta.
             $query->whereHas('kravas', function ($q) use ($krava) {
-                $q->where('Nosaukums', 'like', '%' . $krava . '%');
+                $q->where('Nosaukums', $krava);
             });
         }
 
         if ($veids !== '') {
             $query->whereHas('veidi', function ($q) use ($veids) {
-                $q->where('Nosaukums', 'like', '%' . $veids . '%');
+                $q->where('Nosaukums', $veids);
             });
         }
 
@@ -306,7 +318,7 @@ class NomaController extends Controller
 
         return view(
             'Noma',
-            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'filtraUznemums', 'krava', 'veids', 'nomasSakumaPeriods', 'nomasBeiguPeriods', 'sortBy', 'sortOrder')
+            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'filtraUznemums', 'krava', 'veids', 'nomasSakumaPeriods', 'nomasBeiguPeriods', 'sortBy', 'sortOrder', 'kravaOptions', 'veidaOptions')
         );
     }
 
