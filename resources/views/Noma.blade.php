@@ -95,6 +95,17 @@ document.addEventListener('DOMContentLoaded', function () {
     <thead>
          <tr>
             <th>
+                <a href="{{ getSortUrl('NomasID', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'NomasID' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Nomas Nr.
+                    @if($sortBy == 'NomasID')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+
+
+            <th>
                 <a href="{{ getSortUrl('KlientaID', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'KlientaID' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Klients
@@ -164,6 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <tbody>
         @foreach ($noma as $item)
          <tr>
+            <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
             <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID)}}</td>
             <td>{{$item->kravas->Nosaukums ?? ('ID: '.$item->KravasID)}}</td>
