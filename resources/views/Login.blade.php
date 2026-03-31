@@ -91,8 +91,6 @@
 
             <p> Admins:  Violeta parole:parole123;</p>
                 <p>
-                Darbinieks: Darbinieks  parole:parole123;</p>
-                <p>
                 Klients1: Anna  parole:parole123;</p>
                 <p>
                 Klients2: Roberts  parole:parole123;</p>
