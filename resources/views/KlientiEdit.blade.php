@@ -12,6 +12,12 @@
 
 <hr> <!-- Horizontāla līnija -->
 
+@if($errors->has('duplicate'))
+    <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 12px; margin-bottom: 15px; border-radius: 8px;">
+        {{ $errors->first('duplicate') }}
+    </div>
+@endif
+
 <!-- Formas sākums klienta datu rediģēšanai -->
 <form action="/Klienti/{{ $klientis->KlientaID }}/editSubmit" method="POST">
     @csrf <!-- CSRF aizsardzība -->
@@ -19,50 +25,50 @@
     <!-- Vārds -->
     <div class="form-group">
         <label for="Vards">Vārds:</label>
-        <input type="text" class="form-control" id="Vards" name="Vards" value="{{ $klientis->Vards }}" required>
+        <input type="text" class="form-control" id="Vards" name="Vards" value="{{ old('Vards', $klientis->Vards) }}" required>
     </div>
 
     <!-- Uzvārds -->
     <div class="form-group">
         <label for="Uzvards">Uzvārds:</label>
-        <input type="text" class="form-control" id="Uzvards" name="Uzvards" value="{{ $klientis->Uzvards }}" required>
+        <input type="text" class="form-control" id="Uzvards" name="Uzvards" value="{{ old('Uzvards', $klientis->Uzvards) }}" required>
     </div>
 
     <!-- E-pasts -->
     <div class="form-group">
         <label for="Epasts">E-pasts:</label>
-        <input type="email" class="form-control" id="Epasts" name="Epasts" value="{{ $klientis->Epasts }}" required>
+        <input type="email" class="form-control" id="Epasts" name="Epasts" value="{{ old('Epasts', $klientis->Epasts) }}" required>
     </div>
 
     <!-- Telefona numurs ar rakstzīmju skaita indikāciju -->
     <div class="form-group">
         <label for="TelefonaNumurs" class="form-label">Telefona numurs:</label>
-        <input type="text" class="form-control" value="{{ $klientis->TelefonaNumurs }}" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
-        <div class="character-count" id="charCount">{{ strlen($klientis->TelefonaNumurs) }}/8</div> <!-- Rāda cik rakstzīmes ievadītas -->
+        <input type="text" class="form-control" value="{{ old('TelefonaNumurs', $klientis->TelefonaNumurs) }}" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
+        <div class="character-count" id="charCount">{{ strlen(old('TelefonaNumurs', $klientis->TelefonaNumurs)) }}/8</div> <!-- Rāda cik rakstzīmes ievadītas -->
     </div>   
 
     <!-- Uzņēmuma nosaukums -->
     <div class="form-group">
         <label for="UznemumaNosaukums">Uzņēmuma nosaukums:</label>
-        <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" value="{{ $klientis->UznemumaNosaukums }}" required>
+        <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" value="{{ old('UznemumaNosaukums', $klientis->UznemumaNosaukums) }}" required>
     </div>
 
     <!-- Juridiskā adrese -->
     <div class="form-group">
         <label for="JuridiskaAdrese">Juridiskā adrese:</label>
-        <input type="text" class="form-control" id="JuridiskaAdrese" name="JuridiskaAdrese" value="{{ $klientis->JuridiskaAdrese }}" required>
+        <input type="text" class="form-control" id="JuridiskaAdrese" name="JuridiskaAdrese" value="{{ old('JuridiskaAdrese', $klientis->JuridiskaAdrese) }}" required>
     </div>
 
     <!-- Reģistrācijas numurs -->
     <div class="form-group">
         <label for="RegistracijasNumurs">Reģistrācijas numurs:</label>
-        <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ $klientis->RegistracijasNumurs }}" required>
+        <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ old('RegistracijasNumurs', $klientis->RegistracijasNumurs) }}" required>
     </div>
 
     <!-- Konta numurs -->
     <div class="form-group">
         <label for="KontaNumurs">Konta numurs:</label>
-        <input type="text" class="form-control" id="KontaNumurs" name="KontaNumurs" value="{{ $klientis->KontaNumurs }}" required>
+        <input type="text" class="form-control" id="KontaNumurs" name="KontaNumurs" value="{{ old('KontaNumurs', $klientis->KontaNumurs) }}" required>
     </div>
 
     <!-- Saglabāšanas poga -->

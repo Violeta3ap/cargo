@@ -12,6 +12,12 @@
 
 <hr> <!-- Horizontāla līnija -->
 
+@if($errors->has('duplicate'))
+    <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 12px; margin-bottom: 15px; border-radius: 8px;">
+        {{ $errors->first('duplicate') }}
+    </div>
+@endif
+
 <!-- Forma jauna klienta pievienošanai -->
 <form method="POST" action="/Klienti/jaunsSubmit">
     @csrf <!-- CSRF aizsardzība -->
@@ -19,27 +25,27 @@
     <!-- Vārds -->
     <div class="form-group">
         <label for="Vards">Vārds:</label>
-        <input type="text" class="form-control" id="Vards" name="Vards" required>
+        <input type="text" class="form-control" id="Vards" name="Vards" value="{{ old('Vards') }}" required>
     </div>
 
     <!-- Uzvārds -->
     <div class="form-group">
         <label for="Uzvards">Uzvārds:</label>
-        <input type="text" class="form-control" id="Uzvards" name="Uzvards" required>
+        <input type="text" class="form-control" id="Uzvards" name="Uzvards" value="{{ old('Uzvards') }}" required>
     </div>
 
     <!-- E-pasts -->
     <div class="form-group">
         <label for="Epasts">E-pasts:</label>
-        <input type="email" class="form-control" id="Epasts" name="Epasts" required>
+        <input type="email" class="form-control" id="Epasts" name="Epasts" value="{{ old('Epasts') }}" required>
     </div>
 
     <div class="form-group">
     <label for="TelefonaNumurs">Telefona numurs:</label>
-    <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" maxlength="8" required>
+    <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" value="{{ old('TelefonaNumurs') }}" maxlength="8" required>
     
     <!-- Rāda simbolu skaitu -->
-    <div class="character-count" id="charCount">0/8</div>
+    <div class="character-count" id="charCount">{{ strlen(old('TelefonaNumurs', '')) }}/8</div>
 </div>
 
 
@@ -47,25 +53,25 @@
     <!-- Uzņēmuma nosaukums -->
     <div class="form-group">
         <label for="UznemumaNosaukums">Uzņēmuma nosaukums:</label>
-        <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" required>
+        <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" value="{{ old('UznemumaNosaukums') }}" required>
     </div>
 
     <!-- Juridiskā adrese -->
     <div class="form-group">
         <label for="JuridiskaAdrese">Juridiskā adrese:</label>
-        <input type="text" class="form-control" id="JuridiskaAdrese" name="JuridiskaAdrese" required>
+        <input type="text" class="form-control" id="JuridiskaAdrese" name="JuridiskaAdrese" value="{{ old('JuridiskaAdrese') }}" required>
     </div>
 
     <!-- Reģistrācijas numurs -->
     <div class="form-group">
         <label for="RegistracijasNumurs">Reģistrācijas numurs:</label>
-        <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" required>
+        <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ old('RegistracijasNumurs') }}" required>
     </div>
 
     <!-- Konta numurs -->
     <div class="form-group">
         <label for="KontaNumurs">Konta numurs:</label>
-        <input type="text" class="form-control" id="KontaNumurs" name="KontaNumurs" required>
+        <input type="text" class="form-control" id="KontaNumurs" name="KontaNumurs" value="{{ old('KontaNumurs') }}" required>
     </div>
 
     <!-- Saglabāšanas poga -->

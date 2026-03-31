@@ -144,7 +144,7 @@ class KlientiController extends Controller
       ->exists();
 
     if ($duplicateExists) {
-      return redirect('/Klienti')->with('error', 'Tāds klients jau eksistē.');
+      return back()->withInput()->withErrors(['duplicate' => 'Klienta dati jau eksistē. Lūdzu, izmainiet laukus un mēģiniet vēlreiz.']);
     }
 
     // Izveido jaunu klienta ierakstu.
@@ -180,18 +180,41 @@ class KlientiController extends Controller
       return $response;
     }
 
+    $epasts = trim((string) $dati->input('Epasts'));
+    $telefonaNumurs = trim((string) $dati->input('TelefonaNumurs'));
+    $uznemumaNosaukums = trim((string) $dati->input('UznemumaNosaukums'));
+    $juridiskaAdrese = trim((string) $dati->input('JuridiskaAdrese'));
+    $registracijasNumurs = trim((string) $dati->input('RegistracijasNumurs'));
+    $kontaNumurs = trim((string) $dati->input('KontaNumurs'));
+
+    $duplicateExists = Klienti::query()
+      ->where('KlientaID', '!=', $id)
+      ->where(function ($query) use ($epasts, $telefonaNumurs, $uznemumaNosaukums, $juridiskaAdrese, $registracijasNumurs, $kontaNumurs) {
+        $query->whereRaw('LOWER(Epasts) = ?', [strtolower($epasts)])
+          ->orWhere('TelefonaNumurs', $telefonaNumurs)
+          ->orWhere('UznemumaNosaukums', $uznemumaNosaukums)
+          ->orWhere('JuridiskaAdrese', $juridiskaAdrese)
+          ->orWhere('RegistracijasNumurs', $registracijasNumurs)
+          ->orWhere('KontaNumurs', $kontaNumurs);
+      })
+      ->exists();
+
+    if ($duplicateExists) {
+      return back()->withInput()->withErrors(['duplicate' => 'Klienta dati jau eksistē. Lūdzu, izmainiet laukus un mēģiniet vēlreiz.']);
+    }
+
     // Atjauno klienta laukus pēc ID.
     DB::table('klienti')
       ->where('KlientaID', $id)
       ->update([
         'Vards' => $dati->input('Vards'),
         'Uzvards' => $dati->input('Uzvards'),
-        'Epasts' => $dati->input('Epasts'),
-        'TelefonaNumurs' => $dati->input('TelefonaNumurs'),
-        'UznemumaNosaukums' => $dati->input('UznemumaNosaukums'),
-        'JuridiskaAdrese' => $dati->input('JuridiskaAdrese'),
-        'RegistracijasNumurs' => $dati->input('RegistracijasNumurs'),
-        'KontaNumurs' => $dati->input('KontaNumurs'),
+        'Epasts' => $epasts,
+        'TelefonaNumurs' => $telefonaNumurs,
+        'UznemumaNosaukums' => $uznemumaNosaukums,
+        'JuridiskaAdrese' => $juridiskaAdrese,
+        'RegistracijasNumurs' => $registracijasNumurs,
+        'KontaNumurs' => $kontaNumurs,
       ]);
 
     return redirect()->to('/Klienti')->with('success', 'Ieraksts tika atjaunināts');
