@@ -136,6 +136,32 @@ class NoslogojumsController extends Controller
 
         $periodaKopsavilkums = $this->getPeriodaKopsavilkums($periodaSakums, $periodaBeigas);
 
-        return view('NoslogojumsPeriods', compact('periodaSakums', 'periodaBeigas', 'periodaKopsavilkums'));
+        // Detalizētais saraksts ar nomas datiem perioda intervālā
+        $detali = DB::table('vagonunoma')
+            ->leftJoin('klienti', 'vagonunoma.KlientaID', '=', 'klienti.KlientaID')
+            ->leftJoin('krava', 'vagonunoma.KravasID', '=', 'krava.KravasID')
+            ->leftJoin('veidi', 'vagonunoma.VeidaID', '=', 'veidi.VeidaID')
+            ->where('vagonunoma.NomasSakumaPeriods', '<=', $periodaBeigas)
+            ->where('vagonunoma.NomasBeiguPeriods', '>=', $periodaSakums)
+            ->select(
+                'vagonunoma.NomasID',
+                'vagonunoma.KlientaID',
+                'vagonunoma.KravasID',
+                'vagonunoma.VeidaID',
+                'vagonunoma.VagonuSkaits',
+                'vagonunoma.NomasSakumaPeriods',
+                'vagonunoma.NomasBeiguPeriods',
+                'vagonunoma.KopejaMaksa',
+                'klienti.Vards as KlientaVards',
+                'klienti.Uzvards as KlientaUzvards',
+                'klienti.UznemumaNosaukums as KlientaUznemums',
+                'krava.Nosaukums as KravasNosaukums',
+                'veidi.Nosaukums as VeidaNosaukums'
+            )
+            ->orderBy('vagonunoma.NomasSakumaPeriods')
+            ->orderBy('vagonunoma.NomasID')
+            ->get();
+
+        return view('NoslogojumsPeriods', compact('periodaSakums', 'periodaBeigas', 'periodaKopsavilkums', 'detali'));
     }
 }
