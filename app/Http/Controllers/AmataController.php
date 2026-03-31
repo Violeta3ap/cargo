@@ -9,9 +9,23 @@ use Illuminate\Support\Facades\DB;
 // Pārvalda amata ierakstu CRUD darbības.
 class AmataController extends Controller
 {
+  // Atļauj piekļuvi tikai administratoram.
+  private function requireAdminAccess()
+  {
+    if (!auth()->check() || !auth()->user()->isAdmin()) {
+      return redirect('/')->with('error', 'Piekļuve atļauta tikai administratoram.');
+    }
+
+    return null;
+  }
+
   // Amatu saraksts.
   public function showAllAmati()
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     $amats = new Amati();
     return view('Amati', ['dati' => $amats->orderBy('AmataID', 'asc')->get()]);
   }
@@ -19,6 +33,10 @@ class AmataController extends Controller
   // Dzēš amatu.
   public function delete($id)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     DB::table('amats')->where('AmataID', $id)->delete();
     return redirect('/Amati')->with('success', 'Ieraksts tika dzēsts');
   }
@@ -26,12 +44,20 @@ class AmataController extends Controller
   // Atver pievienošanas formu.
   public function create()
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     return view('AmataPiev');
   }
 
   // Parāda amata detaļas.
   public function details($id)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     $amats = Amati::find($id);
     return view('AmataApskate', ['amati' => $amats]);
   }
@@ -39,6 +65,10 @@ class AmataController extends Controller
   // Saglabā jaunu amatu.
   public function DatuSubmit(Request $dati)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     // Izveido jaunu amata ierakstu.
     $amats = new Amati();
     $amats->Nosaukums = $dati->input('Nosaukums');
@@ -50,6 +80,10 @@ class AmataController extends Controller
   // Atver rediģēšanas formu.
   public function edit($id)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     $amats = Amati::find($id);
     return view('AmataEdit', ['amati' => $amats]);
   }
@@ -57,6 +91,10 @@ class AmataController extends Controller
   // Saglabā rediģētas vērtības.
   public function editSubmit(Request $dati, $id)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     // Atjauno tikai amata nosaukumu pēc ID.
     DB::table('amats')
       ->where('AmataID', $id)

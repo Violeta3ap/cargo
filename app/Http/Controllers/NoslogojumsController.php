@@ -8,9 +8,23 @@ use Illuminate\Support\Facades\DB;
 // Pārvalda noslogojuma datu attēlošanu un sinhronizāciju.
 class NoslogojumsController extends Controller
 {
+    // Atļauj piekļuvi tikai administratoram.
+    private function requireAdminAccess()
+    {
+        if (!auth()->check() || !auth()->user()->isAdmin()) {
+            return redirect('/Noma')->with('error', 'Noslogojuma dati pieejami tikai administratoram.');
+        }
+
+        return null;
+    }
+
     // Attēlo noslogojuma lapu ar datuma filtru.
     public function show(Request $request)
     {
+        if ($response = $this->requireAdminAccess()) {
+            return $response;
+        }
+
         // Nolasa izvēlēto datumu vai izmanto šodienu.
         $datums = $request->query('datums', now()->format('Y-m-d'));
 
@@ -57,8 +71,8 @@ class NoslogojumsController extends Controller
     // Sinhronizē noslogojums tabulu ar vagonunoma (tikai adminam/darbiniekam).
     public function syncAll()
     {
-        if (!auth()->check() || auth()->user()->isKlients()) {
-            return redirect('/Noslogojums')->with('error', 'Nav tiesību veikt sinhronizāciju.');
+        if ($response = $this->requireAdminAccess()) {
+            return $response;
         }
 
         // Nolasa visas nomas un sinhronizē ar noslogojuma tabulu.

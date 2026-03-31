@@ -27,7 +27,7 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Vagonu veidi</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
-        @if(Auth::check() && !Auth::user()->isKlients())
+        @if(Auth::check() && Auth::user()->isAdmin())
             <a href="/Veidi/jauns">Izveidot vagona veidu</a>
         @endif
     </nav>
@@ -98,7 +98,7 @@
                     @endif
                 </a>
             </th> 
-            @if(Auth::check() && !Auth::user()->isKlients())
+            @if(Auth::check() && Auth::user()->isAdmin())
                 <th>Darbības</th>
             @endif
           </tr>
@@ -110,7 +110,7 @@
             <td>{{$item->Celtspeja}} t</td>
             <td>{{$item->VagonuSkaits}}</td>
             <td>{{ number_format($item->CenaParDiennakti, 2) }} €</td>
-            @if(Auth::check() && !Auth::user()->isKlients())
+            @if(Auth::check() && Auth::user()->isAdmin())
                 <td>
                     <div style="display: flex; gap: 8px; justify-content: center;">
                         <a href="/Veidi/{{ $item->VeidaID }}/edit" 
@@ -131,7 +131,7 @@
           </tr>
         @empty
           <tr>
-            <td colspan="{{ Auth::check() && !Auth::user()->isKlients() ? 5 : 4 }}" style="text-align: center; padding: 20px;">
+            <td colspan="{{ Auth::check() && Auth::user()->isAdmin() ? 5 : 4 }}" style="text-align: center; padding: 20px;">
                 Nav atrasts neviens vagona veids
             </td>
           </tr>

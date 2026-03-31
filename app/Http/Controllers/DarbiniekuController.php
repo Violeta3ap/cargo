@@ -10,15 +10,23 @@ use Illuminate\Support\Facades\DB;
 // Pārvalda darbinieku ierakstu CRUD un piekļuves tiesības.
 class DarbiniekuController extends Controller
 {
-    // Pārbauda vai parasts darbinieks drīkst mainīt darbinieku datus.
-    private function darbinieksCannotModifyEmployees()
+    // Atļauj piekļuvi tikai administratoram.
+    private function requireAdminAccess()
     {
-        return auth()->check() && auth()->user()->isDarbinieks();
+        if (!auth()->check() || !auth()->user()->isAdmin()) {
+            return redirect('/')->with('error', 'Piekļuve atļauta tikai administratoram.');
+        }
+
+        return null;
     }
 
     // Darbinieku saraksts.
     public function showAllDarbinieki()
     {
+        if ($response = $this->requireAdminAccess()) {
+            return $response;
+        }
+
         $darbiniekis = new Darbinieki();
         return view('Darbinieki', ['darbiniekis' => $darbiniekis->orderBy('DarbiniekaID', 'asc')->get()]);
     }
@@ -26,8 +34,8 @@ class DarbiniekuController extends Controller
     // Dzēš darbinieku.
     public function delete($id)
     {
-        if ($this->darbinieksCannotModifyEmployees()) {
-            return redirect('/Darbinieki')->with('error', 'Darbiniekam nav tiesību dzēst darbiniekus.');
+        if ($response = $this->requireAdminAccess()) {
+            return $response;
         }
 
         DB::table('darbinieki')->where('DarbiniekaID', $id)->delete();
@@ -37,6 +45,10 @@ class DarbiniekuController extends Controller
     // Atver pievienošanas formu.
     public function create()
     {
+        if ($response = $this->requireAdminAccess()) {
+            return $response;
+        }
+
         $amati = Amati::orderBy('AmataID', 'asc')->get();
         return view('DarbiniekuPiev', ['amati' => $amati]);
     }
@@ -44,6 +56,10 @@ class DarbiniekuController extends Controller
     // Parāda darbinieka detaļas.
     public function details($id)
     {
+        if ($response = $this->requireAdminAccess()) {
+            return $response;
+        }
+
         $darbiniekis = Darbinieki::find($id);
         return view('DarbiniekiApskate', ['darbinieki' => $darbiniekis]);
     }
@@ -51,6 +67,10 @@ class DarbiniekuController extends Controller
     // Saglabā jaunu darbinieku.
     public function DarbiniekiSubmit(Request $dati)
     {
+        if ($response = $this->requireAdminAccess()) {
+            return $response;
+        }
+
         // Izveido jaunu darbinieka ierakstu no formas datiem.
         $darbiniekis = new Darbinieki();
         $darbiniekis->Vards = $dati->input('Vards');
@@ -67,8 +87,8 @@ class DarbiniekuController extends Controller
     // Atver rediģēšanas formu.
     public function edit($id)
     {
-        if ($this->darbinieksCannotModifyEmployees()) {
-            return redirect('/Darbinieki')->with('error', 'Darbiniekam nav tiesību rediģēt darbiniekus.');
+        if ($response = $this->requireAdminAccess()) {
+            return $response;
         }
 
         $darbiniekis = Darbinieki::find($id);
@@ -83,8 +103,8 @@ class DarbiniekuController extends Controller
     // Saglabā rediģētas vērtības.
     public function editSubmit(Request $dati, $id)
     {
-        if ($this->darbinieksCannotModifyEmployees()) {
-            return redirect('/Darbinieki')->with('error', 'Darbiniekam nav tiesību rediģēt darbiniekus.');
+        if ($response = $this->requireAdminAccess()) {
+            return $response;
         }
 
         // Atjauno darbinieka laukus pēc ID.

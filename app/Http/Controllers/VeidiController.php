@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 // Pārvalda vagona veidu sarakstu un CRUD darbības.
 class VeidiController extends Controller
 {
-    // Pārbauda vai klientam ir liegta datu modificēšana.
-    private function klientsCannotModify()
+    // Pārbauda vai lietotājam nav administratora tiesību.
+    private function userCannotModify()
     {
-        return auth()->check() && auth()->user()->isKlients();
+        return !auth()->check() || !auth()->user()->isAdmin();
     }
 
     // Veidu saraksts ar meklēšanu un kārtošanu.
@@ -64,8 +64,8 @@ class VeidiController extends Controller
     // Dzēš veidu.
     public function delete($id)
     {
-        if ($this->klientsCannotModify()) {
-            return redirect('/Veidi')->with('error', 'Klientam nav tiesību dzēst ierakstus.');
+        if ($this->userCannotModify()) {
+            return redirect('/Veidi')->with('error', 'Tikai administrators drīkst dzēst ierakstus.');
         }
 
         DB::table('veidi')->where('VeidaID', $id)->delete();
@@ -75,8 +75,8 @@ class VeidiController extends Controller
     // Atver pievienošanas formu.
     public function create()
     {
-        if ($this->klientsCannotModify()) {
-            return redirect('/Veidi')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
+        if ($this->userCannotModify()) {
+            return redirect('/Veidi')->with('error', 'Tikai administrators drīkst pievienot ierakstus.');
         }
 
         return view('VeidiPiev');
@@ -95,9 +95,9 @@ class VeidiController extends Controller
     
    public function DatuSubmit(Request $dati)
 {
-    // Klientam liedz pievienot jaunus veidus.
-    if ($this->klientsCannotModify()) {
-        return redirect('/Veidi')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
+    // Ne-administratoriem liedz pievienot jaunus veidus.
+    if ($this->userCannotModify()) {
+        return redirect('/Veidi')->with('error', 'Tikai administrators drīkst pievienot ierakstus.');
     }
 
     // ✅ Validācija
@@ -123,8 +123,8 @@ class VeidiController extends Controller
     // Atver rediģēšanas formu.
     public function edit($id)
     {
-        if ($this->klientsCannotModify()) {
-            return redirect('/Veidi')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
+        if ($this->userCannotModify()) {
+            return redirect('/Veidi')->with('error', 'Tikai administrators drīkst rediģēt ierakstus.');
         }
 
         $veidi = Veidi::find($id);
@@ -137,9 +137,9 @@ class VeidiController extends Controller
 
     public function editSubmit(Request $dati, $id)
 {
-    // Klientam liedz rediģēt veidu datus.
-    if ($this->klientsCannotModify()) {
-        return redirect('/Veidi')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
+        // Ne-administratoriem liedz rediģēt veidu datus.
+        if ($this->userCannotModify()) {
+            return redirect('/Veidi')->with('error', 'Tikai administrators drīkst rediģēt ierakstus.');
     }
 
     // ✅ Validācija

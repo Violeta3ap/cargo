@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\DB;
 // Pārvalda kravu ierakstu sarakstu un CRUD darbības.
 class KravasController extends Controller
 {
-  // Pārbauda vai klientam ir liegta datu modificēšana.
-  private function klientsCannotModify()
+  // Pārbauda vai lietotājam nav administratora tiesību.
+  private function userCannotModify()
   {
-    return auth()->check() && auth()->user()->isKlients();
+    return !auth()->check() || !auth()->user()->isAdmin();
   }
 
   // Kravu saraksts ar meklēšanu un kārtošanu.
@@ -63,8 +63,8 @@ class KravasController extends Controller
   // Dzēš kravu.
   public function delete($id)
   {
-    if ($this->klientsCannotModify()) {
-      return redirect('/Kravas')->with('error', 'Klientam nav tiesību dzēst ierakstus.');
+    if ($this->userCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Tikai administrators drīkst dzēst ierakstus.');
     }
 
     DB::table('krava')->where('KravasID', $id)->delete();
@@ -74,8 +74,8 @@ class KravasController extends Controller
   // Atver pievienošanas formu.
   public function create()
   {
-    if ($this->klientsCannotModify()) {
-      return redirect('/Kravas')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
+    if ($this->userCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Tikai administrators drīkst pievienot ierakstus.');
     }
 
     $veidi = Veidi::all();
@@ -92,8 +92,8 @@ class KravasController extends Controller
   // Saglabā jaunu kravu.
   public function DatuSubmit(Request $dati)
   {
-    if ($this->klientsCannotModify()) {
-      return redirect('/Kravas')->with('error', 'Klientam nav tiesību pievienot ierakstus.');
+    if ($this->userCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Tikai administrators drīkst pievienot ierakstus.');
     }
 
     // Izveido jaunu kravas ierakstu.
@@ -108,8 +108,8 @@ class KravasController extends Controller
   // Atver rediģēšanas formu.
   public function edit($id)
   {
-    if ($this->klientsCannotModify()) {
-      return redirect('/Kravas')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
+    if ($this->userCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Tikai administrators drīkst rediģēt ierakstus.');
     }
 
     $kravas = Kravas::find($id);
@@ -121,8 +121,8 @@ class KravasController extends Controller
   // Saglabā rediģētas vērtības.
   public function editSubmit(Request $dati, $id)
   {
-    if ($this->klientsCannotModify()) {
-      return redirect('/Kravas')->with('error', 'Klientam nav tiesību rediģēt ierakstus.');
+    if ($this->userCannotModify()) {
+      return redirect('/Kravas')->with('error', 'Tikai administrators drīkst rediģēt ierakstus.');
     }
 
     // Atjauno kravas ierakstu pēc ID.

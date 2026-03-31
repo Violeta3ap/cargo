@@ -28,7 +28,7 @@
     <h2>Krāvu veidi</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
 
-        @if(Auth::check() && !Auth::user()->isKlients())
+        @if(Auth::check() && Auth::user()->isAdmin())
             <a href="/Kravas/jauns">Izveidot kravas veidu</a>
         @endif
     </nav>
@@ -82,7 +82,7 @@
                     @endif
                 </a>
             </th>
-            @if(Auth::check() && !Auth::user()->isKlients())
+            @if(Auth::check() && Auth::user()->isAdmin())
                 <th>Darbības</th>
             @endif
          </tr>
@@ -92,7 +92,7 @@
          <tr>
             <td>{{$item->Nosaukums}}</td>
             <td>{{$item->veidi->Nosaukums ?? ('ID: '.$item->VeidaID) }}</td>
-            @if(Auth::check() && !Auth::user()->isKlients())
+            @if(Auth::check() && Auth::user()->isAdmin())
                 <td>
                     <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
                         <a href="/Kravas/{{ $item->KravasID }}/edit" class="btn-action">Rediģēt</a>

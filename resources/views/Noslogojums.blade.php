@@ -11,7 +11,7 @@
         <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noma">Atpakaļ</a>
 
-    @if(Auth::check() && !Auth::user()->isKlients())
+    @if(Auth::check() && Auth::user()->isAdmin())
             <a href="/Noslogojums/sync"
                onclick="return confirm('Sinhronizēt visus noslogojuma datus no nomas tabulas?');"
                style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff);">

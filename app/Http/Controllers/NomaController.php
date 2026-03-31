@@ -13,6 +13,11 @@ use Carbon\Carbon;
 // Pārvalda nomas sarakstu, pieejamību, aprēķinus un CRUD darbības.
 class NomaController extends Controller
 {
+    private function userIsAdmin(): bool
+    {
+        return auth()->check() && auth()->user()->isAdmin();
+    }
+
 
     // Pārrēķina visu nomu kopējās maksas
     public function recalculateAll()
@@ -241,8 +246,8 @@ class NomaController extends Controller
         $query = Noma::query()
             ->with(['klienti', 'kravas', 'veidi']);
 
-        // Ja lietotājs ir klients, rāda tikai viņa pašā nomas
-        if (auth()->user()->isKlients()) {
+        // Tikai admins redz visas nomas un paplašinātos filtrus.
+        if (!$this->userIsAdmin()) {
             $klientsIeraksts = auth()->user()->klienti;
             if ($klientsIeraksts) {
                 $query->where('KlientaID', $klientsIeraksts->KlientaID);
@@ -308,6 +313,10 @@ class NomaController extends Controller
     // Dzēš nomas ierakstu.
     public function delete($id)
     {
+        if (!$this->userIsAdmin()) {
+            return redirect('/Noma')->with('error', 'Tikai administrators drīkst dzēst nomas ierakstus.');
+        }
+
         DB::table('noslogojums')->where('NomasID', $id)->delete();
         DB::table('vagonunoma')->where('NomasID', $id)->delete();
         return redirect('/Noma')->with('success', 'Ieraksts tika dzēsts');
@@ -316,8 +325,8 @@ class NomaController extends Controller
     // Atver pievienošanas formu ar saistītajiem sarakstiem.
     public function create()
     {
-        // Klientam atļauj tikai viņa klienta ierakstu.
-        if (auth()->user()->isKlients()) {
+        // Ne-adminam atļauj tikai viņa klienta ierakstu.
+        if (!$this->userIsAdmin()) {
             $klientsIeraksts = auth()->user()->klienti;
             if (!$klientsIeraksts) {
                 return redirect('/Noma')->with('error', 'Jūsu kontam nav piesaistīts klienta ieraksts.');
@@ -343,7 +352,7 @@ class NomaController extends Controller
             return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
         }
 
-        if (auth()->user()->isKlients()) {
+        if (!$this->userIsAdmin()) {
             $klientsIeraksts = auth()->user()->klienti;
             if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
                 return redirect('/Noma')->with('error', 'Jums nav tiesību skatīt šo nomas ierakstu.');
@@ -368,7 +377,7 @@ class NomaController extends Controller
         ]);
 
         $klientaId = (int) $dati->input('KlientaID');
-        if (auth()->user()->isKlients()) {
+        if (!$this->userIsAdmin()) {
             // Klientam vienmēr piesaista viņa paša KlientaID.
             $klientsIeraksts = auth()->user()->klienti;
             if (!$klientsIeraksts) {
@@ -416,7 +425,7 @@ class NomaController extends Controller
             return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
         }
 
-        if (auth()->user()->isKlients()) {
+        if (!$this->userIsAdmin()) {
             $klientsIeraksts = auth()->user()->klienti;
             if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
                 return redirect('/Noma')->with('error', 'Jums nav tiesību rediģēt šo nomas ierakstu.');
@@ -442,7 +451,7 @@ class NomaController extends Controller
             return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
         }
 
-        if (auth()->user()->isKlients()) {
+        if (!$this->userIsAdmin()) {
             $klientsIeraksts = auth()->user()->klienti;
             if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
                 return redirect('/Noma')->with('error', 'Jums nav tiesību rediģēt šo nomas ierakstu.');
@@ -460,7 +469,7 @@ class NomaController extends Controller
         ]);
 
         $klientaId = (int) $dati->input('KlientaID');
-        if (auth()->user()->isKlients()) {
+        if (!$this->userIsAdmin()) {
             $klientsIeraksts = auth()->user()->klienti;
             if (!$klientsIeraksts) {
                 return back()->withInput()->withErrors(['KlientaID' => 'Jūsu kontam nav piesaistīts klienta ieraksts.']);

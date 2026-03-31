@@ -9,9 +9,23 @@ use Illuminate\Support\Facades\DB;
 // Pārvalda klientu ierakstu sarakstu un CRUD darbības.
 class KlientiController extends Controller
 {
+  // Atļauj piekļuvi tikai administratoram.
+  private function requireAdminAccess()
+  {
+    if (!auth()->check() || !auth()->user()->isAdmin()) {
+      return redirect('/')->with('error', 'Piekļuve atļauta tikai administratoram.');
+    }
+
+    return null;
+  }
+
   // Klientu saraksts ar pagināciju, meklēšanu un kārtošanu.
   public function showAllKlienti(Request $request)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     // Nolasa filtrēšanas vērtības no URL parametriem.
     $vards = trim((string) $request->query('vards', ''));
     $uzvards = trim((string) $request->query('uzvards', ''));
@@ -70,6 +84,15 @@ class KlientiController extends Controller
   // Dzēš klienta ierakstu.
   public function delete($id)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
+    $hasRentals = DB::table('vagonunoma')->where('KlientaID', $id)->exists();
+    if ($hasRentals) {
+      return redirect('/Klienti')->with('error', 'Klientu ar izveidotu nomu dzēst nedrīkst.');
+    }
+
     DB::table('klienti')->where('KlientaID', $id)->delete();
     return redirect('/Klienti')->with('success', 'Ieraksts tika dzēsts');
   }
@@ -77,12 +100,20 @@ class KlientiController extends Controller
   // Atver pievienošanas formu.
   public function create()
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     return view('KlientuPiev');
   }
 
   // Parāda klienta detaļas.
   public function details($id)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     $klientis = Klienti::find($id);
     return view('KlientiApskate', ['klientis' => $klientis]);
   }
@@ -90,6 +121,10 @@ class KlientiController extends Controller
   // Saglabā jaunu klientu.
   public function KlientiSubmit(Request $dati)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     // Izveido jaunu klienta ierakstu.
     $klientis = new Klienti();
     $klientis->Vards = $dati->input('Vards');
@@ -108,6 +143,10 @@ class KlientiController extends Controller
   // Atver rediģēšanas formu.
   public function edit($id)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     $klientis = Klienti::find($id);
     return view('KlientiEdit', ['klientis' => $klientis]);
   }
@@ -115,6 +154,10 @@ class KlientiController extends Controller
   // Saglabā rediģētas vērtības.
   public function editSubmit(Request $dati, $id)
   {
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
     // Atjauno klienta laukus pēc ID.
     DB::table('klienti')
       ->where('KlientaID', $id)

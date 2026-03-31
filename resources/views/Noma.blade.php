@@ -35,7 +35,9 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Noma</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
-        <a href="/Noslogojums">Noslogojums</a>
+        @if(Auth::check() && Auth::user()->isAdmin())
+            <a href="/Noslogojums">Noslogojums</a>
+        @endif
         <a href="/Noma/jauns">Izveidot nomas pieteikumu</a>
         <a type="button" onclick="window.print()" title="Printēt dokumentu" class="print-btn"><i class="fas fa-print"></i> Drukāt</a>
     </nav>
@@ -47,7 +49,7 @@
     <div class="filter-window" style="width: fit-content; max-width: 100%;">
         <h4>Filtrēšana</h4>
         <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
-            @if(!(Auth::check() && Auth::user()->isKlients()))
+            @if(Auth::check() && Auth::user()->isAdmin())
                 <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
                 <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
                 <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
@@ -88,6 +90,12 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="alert alert-success" style="margin-top: 10px;">
         {{ session('success') }}
     </div>  
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger" style="margin-top: 10px;">
+        {{ session('error') }}
+    </div>
 @endif
 
 <!-- Nomas saraksts -->
