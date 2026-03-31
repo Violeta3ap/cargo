@@ -47,9 +47,9 @@
 
 <!-- Meklēšanas logs -->
 <form method="GET" action="/Veidi" class="veidi-search-form" style="margin-bottom: 15px; padding: 8px 10px;">
-    <div class="filter-window" style="width: fit-content; max-width: 100%;">
-        <h4>Filtrēšana</h4>
-        <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
+    <div class="search-window" style="border: 1px solid #59c1cf; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
+            <h4>Filtrēšana</h4>
+        <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
             <input type="text" name="search" value="{{ $search }}" placeholder="Meklēt pēc vagona veida..." style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px;">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
