@@ -48,6 +48,9 @@
         <h4>Filtrēšana</h4>
         <div class="filter-row">
             @if(!(Auth::check() && Auth::user()->isKlients()))
+                <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
+                <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
+                <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
                 <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums">
             @endif
             <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
@@ -59,20 +62,6 @@
             <button type="submit" class="filter-btn">Filtrēt</button>
         </div>
     </div>
-
-    @if(!(Auth::check() && Auth::user()->isKlients()))
-        <div class="filter-window">
-            <h4>Meklēšana</h4>
-            <div class="filter-row">
-                <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
-                <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
-                <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
-                <input type="hidden" name="sort_by" value="{{ $sortBy }}">
-                <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
-                <button type="submit" class="filter-btn">Meklēt</button>
-            </div>
-        </div>
-    @endif
     <a href="/Noma" class="filter-btn">Notīrīt</a>
 </form>
 
