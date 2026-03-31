@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <table class="nos-table" style="width: 100%;">
         <thead>
             <tr>
+                <th>Nomas Nr.</th>
                 <th>Vagona veids</th>
                 <th>Iznomāto vagonu skaits</th>
                 <th>Nomas sākuma periods</th>
@@ -112,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <tbody>
             @foreach($detali as $row)
                 <tr>
+                    <td>{{ $row->NomasNr }}</td>
                     <td>{{ $row->VeidaNosaukums }}</td>
                     <td style="text-align: center;">{{ $row->VagonuSkaits }}</td>
                     <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasSakumaPeriods)->format('d.m.Y') }}</td>
