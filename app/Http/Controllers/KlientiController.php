@@ -94,7 +94,6 @@ class KlientiController extends Controller
     $klientis = new Klienti();
     $klientis->Vards = $dati->input('Vards');
     $klientis->Uzvards = $dati->input('Uzvards');
-    $klientis->Parole = $dati->input('Parole');
     $klientis->Epasts = $dati->input('Epasts');
     $klientis->TelefonaNumurs = $dati->input('TelefonaNumurs');
     $klientis->UznemumaNosaukums = $dati->input('UznemumaNosaukums');
@@ -122,7 +121,6 @@ class KlientiController extends Controller
       ->update([
         'Vards' => $dati->input('Vards'),
         'Uzvards' => $dati->input('Uzvards'),
-        'Parole' => $dati->input('Parole'),
         'Epasts' => $dati->input('Epasts'),
         'TelefonaNumurs' => $dati->input('TelefonaNumurs'),
         'UznemumaNosaukums' => $dati->input('UznemumaNosaukums'),
