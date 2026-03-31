@@ -79,34 +79,32 @@ class NoslogojumsController extends Controller
             ->orderBy('veidi.Nosaukums')
             ->get();
 
-        // Detalizētais saraksts administratoram ar visiem nomas tabulas datiem.
-        $detali = collect();
-        if (auth()->check() && auth()->user()->isAdmin()) {
-            $detali = DB::table('vagonunoma')
-                ->leftJoin('klienti', 'vagonunoma.KlientaID', '=', 'klienti.KlientaID')
-                ->leftJoin('krava', 'vagonunoma.KravasID', '=', 'krava.KravasID')
-                ->leftJoin('veidi', 'vagonunoma.VeidaID', '=', 'veidi.VeidaID')
-                ->where('vagonunoma.NomasSakumaPeriods', '<=', $datums)
-                ->where('vagonunoma.NomasBeiguPeriods', '>=', $datums)
-                ->select(
-                    'vagonunoma.NomasID',
-                    'vagonunoma.KlientaID',
-                    'vagonunoma.KravasID',
-                    'vagonunoma.VeidaID',
-                    'vagonunoma.VagonuSkaits',
-                    'vagonunoma.NomasSakumaPeriods',
-                    'vagonunoma.NomasBeiguPeriods',
-                    'vagonunoma.KopejaMaksa',
-                    'klienti.Vards as KlientaVards',
-                    'klienti.Uzvards as KlientaUzvards',
-                    'klienti.UznemumaNosaukums as KlientaUznemums',
-                    'krava.Nosaukums as KravasNosaukums',
-                    'veidi.Nosaukums as VeidaNosaukums'
-                )
-                ->orderBy('vagonunoma.NomasSakumaPeriods')
-                ->orderBy('vagonunoma.NomasID')
-                ->get();
-        }
+        // Detalizētais saraksts aktīvajām nomām.
+        // Klients redz bez klienta datu kolonnām (view līmenī), admins redz pilnu versiju.
+        $detali = DB::table('vagonunoma')
+            ->leftJoin('klienti', 'vagonunoma.KlientaID', '=', 'klienti.KlientaID')
+            ->leftJoin('krava', 'vagonunoma.KravasID', '=', 'krava.KravasID')
+            ->leftJoin('veidi', 'vagonunoma.VeidaID', '=', 'veidi.VeidaID')
+            ->where('vagonunoma.NomasSakumaPeriods', '<=', $datums)
+            ->where('vagonunoma.NomasBeiguPeriods', '>=', $datums)
+            ->select(
+                'vagonunoma.NomasID',
+                'vagonunoma.KlientaID',
+                'vagonunoma.KravasID',
+                'vagonunoma.VeidaID',
+                'vagonunoma.VagonuSkaits',
+                'vagonunoma.NomasSakumaPeriods',
+                'vagonunoma.NomasBeiguPeriods',
+                'vagonunoma.KopejaMaksa',
+                'klienti.Vards as KlientaVards',
+                'klienti.Uzvards as KlientaUzvards',
+                'klienti.UznemumaNosaukums as KlientaUznemums',
+                'krava.Nosaukums as KravasNosaukums',
+                'veidi.Nosaukums as VeidaNosaukums'
+            )
+            ->orderBy('vagonunoma.NomasSakumaPeriods')
+            ->orderBy('vagonunoma.NomasID')
+            ->get();
 
         return view('Noslogojums', compact('kopsavilkums', 'detali', 'datums'));
     }
