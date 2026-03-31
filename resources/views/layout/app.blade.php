@@ -66,7 +66,7 @@
         .page-veidi .alert-success, .page-noma .alert-success {
             background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724;
         }
-        .page-kravas .alert-danger, .page-veidi .alert-danger, .page-noma .alert-danger {
+        .page-klienti .alert-danger, .page-kravas .alert-danger, .page-veidi .alert-danger, .page-noma .alert-danger {
             background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24;
         }
 

@@ -7,18 +7,9 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Vagonu noslogojums</h2>
 
-
-        <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
+    <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noma">Atpakaļ</a>
-
-    @if(Auth::check() && Auth::user()->isAdmin())
-            <a href="/Noslogojums/sync"
-               onclick="return confirm('Sinhronizēt visus noslogojuma datus no nomas tabulas?');"
-               style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px 10px; color: #000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff);">
-                Sinhronizēt datus
-            </a>
-        </nav>
-    @endif
+    </nav>
 </div>
 
 @if(session('success'))
@@ -98,30 +89,46 @@ document.addEventListener('DOMContentLoaded', function () {
         </tbody>
     </table>
 
-    <!-- Detalizētais saraksts -->
-    <h3 style="margin-bottom: 10px;">Aktīvās nomas</h3>
-    <table class="nos-table" style="width: 100%;">
-        <thead>
-            <tr>
-                <th>Nomas Nr.</th>
-                <th>Vagona veids</th>
-                <th>Iznomāto vagonu skaits</th>
-                <th>Nomas sākuma periods</th>
-                <th>Nomas beigu periods</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($detali as $row)
+    @if(Auth::check() && Auth::user()->isAdmin())
+        <!-- Detalizētais saraksts tikai administratoram -->
+        <h3 style="margin-bottom: 10px;">Aktīvās nomas</h3>
+        <table class="nos-table" style="width: 100%;">
+            <thead>
                 <tr>
-                    <td>{{ $row->NomasID }}</td>
-                    <td>{{ $row->VeidaNosaukums }}</td>
-                    <td style="text-align: center;">{{ $row->VagonuSkaits }}</td>
-                    <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasSakumaPeriods)->format('d.m.Y') }}</td>
-                    <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasBeiguPeriods)->format('d.m.Y') }}</td>
+                    <th>Nomas Nr.</th>
+                    <th>Klienta ID</th>
+                    <th>Klients</th>
+                    <th>Uzņēmums</th>
+                    <th>Kravas ID</th>
+                    <th>Kravas veids</th>
+                    <th>Veida ID</th>
+                    <th>Vagona veids</th>
+                    <th>Vagonu skaits</th>
+                    <th>Nomas sākuma periods</th>
+                    <th>Nomas beigu periods</th>
+                    <th>Kopējā maksa</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach($detali as $row)
+                    <tr>
+                        <td>{{ $row->NomasID }}</td>
+                        <td>{{ $row->KlientaID }}</td>
+                        <td>{{ trim(($row->KlientaVards ?? '') . ' ' . ($row->KlientaUzvards ?? '')) ?: ('ID: ' . $row->KlientaID) }}</td>
+                        <td>{{ $row->KlientaUznemums ?? ('ID: ' . $row->KlientaID) }}</td>
+                        <td>{{ $row->KravasID }}</td>
+                        <td>{{ $row->KravasNosaukums ?? ('ID: ' . $row->KravasID) }}</td>
+                        <td>{{ $row->VeidaID }}</td>
+                        <td>{{ $row->VeidaNosaukums ?? ('ID: ' . $row->VeidaID) }}</td>
+                        <td style="text-align: center;">{{ $row->VagonuSkaits }}</td>
+                        <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasSakumaPeriods)->format('d.m.Y') }}</td>
+                        <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasBeiguPeriods)->format('d.m.Y') }}</td>
+                        <td style="text-align: center;">{{ number_format((float) $row->KopejaMaksa, 2) }} €</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
 
 @endif
 

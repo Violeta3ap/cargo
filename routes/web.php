@@ -102,7 +102,6 @@ Route::post('/Klienti/{id}/editSubmit', 'App\Http\Controllers\KlientiController@
 
 // Noslogojums routes
 Route::get('/Noslogojums', [NoslogojumsController::class, 'show']);
-Route::get('/Noslogojums/sync', [NoslogojumsController::class, 'syncAll']);
 
 });
 
