@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <tbody>
             @foreach($detali as $row)
                 <tr>
-                    <td>{{ $row->NomasNr }}</td>
+                    <td>{{ $row->NomasID }}</td>
                     <td>{{ $row->VeidaNosaukums }}</td>
                     <td style="text-align: center;">{{ $row->VagonuSkaits }}</td>
                     <td style="text-align: center;">{{ \Carbon\Carbon::parse($row->NomasSakumaPeriods)->format('d.m.Y') }}</td>
