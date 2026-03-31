@@ -4,22 +4,21 @@
 <div class="page-noslogojums">
 
 @php
-    $periodaSakums = $periodaSakums ?? request('perioda_sakums', $datums);
-    $periodaBeigas = $periodaBeigas ?? request('perioda_beigas', $datums);
-    $periodaKopsavilkums = $periodaKopsavilkums ?? collect();
-
     $prevDate = \Carbon\Carbon::parse($datums)->subDay()->format('Y-m-d');
     $nextDate = \Carbon\Carbon::parse($datums)->addDay()->format('Y-m-d');
 
-    $prevParams = request()->except('datums');
-    $nextParams = request()->except('datums');
+    $prevParams = request()->all();
+    $nextParams = request()->all();
     $prevParams['datums'] = $prevDate;
     $nextParams['datums'] = $nextDate;
 @endphp
 
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-    <h2>Dienas noslogojums</h2>
+    <div style="display: flex; align-items: center; gap: 18px;">
+        <a href="/Noslogojums" style="font-size: 1.5rem; font-weight: 700; color: #000; text-decoration: none;">Dienas noslogojums</a>
+        <a href="/Noslogojums/periods" style="font-size: 1.2rem; font-weight: 600; color: #2c7d89; text-decoration: none;">Perioda noslogojums</a>
+    </div>
 
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noma">Atpakaļ</a>
@@ -34,28 +33,21 @@
 @endif
 
 <!-- Datuma izvēles forma -->
-<form method="GET" action="/Noslogojums" style="margin-bottom: 20px;">
+<form method="GET" action="/Noslogojums" style="margin-bottom: 20px;" id="day-load-form">
     <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 12px 16px; background: #f8fdfe; display: inline-flex; gap: 12px; align-items: center;">
+        <label for="datums" style="font-weight: 500; white-space: nowrap;">Izvēlieties datumu:</label>
+
         <a href="{{ '/Noslogojums?' . http_build_query($prevParams) }}"
-           style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 10px; background: #ffffff; color: #000; text-decoration: none; white-space: nowrap;">
-            &lsaquo; Iepriekšējais datums
+           style="border-radius: 7px; border: 1px solid #59c1cf; padding: 3px 8px; background: #ffffff; color: #000; text-decoration: none; white-space: nowrap; font-size: 0.86rem;">
+            &lsaquo; Iepriekš.
         </a>
 
-        <label for="datums" style="font-weight: 500; white-space: nowrap;">Izvēlieties datumu:</label>
         <input type="text" id="datums" name="datums" value="{{ $datums }}" autocomplete="off"
                style="border: 1px solid #59c1cf; border-radius: 6px; padding: 6px 10px; font-size: 14px;">
 
-        <input type="hidden" name="perioda_sakums" value="{{ $periodaSakums }}">
-        <input type="hidden" name="perioda_beigas" value="{{ $periodaBeigas }}">
-
-        <button type="submit"
-                style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 14px; background: #59c1cf; color: #000; cursor: pointer; font-size: 14px;">
-            Skatīt
-        </button>
-
         <a href="{{ '/Noslogojums?' . http_build_query($nextParams) }}"
-           style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 10px; background: #ffffff; color: #000; text-decoration: none; white-space: nowrap;">
-            Nākamais datums &rsaquo;
+           style="border-radius: 7px; border: 1px solid #59c1cf; padding: 3px 8px; background: #ffffff; color: #000; text-decoration: none; white-space: nowrap; font-size: 0.86rem;">
+            Nāk. &rsaquo;
         </a>
     </div>
 </form>
@@ -74,24 +66,22 @@ document.addEventListener('DOMContentLoaded', function () {
         dateFormat: 'Y-m-d',
         altInput: true,
         altFormat: 'd.m.Y',
-        allowInput: true
+        allowInput: true,
+        onClose: function(selectedDates, dateStr) {
+            if (dateStr) {
+                document.getElementById('day-load-form').submit();
+            }
+        }
     });
 
-    flatpickr('#perioda_sakums', {
-        locale: 'lv',
-        dateFormat: 'Y-m-d',
-        altInput: true,
-        altFormat: 'd.m.Y',
-        allowInput: true
-    });
-
-    flatpickr('#perioda_beigas', {
-        locale: 'lv',
-        dateFormat: 'Y-m-d',
-        altInput: true,
-        altFormat: 'd.m.Y',
-        allowInput: true
-    });
+    const dateInput = document.getElementById('datums');
+    if (dateInput) {
+        dateInput.addEventListener('change', function () {
+            if (this.value) {
+                document.getElementById('day-load-form').submit();
+            }
+        });
+    }
 });
 </script>
 
@@ -170,65 +160,6 @@ document.addEventListener('DOMContentLoaded', function () {
         </table>
     @endif
 
-@endif
-
-<hr style="margin: 30px 0 20px; border: 0; border-top: 1px solid #d9eef2;">
-
-<h2 style="margin-bottom: 12px;">Perioda noslogojums</h2>
-
-<form method="GET" action="/Noslogojums" style="margin-bottom: 20px;">
-    <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 12px 16px; background: #f8fdfe; display: inline-flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <label for="perioda_sakums" style="font-weight: 500; white-space: nowrap;">No:</label>
-        <input type="text" id="perioda_sakums" name="perioda_sakums" value="{{ $periodaSakums }}" autocomplete="off"
-               style="border: 1px solid #59c1cf; border-radius: 6px; padding: 6px 10px; font-size: 14px; min-width: 120px;">
-
-        <label for="perioda_beigas" style="font-weight: 500; white-space: nowrap;">Līdz:</label>
-        <input type="text" id="perioda_beigas" name="perioda_beigas" value="{{ $periodaBeigas }}" autocomplete="off"
-               style="border: 1px solid #59c1cf; border-radius: 6px; padding: 6px 10px; font-size: 14px; min-width: 120px;">
-
-        <input type="hidden" name="datums" value="{{ $datums }}">
-
-        <button type="submit"
-                style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 14px; background: #59c1cf; color: #000; cursor: pointer; font-size: 14px;">
-            Skatīt periodu
-        </button>
-    </div>
-</form>
-
-<p style="color: #555; font-size: 14px; margin-bottom: 12px;">
-    Izvēlētais periods: <strong>{{ \Carbon\Carbon::parse($periodaSakums)->format('d.m.Y') }}</strong> - <strong>{{ \Carbon\Carbon::parse($periodaBeigas)->format('d.m.Y') }}</strong>
-</p>
-
-@if($periodaKopsavilkums->isEmpty())
-    <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 20px; background: #f8fdfe; text-align: center; color: #555;">
-        Izvēlētajā periodā nav aktīvu nomu.
-    </div>
-@else
-    <table class="nos-table" style="width: 100%; margin-bottom: 10px;">
-        <thead>
-            <tr>
-                <th>Vagona veids</th>
-                <th>Maksimāli nomātie vagoni periodā</th>
-                <th>Kopā pieejami</th>
-                <th>Brīvie vagoni (pēc maksimuma)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($periodaKopsavilkums as $row)
-                @php
-                    $maksNomati = (int) $row->MaksimaliNomatiVagoni;
-                    $kopejais = (int) $row->KopejaisVagonuSkaits;
-                    $brivi = max(0, $kopejais - $maksNomati);
-                @endphp
-                <tr>
-                    <td><strong>{{ $row->VeidaNosaukums }}</strong></td>
-                    <td style="text-align: center;">{{ $maksNomati }}</td>
-                    <td style="text-align: center;">{{ $kopejais }}</td>
-                    <td style="text-align: center;">{{ $brivi }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
 @endif
 
 </div>

@@ -8,6 +8,23 @@ use Illuminate\Support\Facades\DB;
 // Pārvalda noslogojuma datu attēlošanu un sinhronizāciju.
 class NoslogojumsController extends Controller
 {
+    private function getPeriodaKopsavilkums(string $periodaSakums, string $periodaBeigas)
+    {
+        return DB::table('vagonunoma')
+            ->join('veidi', 'vagonunoma.VeidaID', '=', 'veidi.VeidaID')
+            ->where('vagonunoma.NomasSakumaPeriods', '<=', $periodaBeigas)
+            ->where('vagonunoma.NomasBeiguPeriods', '>=', $periodaSakums)
+            ->select(
+                'veidi.VeidaID',
+                'veidi.Nosaukums as VeidaNosaukums',
+                'veidi.VagonuSkaits as KopejaisVagonuSkaits',
+                DB::raw('MAX(vagonunoma.VagonuSkaits) as MaksimaliNomatiVagoni')
+            )
+            ->groupBy('veidi.VeidaID', 'veidi.Nosaukums', 'veidi.VagonuSkaits')
+            ->orderBy('veidi.Nosaukums')
+            ->get();
+    }
+
     // Sinhronizē noslogojuma tabulu ar nomas tabulas aktuālajiem datiem.
     private function syncNoslogojumsFromNoma(): void
     {
@@ -40,26 +57,10 @@ class NoslogojumsController extends Controller
 
         // Nolasa izvēlēto datumu vai izmanto šodienu.
         $datums = $request->query('datums', now()->format('Y-m-d'));
-        $periodaSakums = $request->query('perioda_sakums', $datums);
-        $periodaBeigas = $request->query('perioda_beigas', $datums);
 
         // Validē datuma formātu
         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $datums)) {
             $datums = now()->format('Y-m-d');
-        }
-
-        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $periodaSakums)) {
-            $periodaSakums = $datums;
-        }
-
-        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $periodaBeigas)) {
-            $periodaBeigas = $datums;
-        }
-
-        if ($periodaSakums > $periodaBeigas) {
-            $tmp = $periodaSakums;
-            $periodaSakums = $periodaBeigas;
-            $periodaBeigas = $tmp;
         }
 
         // Kopsavilkums: grupēts pa vagona veidiem
@@ -107,21 +108,34 @@ class NoslogojumsController extends Controller
                 ->get();
         }
 
-        // Perioda noslogojums: maksimālais nomāto vagonu skaits periodā (nevis summa).
-        $periodaKopsavilkums = DB::table('vagonunoma')
-            ->join('veidi', 'vagonunoma.VeidaID', '=', 'veidi.VeidaID')
-            ->where('vagonunoma.NomasSakumaPeriods', '<=', $periodaBeigas)
-            ->where('vagonunoma.NomasBeiguPeriods', '>=', $periodaSakums)
-            ->select(
-                'veidi.VeidaID',
-                'veidi.Nosaukums as VeidaNosaukums',
-                'veidi.VagonuSkaits as KopejaisVagonuSkaits',
-                DB::raw('MAX(vagonunoma.VagonuSkaits) as MaksimaliNomatiVagoni')
-            )
-            ->groupBy('veidi.VeidaID', 'veidi.Nosaukums', 'veidi.VagonuSkaits')
-            ->orderBy('veidi.Nosaukums')
-            ->get();
+        return view('Noslogojums', compact('kopsavilkums', 'detali', 'datums'));
+    }
 
-        return view('Noslogojums', compact('kopsavilkums', 'detali', 'datums', 'periodaSakums', 'periodaBeigas', 'periodaKopsavilkums'));
+    // Attēlo perioda noslogojuma lapu ar datuma intervālu.
+    public function showPeriod(Request $request)
+    {
+        $this->syncNoslogojumsFromNoma();
+
+        $today = now()->format('Y-m-d');
+        $periodaSakums = $request->query('perioda_sakums', $today);
+        $periodaBeigas = $request->query('perioda_beigas', $today);
+
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $periodaSakums)) {
+            $periodaSakums = $today;
+        }
+
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $periodaBeigas)) {
+            $periodaBeigas = $today;
+        }
+
+        if ($periodaSakums > $periodaBeigas) {
+            $tmp = $periodaSakums;
+            $periodaSakums = $periodaBeigas;
+            $periodaBeigas = $tmp;
+        }
+
+        $periodaKopsavilkums = $this->getPeriodaKopsavilkums($periodaSakums, $periodaBeigas);
+
+        return view('NoslogojumsPeriods', compact('periodaSakums', 'periodaBeigas', 'periodaKopsavilkums'));
     }
 }
