@@ -44,22 +44,22 @@
 
 <!-- Meklēšanas un filtrēšanas logi -->
 <form method="GET" action="/Noma" class="noma-filter-form" style="margin-bottom: 15px; padding: 8px 10px;">
-    <div class="filter-window">
+    <div class="filter-window" style="width: fit-content; max-width: 100%;">
         <h4>Filtrēšana</h4>
-        <div class="filter-row">
+        <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
             @if(!(Auth::check() && Auth::user()->isKlients()))
-                <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
-                <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
-                <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
+                <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+                <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+                <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             @endif
-            <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
-            <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
-            <input type="text" class="datepicker" name="nomas_sakuma_periods" value="{{ $nomasSakumaPeriods }}" title="Nomas sākuma periods" placeholder="Nomas sākuma periods" autocomplete="off">
-            <input type="text" class="datepicker" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}" title="Nomas beigu periods" placeholder="Nomas beigu periods" autocomplete="off">
+            <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+            <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+            <input type="text" class="datepicker" name="nomas_sakuma_periods" value="{{ $nomasSakumaPeriods }}" title="Nomas sākuma periods" placeholder="Nomas sākuma periods" autocomplete="off" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+            <input type="text" class="datepicker" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}" title="Nomas beigu periods" placeholder="Nomas beigu periods" autocomplete="off" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
-            <button type="submit" class="filter-btn">Filtrēt</button>
-            <a href="/Noma" class="filter-btn">Notīrīt</a>
+            <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
+            <a href="/Noma" class="filter-btn" style="padding: 2px 8px;">Notīrīt</a>
         </div>
     </div>
 
