@@ -51,7 +51,6 @@
                 <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds">
                 <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds">
                 <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums">
-                <input type="text" name="filtra_uznemums" value="{{ $filtraUznemums }}" placeholder="Klienta uzņēmums">
             @endif
             <input type="text" name="krava" value="{{ $krava }}" placeholder="Kravas nosaukums">
             <input type="text" name="veids" value="{{ $veids }}" placeholder="Vagona tips">
