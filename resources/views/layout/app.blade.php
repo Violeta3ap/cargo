@@ -218,7 +218,7 @@
         @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
             <a href="/">Par uzņēmumu</a>
 
-            <a href="/Noma">Noma</a>
+            <a href="/Noma">Nomas</a>
             @if(!Auth::user()->isKlients())
                 <a href="/Klienti">Klienti</a>
             @endif
