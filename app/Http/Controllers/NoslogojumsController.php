@@ -40,10 +40,26 @@ class NoslogojumsController extends Controller
 
         // Nolasa izvēlēto datumu vai izmanto šodienu.
         $datums = $request->query('datums', now()->format('Y-m-d'));
+        $periodaSakums = $request->query('perioda_sakums', $datums);
+        $periodaBeigas = $request->query('perioda_beigas', $datums);
 
         // Validē datuma formātu
         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $datums)) {
             $datums = now()->format('Y-m-d');
+        }
+
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $periodaSakums)) {
+            $periodaSakums = $datums;
+        }
+
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $periodaBeigas)) {
+            $periodaBeigas = $datums;
+        }
+
+        if ($periodaSakums > $periodaBeigas) {
+            $tmp = $periodaSakums;
+            $periodaSakums = $periodaBeigas;
+            $periodaBeigas = $tmp;
         }
 
         // Kopsavilkums: grupēts pa vagona veidiem
@@ -91,6 +107,21 @@ class NoslogojumsController extends Controller
                 ->get();
         }
 
-        return view('Noslogojums', compact('kopsavilkums', 'detali', 'datums'));
+        // Perioda noslogojums: maksimālais nomāto vagonu skaits periodā (nevis summa).
+        $periodaKopsavilkums = DB::table('vagonunoma')
+            ->join('veidi', 'vagonunoma.VeidaID', '=', 'veidi.VeidaID')
+            ->where('vagonunoma.NomasSakumaPeriods', '<=', $periodaBeigas)
+            ->where('vagonunoma.NomasBeiguPeriods', '>=', $periodaSakums)
+            ->select(
+                'veidi.VeidaID',
+                'veidi.Nosaukums as VeidaNosaukums',
+                'veidi.VagonuSkaits as KopejaisVagonuSkaits',
+                DB::raw('MAX(vagonunoma.VagonuSkaits) as MaksimaliNomatiVagoni')
+            )
+            ->groupBy('veidi.VeidaID', 'veidi.Nosaukums', 'veidi.VagonuSkaits')
+            ->orderBy('veidi.Nosaukums')
+            ->get();
+
+        return view('Noslogojums', compact('kopsavilkums', 'detali', 'datums', 'periodaSakums', 'periodaBeigas', 'periodaKopsavilkums'));
     }
 }
