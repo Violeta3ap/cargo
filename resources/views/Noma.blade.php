@@ -95,17 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
     <thead>
          <tr>
             <th>
-                <a href="{{ getSortUrl('NomasID', $sortBy, $sortOrder, request()->except(['page'])) }}" 
-                   class="sort-link {{ $sortBy == 'NomasID' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
-                    Nomas Nr.
-                    @if($sortBy == 'NomasID')
-                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
-                    @endif
-                </a>
-            </th>
-
-
-            <th>
                 <a href="{{ getSortUrl('KlientaID', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'KlientaID' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Klients
