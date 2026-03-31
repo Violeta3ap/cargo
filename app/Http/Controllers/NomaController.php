@@ -500,7 +500,6 @@ class NomaController extends Controller
         return redirect()->to('/Noma')->with('success', 'Ieraksts tika atjaunināts');
     }
 
-    // **** JAUNĀS FUNKCIJAS ****
     
     // API: Iegūst vagona veidu pēc izvēlētās kravas
     public function getVeidsByKrava($kravasId)
