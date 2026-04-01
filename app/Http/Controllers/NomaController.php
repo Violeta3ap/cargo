@@ -758,7 +758,9 @@ class NomaController extends Controller
         $maksasStatusi = collect();
 
         if ($this->userIsAdmin() && Schema::hasTable('NomasStatuss')) {
-            $nomasStatusi = NomasStatuss::orderBy('StatusaID')->get();
+            $nomasStatusi = NomasStatuss::whereRaw('LOWER(Nosaukums) != ?', [mb_strtolower('Pieņemts')])
+                ->orderBy('StatusaID')
+                ->get();
         }
 
         if ($this->userIsAdmin() && Schema::hasTable('MaksasStatuss')) {
@@ -838,6 +840,14 @@ class NomaController extends Controller
 
         if ($this->userIsAdmin() && $this->hasNomaStatusColumn()) {
             $statusaId = $dati->input('StatusaID');
+
+            if ($statusaId !== null && $statusaId !== '') {
+                $pienemtsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Pieņemts');
+                if ($pienemtsId !== null && (int) $statusaId === (int) $pienemtsId) {
+                    return back()->withInput()->withErrors(['StatusaID' => 'Statuss Pieņemts vairs nav atļauts.']);
+                }
+            }
+
             $updateData['StatusaID'] = $statusaId !== null && $statusaId !== '' ? (int) $statusaId : null;
         }
 
