@@ -236,7 +236,9 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
-                    <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
+                    @if(($item->PabeigsanasStatuss ?? null) !== 'Pabeigts')
+                        <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
+                    @endif
                     <a href="/Noma/{{ $item->NomasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action">Dzēst</a>
                 </div>
             </td>

@@ -85,6 +85,20 @@ class NomaController extends Controller
         }
     }
 
+    private function isNomaCompleted(Noma $noma): bool
+    {
+        $statusaNosaukums = trim((string) optional($noma->nomasStatuss)->Nosaukums);
+        if (in_array(mb_strtolower($statusaNosaukums), ['noraidīts', 'nepieteikts'], true)) {
+            return false;
+        }
+
+        try {
+            return Carbon::parse($noma->NomasBeiguPeriods)->startOfDay()->lt(Carbon::today());
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
 
     // Pārrēķina visu nomu kopējās maksas
     public function recalculateAll()
@@ -539,7 +553,7 @@ class NomaController extends Controller
     // Atver rediģēšanas formu.
     public function edit($id)
     {
-        $noma = Noma::find($id);
+        $noma = Noma::with('nomasStatuss')->find($id);
 
         if (!$noma) {
             return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
@@ -554,6 +568,10 @@ class NomaController extends Controller
             $klienti = Klienti::where('KlientaID', $klientsIeraksts->KlientaID)->get();
         } else {
             $klienti = Klienti::all();
+        }
+
+        if ($this->isNomaCompleted($noma)) {
+            return redirect('/Noma')->with('error', 'Pabeigtu nomu rediģēt nevar.');
         }
 
         $kravas = Kravas::all();
@@ -577,7 +595,7 @@ class NomaController extends Controller
     public function editSubmit(Request $dati, $id)
     {
         // Pārbauda vai rediģējamais ieraksts eksistē.
-        $noma = Noma::find($id);
+        $noma = Noma::with('nomasStatuss')->find($id);
         if (!$noma) {
             return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
         }
@@ -587,6 +605,10 @@ class NomaController extends Controller
             if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
                 return redirect('/Noma')->with('error', 'Jums nav tiesību rediģēt šo nomas ierakstu.');
             }
+        }
+
+        if ($this->isNomaCompleted($noma)) {
+            return redirect('/Noma')->with('error', 'Pabeigtu nomu rediģēt nevar.');
         }
 
         $dati->validate([
