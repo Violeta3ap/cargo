@@ -61,7 +61,7 @@ class VeidiController extends Controller
         // Pievienojam kārtošanu un izgūstam datus
         $dati = $query
             ->orderBy($sortBy, $sortOrder)
-            ->paginate(5)
+            ->paginate(15)
             ->appends($request->query());
         
         return view('Veidi', compact('dati', 'sortBy', 'sortOrder', 'search', 'veidaOptions'));
