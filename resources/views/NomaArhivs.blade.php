@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<div class="page-noma-arhivs">
+<div class="page-noma">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
         <h2>Nomas arhīvs</h2>
         <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
@@ -55,9 +55,11 @@
                     <td>{{ $item->MaksasStatusaNosaukums ?? '-' }}</td>
                     <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
                     <td>
-                        <a href="/Noma/arhivs/{{ $item->NomasID }}/restore"
-                           onclick="return confirm('Vai tiešām vēlies atjaunot šo nomu no arhīva?');"
-                           class="btn-action">Atjaunot</a>
+                        <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
+                            <a href="/Noma/arhivs/{{ $item->NomasID }}/restore"
+                               onclick="return confirm('Vai tiešām vēlies atjaunot šo nomu no arhīva?');"
+                               class="btn-action">Atjaunot</a>
+                        </div>
                     </td>
                 </tr>
             @endforeach
