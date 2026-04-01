@@ -69,6 +69,22 @@ class NomaController extends Controller
         return $nextId;
     }
 
+    private function resolveDefaultMaksasStatusId(): int
+    {
+        if (!Schema::hasTable('MaksasStatuss')) {
+            return 1;
+        }
+
+        $navApmaksatsId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Nav apmaksāts');
+        if ($navApmaksatsId !== null) {
+            return $navApmaksatsId;
+        }
+
+        $firstId = DB::table('MaksasStatuss')->orderBy('MaksasID')->value('MaksasID');
+
+        return $firstId !== null ? (int) $firstId : 1;
+    }
+
     private function applyCompletionStatus($nomas)
     {
         $today = Carbon::today();
@@ -584,7 +600,9 @@ class NomaController extends Controller
             }
 
             if ($this->hasMaksasStatusColumn()) {
-                $insertData['MaksasID'] = $arhivaIeraksts->MaksasID;
+                $insertData['MaksasID'] = $arhivaIeraksts->MaksasID !== null
+                    ? (int) $arhivaIeraksts->MaksasID
+                    : $this->resolveDefaultMaksasStatusId();
             }
 
             DB::table('vagonunoma')->insert($insertData);
@@ -691,7 +709,7 @@ class NomaController extends Controller
         }
 
         if ($this->hasMaksasStatusColumn()) {
-            $noma->MaksasID = null;
+            $noma->MaksasID = $this->resolveDefaultMaksasStatusId();
         }
 
         $noma->save();
@@ -833,7 +851,11 @@ class NomaController extends Controller
                 }
             }
 
-            $updateData['MaksasID'] = $maksasId !== null && $maksasId !== '' ? (int) $maksasId : null;
+            if ($maksasId === null || $maksasId === '') {
+                $maksasId = $this->resolveDefaultMaksasStatusId();
+            }
+
+            $updateData['MaksasID'] = (int) $maksasId;
         }
 
         DB::table('vagonunoma')
