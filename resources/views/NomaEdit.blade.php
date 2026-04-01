@@ -107,6 +107,34 @@
             <small style="font-size: 12px; color: #6c757d;">Kopējā maksa tiek aprēķināta automātiski</small>
         </div>
 
+        @if(Auth::check() && Auth::user()->isAdmin() && isset($nomasStatusi) && $nomasStatusi->count())
+            <div class="form-group">
+                <label for="StatusaID">Nomas statuss:</label>
+                <select class="form-control" id="StatusaID" name="StatusaID">
+                    <option value="">Izvēlieties statusu</option>
+                    @foreach($nomasStatusi as $statuss)
+                        <option value="{{ $statuss->StatusaID }}" {{ (int) $noma->StatusaID === (int) $statuss->StatusaID ? 'selected' : '' }}>
+                            {{ $statuss->Nosaukums }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
+
+        @if(Auth::check() && Auth::user()->isAdmin() && isset($maksasStatusi) && $maksasStatusi->count())
+            <div class="form-group">
+                <label for="MaksasID">Maksas statuss:</label>
+                <select class="form-control" id="MaksasID" name="MaksasID">
+                    <option value="">Izvēlieties statusu</option>
+                    @foreach($maksasStatusi as $statuss)
+                        <option value="{{ $statuss->MaksasID }}" {{ (int) $noma->MaksasID === (int) $statuss->MaksasID ? 'selected' : '' }}>
+                            {{ $statuss->Nosaukums }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
+
         <button type="submit" id="submitBtn" style="border-radius:8px; border: 1px solid #59c1cf; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
             Atjaunināt

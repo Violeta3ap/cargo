@@ -24,6 +24,9 @@
         <p class="card-text"><strong>Nomas sākuma periods:</strong> {{ $noma->NomasSakumaPeriods }}</p>
         <p class="card-text"><strong>Nomas beigu periods:</strong> {{ $noma->NomasBeiguPeriods }}</p>
         <p class="card-text"><strong>Kopēja maksa:</strong> {{ $noma->KopejaMaksa }}</p>
+        <p class="card-text"><strong>Nomas statuss:</strong> {{ $noma->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</p>
+        <p class="card-text"><strong>Maksas statuss:</strong> {{ $noma->maksasStatuss->Nosaukums ?? '-' }}</p>
+        <p class="card-text"><strong>Pabeigšanas statuss:</strong> {{ $noma->PabeigsanasStatuss ?? 'Nav pabeigts' }}</p>
     </div>
 </div>
 

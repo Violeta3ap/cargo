@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Noma;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Klienti;
 use App\Models\Kravas;
 use App\Models\Veidi;
+use App\Models\NomasStatuss;
+use App\Models\MaksasStatuss;
 use Carbon\Carbon;
 
 // Pārvalda nomas sarakstu, pieejamību, aprēķinus un CRUD darbības.
@@ -16,6 +19,63 @@ class NomaController extends Controller
     private function userIsAdmin(): bool
     {
         return auth()->check() && auth()->user()->isAdmin();
+    }
+
+    private function hasNomaStatusColumn(): bool
+    {
+        return Schema::hasColumn('vagonunoma', 'StatusaID');
+    }
+
+    private function hasMaksasStatusColumn(): bool
+    {
+        return Schema::hasColumn('vagonunoma', 'MaksasID');
+    }
+
+    private function findStatusIdByName(string $table, string $idColumn, string $name): ?int
+    {
+        if (!Schema::hasTable($table)) {
+            return null;
+        }
+
+        $id = DB::table($table)
+            ->whereRaw('LOWER(Nosaukums) = ?', [mb_strtolower($name)])
+            ->value($idColumn);
+
+        return $id !== null ? (int) $id : null;
+    }
+
+    private function ensureNomasStatusId(string $name): ?int
+    {
+        if (!Schema::hasTable('NomasStatuss')) {
+            return null;
+        }
+
+        $existingId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', $name);
+        if ($existingId !== null) {
+            return $existingId;
+        }
+
+        $nextId = (int) DB::table('NomasStatuss')->max('StatusaID') + 1;
+        DB::table('NomasStatuss')->insert([
+            'StatusaID' => $nextId,
+            'Nosaukums' => $name,
+        ]);
+
+        return $nextId;
+    }
+
+    private function applyCompletionStatus($nomas)
+    {
+        $today = Carbon::today();
+
+        foreach ($nomas as $noma) {
+            try {
+                $beiguDatums = Carbon::parse($noma->NomasBeiguPeriods)->startOfDay();
+                $noma->PabeigsanasStatuss = $beiguDatums->lt($today) ? 'Pabeigts' : 'Nav pabeigts';
+            } catch (\Throwable $e) {
+                $noma->PabeigsanasStatuss = 'Nav pabeigts';
+            }
+        }
     }
 
 
@@ -256,7 +316,7 @@ class NomaController extends Controller
             ->values();
 
         $query = Noma::query()
-            ->with(['klienti', 'kravas', 'veidi']);
+            ->with(['klienti', 'kravas', 'veidi', 'nomasStatuss', 'maksasStatuss']);
 
         // Tikai admins redz visas nomas un paplašinātos filtrus.
         if (!$this->userIsAdmin()) {
@@ -316,6 +376,8 @@ class NomaController extends Controller
             ->paginate(15)
             ->appends($request->query());
 
+        $this->applyCompletionStatus($noma->getCollection());
+
         return view(
             'Noma',
             compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'filtraUznemums', 'krava', 'veids', 'nomasSakumaPeriods', 'nomasBeiguPeriods', 'sortBy', 'sortOrder', 'kravaOptions', 'veidaOptions')
@@ -371,6 +433,8 @@ class NomaController extends Controller
             }
         }
 
+        $this->applyCompletionStatus([$noma]);
+
         return view('NomaApskate', ['noma' => $noma]);
     }
 
@@ -413,6 +477,15 @@ class NomaController extends Controller
         $noma->NomasSakumaPeriods = $dati->input('NomasSakumaPeriods');
         $noma->NomasBeiguPeriods = $dati->input('NomasBeiguPeriods');
         $noma->KopejaMaksa = $dati->input('KopejaMaksa');
+
+        if ($this->hasNomaStatusColumn()) {
+            $noma->StatusaID = $this->ensureNomasStatusId('Pieteikts');
+        }
+
+        if ($this->hasMaksasStatusColumn()) {
+            $noma->MaksasID = null;
+        }
+
         $noma->save();
 
         // Sinhronizē noslogojums tabulu
@@ -451,7 +524,18 @@ class NomaController extends Controller
         $kravas = Kravas::all();
         $veidi = Veidi::all();
 
-        return view('NomaEdit', compact('noma','klienti','kravas','veidi'));
+        $nomasStatusi = collect();
+        $maksasStatusi = collect();
+
+        if ($this->userIsAdmin() && Schema::hasTable('NomasStatuss')) {
+            $nomasStatusi = NomasStatuss::orderBy('StatusaID')->get();
+        }
+
+        if ($this->userIsAdmin() && Schema::hasTable('MaksasStatuss')) {
+            $maksasStatusi = MaksasStatuss::orderBy('MaksasID')->get();
+        }
+
+        return view('NomaEdit', compact('noma','klienti','kravas','veidi', 'nomasStatusi', 'maksasStatusi'));
     }
 
     // Saglabā rediģētas vērtības.
@@ -480,6 +564,18 @@ class NomaController extends Controller
             'KopejaMaksa' => ['required', 'numeric', 'min:1'],
         ]);
 
+        if ($this->userIsAdmin() && $this->hasNomaStatusColumn()) {
+            $dati->validate([
+                'StatusaID' => ['nullable', 'integer'],
+            ]);
+        }
+
+        if ($this->userIsAdmin() && $this->hasMaksasStatusColumn()) {
+            $dati->validate([
+                'MaksasID' => ['nullable', 'integer'],
+            ]);
+        }
+
         $klientaId = (int) $dati->input('KlientaID');
         if (!$this->userIsAdmin()) {
             $klientsIeraksts = auth()->user()->klienti;
@@ -496,17 +592,37 @@ class NomaController extends Controller
             return back()->withInput()->withErrors(['VagonuSkaits' => $vagonuSkaitsError]);
         }
 
+        $updateData = [
+            'KlientaID' => $klientaId,
+            'KravasID' => $dati->input('KravasID'),
+            'VeidaID' => $dati->input('VeidaID'),
+            'VagonuSkaits' => $dati->input('VagonuSkaits'),
+            'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
+            'NomasBeiguPeriods' => $dati->input('NomasBeiguPeriods'),
+            'KopejaMaksa' => $dati->input('KopejaMaksa'),
+        ];
+
+        if ($this->userIsAdmin() && $this->hasNomaStatusColumn()) {
+            $statusaId = $dati->input('StatusaID');
+            $updateData['StatusaID'] = $statusaId !== null && $statusaId !== '' ? (int) $statusaId : null;
+        }
+
+        if ($this->userIsAdmin() && $this->hasMaksasStatusColumn()) {
+            $maksasId = $dati->input('MaksasID');
+
+            if (($maksasId === null || $maksasId === '') && isset($updateData['StatusaID'])) {
+                $pieteiktsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Pieteikts');
+                if ($pieteiktsId === null || (int) $updateData['StatusaID'] !== $pieteiktsId) {
+                    $maksasId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Nav apmaksāts');
+                }
+            }
+
+            $updateData['MaksasID'] = $maksasId !== null && $maksasId !== '' ? (int) $maksasId : null;
+        }
+
         DB::table('vagonunoma')
             ->where('NomasID', $id)
-            ->update([
-                'KlientaID' => $klientaId,
-                'KravasID' => $dati->input('KravasID'),
-                'VeidaID' => $dati->input('VeidaID'),
-                'VagonuSkaits' => $dati->input('VagonuSkaits'),
-                'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
-                'NomasBeiguPeriods' => $dati->input('NomasBeiguPeriods'),
-                'KopejaMaksa' => $dati->input('KopejaMaksa'),
-            ]);
+            ->update($updateData);
 
         // Sinhronizē noslogojums tabulu
         DB::table('noslogojums')->updateOrInsert(

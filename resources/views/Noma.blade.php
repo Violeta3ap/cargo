@@ -189,6 +189,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     @endif
                 </a>
             </th>
+            <th>Nomas statuss</th>
+            <th>Maksas statuss</th>
+            <th>Pabeigšana</th>
             <th>Darbības</th>
          </tr>
     </thead>
@@ -204,6 +207,9 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
+            <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
+            <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
+            <td>{{ $item->PabeigsanasStatuss ?? 'Nav pabeigts' }}</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
                     <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>

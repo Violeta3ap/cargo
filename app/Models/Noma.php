@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Klienti;
 use App\Models\Kravas;
 use App\Models\Veidi;
+use App\Models\NomasStatuss;
+use App\Models\MaksasStatuss;
 
 // Nomas tabulas modelis.
 class Noma extends Model
@@ -33,5 +35,17 @@ class Noma extends Model
     public function veidi()
     {
         return $this->belongsTo(Veidi::class, 'VeidaID', 'VeidaID');
+    }
+
+    // Saistība ar nomas statusu.
+    public function nomasStatuss()
+    {
+        return $this->belongsTo(NomasStatuss::class, 'StatusaID', 'StatusaID');
+    }
+
+    // Saistība ar maksas statusu.
+    public function maksasStatuss()
+    {
+        return $this->belongsTo(MaksasStatuss::class, 'MaksasID', 'MaksasID');
     }
 }
