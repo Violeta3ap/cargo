@@ -38,6 +38,7 @@
     <h2>Noma</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noslogojums">Noslogojums</a>
+        <a href="/Noma/arhivs">Nomas arhīvs</a>
         @if(Auth::check() && Auth::user()->isKlients())
             <a href="/Noma/jauns">Izveidot nomas pieteikumu</a>
         @endif

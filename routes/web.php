@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DarbiniekuController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NomaController;
 use App\Http\Controllers\NoslogojumsController;
 
 
@@ -47,6 +48,8 @@ Route::get('/Noma', 'App\Http\Controllers\NomaController@showAllNoma');
 Route::get('/Noma/jauns', 'App\Http\Controllers\NomaController@create');
 Route::post('/Noma/jaunsSubmit', 'App\Http\Controllers\NomaController@NomaSubmit');
 Route::get('/Noma/{id}/delete', 'App\Http\Controllers\NomaController@delete');
+Route::get('/Noma/arhivs', 'App\Http\Controllers\NomaController@showArchive');
+Route::get('/Noma/arhivs/{id}/restore', 'App\Http\Controllers\NomaController@restoreFromArchive');
 Route::get('/Noma/{id}/details', 'App\Http\Controllers\NomaController@details');
 Route::get('/Noma/{id}/edit', 'App\Http\Controllers\NomaController@edit');
 Route::post('/Noma/{id}/editSubmit', 'App\Http\Controllers\NomaController@editSubmit');

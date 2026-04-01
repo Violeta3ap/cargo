@@ -31,6 +31,11 @@ class NomaController extends Controller
         return Schema::hasColumn('vagonunoma', 'MaksasID');
     }
 
+    private function hasArchiveTable(): bool
+    {
+        return Schema::hasTable('vagonunoma_arhivs');
+    }
+
     private function findStatusIdByName(string $table, string $idColumn, string $name): ?int
     {
         if (!Schema::hasTable($table)) {
@@ -96,6 +101,19 @@ class NomaController extends Controller
             return Carbon::parse($noma->NomasBeiguPeriods)->startOfDay()->lt(Carbon::today());
         } catch (\Throwable $e) {
             return false;
+        }
+    }
+
+    private function calculateCompletionStatusFromValues(?string $statusaNosaukums, ?string $beiguPeriods): ?string
+    {
+        if (in_array(mb_strtolower(trim((string) $statusaNosaukums)), ['noraidīts', 'nepieteikts'], true)) {
+            return null;
+        }
+
+        try {
+            return Carbon::parse($beiguPeriods)->startOfDay()->lt(Carbon::today()) ? 'Pabeigts' : 'Nav pabeigts';
+        } catch (\Throwable $e) {
+            return null;
         }
     }
 
@@ -436,6 +454,10 @@ class NomaController extends Controller
     // Dzēš nomas ierakstu.
     public function delete($id)
     {
+        if (!$this->hasArchiveTable()) {
+            return redirect('/Noma')->with('error', 'Arhīva tabula nav atrasta. Izveidojiet vagonunoma_arhivs tabulu.');
+        }
+
         $noma = Noma::with('nomasStatuss')->find($id);
         if (!$noma) {
             return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
@@ -452,9 +474,134 @@ class NomaController extends Controller
             return redirect('/Noma')->with('error', 'Pabeigtu nomu dzēst nevar.');
         }
 
-        DB::table('noslogojums')->where('NomasID', $id)->delete();
-        DB::table('vagonunoma')->where('NomasID', $id)->delete();
-        return redirect('/Noma')->with('success', 'Ieraksts tika dzēsts');
+        DB::transaction(function () use ($noma, $id) {
+            $archiveData = [
+                'NomasID' => $noma->NomasID,
+                'KlientaID' => $noma->KlientaID,
+                'KravasID' => $noma->KravasID,
+                'VeidaID' => $noma->VeidaID,
+                'VagonuSkaits' => $noma->VagonuSkaits,
+                'NomasSakumaPeriods' => $noma->NomasSakumaPeriods,
+                'NomasBeiguPeriods' => $noma->NomasBeiguPeriods,
+                'StatusaID' => $this->hasNomaStatusColumn() ? $noma->StatusaID : null,
+                'KopejaMaksa' => $noma->KopejaMaksa,
+                'MaksasID' => $this->hasMaksasStatusColumn() ? $noma->MaksasID : null,
+            ];
+
+            DB::table('vagonunoma_arhivs')->insert($archiveData);
+
+            DB::table('noslogojums')->where('NomasID', $id)->delete();
+            DB::table('vagonunoma')->where('NomasID', $id)->delete();
+        });
+
+        return redirect('/Noma')->with('success', 'Ieraksts tika arhivēts.');
+    }
+
+    public function showArchive(Request $request)
+    {
+        if (!$this->hasArchiveTable()) {
+            return redirect('/Noma')->with('error', 'Arhīva tabula nav atrasta. Izveidojiet vagonunoma_arhivs tabulu.');
+        }
+
+        $query = DB::table('vagonunoma_arhivs as a')
+            ->leftJoin('klienti as k', 'a.KlientaID', '=', 'k.KlientaID')
+            ->leftJoin('krava as kr', 'a.KravasID', '=', 'kr.KravasID')
+            ->leftJoin('veidi as v', 'a.VeidaID', '=', 'v.VeidaID')
+            ->leftJoin('NomasStatuss as ns', 'a.StatusaID', '=', 'ns.StatusaID')
+            ->leftJoin('MaksasStatuss as ms', 'a.MaksasID', '=', 'ms.MaksasID')
+            ->select([
+                'a.*',
+                'k.Vards as KlientaVards',
+                'k.Uzvards as KlientaUzvards',
+                'k.UznemumaNosaukums as KlientaUznemums',
+                'kr.Nosaukums as KravasNosaukums',
+                'v.Nosaukums as VeidaNosaukums',
+                'ns.Nosaukums as NomasStatusaNosaukums',
+                'ms.Nosaukums as MaksasStatusaNosaukums',
+            ]);
+
+        if (!$this->userIsAdmin()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts) {
+                $query->whereRaw('0=1');
+            } else {
+                $query->where('a.KlientaID', $klientsIeraksts->KlientaID);
+            }
+        }
+
+        $arhivs = $query
+            ->orderByDesc('a.NomasID')
+            ->paginate(15)
+            ->appends($request->query());
+
+        foreach ($arhivs as $item) {
+            $item->PabeigsanasStatuss = $this->calculateCompletionStatusFromValues($item->NomasStatusaNosaukums, $item->NomasBeiguPeriods);
+        }
+
+        return view('NomaArhivs', compact('arhivs'));
+    }
+
+    public function restoreFromArchive($id)
+    {
+        if (!$this->hasArchiveTable()) {
+            return redirect('/Noma')->with('error', 'Arhīva tabula nav atrasta. Izveidojiet vagonunoma_arhivs tabulu.');
+        }
+
+        $arhivaIeraksts = DB::table('vagonunoma_arhivs')->where('NomasID', $id)->first();
+        if (!$arhivaIeraksts) {
+            return redirect('/Noma/arhivs')->with('error', 'Arhīva ieraksts nav atrasts.');
+        }
+
+        if (!$this->userIsAdmin()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts || (int) $arhivaIeraksts->KlientaID !== (int) $klientsIeraksts->KlientaID) {
+                return redirect('/Noma/arhivs')->with('error', 'Jums nav tiesību atjaunot šo arhīva ierakstu.');
+            }
+        }
+
+        if (DB::table('vagonunoma')->where('NomasID', $id)->exists()) {
+            return redirect('/Noma/arhivs')->with('error', 'Atjaunošana nav iespējama: aktīvajā tabulā jau eksistē šāds NomasID.');
+        }
+
+        DB::transaction(function () use ($arhivaIeraksts) {
+            $insertData = [
+                'NomasID' => $arhivaIeraksts->NomasID,
+                'KlientaID' => $arhivaIeraksts->KlientaID,
+                'KravasID' => $arhivaIeraksts->KravasID,
+                'VeidaID' => $arhivaIeraksts->VeidaID,
+                'VagonuSkaits' => $arhivaIeraksts->VagonuSkaits,
+                'NomasSakumaPeriods' => $arhivaIeraksts->NomasSakumaPeriods,
+                'NomasBeiguPeriods' => $arhivaIeraksts->NomasBeiguPeriods,
+                'KopejaMaksa' => $arhivaIeraksts->KopejaMaksa,
+            ];
+
+            if (Schema::hasColumn('vagonunoma', 'Svars')) {
+                $insertData['Svars'] = 0;
+            }
+
+            if ($this->hasNomaStatusColumn()) {
+                $insertData['StatusaID'] = $arhivaIeraksts->StatusaID;
+            }
+
+            if ($this->hasMaksasStatusColumn()) {
+                $insertData['MaksasID'] = $arhivaIeraksts->MaksasID;
+            }
+
+            DB::table('vagonunoma')->insert($insertData);
+
+            DB::table('noslogojums')->updateOrInsert(
+                ['NomasID' => $arhivaIeraksts->NomasID],
+                [
+                    'NomasSakumaPeriods' => $arhivaIeraksts->NomasSakumaPeriods,
+                    'NomasBeiguPeriods'  => $arhivaIeraksts->NomasBeiguPeriods,
+                    'VeidaID' => $arhivaIeraksts->VeidaID,
+                ]
+            );
+
+            DB::table('vagonunoma_arhivs')->where('NomasID', $arhivaIeraksts->NomasID)->delete();
+        });
+
+        return redirect('/Noma/arhivs')->with('success', 'Ieraksts tika atjaunots no arhīva.');
     }
 
     // Atver pievienošanas formu ar saistītajiem sarakstiem.
