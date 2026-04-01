@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
             <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
             <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
-            <td>{{ $item->PabeigsanasStatuss ?? 'Nav pabeigts' }}</td>
+            <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
                     <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>

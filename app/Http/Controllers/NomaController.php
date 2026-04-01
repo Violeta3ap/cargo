@@ -67,13 +67,20 @@ class NomaController extends Controller
     private function applyCompletionStatus($nomas)
     {
         $today = Carbon::today();
+        $statusiBezPabeigsanas = ['noraidīts', 'nepieteikts'];
 
         foreach ($nomas as $noma) {
+            $statusaNosaukums = trim((string) optional($noma->nomasStatuss)->Nosaukums);
+            if (in_array(mb_strtolower($statusaNosaukums), $statusiBezPabeigsanas, true)) {
+                $noma->PabeigsanasStatuss = null;
+                continue;
+            }
+
             try {
                 $beiguDatums = Carbon::parse($noma->NomasBeiguPeriods)->startOfDay();
                 $noma->PabeigsanasStatuss = $beiguDatums->lt($today) ? 'Pabeigts' : 'Nav pabeigts';
             } catch (\Throwable $e) {
-                $noma->PabeigsanasStatuss = 'Nav pabeigts';
+                $noma->PabeigsanasStatuss = null;
             }
         }
     }
