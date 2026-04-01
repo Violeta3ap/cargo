@@ -40,7 +40,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($arhivs as $item)
+            @foreach ($arhivs as $item)
                 <tr>
                     <td>{{ $item->NomasID }}</td>
                     <td>{{ $item->KlientaVards ?? ('ID: '.$item->KlientaID) }} {{ $item->KlientaUzvards ?? '' }}</td>
@@ -60,13 +60,15 @@
                            class="btn-action">Atjaunot</a>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="13">Arhīvā nav ierakstu.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
+
+    @if($arhivs->isEmpty())
+        <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 20px; background: #f8fdfe; text-align: center; color: #555; margin-top: 14px;">
+            Arhīvā nav ierakstu.
+        </div>
+    @endif
 
     @if ($arhivs->hasPages())
         <div style="margin-top: 15px; display: flex; justify-content: center;">
