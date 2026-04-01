@@ -436,8 +436,20 @@ class NomaController extends Controller
     // Dzēš nomas ierakstu.
     public function delete($id)
     {
+        $noma = Noma::with('nomasStatuss')->find($id);
+        if (!$noma) {
+            return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
+        }
+
         if (!$this->userIsAdmin()) {
-            return redirect('/Noma')->with('error', 'Tikai administrators drīkst dzēst nomas ierakstus.');
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
+                return redirect('/Noma')->with('error', 'Jums nav tiesību dzēst šo nomas ierakstu.');
+            }
+        }
+
+        if ($this->isNomaCompleted($noma)) {
+            return redirect('/Noma')->with('error', 'Pabeigtu nomu dzēst nevar.');
         }
 
         DB::table('noslogojums')->where('NomasID', $id)->delete();
