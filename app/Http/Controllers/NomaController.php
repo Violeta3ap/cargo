@@ -290,6 +290,9 @@ class NomaController extends Controller
             'NomasSakumaPeriods',
             'NomasBeiguPeriods',
             'KopejaMaksa',
+            'NomasStatuss',
+            'MaksasStatuss',
+            'PabeigsanasStatuss',
             'NomasID'
         ];
         
@@ -316,7 +319,20 @@ class NomaController extends Controller
             ->values();
 
         $query = Noma::query()
+            ->select('vagonunoma.*')
             ->with(['klienti', 'kravas', 'veidi', 'nomasStatuss', 'maksasStatuss']);
+
+        $hasNomasStatusJoin = false;
+        if (Schema::hasTable('NomasStatuss') && $this->hasNomaStatusColumn()) {
+            $query->leftJoin('NomasStatuss as nomas_statuss', 'vagonunoma.StatusaID', '=', 'nomas_statuss.StatusaID');
+            $hasNomasStatusJoin = true;
+        }
+
+        $hasMaksasStatusJoin = false;
+        if (Schema::hasTable('MaksasStatuss') && $this->hasMaksasStatusColumn()) {
+            $query->leftJoin('MaksasStatuss as maksas_statuss', 'vagonunoma.MaksasID', '=', 'maksas_statuss.MaksasID');
+            $hasMaksasStatusJoin = true;
+        }
 
         // Tikai admins redz visas nomas un paplašinātos filtrus.
         if (!$this->userIsAdmin()) {
@@ -371,8 +387,20 @@ class NomaController extends Controller
             $query->whereDate('NomasBeiguPeriods', '=', $nomasBeiguPeriodsSql);
         }
 
+        if ($sortBy === 'NomasStatuss' && $hasNomasStatusJoin) {
+            $query->orderByRaw("COALESCE(nomas_statuss.Nosaukums, '') {$sortOrder}");
+        } elseif ($sortBy === 'MaksasStatuss' && $hasMaksasStatusJoin) {
+            $query->orderByRaw("COALESCE(maksas_statuss.Nosaukums, '') {$sortOrder}");
+        } elseif ($sortBy === 'PabeigsanasStatuss') {
+            $query->orderByRaw(
+                "(CASE WHEN vagonunoma.NomasBeiguPeriods < ? THEN 'Pabeigts' ELSE 'Nav pabeigts' END) {$sortOrder}",
+                [Carbon::today()->toDateString()]
+            );
+        } else {
+            $query->orderBy('vagonunoma.' . $sortBy, $sortOrder);
+        }
+
         $noma = $query
-            ->orderBy($sortBy, $sortOrder)
             ->paginate(15)
             ->appends($request->query());
 

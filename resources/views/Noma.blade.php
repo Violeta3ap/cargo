@@ -189,9 +189,33 @@ document.addEventListener('DOMContentLoaded', function () {
                     @endif
                 </a>
             </th>
-            <th>Nomas statuss</th>
-            <th>Maksas statuss</th>
-            <th>Pabeigšana</th>
+            <th>
+                <a href="{{ getSortUrl('NomasStatuss', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'NomasStatuss' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Nomas statuss
+                    @if($sortBy == 'NomasStatuss')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('MaksasStatuss', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'MaksasStatuss' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Maksas statuss
+                    @if($sortBy == 'MaksasStatuss')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
+            <th>
+                <a href="{{ getSortUrl('PabeigsanasStatuss', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                   class="sort-link {{ $sortBy == 'PabeigsanasStatuss' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
+                    Nomas pabeigšanas statuss
+                    @if($sortBy == 'PabeigsanasStatuss')
+                        <span class="sort-icon">{!! $sortOrder == 'asc' ? '↑' : '↓' !!}</span>
+                    @endif
+                </a>
+            </th>
             <th>Darbības</th>
          </tr>
     </thead>
