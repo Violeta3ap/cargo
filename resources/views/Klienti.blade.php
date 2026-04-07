@@ -162,7 +162,7 @@
                     </a>
                     <a href="/Klienti/{{ $item->KlientaID }}/delete"
                        onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                       style="border-radius:8px; border:1px solid #991C00; padding:5px 10px; color:#000; text-decoration:none; background-color:#991C00;">
+                              style="border-radius:8px; border:1px solid #b62100; padding:5px 10px; color:#000; text-decoration:none; background-color:#b62100;">
                         Dzēst
                     </a>
                 </div>

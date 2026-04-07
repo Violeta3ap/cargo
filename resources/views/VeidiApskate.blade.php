@@ -29,8 +29,8 @@
     Rediģēt
 </a> <!-- Poga veida rediģēšanai -->
 
-<a href="/Veidi/{{ $veidi->VeidaID }}/delete" style="border-radius:8px; border: 1px solid #59c1cf; 
-    padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+<a href="/Veidi/{{ $veidi->VeidaID }}/delete" style="border-radius:8px; border: 1px solid #b62100; 
+    padding: 5px; color: #000000; text-decoration: none; background-color: #b62100;">
     Dzēst
 </a> <!-- Poga veida dzēšanai -->
 
