@@ -74,7 +74,7 @@
         <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
             <h4>Meklēšana</h4>
             <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
-                <input type="text" name="nosaukums_search" placeholder="Vagona veids..." value="{{ $nosaukumsSearch }}" data-live-search="true"
+                <input type="text" name="nosaukums_search" placeholder="Vagona veids" value="{{ $nosaukumsSearch }}" data-live-search="true"
                        style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: 240px; box-sizing: border-box; background-color: #fff;">
                 <input type="hidden" name="sort_by" value="{{ $sortBy }}">
                 <input type="hidden" name="sort_order" value="{{ $sortOrder }}">

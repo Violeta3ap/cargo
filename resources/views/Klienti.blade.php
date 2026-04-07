@@ -55,7 +55,7 @@
         <div class="filter-window" style="width: fit-content; max-width: 100%;">
             <h4>Meklēšana</h4>
             <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
-                <input type="text" name="search" value="{{ $search }}" placeholder="Meklēt klientu..." data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;">
+                <input type="text" name="search" value="{{ $search }}" placeholder="Meklēt klientu" data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;">
                 <a href="{{ '?' . http_build_query(request()->except(['search', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt meklēšanu</a>
             </div>
         </div>
