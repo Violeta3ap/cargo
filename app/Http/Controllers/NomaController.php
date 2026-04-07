@@ -931,6 +931,23 @@ class NomaController extends Controller
             $updateData['MaksasID'] = (int) $maksasId;
         }
 
+        if ($this->userIsAdmin() && $this->hasNomaStatusColumn() && $this->hasMaksasStatusColumn()) {
+            $pieteiktsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Pieteikts');
+            $navApmaksatsId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Nav apmaksāts');
+
+            if (
+                $pieteiktsId !== null
+                && $navApmaksatsId !== null
+                && isset($updateData['StatusaID'], $updateData['MaksasID'])
+                && (int) $updateData['StatusaID'] === (int) $pieteiktsId
+                && (int) $updateData['MaksasID'] === (int) $navApmaksatsId
+            ) {
+                return back()->withInput()->withErrors([
+                    'StatusaID' => 'Statusu "Pieteikts" nevar izvēlēties, ja maksas statuss ir "Nav apmaksāts".'
+                ]);
+            }
+        }
+
         DB::table('vagonunoma')
             ->where('NomasID', $id)
             ->update($updateData);

@@ -133,7 +133,7 @@
                 <select class="form-control" id="MaksasID" name="MaksasID">
                     <option value="">Izvēlieties statusu</option>
                     @foreach($maksasStatusi as $statuss)
-                        <option value="{{ $statuss->MaksasID }}" {{ (int) $noma->MaksasID === (int) $statuss->MaksasID ? 'selected' : '' }}>
+                        <option value="{{ $statuss->MaksasID }}" data-maksas-name="{{ mb_strtolower($statuss->Nosaukums) }}" {{ (int) $noma->MaksasID === (int) $statuss->MaksasID ? 'selected' : '' }}>
                             {{ $statuss->Nosaukums }}
                         </option>
                     @endforeach
@@ -159,6 +159,7 @@ $(document).ready(function() {
     var submitBtn = $('#submitBtn');
     var vagonuSkaitsInput = $('#VagonuSkaits');
     var statusSelect = $('#StatusaID');
+    var maksasSelect = $('#MaksasID');
     var atteikumaWrap = $('#atteikumaIemeslsWrap');
     var atteikumaInput = $('#AtteikumaIemesls');
 
@@ -193,6 +194,44 @@ $(document).ready(function() {
         var selected = statusSelect.find('option:selected');
         var statusName = (selected.data('status-name') || '').toString().toLowerCase();
         return statusName.indexOf('noraid') !== -1;
+    }
+
+    function isPieteiktsSelected() {
+        if (!statusSelect.length) {
+            return false;
+        }
+
+        var selected = statusSelect.find('option:selected');
+        var statusName = (selected.data('status-name') || '').toString().toLowerCase();
+        return statusName.indexOf('pieteikt') !== -1;
+    }
+
+    function isNavApmaksatsSelected() {
+        if (!maksasSelect.length) {
+            return false;
+        }
+
+        var selected = maksasSelect.find('option:selected');
+        var maksasName = (selected.data('maksas-name') || '').toString().toLowerCase();
+        return maksasName.indexOf('nav apmaks') !== -1 || maksasName.indexOf('neapmaks') !== -1;
+    }
+
+    function enforceStatusMaksasRule() {
+        if (!statusSelect.length || !maksasSelect.length) {
+            return;
+        }
+
+        var pieteiktsOption = statusSelect.find('option').filter(function () {
+            var name = ($(this).data('status-name') || '').toString().toLowerCase();
+            return name.indexOf('pieteikt') !== -1;
+        });
+
+        var lockPieteikts = isNavApmaksatsSelected();
+        pieteiktsOption.prop('disabled', lockPieteikts);
+
+        if (lockPieteikts && isPieteiktsSelected()) {
+            statusSelect.val('');
+        }
     }
 
     function toggleAtteikumaIemesls() {
@@ -347,6 +386,12 @@ $(document).ready(function() {
         });
     }
 
+    if (maksasSelect.length) {
+        maksasSelect.on('change', function() {
+            enforceStatusMaksasRule();
+        });
+    }
+
     $('#nomaForm').on('submit', function(e) {
         if (isNoraiditsSelected()) {
             var value = (atteikumaInput.val() || '').trim();
@@ -367,6 +412,7 @@ $(document).ready(function() {
             checkAvailability();
         }
 
+        enforceStatusMaksasRule();
         toggleAtteikumaIemesls();
     }, 100);
 });
