@@ -22,7 +22,7 @@
 
         /* ===== Navigācija ===== */
         .navigacija, .navigacijaa {
-            background-color: #446682;
+            background-color: #5985a8;
             padding: 8px 10px;
             display: flex;
             gap: 80px;
