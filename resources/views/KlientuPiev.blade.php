@@ -6,7 +6,7 @@
 
 <!-- Atpakaļ poga uz klientu sarakstu -->
 <a href="/Klienti"  
-   style="border-radius:8px; border: 1px solid #991C00; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #991C00, #ffffff)">
+   style="border-radius:8px; border: 1px solid #dd2900; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #991C00, #ffffff)">
    Atpakaļ
 </a>
 
