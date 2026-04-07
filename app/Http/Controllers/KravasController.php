@@ -19,8 +19,9 @@ class KravasController extends Controller
   // Kravu saraksts ar meklēšanu un kārtošanu.
   public function showAllKrava(Request $request)
   {
-    // Meklēšanas parametrs
+    // Meklēšanas parametri
     $search = trim((string) $request->query('search', ''));
+    $vagonaId = trim((string) $request->query('vagona_id', ''));
 
     $kravasOptions = Kravas::query()
       ->select('Nosaukums')
@@ -54,7 +55,12 @@ class KravasController extends Controller
 
     // Meklēšana pēc nosaukuma
     if ($search !== '') {
-      $query->where('Nosaukums', $search);
+      $query->where('Nosaukums', 'like', '%' . $search . '%');
+    }
+
+    // Meklēšana pēc VagonaID (VeidaID)
+    if ($vagonaId !== '') {
+      $query->where('VeidaID', 'like', '%' . $vagonaId . '%');
     }
 
     $dati = $query
@@ -63,7 +69,7 @@ class KravasController extends Controller
       ->paginate(15)
       ->appends($request->query());
     
-    return view('Kravas', compact('dati', 'sortBy', 'sortOrder', 'search', 'kravasOptions'));
+    return view('Kravas', compact('dati', 'sortBy', 'sortOrder', 'search', 'vagonaId', 'kravasOptions'));
   }
 
   // Dzēš kravu.
