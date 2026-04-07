@@ -49,7 +49,7 @@
 @endif
 
 <!-- Filtrēšanas un meklēšanas logu konteiners -->
-<div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 15px; flex-wrap: wrap;">
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
     <!-- Filtrēšanas logs -->
     <form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-filter-form" style="padding: 8px 10px;">
         <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
@@ -84,9 +84,6 @@
         </div>
     </form>
 </div>
-        </div>
-    </div>
-</form>
 
 <div id="kravas-results">
 <!-- Kravas tabula -->

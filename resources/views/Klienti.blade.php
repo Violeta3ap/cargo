@@ -36,7 +36,7 @@
     </nav>
 </div>
 
-<!-- Filtrēšanas logs -->
+<!-- Filtrēšanas logs un meklēšana -->
 <form method="GET" action="/Klienti" class="klienti-filter-form" id="klienti-filter-form" style="padding: 8px 10px;">
     <div style="display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
         <div class="filter-window" style="width: fit-content; max-width: 100%;">
