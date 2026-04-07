@@ -38,7 +38,7 @@
 <!-- Dzēst poga ar apstiprinājuma logu -->
 <a href="/Klienti/{{ $klientis->KlientaID }}/delete"
    onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-   style="border-radius:8px; border: 1px solid #b62100; padding: 5px; color: #000000; text-decoration: none; background-color: #b62100;">
+   style="border-radius:8px; border: 1px solid #b62100; padding: 5px; color: #ffffff; text-decoration: none; background-color: #b62100;">
    Dzēst
 </a>
 

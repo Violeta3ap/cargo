@@ -35,7 +35,7 @@
 <!-- Dzēšanas poga ar apstiprinājumu -->
 <a href="/Darbinieki/{{ $darbinieki->DarbiniekaID }}/delete"
    onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-   style="border-radius:8px; border:1px solid #b62100; padding:5px; color:#000; text-decoration:none; background-color:#b62100;">
+   style="border-radius:8px; border:1px solid #b62100; padding:5px; color:#fff; text-decoration:none; background-color:#b62100;">
    Dzēst
 </a>
 

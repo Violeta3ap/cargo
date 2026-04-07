@@ -40,7 +40,7 @@
                     <!-- Rediģēšanas/dzēšanas pogas -->
                     <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
                         <a href="/Darbinieki/{{ $item->DarbiniekaID }}/edit" class="btn-action">Rediģēt</a>
-                        <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action" style="border-color:#b62100; background-color:#b62100;">Dzēst</a>
+                        <a href="/Darbinieki/{{ $item->DarbiniekaID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action" style="border-color:#b62100; background-color:#b62100; color:#fff;">Dzēst</a>
                     </div>
                 </td>
             @endif

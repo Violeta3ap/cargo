@@ -227,12 +227,12 @@
 
             <span style="position: absolute; right: 120px; font-size: 13px;">{{ Auth::user()->name }}</span>
             <a href="/logout" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #b62100; 
-            padding: 5px; background:#b62100; text-decoration: none; color: #000000;">Izlogoties</a>
+            padding: 5px; background:#b62100; text-decoration: none; color: #ffffff;">Izlogoties</a>
 
         @else
             <a href="/">Par uzņēmumu</a>
             <a href="/Login" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #b62100; 
-            padding: 5px; background:#b62100; text-decoration: none; color: #000000;">Ielogoties</a>
+            padding: 5px; background:#b62100; text-decoration: none; color: #ffffff;">Ielogoties</a>
         @endif
 
     </div>

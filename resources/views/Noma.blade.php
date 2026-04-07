@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
                     @endif
                     @if(Auth::check() && (($item->PabeigsanasStatuss ?? null) !== 'Pabeigts'))
-                        <a href="/Noma/{{ $item->NomasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action" style="border-color:#b62100; background-color:#b62100;">Dzēst</a>
+                        <a href="/Noma/{{ $item->NomasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action" style="border-color:#b62100; background-color:#b62100; color:#fff;">Dzēst</a>
                     @endif
                 </div>
             </td>

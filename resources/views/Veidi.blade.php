@@ -127,7 +127,7 @@
 
                         <a href="/Veidi/{{ $item->VeidaID }}/delete"
                            onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');"
-                                    style="border-radius:8px; border: 1px solid #b62100; padding: 5px 10px; color: #000000; text-decoration: none; background-color: #b62100; white-space: nowrap;"
+                                    style="border-radius:8px; border: 1px solid #b62100; padding: 5px 10px; color: #ffffff; text-decoration: none; background-color: #b62100; white-space: nowrap;"
                            class="btn-action">
                            Dzēst
                         </a>
