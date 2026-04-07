@@ -22,7 +22,7 @@
 
         /* ===== Navigācija ===== */
         .navigacija, .navigacijaa {
-            background-color: #59c1cf;
+            background-color: #446682;
             padding: 8px 10px;
             display: flex;
             gap: 80px;
@@ -31,19 +31,19 @@
         }
         .navigacija a, .navigacijaa a {
             text-decoration: none;
-            background: linear-gradient(to right, #59c1cf, #ffffff);
+            background: linear-gradient(to right, #446682, #ffffff);
             padding: 6px 14px;
             border-radius: 10px;
             color: black;
             font-size: 14px;
         }
-        .navigacija a { border: 1px solid #59c1cf; }
-        .navigacija a:hover, .navigacijaa a:hover { background-color: #59c1cf; }
+        .navigacija a { border: 1px solid #446682; }
+        .navigacija a:hover, .navigacijaa a:hover { background-color: #446682; }
 
         /* ===== Izkārtojums ===== */
         .content { padding: 20px 150px; background-color: #ffffff; min-height: 200px; }
         footer {
-            background-color: #59c1cf;
+            background-color: #446682;
             color: #000000;
             text-align: center;
             display: flex;
@@ -73,10 +73,10 @@
         /* ===== Tabulas - kopīgie stili ===== */
         .page-klienti .table, .page-kravas .table, .page-veidi .table, .page-noma .table { border-collapse: collapse; }
         .page-klienti .table thead, .page-kravas .table thead,
-        .page-veidi .table thead, .page-noma .table thead { background-color: #59c1cf; color: white; }
+        .page-veidi .table thead, .page-noma .table thead { background-color: #446682; color: white; }
         .page-klienti .table thead th, .page-kravas .table thead th,
         .page-veidi .table thead th, .page-noma .table thead th {
-            border: 1px solid #59c1cf; padding: 12px; font-weight: bold; position: relative;
+            border: 1px solid #446682; padding: 12px; font-weight: bold; position: relative;
         }
         .page-klienti .table thead th a.sort-link,
         .page-kravas .table thead th a.sort-link,
@@ -105,8 +105,8 @@
             flex: 0 0 auto;
             font-size: 0.8rem;
             border-radius: 6px;
-            border: 1px solid #59c1cf;
-            background-color: #59c1cf;
+            border: 1px solid #446682;
+            background-color: #446682;
             color: #000;
             text-decoration: none;
             cursor: pointer;
@@ -226,13 +226,13 @@
             <a href="/Kravas">Krāvu veidi</a>
 
             <span style="position: absolute; right: 120px; font-size: 13px;">{{ Auth::user()->name }}</span>
-            <a href="/logout" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #59c1cf; 
-            padding: 5px; background:#ffffff; text-decoration: none; color: #000000;">Izlogoties</a>
+            <a href="/logout" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #C2CBD1; 
+            padding: 5px; background:#ffffff; text-decoration: none; color: #ffffff;">Izlogoties</a>
 
         @else
             <a href="/">Par uzņēmumu</a>
-            <a href="/Login" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #59c1cf; 
-            padding: 5px; background:#ffffff; text-decoration: none; color: #000000;">Ielogoties</a>
+            <a href="/Login" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #C2CBD1; 
+            padding: 5px; background:#ffffff; text-decoration: none; color: #ffffff;">Ielogoties</a>
         @endif
 
     </div>
