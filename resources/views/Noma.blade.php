@@ -257,11 +257,11 @@ document.addEventListener('DOMContentLoaded', function () {
             @php
                 $nomasStatusaNosaukums = mb_strtolower((string) ($item->nomasStatuss->Nosaukums ?? ''));
                 $maksasStatusaNosaukums = mb_strtolower((string) ($item->maksasStatuss->Nosaukums ?? ''));
-                $irPieteikts = str_contains($nomasStatusaNosaukums, 'pieteikt');
-                $irApmaksats = str_contains($maksasStatusaNosaukums, 'apmaks') && !str_contains($maksasStatusaNosaukums, 'nav apmaks');
+                $irNoraidits = str_contains($nomasStatusaNosaukums, 'noraid');
+                $irNavApmaksats = str_contains($maksasStatusaNosaukums, 'nav apmaks') || str_contains($maksasStatusaNosaukums, 'neapmaks');
                 $iemeslaTeksts = trim((string) ($item->AtteikumaIemesls ?? ''));
                 $iemeslsModalim = $iemeslaTeksts !== '' ? $iemeslaTeksts : 'Iemesls nav norādīts.';
-                $raditIemeslaPogu = !($irPieteikts && $irApmaksats);
+                $raditIemeslaPogu = $irNoraidits || $irNavApmaksats;
             @endphp
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
