@@ -5,7 +5,7 @@
 <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 16px;">
     <!-- Galvenais konteineris, centrē visu saturu horizontāli un vertikāli, ar augšējo malu 16px -->
     
-    <div style="background: #69c6d3; padding: 32px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); width: 100%;gap: 32px; align-items: center;">
+    <div style="background: #C2CBD1; padding: 32px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); width: 100%;gap: 32px; align-items: center;">
         <!-- Iekšējais bloks ar krāsu, padding, noapaļotiem stūriem, ēnojumu un starpību starp elementiem -->
         
         <div class="mainContent" style="min-width: 0;">  
