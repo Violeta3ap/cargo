@@ -6,7 +6,7 @@
 
 <!-- Atpakaļ poga uz klientu sarakstu -->
 <a href="/Klienti"  
-   style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   style="border-radius:8px; border: 1px solid #991C00; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #991C00, #ffffff)">
    Atpakaļ
 </a>
 
@@ -76,7 +76,7 @@
 
     <!-- Saglabāšanas poga -->
     <button type="submit" 
-        style="border-radius:8px; border: 1px solid #59c1cf; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+        style="border-radius:8px; border: 1px solid #C2CBD1; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
         Saglabāt
     </button>
 </form>
@@ -125,8 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .form-control:focus {
     outline: none;
-    border-color: #59c1cf;
-    box-shadow: 0 0 5px rgba(89, 193, 207, 0.3);
+    border-color: #C2CBD1;
+    box-shadow: 0 0 5px rgba(194, 203, 209, 0.3);
 }
 
 button[type="submit"] {
