@@ -255,11 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
         @foreach ($noma as $item)
          <tr>
             @php
-                $nomasStatusaNosaukums = mb_strtolower((string) ($item->nomasStatuss->Nosaukums ?? ''));
-                $maksasStatusaNosaukums = mb_strtolower((string) ($item->maksasStatuss->Nosaukums ?? ''));
-                $raditIemeslaPogu = str_contains($nomasStatusaNosaukums, 'nepieteik')
-                    && (str_contains($maksasStatusaNosaukums, 'neapmaks') || str_contains($maksasStatusaNosaukums, 'nav apmaks'))
-                    && !empty($item->AtteikumaIemesls);
+                $raditIemeslaPogu = !empty($item->AtteikumaIemesls);
             @endphp
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
