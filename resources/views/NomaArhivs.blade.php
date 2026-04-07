@@ -21,7 +21,7 @@
         </div>
     @endif
 
-    <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
+    <table class="table table-striped" style="width: 100%; border: 1px solid #C2CBD1; border-radius: 8px; overflow: hidden; text-align: center;">
         <thead>
             <tr>
                 <th>Nomas Nr.</th>
@@ -67,7 +67,7 @@
     </table>
 
     @if($arhivs->isEmpty())
-        <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 20px; background: #f8fdfe; text-align: center; color: #555; margin-top: 14px;">
+        <div style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 20px; background: #f8fdfe; text-align: center; color: #555; margin-top: 14px;">
             Arhīvā nav ierakstu.
         </div>
     @endif
