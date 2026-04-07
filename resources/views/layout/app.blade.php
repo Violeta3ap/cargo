@@ -105,9 +105,9 @@
             flex: 0 0 auto;
             font-size: 0.8rem;
             border-radius: 6px;
-            border: 1px solid #C2CBD1;
-            background-color: #C2CBD1;
-            color: #000;
+            border: 1px solid #b62100;
+            background-color: #b62100;
+            color: #fff;
             text-decoration: none;
             cursor: pointer;
             white-space: nowrap;
@@ -115,7 +115,7 @@
         .page-klienti .filter-btn, .page-kravas .filter-btn, .page-veidi .filter-btn { padding: 4px 12px; }
         .page-noma .filter-btn { padding: 2px 8px; }
         .page-klienti .filter-btn:hover, .page-kravas .filter-btn:hover,
-        .page-veidi .filter-btn:hover, .page-noma .filter-btn:hover { background-color: #C2CBD1; }
+        .page-veidi .filter-btn:hover, .page-noma .filter-btn:hover { background-color: #b62100; color: #fff; }
 
         /* ===== Meklēšanas ievade ===== */
         .page-kravas .veidi-search-form input, .page-veidi .veidi-search-form input {
@@ -227,12 +227,12 @@
 
             <span style="position: absolute; right: 120px; font-size: 13px;">{{ Auth::user()->name }}</span>
             <a href="/logout" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #c74e33; 
-            padding: 5px; background:#c74e33; text-decoration: none; color: #ffffff;">Izlogoties</a>
+            padding: 5px; background:#c74e33; text-decoration: none; color: #000000;">Izlogoties</a>
 
         @else
             <a href="/">Par uzņēmumu</a>
             <a href="/Login" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #c74e33; 
-            padding: 5px; background:#c74e33; text-decoration: none; color: #c74e33;">Ielogoties</a>
+            padding: 5px; background:#c74e33; text-decoration: none; color: #000000;">Ielogoties</a>
         @endif
 
     </div>
