@@ -78,12 +78,7 @@ class KlientiController extends Controller
       $query->where(function ($builder) use ($search) {
         $builder->where('Vards', 'like', '%' . $search . '%')
           ->orWhere('Uzvards', 'like', '%' . $search . '%')
-          ->orWhere('Epasts', 'like', '%' . $search . '%')
-          ->orWhere('TelefonaNumurs', 'like', '%' . $search . '%')
-          ->orWhere('UznemumaNosaukums', 'like', '%' . $search . '%')
-          ->orWhere('JuridiskaAdrese', 'like', '%' . $search . '%')
-          ->orWhere('RegistracijasNumurs', 'like', '%' . $search . '%')
-          ->orWhere('KontaNumurs', 'like', '%' . $search . '%');
+          ->orWhere('UznemumaNosaukums', 'like', '%' . $search . '%');
       });
     }
 
