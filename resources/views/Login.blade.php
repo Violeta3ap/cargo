@@ -86,7 +86,7 @@
 
             <!-- Atpakaļ uz sākumlapu -->
             <div style="text-align: center; margin-top: 20px;">
-                <a href="/" style="color: #59c1cf; text-decoration: none; font-size: 14px;">Atpakaļ uz sākumlapu</a>
+                <a href="/" style="color: #5985a8; text-decoration: none; font-size: 14px;">Atpakaļ uz sākumlapu</a>
             </div>
 
             <p> Admins:  Violeta parole:parole123;</p>

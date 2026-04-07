@@ -324,6 +324,9 @@ class NomaController extends Controller
         $klientaVards = trim((string) $request->query('klienta_vards', ''));
         $klientaUzvards = trim((string) $request->query('klienta_uzvards', ''));
         $klientaUznemums = trim((string) $request->query('klienta_uznemums', ''));
+        $mekleKlientaUznemums = trim((string) $request->query('mekle_klienta_uznemums', ''));
+        $mekleKrava = trim((string) $request->query('mekle_krava', ''));
+        $mekleVeids = trim((string) $request->query('mekle_veids', ''));
         $filtraUznemums = trim((string) $request->query('filtra_uznemums', ''));
         $krava = trim((string) $request->query('krava', ''));
         $veids = trim((string) $request->query('veids', ''));
@@ -434,6 +437,24 @@ class NomaController extends Controller
             });
         }
 
+        if ($mekleKlientaUznemums !== '') {
+            $query->whereHas('klienti', function ($q) use ($mekleKlientaUznemums) {
+                $q->where('UznemumaNosaukums', 'like', '%' . $mekleKlientaUznemums . '%');
+            });
+        }
+
+        if ($mekleKrava !== '') {
+            $query->whereHas('kravas', function ($q) use ($mekleKrava) {
+                $q->where('Nosaukums', 'like', '%' . $mekleKrava . '%');
+            });
+        }
+
+        if ($mekleVeids !== '') {
+            $query->whereHas('veidi', function ($q) use ($mekleVeids) {
+                $q->where('Nosaukums', 'like', '%' . $mekleVeids . '%');
+            });
+        }
+
         if ($nomasSakumaPeriodsSql !== null) {
             $query->whereDate('NomasSakumaPeriods', '=', $nomasSakumaPeriodsSql);
         }
@@ -463,7 +484,7 @@ class NomaController extends Controller
 
         return view(
             'Noma',
-            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'filtraUznemums', 'krava', 'veids', 'nomasSakumaPeriods', 'nomasBeiguPeriods', 'sortBy', 'sortOrder', 'kravaOptions', 'veidaOptions')
+            compact('noma', 'klientaVards', 'klientaUzvards', 'klientaUznemums', 'mekleKlientaUznemums', 'mekleKrava', 'mekleVeids', 'filtraUznemums', 'krava', 'veids', 'nomasSakumaPeriods', 'nomasBeiguPeriods', 'sortBy', 'sortOrder', 'kravaOptions', 'veidaOptions')
         );
     }
 

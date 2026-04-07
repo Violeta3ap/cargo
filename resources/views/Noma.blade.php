@@ -8,6 +8,9 @@
     $klientaVards = $klientaVards ?? request('klienta_vards');
     $klientaUzvards = $klientaUzvards ?? request('klienta_uzvards');
     $klientaUznemums = $klientaUznemums ?? request('klienta_uznemums');
+    $mekleKlientaUznemums = $mekleKlientaUznemums ?? request('mekle_klienta_uznemums');
+    $mekleKrava = $mekleKrava ?? request('mekle_krava');
+    $mekleVeids = $mekleVeids ?? request('mekle_veids');
     $filtraUznemums = $filtraUznemums ?? request('filtra_uznemums');
     $krava = $krava ?? request('krava');
     $veids = $veids ?? request('veids');
@@ -73,11 +76,37 @@
             <input type="text" class="datepicker" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}" title="Nomas beigu periods" placeholder="Nomas beigu periods" autocomplete="off" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+            <input type="hidden" name="mekle_klienta_uznemums" value="{{ $mekleKlientaUznemums }}">
+            <input type="hidden" name="mekle_krava" value="{{ $mekleKrava }}">
+            <input type="hidden" name="mekle_veids" value="{{ $mekleVeids }}">
             <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
             <a href="/Noma" class="filter-btn" style="padding: 2px 8px;">Notīrīt</a>
         </div>
     </div>
 
+</form>
+
+<form method="GET" action="/Noma" class="noma-search-form" id="noma-search-form" style="margin-bottom: 15px; padding: 8px 10px;">
+    <div class="filter-window" style="width: fit-content; max-width: 100%;">
+        <h4>Meklēšana</h4>
+        <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
+            <input type="text" name="mekle_klienta_uznemums" value="{{ $mekleKlientaUznemums }}" placeholder="Klienta uzņēmums" data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;">
+            <input type="text" name="mekle_krava" value="{{ $mekleKrava }}" placeholder="Kravas nosaukums" data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;">
+            <input type="text" name="mekle_veids" value="{{ $mekleVeids }}" placeholder="Vagona veids" data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;">
+
+            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+            <input type="hidden" name="klienta_vards" value="{{ $klientaVards }}">
+            <input type="hidden" name="klienta_uzvards" value="{{ $klientaUzvards }}">
+            <input type="hidden" name="klienta_uznemums" value="{{ $klientaUznemums }}">
+            <input type="hidden" name="krava" value="{{ $krava }}">
+            <input type="hidden" name="veids" value="{{ $veids }}">
+            <input type="hidden" name="nomas_sakuma_periods" value="{{ $nomasSakumaPeriods }}">
+            <input type="hidden" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}">
+
+            <a href="{{ '?' . http_build_query(request()->except(['mekle_klienta_uznemums', 'mekle_krava', 'mekle_veids', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt meklēšanu</a>
+        </div>
+    </div>
 </form>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -112,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
 @endif
 
 <!-- Nomas saraksts -->
+<div id="noma-results">
 <table class="table table-striped" style="width: 100%; border: 1px solid #C2CBD1; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
          <tr>
@@ -273,6 +303,75 @@ document.addEventListener('DOMContentLoaded', function () {
     </nav>
 </div>
 @endif
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('noma-search-form');
+    const resultsContainer = document.getElementById('noma-results');
+
+    if (!form || !resultsContainer) {
+        return;
+    }
+
+    const searchInputs = form.querySelectorAll('input[data-live-search="true"]');
+    let debounceTimer;
+    let activeRequest;
+
+    if (!searchInputs.length) {
+        return;
+    }
+
+    const runLiveSearch = function () {
+        const params = new URLSearchParams(new FormData(form));
+        params.delete('page');
+        const url = form.action + '?' + params.toString();
+
+        if (activeRequest) {
+            activeRequest.abort();
+        }
+
+        activeRequest = new AbortController();
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            signal: activeRequest.signal
+        })
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (html) {
+                const parsedDoc = new DOMParser().parseFromString(html, 'text/html');
+                const freshResults = parsedDoc.getElementById('noma-results');
+
+                if (!freshResults) {
+                    return;
+                }
+
+                resultsContainer.innerHTML = freshResults.innerHTML;
+                window.history.replaceState({}, '', url);
+            })
+            .catch(function (error) {
+                if (error.name !== 'AbortError') {
+                    window.location.href = url;
+                }
+            });
+    };
+
+    searchInputs.forEach(function (input) {
+        input.addEventListener('input', function () {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(function () {
+                runLiveSearch();
+            }, 300);
+        });
+    });
+});
+</script>
 
 </div>
 
