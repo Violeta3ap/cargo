@@ -226,12 +226,12 @@
             <a href="/Kravas">Krāvu veidi</a>
 
             <span style="position: absolute; right: 120px; font-size: 13px;">{{ Auth::user()->name }}</span>
-            <a href="/logout" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #d1715b; 
+            <a href="/logout" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #bb6552; 
             padding: 5px; background:#c74e33; text-decoration: none; color: #000000;">Izlogoties</a>
 
         @else
             <a href="/">Par uzņēmumu</a>
-            <a href="/Login" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #d1715b; 
+            <a href="/Login" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #bb6552; 
             padding: 5px; background:#c74e33; text-decoration: none; color: #000000;">Ielogoties</a>
         @endif
 
