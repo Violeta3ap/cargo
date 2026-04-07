@@ -18,8 +18,11 @@ class VeidiController extends Controller
     // Veidu saraksts ar meklēšanu un kārtošanu.
     public function showAllVeidi(Request $request)
     {
-        // Meklēšanas parametrs
+        // Filtrēšanas parametrs (precīza atbilstība)
         $search = trim((string) $request->query('search', ''));
+        
+        // Meklēšanas parametrs (LIKE atbilstība)
+        $nosaukumsSearch = trim((string) $request->query('nosaukums_search', ''));
 
         $veidaOptions = Veidi::query()
             ->select('Nosaukums')
@@ -53,9 +56,14 @@ class VeidiController extends Controller
         // Veidojam vaicājumu
         $query = Veidi::query();
         
-        // Meklēšana pēc nosaukuma
+        // Filtrēšana pēc Nosaukuma (precīza atbilstība)
         if ($search !== '') {
             $query->where('Nosaukums', $search);
+        }
+        
+        // Meklēšana pēc Nosaukuma (LIKE atbilstība)
+        if ($nosaukumsSearch !== '') {
+            $query->where('Nosaukums', 'like', '%' . $nosaukumsSearch . '%');
         }
         
         // Pievienojam kārtošanu un izgūstam datus
@@ -64,7 +72,7 @@ class VeidiController extends Controller
             ->paginate(15)
             ->appends($request->query());
         
-        return view('Veidi', compact('dati', 'sortBy', 'sortOrder', 'search', 'veidaOptions'));
+        return view('Veidi', compact('dati', 'sortBy', 'sortOrder', 'search', 'nosaukumsSearch', 'veidaOptions'));
     }
 
     // Dzēš veidu.

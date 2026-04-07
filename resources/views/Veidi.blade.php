@@ -6,6 +6,7 @@
 
 @php
     $search = $search ?? request('search', '');
+    $nosaukumsSearch = $nosaukumsSearch ?? request('nosaukums_search', '');
     $veidaOptions = $veidaOptions ?? collect();
     $sortBy = $sortBy ?? request('sort_by', 'VeidaID');
     $sortOrder = $sortOrder ?? request('sort_order', 'asc');
@@ -46,30 +47,50 @@
     </div>
 @endif
 
-<!-- Meklēšanas logs -->
-<form method="GET" action="/Veidi" class="veidi-search-form" style="margin-bottom: 15px; padding: 8px 10px;">
-    <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
+<!-- Filtrēšanas un Meklēšanas logs -->
+<div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+    <!-- Filtrēšanas logs -->
+    <form method="GET" action="/Veidi" class="veidi-filter-form" style="padding: 8px 10px;">
+        <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
             <h4>Filtrēšana</h4>
-        <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
-            <select name="search" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px; background-color: #fff;">
-                <option value="">Veida nosaukums</option>
-                @foreach($veidaOptions as $option)
-                    <option value="{{ $option }}" {{ $search === $option ? 'selected' : '' }}>{{ $option }}</option>
-                @endforeach
-            </select>
-            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
-            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
-            <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
-            <a href="/Veidi" class="filter-btn" style="padding: 2px 8px;">Notīrīt</a>
+            <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
+                <select name="search" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px; background-color: #fff;">
+                    <option value="">Vagona veids</option>
+                    @foreach($veidaOptions as $option)
+                        <option value="{{ $option }}" {{ $search === $option ? 'selected' : '' }}>{{ $option }}</option>
+                    @endforeach
+                </select>
+                <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+                <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+                <input type="hidden" name="nosaukums_search" value="{{ $nosaukumsSearch }}">
+                <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
+                <a href="/Veidi" class="filter-btn" style="padding: 2px 8px;">Notīrīt</a>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+
+    <!-- Meklēšanas logs -->
+    <form method="GET" action="/Veidi" class="veidi-search-form" style="padding: 8px 10px;">
+        <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
+            <h4>Meklēšana</h4>
+            <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
+                <input type="text" name="nosaukums_search" placeholder="Vagona nosaukums..." value="{{ $nosaukumsSearch }}" data-live-search="true"
+                       style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: 240px; box-sizing: border-box; background-color: #fff;">
+                <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+                <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+                <input type="hidden" name="search" value="{{ $search }}">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="veidi-results">
 
 <table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
         <tr>
             <th>
-                <a href="{{ getSortUrl('Nosaukums', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
+                <a href="{{ getSortUrl('Nosaukums', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search, 'nosaukums_search' => $nosaukumsSearch])) }}" 
                    class="sort-link {{ $sortBy == 'Nosaukums' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Vagona nosaukums
                     @if($sortBy == 'Nosaukums')
@@ -78,7 +99,7 @@
                 </a>
             </th> 
             <th>
-                <a href="{{ getSortUrl('Celtspeja', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
+                <a href="{{ getSortUrl('Celtspeja', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search, 'nosaukums_search' => $nosaukumsSearch])) }}" 
                    class="sort-link {{ $sortBy == 'Celtspeja' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Celtspēja tonnās
                     @if($sortBy == 'Celtspeja')
@@ -87,7 +108,7 @@
                 </a>
             </th> 
             <th>
-                <a href="{{ getSortUrl('VagonuSkaits', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
+                <a href="{{ getSortUrl('VagonuSkaits', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search, 'nosaukums_search' => $nosaukumsSearch])) }}" 
                    class="sort-link {{ $sortBy == 'VagonuSkaits' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Vagonu skaits
                     @if($sortBy == 'VagonuSkaits')
@@ -96,7 +117,7 @@
                 </a>
             </th> 
             <th>
-                <a href="{{ getSortUrl('CenaParDiennakti', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search])) }}" 
+                <a href="{{ getSortUrl('CenaParDiennakti', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search, 'nosaukums_search' => $nosaukumsSearch])) }}" 
                    class="sort-link {{ $sortBy == 'CenaParDiennakti' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Cena par diennakti
                     @if($sortBy == 'CenaParDiennakti')
@@ -169,7 +190,52 @@
     </nav>
 </div>
 @endif
-
 </div>
+
+<script>
+    let searchAbortController = null;
+
+    // Meklēšanas formas handlešana
+    document.querySelectorAll('[data-live-search="true"]').forEach(searchInput => {
+        let debounceTimer = null;
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+
+            debounceTimer = setTimeout(() => {
+                const form = this.closest('form');
+                const formData = new FormData(form);
+                const queryString = new URLSearchParams(formData).toString();
+
+                // Atcelt iepriekšējo pieprasījumu
+                if (searchAbortController) {
+                    searchAbortController.abort();
+                }
+                searchAbortController = new AbortController();
+
+                fetch('/Veidi?' + queryString, {
+                    signal: searchAbortController.signal
+                })
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const resultsContainer = doc.querySelector('#veidi-results');
+
+                    if (resultsContainer) {
+                        document.querySelector('#veidi-results').innerHTML = resultsContainer.innerHTML;
+                    }
+
+                    window.history.replaceState(null, '', '/Veidi?' + queryString);
+                })
+                .catch(error => {
+                    if (error.name !== 'AbortError') {
+                        console.error('Meklēšanas kļūda:', error);
+                    }
+                });
+            }, 300);
+        });
+    });
+</script>
 
 @endsection
