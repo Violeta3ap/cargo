@@ -53,7 +53,7 @@
 </form>
 
 <!-- Filtrēšanas logs -->
-<form method="GET" action="/Klienti" class="klienti-filter-form" style="padding: 8px 10px;">
+<form method="GET" action="/Klienti" class="klienti-filter-form" id="klienti-filter-form" style="padding: 8px 10px;">
     <div class="filter-window" style="width: fit-content; max-width: 100%;">
         <h4>Filtrēšana</h4>
         <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
@@ -81,6 +81,7 @@
     </div>
 @endif
 
+<div id="klienti-results">
 <!-- Klientu saraksts -->
 <table class="table table-striped" style="width:100%; border:1px solid #C2CBD1; border-radius:8px; overflow:hidden; text-align:center;">
     <thead>
@@ -213,29 +214,85 @@
     </nav>
 </div>
 @endif
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('klienti-search-form');
+    const filterForm = document.getElementById('klienti-filter-form');
+    const resultsContainer = document.getElementById('klienti-results');
 
-    if (!form) {
+    if (!form || !resultsContainer) {
         return;
     }
 
     const searchInput = form.querySelector('input[data-live-search="true"]');
+    const filterSearchInput = filterForm ? filterForm.querySelector('input[name="search"]') : null;
     let debounceTimer;
+    let activeRequest;
 
     if (!searchInput) {
         return;
     }
 
+    const runLiveSearch = function () {
+        const valueLength = searchInput.value.trim().length;
+
+        if (valueLength < 1 && valueLength !== 0) {
+            return;
+        }
+
+        if (filterSearchInput) {
+            filterSearchInput.value = searchInput.value;
+        }
+
+        const params = new URLSearchParams(new FormData(form));
+        params.delete('page');
+        const url = form.action + '?' + params.toString();
+
+        if (activeRequest) {
+            activeRequest.abort();
+        }
+
+        activeRequest = new AbortController();
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            signal: activeRequest.signal
+        })
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (html) {
+                const parsedDoc = new DOMParser().parseFromString(html, 'text/html');
+                const freshResults = parsedDoc.getElementById('klienti-results');
+
+                if (!freshResults) {
+                    return;
+                }
+
+                resultsContainer.innerHTML = freshResults.innerHTML;
+                window.history.replaceState({}, '', url);
+            })
+            .catch(function (error) {
+                if (error.name !== 'AbortError') {
+                    form.submit();
+                }
+            });
+    };
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        runLiveSearch();
+    });
+
     searchInput.addEventListener('input', function () {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(function () {
-            const valueLength = searchInput.value.trim().length;
-            if (valueLength >= 1 || valueLength === 0) {
-                form.submit();
-            }
+            runLiveSearch();
         }, 300);
     });
 });
