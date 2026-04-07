@@ -254,6 +254,13 @@ document.addEventListener('DOMContentLoaded', function () {
     <tbody>
         @foreach ($noma as $item)
          <tr>
+            @php
+                $nomasStatusaNosaukums = mb_strtolower((string) ($item->nomasStatuss->Nosaukums ?? ''));
+                $maksasStatusaNosaukums = mb_strtolower((string) ($item->maksasStatuss->Nosaukums ?? ''));
+                $raditIemeslaPogu = str_contains($nomasStatusaNosaukums, 'nepieteik')
+                    && (str_contains($maksasStatusaNosaukums, 'neapmaks') || str_contains($maksasStatusaNosaukums, 'nav apmaks'))
+                    && !empty($item->AtteikumaIemesls);
+            @endphp
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
             <td>{{$item->klienti->UznemumaNosaukums ?? ('ID: '.$item->KlientaID)}}</td>
@@ -264,7 +271,18 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{$item->NomasBeiguPeriods}}</td>
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
             <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
-            <td>{{ $item->AtteikumaIemesls ?? '-' }}</td>
+            <td>
+                @if($raditIemeslaPogu)
+                    <button type="button"
+                            class="filter-btn js-show-reason"
+                            data-reason="{{ e($item->AtteikumaIemesls) }}"
+                            style="padding: 2px 8px;">
+                        Skatīt iemeslu
+                    </button>
+                @else
+                    -
+                @endif
+            </td>
             <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
             <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
             <td>
@@ -308,8 +326,59 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </div>
 
+<div id="reasonModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 9999; align-items: center; justify-content: center;">
+    <div style="background: #fff; border: 1px solid #C2CBD1; border-radius: 10px; width: min(460px, 92vw); padding: 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.18);">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px;">
+            <h4 style="margin: 0;">Atteikuma iemesls</h4>
+            <button type="button" id="reasonModalCloseX" style="border: 1px solid #C2CBD1; border-radius: 6px; background: #fff; padding: 2px 8px; cursor: pointer;">✕</button>
+        </div>
+        <div id="reasonModalText" style="font-size: 0.95rem; line-height: 1.45; white-space: pre-wrap; max-height: 220px; overflow: auto;">-</div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
+            <button type="button" id="reasonModalClose" class="filter-btn" style="padding: 2px 8px;">Aizvērt</button>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const reasonModal = document.getElementById('reasonModal');
+    const reasonModalText = document.getElementById('reasonModalText');
+    const reasonModalClose = document.getElementById('reasonModalClose');
+    const reasonModalCloseX = document.getElementById('reasonModalCloseX');
+
+    const closeReasonModal = function () {
+        if (!reasonModal) {
+            return;
+        }
+        reasonModal.style.display = 'none';
+    };
+
+    document.addEventListener('click', function (event) {
+        const button = event.target.closest('.js-show-reason');
+        if (!button || !reasonModal || !reasonModalText) {
+            return;
+        }
+
+        reasonModalText.textContent = button.getAttribute('data-reason') || '-';
+        reasonModal.style.display = 'flex';
+    });
+
+    if (reasonModalClose) {
+        reasonModalClose.addEventListener('click', closeReasonModal);
+    }
+
+    if (reasonModalCloseX) {
+        reasonModalCloseX.addEventListener('click', closeReasonModal);
+    }
+
+    if (reasonModal) {
+        reasonModal.addEventListener('click', function (event) {
+            if (event.target === reasonModal) {
+                closeReasonModal();
+            }
+        });
+    }
+
     const form = document.getElementById('noma-search-form');
     const resultsContainer = document.getElementById('noma-results');
 
