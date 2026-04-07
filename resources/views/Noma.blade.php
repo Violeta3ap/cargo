@@ -255,7 +255,8 @@ document.addEventListener('DOMContentLoaded', function () {
         @foreach ($noma as $item)
          <tr>
             @php
-                $raditIemeslaPogu = !empty($item->AtteikumaIemesls);
+                $iemeslaTeksts = trim((string) ($item->AtteikumaIemesls ?? ''));
+                $iemeslsModalim = $iemeslaTeksts !== '' ? $iemeslaTeksts : 'Iemesls nav norādīts.';
             @endphp
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
@@ -268,16 +269,12 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
             <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
             <td>
-                @if($raditIemeslaPogu)
-                    <button type="button"
-                            class="filter-btn js-show-reason"
-                            data-reason="{{ e($item->AtteikumaIemesls) }}"
-                            style="padding: 2px 8px;">
-                        Skatīt iemeslu
-                    </button>
-                @else
-                    -
-                @endif
+                <button type="button"
+                        class="filter-btn js-show-reason"
+                        data-reason="{{ e($iemeslsModalim) }}"
+                        style="padding: 2px 8px;">
+                    Skatīt iemeslu
+                </button>
             </td>
             <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
             <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
