@@ -17,7 +17,7 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <div style="display: flex; align-items: center; gap: 18px;">
         <a href="/Noslogojums" style="font-size: 1.5rem; font-weight: 700; color: #000; text-decoration: none;">Dienas noslogojums</a>
-        <a href="/Noslogojums/periods" style="font-size: 1.2rem; font-weight: 600; color: #2c7d89; text-decoration: none;">Perioda noslogojums</a>
+        <a href="/Noslogojums/periods" style="font-size: 1.2rem; font-weight: 600; color: #C2CBD1; text-decoration: none;">Perioda noslogojums</a>
     </div>
 
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
@@ -34,19 +34,19 @@
 
 <!-- Datuma izvēles forma -->
 <form method="GET" action="/Noslogojums" style="margin-bottom: 20px;" id="day-load-form">
-    <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 12px 16px; background: #f8fdfe; display: inline-flex; gap: 12px; align-items: center;">
+    <div style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 12px 16px; background: #f8fdfe; display: inline-flex; gap: 12px; align-items: center;">
         <label for="datums" style="font-weight: 500; white-space: nowrap;">Izvēlieties datumu:</label>
 
         <a href="{{ '/Noslogojums?' . http_build_query($prevParams) }}"
-           style="border-radius: 7px; border: 1px solid #59c1cf; padding: 3px 8px; background: #ffffff; color: #000; text-decoration: none; white-space: nowrap; font-size: 0.86rem;">
+           style="border-radius: 7px; border: 1px solid #C2CBD1; padding: 3px 8px; background: #ffffff; color: #000; text-decoration: none; white-space: nowrap; font-size: 0.86rem;">
             &lsaquo; Iepriekš.
         </a>
 
         <input type="text" id="datums" name="datums" value="{{ $datums }}" autocomplete="off"
-               style="border: 1px solid #59c1cf; border-radius: 6px; padding: 6px 10px; font-size: 14px;">
+               style="border: 1px solid #C2CBD1; border-radius: 6px; padding: 6px 10px; font-size: 14px;">
 
         <a href="{{ '/Noslogojums?' . http_build_query($nextParams) }}"
-           style="border-radius: 7px; border: 1px solid #59c1cf; padding: 3px 8px; background: #ffffff; color: #000; text-decoration: none; white-space: nowrap; font-size: 0.86rem;">
+           style="border-radius: 7px; border: 1px solid #C2CBD1; padding: 3px 8px; background: #ffffff; color: #000; text-decoration: none; white-space: nowrap; font-size: 0.86rem;">
             Nāk. &rsaquo;
         </a>
     </div>
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </p>
 
 @if($kopsavilkums->isEmpty())
-    <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 20px; background: #f8fdfe; text-align: center; color: #555;">
+    <div style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 20px; background: #f8fdfe; text-align: center; color: #555;">
         Izvēlētajā datumā nav aktīvu nomu.
     </div>
 @else
@@ -217,24 +217,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     .page-noslogojums .nos-table {
         border-collapse: collapse;
-        border: 1px solid #59c1cf;
+        border: 1px solid #C2CBD1;
         border-radius: 8px;
         overflow: hidden;
         text-align: center;
     }
     .page-noslogojums .nos-table thead {
-        background-color: #59c1cf;
+        background-color: #C2CBD1;
         color: #fff;
     }
     .page-noslogojums .nos-table thead th {
         padding: 12px 14px;
         font-weight: bold;
-        border: 1px solid #59c1cf;
+        border: 1px solid #C2CBD1;
         text-align: center;
     }
     .page-noslogojums .nos-table tbody td {
         padding: 10px 14px;
-        border: 1px solid #ddd;
+        border: 1px solid #C2CBD1;
         text-align: center;
     }
     .page-noslogojums .nos-table tbody tr:hover {

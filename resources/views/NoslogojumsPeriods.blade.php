@@ -5,7 +5,7 @@
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <div style="display: flex; align-items: center; gap: 18px;">
-        <a href="/Noslogojums" style="font-size: 1.25rem; font-weight: 600; color: #2c7d89; text-decoration: none;">Dienas noslogojums</a>
+        <a href="/Noslogojums" style="font-size: 1.25rem; font-weight: 600; color: #C2CBD1; text-decoration: none;">Dienas noslogojums</a>
         <a href="/Noslogojums/periods" style="font-size: 1.5rem; font-weight: 700; color: #000; text-decoration: none;">Perioda noslogojums</a>
     </div>
 
@@ -22,17 +22,17 @@
 @endif
 
 <form method="GET" action="/Noslogojums/periods" style="margin-bottom: 20px;" id="period-load-form">
-    <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 12px 16px; background: #f8fdfe; display: inline-flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+    <div style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 12px 16px; background: #f8fdfe; display: inline-flex; gap: 12px; align-items: center; flex-wrap: wrap;">
         <label for="perioda_sakums" style="font-weight: 500; white-space: nowrap;">No:</label>
         <input type="text" id="perioda_sakums" name="perioda_sakums" value="{{ $periodaSakums }}" autocomplete="off"
-               style="border: 1px solid #59c1cf; border-radius: 6px; padding: 6px 10px; font-size: 14px; min-width: 120px;">
+               style="border: 1px solid #C2CBD1; border-radius: 6px; padding: 6px 10px; font-size: 14px; min-width: 120px;">
 
         <label for="perioda_beigas" style="font-weight: 500; white-space: nowrap;">Līdz:</label>
         <input type="text" id="perioda_beigas" name="perioda_beigas" value="{{ $periodaBeigas }}" autocomplete="off"
-               style="border: 1px solid #59c1cf; border-radius: 6px; padding: 6px 10px; font-size: 14px; min-width: 120px;">
+               style="border: 1px solid #C2CBD1; border-radius: 6px; padding: 6px 10px; font-size: 14px; min-width: 120px;">
 
         <button type="submit"
-                style="border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 14px; background: #59c1cf; color: #000; cursor: pointer; font-size: 14px;">
+                style="border-radius: 8px; border: 1px solid #C2CBD1; padding: 6px 14px; background: #C2CBD1; color: #000; cursor: pointer; font-size: 14px;">
             Skatīt periodu
         </button>
     </div>
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </p>
 
 @if($periodaKopsavilkums->isEmpty())
-    <div style="border: 1px solid #59c1cf; border-radius: 10px; padding: 20px; background: #f8fdfe; text-align: center; color: #555;">
+    <div style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 20px; background: #f8fdfe; text-align: center; color: #555;">
         Izvēlētajā periodā nav aktīvu nomu.
     </div>
 @else
@@ -186,24 +186,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     .page-noslogojums .nos-table {
         border-collapse: collapse;
-        border: 1px solid #59c1cf;
+        border: 1px solid #C2CBD1;
         border-radius: 8px;
         overflow: hidden;
         text-align: center;
     }
     .page-noslogojums .nos-table thead {
-        background-color: #59c1cf;
+        background-color: #C2CBD1;
         color: #fff;
     }
     .page-noslogojums .nos-table thead th {
         padding: 12px 14px;
         font-weight: bold;
-        border: 1px solid #59c1cf;
+        border: 1px solid #C2CBD1;
         text-align: center;
     }
     .page-noslogojums .nos-table tbody td {
         padding: 10px 14px;
-        border: 1px solid #ddd;
+        border: 1px solid #C2CBD1;
         text-align: center;
     }
     .page-noslogojums .nos-table tbody tr:hover {
