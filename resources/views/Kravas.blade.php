@@ -48,36 +48,42 @@
     </div>
 @endif
 
-<!-- Filtrēšanas logs -->
-<form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-filter-form" style="margin-bottom: 15px; padding: 8px 10px 0 10px;">
-    <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
-        <h4>Filtrēšana</h4>
-        <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
-            <select name="search" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px; background-color: #fff;">
-                <option value="">Kravas nosaukums</option>
-                @foreach($kravasOptions as $option)
-                    <option value="{{ $option }}" {{ $search === $option ? 'selected' : '' }}>{{ $option }}</option>
-                @endforeach
-            </select>
-            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
-            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
-            <input type="hidden" name="vagona_nosaukums" value="{{ $vagonaNosaukums }}">
-            <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
-            <a href="{{ '?' . http_build_query(request()->except(['search', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt filtrus</a>
+<!-- Filtrēšanas un meklēšanas logu konteiners -->
+<div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 15px; flex-wrap: wrap;">
+    <!-- Filtrēšanas logs -->
+    <form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-filter-form" style="padding: 8px 10px;">
+        <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
+            <h4>Filtrēšana</h4>
+            <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
+                <select name="search" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px; background-color: #fff;">
+                    <option value="">Kravas nosaukums</option>
+                    @foreach($kravasOptions as $option)
+                        <option value="{{ $option }}" {{ $search === $option ? 'selected' : '' }}>{{ $option }}</option>
+                    @endforeach
+                </select>
+                <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+                <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+                <input type="hidden" name="vagona_nosaukums" value="{{ $vagonaNosaukums }}">
+                <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
+                <a href="{{ '?' . http_build_query(request()->except(['search', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt filtrus</a>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
-<!-- Meklēšanas logs -->
-<form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-search-form" style="margin-bottom: 15px; padding: 8px 10px;">
-    <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
-        <h4>Meklēšana</h4>
-        <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
-            <input type="text" name="vagona_nosaukums" value="{{ $vagonaNosaukums }}" placeholder="Vagona nosaukums..." data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;">
-            <input type="hidden" name="search" value="{{ $search }}">
-            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
-            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
-            <a href="{{ '?' . http_build_query(request()->except(['vagona_nosaukums', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt meklēšanu</a>
+    <!-- Meklēšanas logs -->
+    <form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-search-form" style="padding: 8px 10px;">
+        <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
+            <h4>Meklēšana</h4>
+            <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
+                <input type="text" name="vagona_nosaukums" value="{{ $vagonaNosaukums }}" placeholder="Vagona nosaukums..." data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;">
+                <input type="hidden" name="search" value="{{ $search }}">
+                <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+                <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+                <a href="{{ '?' . http_build_query(request()->except(['vagona_nosaukums', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt meklēšanu</a>
+            </div>
+        </div>
+    </form>
+</div>
         </div>
     </div>
 </form>
