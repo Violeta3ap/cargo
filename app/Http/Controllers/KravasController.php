@@ -21,7 +21,7 @@ class KravasController extends Controller
   {
     // Meklēšanas parametri
     $search = trim((string) $request->query('search', ''));
-    $vagonaId = trim((string) $request->query('vagona_id', ''));
+    $vagonaNosaukums = trim((string) $request->query('vagona_nosaukums', ''));
 
     $kravasOptions = Kravas::query()
       ->select('Nosaukums')
@@ -53,14 +53,16 @@ class KravasController extends Controller
     // Veidojam vaicājumu
     $query = Kravas::query();
 
-    // Meklēšana pēc nosaukuma
+    // Filtrēšana pēc Kravas nosaukuma
     if ($search !== '') {
-      $query->where('Nosaukums', 'like', '%' . $search . '%');
+      $query->where('Nosaukums', $search);
     }
 
-    // Meklēšana pēc VagonaID (VeidaID)
-    if ($vagonaId !== '') {
-      $query->where('VeidaID', 'like', '%' . $vagonaId . '%');
+    // Meklēšana pēc vagona nosaukuma
+    if ($vagonaNosaukums !== '') {
+      $query->whereHas('veidi', function ($builder) use ($vagonaNosaukums) {
+        $builder->where('Nosaukums', 'like', '%' . $vagonaNosaukums . '%');
+      });
     }
 
     $dati = $query
@@ -69,7 +71,7 @@ class KravasController extends Controller
       ->paginate(15)
       ->appends($request->query());
     
-    return view('Kravas', compact('dati', 'sortBy', 'sortOrder', 'search', 'vagonaId', 'kravasOptions'));
+    return view('Kravas', compact('dati', 'sortBy', 'sortOrder', 'search', 'vagonaNosaukums', 'kravasOptions'));
   }
 
   // Dzēš kravu.

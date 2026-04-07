@@ -6,7 +6,7 @@
 
 @php
     $search = $search ?? request('search', '');
-    $vagonaId = $vagonaId ?? request('vagona_id', '');
+    $vagonaNosaukums = $vagonaNosaukums ?? request('vagona_nosaukums', '');
     $kravasOptions = $kravasOptions ?? collect();
     $sortBy = $sortBy ?? request('sort_by', 'KravasID');
     $sortOrder = $sortOrder ?? request('sort_order', 'asc');
@@ -48,22 +48,36 @@
     </div>
 @endif
 
-<!-- Meklēšanas logs -->
-<form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-search-form" style="margin-bottom: 15px; padding: 8px 10px;">
+<!-- Filtrēšanas logs -->
+<form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-filter-form" style="margin-bottom: 15px; padding: 8px 10px 0 10px;">
     <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
         <h4>Filtrēšana</h4>
         <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
-            <select name="search" data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px; background-color: #fff;">
+            <select name="search" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 240px; background-color: #fff;">
                 <option value="">Kravas nosaukums</option>
                 @foreach($kravasOptions as $option)
                     <option value="{{ $option }}" {{ $search === $option ? 'selected' : '' }}>{{ $option }}</option>
                 @endforeach
             </select>
-            <input type="text" name="vagona_id" value="{{ $vagonaId }}" placeholder="VagonaID" data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 140px;">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+            <input type="hidden" name="vagona_nosaukums" value="{{ $vagonaNosaukums }}">
             <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
-            <a href="/Kravas" class="filter-btn" style="padding: 2px 8px;">Notīrīt</a>
+            <a href="{{ '?' . http_build_query(request()->except(['search', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt filtrus</a>
+        </div>
+    </div>
+</form>
+
+<!-- Meklēšanas logs -->
+<form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-search-form" style="margin-bottom: 15px; padding: 8px 10px;">
+    <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
+        <h4>Meklēšana</h4>
+        <div class="search-row" style="display: flex; gap: 8px; align-items: center; overflow-x: auto;">
+            <input type="text" name="vagona_nosaukums" value="{{ $vagonaNosaukums }}" placeholder="Vagona nosaukums..." data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;">
+            <input type="hidden" name="search" value="{{ $search }}">
+            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+            <a href="{{ '?' . http_build_query(request()->except(['vagona_nosaukums', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt meklēšanu</a>
         </div>
     </div>
 </form>
@@ -74,7 +88,7 @@
     <thead>
          <tr>
             <th>
-                <a href="{{ getSortUrl('Nosaukums', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search, 'vagona_id' => $vagonaId])) }}" 
+                  <a href="{{ getSortUrl('Nosaukums', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search, 'vagona_nosaukums' => $vagonaNosaukums])) }}" 
                    class="sort-link {{ $sortBy == 'Nosaukums' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Kravas veids
                     @if($sortBy == 'Nosaukums')
@@ -83,7 +97,7 @@
                 </a>
             </th>
             <th>
-                <a href="{{ getSortUrl('VeidaID', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search, 'vagona_id' => $vagonaId])) }}" 
+                  <a href="{{ getSortUrl('VeidaID', $sortBy, $sortOrder, array_merge(request()->except(['page']), ['search' => $search, 'vagona_nosaukums' => $vagonaNosaukums])) }}" 
                    class="sort-link {{ $sortBy == 'VeidaID' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Vagona nosaukums
                     @if($sortBy == 'VeidaID')
@@ -142,21 +156,25 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('kravas-search-form');
+    const searchForm = document.getElementById('kravas-search-form');
     const resultsContainer = document.getElementById('kravas-results');
 
-    if (!form || !resultsContainer) {
+    if (!searchForm || !resultsContainer) {
         return;
     }
 
-    const liveInputs = form.querySelectorAll('[data-live-search="true"]');
+    const searchInput = searchForm.querySelector('input[data-live-search="true"]');
     let debounceTimer;
     let activeRequest;
 
+    if (!searchInput) {
+        return;
+    }
+
     const runLiveSearch = function () {
-        const params = new URLSearchParams(new FormData(form));
+        const params = new URLSearchParams(new FormData(searchForm));
         params.delete('page');
-        const url = form.action + '?' + params.toString();
+        const url = searchForm.action + '?' + params.toString();
 
         if (activeRequest) {
             activeRequest.abort();
@@ -192,15 +210,11 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     };
 
-    liveInputs.forEach(function (input) {
-        const eventName = input.tagName === 'SELECT' ? 'change' : 'input';
-
-        input.addEventListener(eventName, function () {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(function () {
-                runLiveSearch();
-            }, 300);
-        });
+    searchInput.addEventListener('input', function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function () {
+            runLiveSearch();
+        }, 300);
     });
 });
 </script>
