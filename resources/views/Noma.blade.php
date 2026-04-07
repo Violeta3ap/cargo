@@ -53,24 +53,24 @@
         <h4>Filtrēšana</h4>
         <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
             @if(Auth::check() && Auth::user()->isAdmin())
-                <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
-                <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
-                <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+                <input type="text" name="klienta_vards" value="{{ $klientaVards }}" placeholder="Klienta vārds" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+                <input type="text" name="klienta_uzvards" value="{{ $klientaUzvards }}" placeholder="Klienta uzvārds" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+                <input type="text" name="klienta_uznemums" value="{{ $klientaUznemums }}" placeholder="Klienta uzņēmums" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             @endif
-            <select name="krava" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px; background-color: #fff;">
+            <select name="krava" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px; background-color: #fff;">
                 <option value="">Kravas nosaukums</option>
                 @foreach($kravaOptions as $option)
                     <option value="{{ $option }}" {{ $krava === $option ? 'selected' : '' }}>{{ $option }}</option>
                 @endforeach
             </select>
-            <select name="veids" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px; background-color: #fff;">
+            <select name="veids" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px; background-color: #fff;">
                 <option value="">Vagona veids</option>
                 @foreach($veidaOptions as $option)
                     <option value="{{ $option }}" {{ $veids === $option ? 'selected' : '' }}>{{ $option }}</option>
                 @endforeach
             </select>
-            <input type="text" class="datepicker" name="nomas_sakuma_periods" value="{{ $nomasSakumaPeriods }}" title="Nomas sākuma periods" placeholder="Nomas sākuma periods" autocomplete="off" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
-            <input type="text" class="datepicker" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}" title="Nomas beigu periods" placeholder="Nomas beigu periods" autocomplete="off" style="border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+            <input type="text" class="datepicker" name="nomas_sakuma_periods" value="{{ $nomasSakumaPeriods }}" title="Nomas sākuma periods" placeholder="Nomas sākuma periods" autocomplete="off" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+            <input type="text" class="datepicker" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}" title="Nomas beigu periods" placeholder="Nomas beigu periods" autocomplete="off" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
             <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
 @endif
 
 <!-- Nomas saraksts -->
-<table class="table table-striped" style="width: 100%; border: 1px solid #59c1cf; border-radius: 8px; overflow: hidden; text-align: center;">
+<table class="table table-striped" style="width: 100%; border: 1px solid #C2CBD1; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
          <tr>
             <th>
