@@ -33,8 +33,8 @@
     </a>
 
     <!-- Poga amata dzēšanai -->
-    <a href="/Amati/{{ $amati->AmataID }}/delete" style="border-radius:8px; border: 1px solid #b62100; 
-                padding: 5px; color: #000000; text-decoration: none; background-color: #b62100;">
+    <a href="/Amati/{{ $amati->AmataID }}/delete" style="border-radius:8px; border: 1px solid #bb6552; 
+                padding: 5px; color: #000000; text-decoration: none; background-color: #bb6552;">
         Dzēst
     </a>
 

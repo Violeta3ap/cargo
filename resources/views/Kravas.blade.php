@@ -102,7 +102,7 @@
                 <td>
                     <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
                         <a href="/Kravas/{{ $item->KravasID }}/edit" class="btn-action">Rediģēt</a>
-                        <a href="/Kravas/{{ $item->KravasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action" style="border-color:#b62100; background-color:#b62100;">Dzēst</a>
+                        <a href="/Kravas/{{ $item->KravasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action" style="border-color:#bb6552; background-color:#bb6552;">Dzēst</a>
                     </div>
                 </td>
             @endif
