@@ -113,11 +113,17 @@
                 <select class="form-control" id="StatusaID" name="StatusaID">
                     <option value="">Izvēlieties statusu</option>
                     @foreach($nomasStatusi as $statuss)
-                        <option value="{{ $statuss->StatusaID }}" {{ (int) $noma->StatusaID === (int) $statuss->StatusaID ? 'selected' : '' }}>
+                        <option value="{{ $statuss->StatusaID }}" data-status-name="{{ mb_strtolower($statuss->Nosaukums) }}" {{ (int) $noma->StatusaID === (int) $statuss->StatusaID ? 'selected' : '' }}>
                             {{ $statuss->Nosaukums }}
                         </option>
                     @endforeach
                 </select>
+            </div>
+
+            <div class="form-group" id="atteikumaIemeslsWrap" style="display: none; border: 1px solid #f5c2c7; border-radius: 8px; padding: 12px; background-color: #fff4f4;">
+                <label for="AtteikumaIemesls" style="font-weight: 600;">Atteikuma iemesls</label>
+                <textarea class="form-control" id="AtteikumaIemesls" name="AtteikumaIemesls" rows="4" maxlength="2000" placeholder="Aprakstiet, kāpēc nomas pieteikums tiek noraidīts...">{{ old('AtteikumaIemesls', $noma->AtteikumaIemesls ?? '') }}</textarea>
+                <small style="font-size: 12px; color: #6c757d;">Šis lauks ir obligāts, ja nomas statuss ir "Noraidīts".</small>
             </div>
         @endif
 
@@ -152,6 +158,9 @@ $(document).ready(function() {
     var limitHintDiv = $('#availabilityLimitHint');
     var submitBtn = $('#submitBtn');
     var vagonuSkaitsInput = $('#VagonuSkaits');
+    var statusSelect = $('#StatusaID');
+    var atteikumaWrap = $('#atteikumaIemeslsWrap');
+    var atteikumaInput = $('#AtteikumaIemesls');
 
     // Inicializē datuma izvēli
     flatpickr('.datepicker', {
@@ -173,6 +182,31 @@ $(document).ready(function() {
         } else {
             vagonuSkaitsInput.removeAttr('max');
             limitHintDiv.text('');
+        }
+    }
+
+    function isNoraiditsSelected() {
+        if (!statusSelect.length) {
+            return false;
+        }
+
+        var selected = statusSelect.find('option:selected');
+        var statusName = (selected.data('status-name') || '').toString().toLowerCase();
+        return statusName.indexOf('noraid') !== -1;
+    }
+
+    function toggleAtteikumaIemesls() {
+        if (!atteikumaWrap.length || !atteikumaInput.length) {
+            return;
+        }
+
+        if (isNoraiditsSelected()) {
+            atteikumaWrap.show();
+            atteikumaInput.prop('required', true);
+        } else {
+            atteikumaWrap.hide();
+            atteikumaInput.prop('required', false);
+            atteikumaInput.val('');
         }
     }
     
@@ -306,6 +340,23 @@ $(document).ready(function() {
         checkAvailability();
         calculateTotal();
     });
+
+    if (statusSelect.length) {
+        statusSelect.on('change', function() {
+            toggleAtteikumaIemesls();
+        });
+    }
+
+    $('#nomaForm').on('submit', function(e) {
+        if (isNoraiditsSelected()) {
+            var value = (atteikumaInput.val() || '').trim();
+            if (!value) {
+                e.preventDefault();
+                alert('Lūdzu aizpildiet lauku "Atteikuma iemesls", jo statuss ir Noraidīts.');
+                atteikumaInput.focus();
+            }
+        }
+    });
     
     // Sākotnējais aprēķins
     setTimeout(function() {
@@ -315,6 +366,8 @@ $(document).ready(function() {
         } else {
             checkAvailability();
         }
+
+        toggleAtteikumaIemesls();
     }, 100);
 });
 </script>

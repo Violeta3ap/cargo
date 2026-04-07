@@ -36,6 +36,17 @@ class NomaController extends Controller
         return Schema::hasTable('vagonunoma_arhivs');
     }
 
+    private function hasAtteikumaIemeslsColumn(): bool
+    {
+        return Schema::hasColumn('vagonunoma', 'AtteikumaIemesls');
+    }
+
+    private function hasArchiveAtteikumaIemeslsColumn(): bool
+    {
+        return Schema::hasTable('vagonunoma_arhivs')
+            && Schema::hasColumn('vagonunoma_arhivs', 'AtteikumaIemesls');
+    }
+
     private function findStatusIdByName(string $table, string $idColumn, string $name): ?int
     {
         if (!Schema::hasTable($table)) {
@@ -525,6 +536,10 @@ class NomaController extends Controller
                 'MaksasID' => $this->hasMaksasStatusColumn() ? $noma->MaksasID : null,
             ];
 
+            if ($this->hasAtteikumaIemeslsColumn() && $this->hasArchiveAtteikumaIemeslsColumn()) {
+                $archiveData['AtteikumaIemesls'] = $noma->AtteikumaIemesls;
+            }
+
             DB::table('vagonunoma_arhivs')->insert($archiveData);
 
             DB::table('noslogojums')->where('NomasID', $id)->delete();
@@ -624,6 +639,10 @@ class NomaController extends Controller
                 $insertData['MaksasID'] = $arhivaIeraksts->MaksasID !== null
                     ? (int) $arhivaIeraksts->MaksasID
                     : $this->resolveDefaultMaksasStatusId();
+            }
+
+            if ($this->hasAtteikumaIemeslsColumn() && isset($arhivaIeraksts->AtteikumaIemesls)) {
+                $insertData['AtteikumaIemesls'] = $arhivaIeraksts->AtteikumaIemesls;
             }
 
             DB::table('vagonunoma')->insert($insertData);
@@ -827,6 +846,12 @@ class NomaController extends Controller
             ]);
         }
 
+        if ($this->userIsAdmin() && $this->hasAtteikumaIemeslsColumn()) {
+            $dati->validate([
+                'AtteikumaIemesls' => ['nullable', 'string', 'max:2000'],
+            ]);
+        }
+
         if ($this->userIsAdmin() && $this->hasMaksasStatusColumn()) {
             $dati->validate([
                 'MaksasID' => ['nullable', 'integer'],
@@ -870,6 +895,23 @@ class NomaController extends Controller
             }
 
             $updateData['StatusaID'] = $statusaId !== null && $statusaId !== '' ? (int) $statusaId : null;
+
+            if ($this->hasAtteikumaIemeslsColumn()) {
+                $noraiditsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Noraidīts');
+                $irNoraidits = $noraiditsId !== null
+                    && $updateData['StatusaID'] !== null
+                    && (int) $updateData['StatusaID'] === (int) $noraiditsId;
+
+                $atteikumaIemesls = trim((string) $dati->input('AtteikumaIemesls', ''));
+
+                if ($irNoraidits && $atteikumaIemesls === '') {
+                    return back()->withInput()->withErrors([
+                        'AtteikumaIemesls' => 'Ja statuss ir Noraidīts, laukam "Atteikuma iemesls" ir jābūt aizpildītam.'
+                    ]);
+                }
+
+                $updateData['AtteikumaIemesls'] = $irNoraidits ? $atteikumaIemesls : null;
+            }
         }
 
         if ($this->userIsAdmin() && $this->hasMaksasStatusColumn()) {
