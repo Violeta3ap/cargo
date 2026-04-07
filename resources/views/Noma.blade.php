@@ -229,6 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     @endif
                 </a>
             </th>
+            <th>Atteikuma iemesls</th>
             <th>
                 <a href="{{ getSortUrl('MaksasStatuss', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'MaksasStatuss' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
@@ -263,6 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{$item->NomasBeiguPeriods}}</td>
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
             <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
+            <td>{{ $item->AtteikumaIemesls ?? '-' }}</td>
             <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
             <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
             <td>
