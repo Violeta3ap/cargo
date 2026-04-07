@@ -3,8 +3,8 @@
 @section('content')
 
 <h2>Pievienot jaunu nomas pieteikumu</h2>
-<a href="/Noma" style="border-radius:8px; border: 1px solid #59c1cf; 
-            padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+<a href="/Noma" style="border-radius:8px; border: 1px solid #C2CBD1; 
+            padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
     Atpakaļ
 </a>
 
@@ -105,8 +105,8 @@
         <small style="font-size: 12px; color: #6c757d;">Kopējā maksa tiek aprēķināta automātiski</small>
     </div>
 
-    <button type="submit" id="submitBtn" style="border-radius:8px; border: 1px solid #59c1cf; 
-            padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+    <button type="submit" id="submitBtn" style="border-radius:8px; border: 1px solid #C2CBD1; 
+            padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
         Saglabāt
     </button>
 </form>

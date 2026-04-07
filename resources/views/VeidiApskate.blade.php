@@ -4,8 +4,8 @@
 
 <h2>Vagonu veidu detalizēta apskate</h2> <!-- Virsraksts lapai -->
 
-<a href="/Veidi" style="border-radius:8px; border: 1px solid #59c1cf; 
-    padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+<a href="/Veidi" style="border-radius:8px; border: 1px solid #C2CBD1; 
+    padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
     Atpakaļ
 </a> <!-- Poga atpakaļ uz veidu sarakstu -->
 
@@ -24,8 +24,8 @@
 
 <br><br> <!-- Tukša vieta zem kartes -->
 
-<a href="/Veidi/{{ $veidi->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #59c1cf; 
-    padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+<a href="/Veidi/{{ $veidi->VeidaID }}/edit" style="border-radius:8px; border: 1px solid #C2CBD1; 
+    padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
     Rediģēt
 </a> <!-- Poga veida rediģēšanai -->
 

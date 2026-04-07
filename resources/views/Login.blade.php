@@ -79,7 +79,7 @@
                 </div>
 
                 <!-- Pieteikšanās poga -->
-                <button type="submit" style="width: 100%; padding: 12px; background: linear-gradient(to right, #59c1cf, #4a9aaa); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s;">
+                <button type="submit" style="width: 100%; padding: 12px; background: #5985a8; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s;">
                     Pieteikties
                 </button>
             </form>

@@ -2,8 +2,8 @@
 
 @section('content')
     <h2>Rediģēt nomu</h2>
-    <a href="/Noma" style="border-radius:8px; border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">Atpakaļ</a>
+    <a href="/Noma" style="border-radius:8px; border: 1px solid #C2CBD1; 
+                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">Atpakaļ</a>
 
     <hr>
 
@@ -135,8 +135,8 @@
             </div>
         @endif
 
-        <button type="submit" id="submitBtn" style="border-radius:8px; border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+        <button type="submit" id="submitBtn" style="border-radius:8px; border: 1px solid #C2CBD1; 
+                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
             Atjaunināt
         </button>
     </form>

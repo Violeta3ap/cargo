@@ -5,8 +5,8 @@
     <h2>Pievienot jaunus amata datus</h2> <!-- Virsraksts -->
 
     <!-- Poga atpakaļ uz amata sarakstu -->
-    <a href="/Amati" style="border-radius:8px; border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+    <a href="/Amati" style="border-radius:8px; border: 1px solid #C2CBD1; 
+                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
         Atpakaļ
     </a>
 
@@ -23,8 +23,8 @@
         </div>
 
         <!-- Saglabāšanas poga -->
-        <button type="submit" style="border-radius:8px; border: 1px solid #59c1cf; 
-                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+        <button type="submit" style="border-radius:8px; border: 1px solid #C2CBD1; 
+                padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
             Saglabāt
         </button>
     </form>

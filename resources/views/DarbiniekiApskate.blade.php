@@ -6,7 +6,7 @@
 
 <!-- Poga atpakaļ uz darbinieku sarakstu -->
 <a href="/Darbinieki"
-   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   style="border-radius:8px; border:1px solid #C2CBD1; padding:5px; color:#000; text-decoration:none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
    Atpakaļ
 </a>
 
@@ -28,7 +28,7 @@
 
 <!-- Rediģēšanas poga -->
 <a href="/Darbinieki/{{ $darbinieki->DarbiniekaID }}/edit"
-   style="border-radius:8px; border:1px solid #59c1cf; padding:5px; color:#000; text-decoration:none; background: linear-gradient(to right, #59c1cf, #ffffff)">
+   style="border-radius:8px; border:1px solid #C2CBD1; padding:5px; color:#000; text-decoration:none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
    Rediģēt
 </a>
 
