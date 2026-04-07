@@ -8,6 +8,7 @@
     $vards = $vards ?? request('vards');
     $uzvards = $uzvards ?? request('uzvards');
     $uznemumanos = $uznemumanos ?? request('uznemumanos');
+    $search = $search ?? request('search');
     $sortBy = $sortBy ?? request('sort_by', 'KlientaID');
     $sortOrder = $sortOrder ?? request('sort_order', 'asc');
     
@@ -35,18 +36,35 @@
     </nav>
 </div>
 
-<!-- Meklēšanas logs -->
-<form method="GET" action="/Klienti" class="klienti-filter-form" id="klienti-filter-form" style="padding: 8px 10px;">
+<!-- Meklēšana -->
+<form method="GET" action="/Klienti" class="klienti-filter-form" id="klienti-search-form" style="padding: 8px 10px 0 10px;">
     <div class="filter-window" style="width: fit-content; max-width: 100%;">
-        <h4>Filtrēšana (meklēšana sākas automātiski no 3 simboliem)</h4>
+        <h4>Meklēšana</h4>
         <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
-            <input type="text" name="vards" value="{{ $vards }}" placeholder="Vārds" data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
-            <input type="text" name="uzvards" value="{{ $uzvards }}" placeholder="Uzvārds" data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
-            <input type="text" name="uznemumanos" value="{{ $uznemumanos }}" placeholder="Uzņēmuma nosaukums" data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+            <input type="text" name="search" value="{{ $search }}" placeholder="Meklēt klientu..." data-live-search="true" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;">
+            <input type="hidden" name="vards" value="{{ $vards }}">
+            <input type="hidden" name="uzvards" value="{{ $uzvards }}">
+            <input type="hidden" name="uznemumanos" value="{{ $uznemumanos }}">
+            <input type="hidden" name="sort_by" value="{{ $sortBy }}">
+            <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
+            <a href="{{ '?' . http_build_query(request()->except(['search', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt meklēšanu</a>
+        </div>
+    </div>
+</form>
+
+<!-- Filtrēšanas logs -->
+<form method="GET" action="/Klienti" class="klienti-filter-form" style="padding: 8px 10px;">
+    <div class="filter-window" style="width: fit-content; max-width: 100%;">
+        <h4>Filtrēšana</h4>
+        <div class="filter-row" style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto;">
+            <input type="text" name="vards" value="{{ $vards }}" placeholder="Vārds" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+            <input type="text" name="uzvards" value="{{ $uzvards }}" placeholder="Uzvārds" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+            <input type="text" name="uznemumanos" value="{{ $uznemumanos }}" placeholder="Uzņēmuma nosaukums" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
+            <input type="hidden" name="search" value="{{ $search }}">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
             <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
             <button type="submit" class="filter-btn" style="padding: 2px 8px;">Filtrēt</button>
-            <a href="/Klienti" class="filter-btn" style="padding: 2px 8px;">Notīrīt</a>
+            <a href="{{ '?' . http_build_query(request()->except(['vards', 'uzvards', 'uznemumanos', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt filtrus</a>
         </div>
     </div>
 </form>
@@ -198,43 +216,27 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('klienti-filter-form');
+    const form = document.getElementById('klienti-search-form');
 
     if (!form) {
         return;
     }
 
-    const searchInputs = form.querySelectorAll('input[data-live-search="true"]');
+    const searchInput = form.querySelector('input[data-live-search="true"]');
     let debounceTimer;
 
-    const shouldSubmit = () => {
-        let hasThreeChars = false;
-        let hasAnyValue = false;
+    if (!searchInput) {
+        return;
+    }
 
-        searchInputs.forEach(function (input) {
-            const trimmedValue = input.value.trim();
-
-            if (trimmedValue.length > 0) {
-                hasAnyValue = true;
+    searchInput.addEventListener('input', function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function () {
+            const valueLength = searchInput.value.trim().length;
+            if (valueLength >= 1 || valueLength === 0) {
+                form.submit();
             }
-
-            if (trimmedValue.length >= 3) {
-                hasThreeChars = true;
-            }
-        });
-
-        return hasThreeChars || !hasAnyValue;
-    };
-
-    searchInputs.forEach(function (input) {
-        input.addEventListener('input', function () {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(function () {
-                if (shouldSubmit()) {
-                    form.submit();
-                }
-            }, 300);
-        });
+        }, 300);
     });
 });
 </script>

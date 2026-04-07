@@ -30,6 +30,7 @@ class KlientiController extends Controller
     $vards = trim((string) $request->query('vards', ''));
     $uzvards = trim((string) $request->query('uzvards', ''));
     $uznemumanos = trim((string) $request->query('uznemumanos', ''));
+    $search = trim((string) $request->query('search', ''));
     
     // Kārtošanas parametri
     $sortBy = $request->query('sort_by', 'KlientaID');
@@ -73,12 +74,25 @@ class KlientiController extends Controller
       $query->where('UznemumaNosaukums', 'like', '%' . $uznemumanos . '%');
     }
 
+    if ($search !== '') {
+      $query->where(function ($builder) use ($search) {
+        $builder->where('Vards', 'like', '%' . $search . '%')
+          ->orWhere('Uzvards', 'like', '%' . $search . '%')
+          ->orWhere('Epasts', 'like', '%' . $search . '%')
+          ->orWhere('TelefonaNumurs', 'like', '%' . $search . '%')
+          ->orWhere('UznemumaNosaukums', 'like', '%' . $search . '%')
+          ->orWhere('JuridiskaAdrese', 'like', '%' . $search . '%')
+          ->orWhere('RegistracijasNumurs', 'like', '%' . $search . '%')
+          ->orWhere('KontaNumurs', 'like', '%' . $search . '%');
+      });
+    }
+
     $klientis = $query
       ->orderBy($sortBy, $sortOrder)
       ->paginate(15)
       ->appends($request->query());
 
-    return view('Klienti', compact('klientis', 'vards', 'uzvards', 'uznemumanos', 'sortBy', 'sortOrder'));
+    return view('Klienti', compact('klientis', 'vards', 'uzvards', 'uznemumanos', 'search', 'sortBy', 'sortOrder'));
   }
 
   // Dzēš klienta ierakstu.
