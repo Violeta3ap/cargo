@@ -105,8 +105,8 @@
             flex: 0 0 auto;
             font-size: 0.8rem;
             border-radius: 6px;
-            border: 1px solid #5985a8;
-            background-color: #5985a8;
+            border: 1px solid #C2CBD1;
+            background-color: #C2CBD1;
             color: #000;
             text-decoration: none;
             cursor: pointer;
@@ -115,29 +115,29 @@
         .page-klienti .filter-btn, .page-kravas .filter-btn, .page-veidi .filter-btn { padding: 4px 12px; }
         .page-noma .filter-btn { padding: 2px 8px; }
         .page-klienti .filter-btn:hover, .page-kravas .filter-btn:hover,
-        .page-veidi .filter-btn:hover, .page-noma .filter-btn:hover { background-color: #a2e0ed; }
+        .page-veidi .filter-btn:hover, .page-noma .filter-btn:hover { background-color: #C2CBD1; }
 
         /* ===== Meklēšanas ievade ===== */
         .page-kravas .veidi-search-form input, .page-veidi .veidi-search-form input {
-            border: 1px solid #59c1cf; border-radius: 8px; padding: 8px 10px; font-size: 0.92rem;
+            border: 1px solid #C2CBD1; border-radius: 8px; padding: 8px 10px; font-size: 0.92rem;
         }
 
         /* ===== btn-action ===== */
         .page-kravas .btn-action, .page-noma .btn-action {
-            border-radius: 8px; border: 1px solid #59c1cf; padding: 5px 10px;
-            color: #000; text-decoration: none; background-color: #59c1cf;
+            border-radius: 8px; border: 1px solid #C2CBD1; padding: 5px 10px;
+            color: #000; text-decoration: none; background-color: #C2CBD1;
             white-space: nowrap; text-align: center;
         }
-        .page-kravas .btn-action:hover, .page-noma .btn-action:hover { background-color: #a2e0ed; color: #000; }
+        .page-kravas .btn-action:hover, .page-noma .btn-action:hover { background-color: #C2CBD1; color: #000; }
         .page-noma .btn-action { font-size: 0.9rem; width: 100%; }
         .page-veidi .btn-action { transition: background-color 0.2s ease; }
-        .page-veidi .btn-action:hover { background-color: #a2e0ed !important; color: #000; }
+        .page-veidi .btn-action:hover { background-color: #C2CBD1 !important; color: #000; }
 
         /* ===== Page-btn (klienti un noma) ===== */
         .page-klienti .page-btn, .page-noma .page-btn {
-            border-radius: 8px; border: 1px solid #59c1cf; padding: 6px 12px;
+            border-radius: 8px; border: 1px solid #C2CBD1; padding: 6px 12px;
             color: #000000; text-decoration: none;
-            background: linear-gradient(to right, #59c1cf, #ffffff);
+            background: linear-gradient(to right, #C2CBD1, #ffffff);
             white-space: nowrap; font-size: 0.92rem; line-height: 1;
             transition: background-color 0.2s ease, transform 0.2s ease;
         }
@@ -145,21 +145,21 @@
             min-width: 34px; text-align: center; padding: 6px 10px;
         }
         .page-klienti .page-btn:hover, .page-noma .page-btn:hover {
-            background: #a2e0ed; color: #000; transform: translateY(-1px);
+            background: #C2CBD1; color: #000; transform: translateY(-1px);
         }
-        .page-klienti .page-btn.active, .page-noma .page-btn.active { background: #59c1cf; color: #000; font-weight: 600; }
+        .page-klienti .page-btn.active, .page-noma .page-btn.active { background: #C2CBD1; color: #000; font-weight: 600; }
         .page-klienti .page-btn.disabled, .page-noma .page-btn.disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
 
         /* ===== Klienti ===== */
         .page-klienti .klienti-filter-form { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; align-items: flex-end; }
         .page-klienti .filter-window, .page-noma .filter-window {
-            border: 1px solid #59c1cf; border-radius: 10px; padding: 10px; background: #f8fdfe;
+            border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe;
             display: flex; flex-direction: column; gap: 8px; align-items: stretch; width: 100%;
         }
         .page-klienti .filter-window h4, .page-noma .filter-window h4 { margin: 0 0 4px 0; font-size: 0.95rem; }
         .page-klienti .filter-row { display: flex; flex-wrap: nowrap; gap: 10px; align-items: center; overflow-x: auto; }
         .page-klienti .klienti-filter-form input {
-            border: 1px solid #59c1cf; border-radius: 8px; padding: 8px 10px;
+            border: 1px solid #C2CBD1; border-radius: 8px; padding: 8px 10px;
             font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 220px;
         }
         .page-klienti .klienti-pagination, .page-noma .noma-pagination {
@@ -168,14 +168,14 @@
 
         /* ===== Noma ===== */
         .page-noma .print-btn {
-            border-radius: 8px; border: 1px solid #59c1cf; padding: 5px 10px;
-            color: #000; text-decoration: none; background-color: #59c1cf; white-space: nowrap; margin-left: 8px;
+            border-radius: 8px; border: 1px solid #C2CBD1; padding: 5px 10px;
+            color: #000; text-decoration: none; background-color: #C2CBD1; white-space: nowrap; margin-left: 8px;
         }
-        .page-noma .print-btn:hover { background-color: #a2e0ed; }
+        .page-noma .print-btn:hover { background-color: #C2CBD1; }
         .page-noma .noma-filter-form { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; align-items: flex-end; }
         .page-noma .filter-row { display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; overflow-x: auto; }
         .page-noma .noma-filter-form input {
-            border: 1px solid #59c1cf; border-radius: 8px; padding: 4px 5px;
+            border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px;
             font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;
         }
 
