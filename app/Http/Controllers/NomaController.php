@@ -47,6 +47,11 @@ class NomaController extends Controller
             && Schema::hasColumn('vagonunoma_arhivs', 'AtteikumaIemesls');
     }
 
+    private function normalizeAtteikumaIemeslsValue($value): string
+    {
+        return trim((string) ($value ?? ''));
+    }
+
     private function findStatusIdByName(string $table, string $idColumn, string $name): ?int
     {
         if (!Schema::hasTable($table)) {
@@ -533,7 +538,7 @@ class NomaController extends Controller
             ];
 
             if ($this->hasAtteikumaIemeslsColumn() && $this->hasArchiveAtteikumaIemeslsColumn()) {
-                $archiveData['AtteikumaIemesls'] = $noma->AtteikumaIemesls;
+                $archiveData['AtteikumaIemesls'] = $this->normalizeAtteikumaIemeslsValue($noma->AtteikumaIemesls);
             }
 
             DB::table('vagonunoma_arhivs')->insert($archiveData);
@@ -637,8 +642,8 @@ class NomaController extends Controller
                     : $this->resolveDefaultMaksasStatusId();
             }
 
-            if ($this->hasAtteikumaIemeslsColumn() && isset($arhivaIeraksts->AtteikumaIemesls)) {
-                $insertData['AtteikumaIemesls'] = $arhivaIeraksts->AtteikumaIemesls;
+            if ($this->hasAtteikumaIemeslsColumn()) {
+                $insertData['AtteikumaIemesls'] = $this->normalizeAtteikumaIemeslsValue($arhivaIeraksts->AtteikumaIemesls ?? '');
             }
 
             DB::table('vagonunoma')->insert($insertData);
@@ -746,6 +751,10 @@ class NomaController extends Controller
 
         if ($this->hasMaksasStatusColumn()) {
             $noma->MaksasID = $this->resolveDefaultMaksasStatusId();
+        }
+
+        if ($this->hasAtteikumaIemeslsColumn()) {
+            $noma->AtteikumaIemesls = '';
         }
 
         $noma->save();
@@ -906,7 +915,9 @@ class NomaController extends Controller
                     ]);
                 }
 
-                $updateData['AtteikumaIemesls'] = $irNoraidits ? $atteikumaIemesls : null;
+                $updateData['AtteikumaIemesls'] = $irNoraidits
+                    ? $this->normalizeAtteikumaIemeslsValue($atteikumaIemesls)
+                    : '';
             }
         }
 

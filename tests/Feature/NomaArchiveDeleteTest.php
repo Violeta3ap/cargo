@@ -93,3 +93,40 @@ it('allows deleting a completed rental by moving it to the archive', function ()
     expect(DB::table('vagonunoma_arhivs')->where('NomasID', 123)->exists())->toBeTrue();
     expect(DB::table('noslogojums')->where('NomasID', 123)->exists())->toBeFalse();
 });
+
+it('restores an archived rental even when atteikuma iemesls is empty', function () {
+    DB::table('amati')->insert([
+        'AmataID' => 1,
+        'Nosaukums' => 'Admins',
+    ]);
+
+    $user = User::create([
+        'name' => 'Admin',
+        'email' => 'admin@example.com',
+        'password' => 'password',
+        'AmataID' => 1,
+    ]);
+
+    DB::table('vagonunoma_arhivs')->insert([
+        'NomasID' => 4,
+        'KlientaID' => 44,
+        'KravasID' => 4,
+        'VeidaID' => 4,
+        'VagonuSkaits' => 3,
+        'NomasSakumaPeriods' => '2026-03-14',
+        'NomasBeiguPeriods' => '2026-03-18',
+        'StatusaID' => 1,
+        'KopejaMaksa' => 375,
+        'MaksasID' => 1,
+        'AtteikumaIemesls' => null,
+    ]);
+
+    $response = $this->actingAs($user)->get('/Noma/arhivs/4/restore');
+
+    $response->assertRedirect('/Noma/arhivs');
+    $response->assertSessionHas('success', 'Ieraksts tika atjaunots no arhīva.');
+
+    expect(DB::table('vagonunoma')->where('NomasID', 4)->exists())->toBeTrue();
+    expect(DB::table('vagonunoma')->where('NomasID', 4)->value('AtteikumaIemesls'))->toBe('');
+    expect(DB::table('vagonunoma_arhivs')->where('NomasID', 4)->exists())->toBeFalse();
+});
