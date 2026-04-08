@@ -33,7 +33,7 @@
     </a>
 
     <!-- Poga amata dzēšanai -->
-    <a href="/Amati/{{ $amati->AmataID }}/delete" style="border-radius:8px; border: 1px solid #b62100; 
+    <a href="/Amati/{{ $amati->AmataID }}/delete" class="js-confirm-action" data-confirm-title="Dzēst ierakstu?" data-confirm-message="Vai tiešām vēlaties dzēst šo ierakstu? Šo darbību nevarēs atsaukt." data-confirm-button="Jā, dzēst" style="border-radius:8px; border: 1px solid #b62100; 
                 padding: 5px; color: #ffffff; text-decoration: none; background-color: #b62100;">
         Dzēst
     </a>

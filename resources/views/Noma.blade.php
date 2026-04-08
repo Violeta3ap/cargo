@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
                     @endif
                     @if(Auth::check())
-                        <a href="/Noma/{{ $item->NomasID }}/delete" onclick="return confirm('Vai tiešām vēlies dzēst šo ierakstu?');" class="btn-action" style="border-color:#b62100; background-color:#b62100; color:#fff;">Dzēst</a>
+                        <a href="/Noma/{{ $item->NomasID }}/delete" class="btn-action js-confirm-action" style="border-color:#b62100; background-color:#b62100; color:#fff;" data-confirm-title="Dzēst nomu?" data-confirm-message="Vai tiešām vēlaties dzēst šo nomu? Ieraksts tiks pārvietots uz arhīvu." data-confirm-button="Jā, dzēst">Dzēst</a>
                     @endif
                 </div>
             </td>

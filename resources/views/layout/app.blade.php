@@ -69,6 +69,72 @@
         .page-klienti .alert-danger, .page-kravas .alert-danger, .page-veidi .alert-danger, .page-noma .alert-danger {
             background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24;
         }
+        .app-alert {
+            padding: 12px 14px;
+            margin: 0 0 16px 0;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .app-alert-danger {
+            background-color: #fff4f4;
+            border-color: #f1b0b7;
+            color: #842029;
+        }
+        .app-alert ul { margin: 8px 0 0 18px; padding: 0; }
+
+        .app-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            padding: 16px;
+            background: rgba(0,0,0,0.35);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .app-modal {
+            width: min(460px, 92vw);
+            background: #fff;
+            border: 1px solid #C2CBD1;
+            border-radius: 14px;
+            box-shadow: 0 16px 36px rgba(0,0,0,0.18);
+            overflow: hidden;
+        }
+        .app-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 16px;
+            background: #f8fdfe;
+            border-bottom: 1px solid #e5edf2;
+        }
+        .app-modal-title { margin: 0; font-size: 1.05rem; }
+        .app-modal-body { padding: 16px; line-height: 1.5; color: #374151; }
+        .app-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 0 16px 16px;
+        }
+        .app-modal-btn {
+            border-radius: 8px;
+            border: 1px solid #C2CBD1;
+            padding: 7px 12px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.92rem;
+        }
+        .app-modal-btn-secondary {
+            background: #fff;
+            color: #000;
+        }
+        .app-modal-btn-danger {
+            background: #b62100;
+            border-color: #b62100;
+            color: #fff;
+        }
 
         /* ===== Tabulas - kopīgie stili ===== */
         .page-klienti .table, .page-kravas .table, .page-veidi .table, .page-noma .table { border-collapse: collapse; }
@@ -240,6 +306,18 @@
 
     <!-- Satura daļa -->
 <div class="content" style="padding: 120px 10%;">
+        @if ($errors->any())
+            <div class="app-alert app-alert-danger" role="alert">
+                <strong>Neizdevās pabeigt darbību.</strong>
+                <div>Lūdzu, pārbaudiet ievadītos datus:</div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         @yield('content') <!-- šeit tiks ielādēts konkrētais lapas saturs -->
     </div>
 
@@ -252,6 +330,99 @@
     </footer>
 
 </div>
+
+<div id="appConfirmModal" class="app-modal-backdrop" aria-hidden="true">
+    <div class="app-modal" role="dialog" aria-modal="true" aria-labelledby="appConfirmTitle">
+        <div class="app-modal-header">
+            <h3 id="appConfirmTitle" class="app-modal-title">Apstipriniet darbību</h3>
+            <button type="button" id="appConfirmCloseX" class="app-modal-btn app-modal-btn-secondary">✕</button>
+        </div>
+        <div class="app-modal-body">
+            <div id="appConfirmMessage">Vai tiešām vēlaties turpināt?</div>
+        </div>
+        <div class="app-modal-actions">
+            <button type="button" id="appConfirmCancel" class="app-modal-btn app-modal-btn-secondary">Atcelt</button>
+            <button type="button" id="appConfirmAccept" class="app-modal-btn app-modal-btn-danger">Jā, turpināt</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('appConfirmModal');
+    const title = document.getElementById('appConfirmTitle');
+    const message = document.getElementById('appConfirmMessage');
+    const accept = document.getElementById('appConfirmAccept');
+    const cancel = document.getElementById('appConfirmCancel');
+    const closeX = document.getElementById('appConfirmCloseX');
+
+    if (!modal || !title || !message || !accept) {
+        return;
+    }
+
+    let pendingUrl = null;
+
+    const closeModal = function () {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        pendingUrl = null;
+        document.body.style.overflow = '';
+    };
+
+    const openModal = function (config) {
+        pendingUrl = config.url || null;
+        title.textContent = config.title || 'Apstipriniet darbību';
+        message.textContent = config.message || 'Vai tiešām vēlaties turpināt?';
+        accept.textContent = config.buttonText || 'Jā, turpināt';
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
+
+    document.addEventListener('click', function (event) {
+        const trigger = event.target.closest('.js-confirm-action');
+        if (!trigger) {
+            return;
+        }
+
+        event.preventDefault();
+
+        openModal({
+            url: trigger.getAttribute('href') || trigger.dataset.confirmUrl || '',
+            title: trigger.dataset.confirmTitle || 'Apstipriniet darbību',
+            message: trigger.dataset.confirmMessage || 'Vai tiešām vēlaties turpināt?',
+            buttonText: trigger.dataset.confirmButton || 'Jā, turpināt'
+        });
+    });
+
+    accept.addEventListener('click', function () {
+        if (pendingUrl) {
+            window.location.href = pendingUrl;
+            return;
+        }
+
+        closeModal();
+    });
+
+    [cancel, closeX].forEach(function (button) {
+        if (button) {
+            button.addEventListener('click', closeModal);
+        }
+    });
+
+    modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
+            closeModal();
+        }
+    });
+});
+</script>
 
 </body>
 </html>

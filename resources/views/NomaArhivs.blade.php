@@ -57,8 +57,10 @@
                     <td>
                         <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
                             <a href="/Noma/arhivs/{{ $item->NomasID }}/restore"
-                               onclick="return confirm('Vai tiešām vēlies atjaunot šo nomu no arhīva?');"
-                               class="btn-action">Atjaunot</a>
+                               class="btn-action js-confirm-action"
+                               data-confirm-title="Atjaunot nomu?"
+                               data-confirm-message="Vai tiešām vēlaties atjaunot šo nomu no arhīva?"
+                               data-confirm-button="Jā, atjaunot">Atjaunot</a>
                         </div>
                     </td>
                 </tr>
