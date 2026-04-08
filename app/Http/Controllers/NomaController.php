@@ -518,10 +518,6 @@ class NomaController extends Controller
             }
         }
 
-        if ($this->isNomaCompleted($noma)) {
-            return redirect('/Noma')->with('error', 'Pabeigtu nomu dzēst nevar.');
-        }
-
         DB::transaction(function () use ($noma, $id) {
             $archiveData = [
                 'NomasID' => $noma->NomasID,
