@@ -247,12 +247,21 @@
 
         /* ===== Drukāšana ===== */
         @media print {
+            body.page-print-noma { background: #fff !important; }
+            .page-print-noma .content {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .page-print-noma .page-wrapper { padding: 0 !important; margin: 0 !important; }
             .page-print-noma .page-wrapper > div:first-child,
             .page-print-noma .navigacija,
             .page-print-noma .noma-filter-form,
+            .page-print-noma .noma-search-form,
             .page-print-noma .noma-pagination,
             .page-print-noma footer,
             .page-print-noma .alert,
+            .page-print-noma .print-btn,
+            .page-print-noma #reasonModal,
             .page-print-noma .btn-action,
             .page-print-noma th:last-child,
             .page-print-noma td:last-child { display: none !important; }
@@ -265,6 +274,7 @@
             .page-print-noma .table tbody td { border: 1px solid #000 !important; padding: 6px !important; }
             .page-print-noma .table tbody tr:hover { background: transparent !important; }
             .page-print-noma .table thead th a.sort-link { color: #000 !important; text-decoration: none; }
+            .page-print-noma .table thead th .sort-icon { display: none !important; }
         }
     </style>
 </head>
