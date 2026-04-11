@@ -76,11 +76,11 @@ class KlientiController extends Controller
   private function clientValidationRules(): array
   {
     return [
-      'Vards' => ['required', 'string', 'max:50', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
-      'Uzvards' => ['required', 'string', 'max:50', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
+      'Vards' => ['required', 'string', 'max:30', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
+      'Uzvards' => ['required', 'string', 'max:30', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
       'Epasts' => ['required', 'email', 'max:255'],
       'TelefonaNumurs' => ['required', 'digits:8'],
-      'UznemumaNosaukums' => ['required', 'string', 'max:100', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
+      'UznemumaNosaukums' => ['required', 'string', 'max:30', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
       'JuridiskaAdrese' => ['required', 'string', 'max:255', 'regex:/^\p{Lu}[0-9\p{L}\s\.,\-\/]*$/u'],
       'RegistracijasNumurs' => ['required', 'digits_between:1,11'],
       'KontaNumurs' => ['required', 'string', 'max:21', 'regex:/^LV[A-Z0-9]*$/'],

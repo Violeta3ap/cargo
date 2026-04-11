@@ -125,7 +125,7 @@ class VeidiController extends Controller
 
     // ✅ Validācija
     $dati->validate([
-        'Nosaukums' => ['required', 'string', 'max:255', 'regex:/^\p{L}+$/u'],
+        'Nosaukums' => ['required', 'string', 'max:30', 'regex:/^\p{L}+$/u'],
         'Celtspeja' => 'required|numeric|min:1',
         'VagonuSkaits' => 'required|integer|min:1',
         'CenaParDiennakti' => 'required|numeric|min:1',
@@ -174,7 +174,7 @@ class VeidiController extends Controller
 
     // ✅ Validācija
     $dati->validate([
-        'Nosaukums' => ['required', 'string', 'max:255', 'regex:/^\p{L}+$/u'],
+        'Nosaukums' => ['required', 'string', 'max:30', 'regex:/^\p{L}+$/u'],
         'Celtspeja' => 'required|numeric|min:1',
         'VagonuSkaits' => 'required|integer|min:1',
         'CenaParDiennakti' => 'required|numeric|min:1',

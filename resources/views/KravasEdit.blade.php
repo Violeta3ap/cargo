@@ -19,7 +19,7 @@
     <!-- Kravas nosaukums -->
     <div class="form-group">
         <label for="Nosaukums">Kravas veida nosaukums:</label>
-        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $kravas->Nosaukums }}" maxlength="255" pattern="[A-Za-zĀ-ž]+" title="Drīkst ievadīt tikai burtus." required>
+        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $kravas->Nosaukums }}" maxlength="30" pattern="[A-Za-zĀ-ž]+" title="Drīkst ievadīt tikai burtus." required>
     </div>
 
     <div class="form-group">

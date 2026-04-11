@@ -16,7 +16,7 @@
 
     <div class="form-group">
         <label for="Nosaukums">Vagona veida nosaukums:</label> <!-- Etiķete ievades laukam -->
-        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" maxlength="255" pattern="[A-Za-zĀ-ž]+" title="Drīkst ievadīt tikai burtus." required>
+        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" maxlength="30" pattern="[A-Za-zĀ-ž]+" title="Drīkst ievadīt tikai burtus." required>
         <!-- Teksta lauks jauna veida nosaukumam, obligāts aizpildīt -->
     </div>
 

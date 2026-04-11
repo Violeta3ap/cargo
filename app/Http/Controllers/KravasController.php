@@ -121,7 +121,7 @@ class KravasController extends Controller
     ]);
 
     $dati->validate([
-      'Nosaukums' => ['required', 'string', 'max:255', 'regex:/^\p{L}+$/u'],
+      'Nosaukums' => ['required', 'string', 'max:30', 'regex:/^\p{L}+$/u'],
       'VeidaID' => ['required', 'integer'],
     ], [
       'Nosaukums.required' => 'Lauks "Nosaukums" ir obligāts.',
@@ -163,7 +163,7 @@ class KravasController extends Controller
     ]);
 
     $dati->validate([
-      'Nosaukums' => ['required', 'string', 'max:255', 'regex:/^\p{L}+$/u'],
+      'Nosaukums' => ['required', 'string', 'max:30', 'regex:/^\p{L}+$/u'],
       'VeidaID' => ['required', 'integer'],
     ], [
       'Nosaukums.required' => 'Lauks "Nosaukums" ir obligāts.',

@@ -25,13 +25,13 @@
     <!-- Vārds -->
     <div class="form-group">
         <label for="Vards">Vārds:</label>
-        <input type="text" class="form-control" id="Vards" name="Vards" value="{{ old('Vards') }}" maxlength="50" data-letters-only="true" data-capitalize="words" autocomplete="off" title="Drīkst ievadīt tikai burtus, un pirmais burts būs liels." required>
+        <input type="text" class="form-control" id="Vards" name="Vards" value="{{ old('Vards') }}" maxlength="30" data-letters-only="true" data-capitalize="words" autocomplete="off" title="Drīkst ievadīt tikai burtus, un pirmais burts būs liels." required>
     </div>
 
     <!-- Uzvārds -->
     <div class="form-group">
         <label for="Uzvards">Uzvārds:</label>
-        <input type="text" class="form-control" id="Uzvards" name="Uzvards" value="{{ old('Uzvards') }}" maxlength="50" data-letters-only="true" data-capitalize="words" autocomplete="off" title="Drīkst ievadīt tikai burtus, un pirmais burts būs liels." required>
+        <input type="text" class="form-control" id="Uzvards" name="Uzvards" value="{{ old('Uzvards') }}" maxlength="30" data-letters-only="true" data-capitalize="words" autocomplete="off" title="Drīkst ievadīt tikai burtus, un pirmais burts būs liels." required>
     </div>
 
     <!-- E-pasts -->
@@ -53,7 +53,7 @@
     <!-- Uzņēmuma nosaukums -->
     <div class="form-group">
         <label for="UznemumaNosaukums">Uzņēmuma nosaukums:</label>
-        <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" value="{{ old('UznemumaNosaukums') }}" maxlength="100" data-letters-only="true" data-capitalize="words" autocomplete="off" title="Drīkst ievadīt tikai burtus, un pirmais burts būs liels." required>
+        <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" value="{{ old('UznemumaNosaukums') }}" maxlength="30" data-letters-only="true" data-capitalize="words" autocomplete="off" title="Drīkst ievadīt tikai burtus, un pirmais burts būs liels." required>
     </div>
 
     <!-- Juridiskā adrese -->
