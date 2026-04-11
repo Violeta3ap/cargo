@@ -684,27 +684,6 @@ class NomaController extends Controller
         return view('NomaPiev', compact('klienti','kravas','veidi'));
     }
 
-    // Parāda viena ieraksta detaļas.
-    public function details($id)
-    {
-        $noma = Noma::find($id);
-
-        if (!$noma) {
-            return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
-        }
-
-        if (!$this->userIsAdmin()) {
-            $klientsIeraksts = auth()->user()->klienti;
-            if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
-                return redirect('/Noma')->with('error', 'Jums nav tiesību skatīt šo nomas ierakstu.');
-            }
-        }
-
-        $this->applyCompletionStatus([$noma]);
-
-        return view('NomaApskate', ['noma' => $noma]);
-    }
-
     // Saglabā jaunu nomas ierakstu.
     public function NomaSubmit(Request $dati)
     {

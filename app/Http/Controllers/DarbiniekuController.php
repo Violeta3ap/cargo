@@ -53,17 +53,6 @@ class DarbiniekuController extends Controller
         return view('DarbiniekuPiev', ['amati' => $amati]);
     }
 
-    // Parāda darbinieka detaļas.
-    public function details($id)
-    {
-        if ($response = $this->requireAdminAccess()) {
-            return $response;
-        }
-
-        $darbiniekis = Darbinieki::find($id);
-        return view('DarbiniekiApskate', ['darbinieki' => $darbiniekis]);
-    }
-
     // Saglabā jaunu darbinieku.
     public function DarbiniekiSubmit(Request $dati)
     {

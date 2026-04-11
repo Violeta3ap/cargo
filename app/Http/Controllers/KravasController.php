@@ -102,13 +102,6 @@ class KravasController extends Controller
     return view('KravasPiev', compact('veidi'));
   }
 
-  // Parāda kravas detaļas.
-  public function details($id)
-  {
-    $kravas = Kravas::find($id);
-    return view('KravasApskate', ['kravas' => $kravas]);
-  }
-
   // Saglabā jaunu kravu.
   public function DatuSubmit(Request $dati)
   {

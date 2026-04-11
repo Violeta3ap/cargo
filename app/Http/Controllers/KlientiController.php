@@ -207,17 +207,6 @@ class KlientiController extends Controller
     return view('KlientuPiev');
   }
 
-  // Parāda klienta detaļas.
-  public function details($id)
-  {
-    if ($response = $this->requireAdminAccess()) {
-      return $response;
-    }
-
-    $klientis = Klienti::find($id);
-    return view('KlientiApskate', ['klientis' => $klientis]);
-  }
-
   // Saglabā jaunu klientu.
   public function KlientiSubmit(Request $dati)
   {

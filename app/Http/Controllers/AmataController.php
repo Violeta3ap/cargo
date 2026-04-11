@@ -51,17 +51,6 @@ class AmataController extends Controller
     return view('AmataPiev');
   }
 
-  // Parāda amata detaļas.
-  public function details($id)
-  {
-    if ($response = $this->requireAdminAccess()) {
-      return $response;
-    }
-
-    $amats = Amati::find($id);
-    return view('AmataApskate', ['amati' => $amats]);
-  }
-
   // Saglabā jaunu amatu.
   public function DatuSubmit(Request $dati)
   {

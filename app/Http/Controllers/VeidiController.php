@@ -101,13 +101,6 @@ class VeidiController extends Controller
         return view('VeidiPiev');
     }
 
-    // Parāda veida detaļas.
-    public function details($id)
-    {
-        $veidi = Veidi::find($id);
-        return view('VeidiApskate', ['veidi' => $veidi]);
-    }
-
     // Saglabā jaunu veidu.
 
 
