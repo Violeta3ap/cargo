@@ -46,7 +46,17 @@ class KlientiController extends Controller
 
   private function normalizeAccountNumber(?string $value): string
   {
-    return strtoupper((string) preg_replace('/[^A-Z0-9]/i', '', trim((string) $value)));
+    $cleaned = strtoupper((string) preg_replace('/[^A-Z0-9]/i', '', trim((string) $value)));
+
+    if ($cleaned === '') {
+      return '';
+    }
+
+    if (str_starts_with($cleaned, 'LV')) {
+      return substr($cleaned, 0, 21);
+    }
+
+    return substr('LV' . $cleaned, 0, 21);
   }
 
   private function normalizedClientData(Request $dati): array
@@ -58,7 +68,7 @@ class KlientiController extends Controller
       'TelefonaNumurs' => (string) preg_replace('/\D+/', '', (string) $dati->input('TelefonaNumurs')),
       'UznemumaNosaukums' => $this->normalizeLettersOnlyValue($dati->input('UznemumaNosaukums')),
       'JuridiskaAdrese' => $this->normalizeAddressValue($dati->input('JuridiskaAdrese')),
-      'RegistracijasNumurs' => (string) preg_replace('/\D+/', '', (string) $dati->input('RegistracijasNumurs')),
+      'RegistracijasNumurs' => substr((string) preg_replace('/\D+/', '', (string) $dati->input('RegistracijasNumurs')), 0, 11),
       'KontaNumurs' => $this->normalizeAccountNumber($dati->input('KontaNumurs')),
     ];
   }
@@ -72,8 +82,8 @@ class KlientiController extends Controller
       'TelefonaNumurs' => ['required', 'digits:8'],
       'UznemumaNosaukums' => ['required', 'string', 'max:100', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
       'JuridiskaAdrese' => ['required', 'string', 'max:255', 'regex:/^\p{Lu}[0-9\p{L}\s\.,\-\/]*$/u'],
-      'RegistracijasNumurs' => ['required', 'string', 'max:20', 'regex:/^\d+$/'],
-      'KontaNumurs' => ['required', 'string', 'max:34', 'regex:/^[A-Z]+[0-9]+$/'],
+      'RegistracijasNumurs' => ['required', 'digits_between:1,11'],
+      'KontaNumurs' => ['required', 'string', 'max:21', 'regex:/^LV[A-Z0-9]*$/'],
     ];
   }
 
@@ -93,9 +103,10 @@ class KlientiController extends Controller
       'JuridiskaAdrese.required' => 'Lauks "Juridiskā adrese" ir obligāts.',
       'JuridiskaAdrese.regex' => 'Laukā "Juridiskā adrese" drīkst būt burti un cipari, un pirmajam simbolam jābūt lielajam burtam.',
       'RegistracijasNumurs.required' => 'Lauks "Reģistrācijas numurs" ir obligāts.',
-      'RegistracijasNumurs.regex' => 'Laukā "Reģistrācijas numurs" drīkst ievadīt tikai ciparus.',
+      'RegistracijasNumurs.digits_between' => 'Laukā "Reģistrācijas numurs" jāievada no 1 līdz 11 cipariem.',
       'KontaNumurs.required' => 'Lauks "Konta numurs" ir obligāts.',
-      'KontaNumurs.regex' => 'Laukam "Konta numurs" jāsākas ar lielo burtu, pēc kura seko cipari.',
+      'KontaNumurs.max' => 'Laukam "Konta numurs" maksimālais garums ir 21 simbols.',
+      'KontaNumurs.regex' => 'Laukam "Konta numurs" jāsākas ar "LV", un tālāk drīkst būt tikai burti vai cipari.',
     ];
   }
 

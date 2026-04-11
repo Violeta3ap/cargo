@@ -62,13 +62,13 @@
     <!-- Reģistrācijas numurs -->
     <div class="form-group">
         <label for="RegistracijasNumurs">Reģistrācijas numurs:</label>
-        <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ old('RegistracijasNumurs', $klientis->RegistracijasNumurs) }}" maxlength="20" inputmode="numeric" pattern="[0-9]+" title="Drīkst ievadīt tikai ciparus." required>
+        <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ old('RegistracijasNumurs', $klientis->RegistracijasNumurs) }}" maxlength="11" inputmode="numeric" pattern="[0-9]{1,11}" title="Drīkst ievadīt tikai ciparus (maksimums 11)." required>
     </div>
 
     <!-- Konta numurs -->
     <div class="form-group">
         <label for="KontaNumurs">Konta numurs:</label>
-        <input type="text" class="form-control" id="KontaNumurs" name="KontaNumurs" value="{{ old('KontaNumurs', $klientis->KontaNumurs) }}" maxlength="34" data-account-format="true" autocomplete="off" style="text-transform: uppercase;" title="Laukam jāsākas ar lielajiem burtiem, pēc kuriem seko cipari." required>
+        <input type="text" class="form-control" id="KontaNumurs" name="KontaNumurs" value="{{ old('KontaNumurs', $klientis->KontaNumurs) }}" maxlength="21" inputmode="text" pattern="LV[A-Za-z0-9]{0,19}" data-account-format="true" autocomplete="off" style="text-transform: uppercase;" title="Konta numuram jāsākas ar LV un maksimālais garums ir 21 simbols." required>
     </div>
 
     <!-- Saglabāšanas poga -->
@@ -105,8 +105,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const normalizeAccountNumber = function(value) {
         const cleaned = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        const match = cleaned.match(/^([A-Z]*)([0-9]*)/);
-        return match ? (match[1] + match[2]) : cleaned;
+        if (!cleaned) {
+            return '';
+        }
+
+        if (cleaned.startsWith('LV')) {
+            return cleaned.slice(0, 21);
+        }
+
+        return ('LV' + cleaned).slice(0, 21);
     };
 
     document.querySelectorAll('[data-letters-only="true"]').forEach(function(input) {
@@ -124,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (RegistracijasNumursInput) {
         RegistracijasNumursInput.addEventListener('input', function() {
-            this.value = this.value.replace(/\D/g, '').slice(0, 20);
+            this.value = this.value.replace(/\D/g, '').slice(0, 11);
         });
     }
 
