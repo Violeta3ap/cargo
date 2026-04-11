@@ -11,7 +11,7 @@
         @csrf
         <div class="form-group">
             <label for="Nosaukums">Vagona veida nosaukums:</label>
-            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $veidi->Nosaukums }}" required>
+            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $veidi->Nosaukums }}" maxlength="255" pattern="[A-Za-zĀ-ž]+" title="Drīkst ievadīt tikai burtus." required>
         </div>
 
         <div class="form-group">
@@ -33,6 +33,18 @@
         <button type="submit" style="border-radius:8px;  border: 1px solid #C2CBD1; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">Atjaunināt</button>
     </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const nosaukumsInput = document.getElementById('Nosaukums');
+
+    if (nosaukumsInput) {
+        nosaukumsInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^\p{L}]/gu, '');
+        });
+    }
+});
+</script>
 
 <style>
     .form-group {

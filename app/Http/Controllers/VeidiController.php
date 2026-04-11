@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 // Pārvalda vagona veidu sarakstu un CRUD darbības.
 class VeidiController extends Controller
 {
+    private function normalizeNameValue(?string $value): string
+    {
+        return (string) preg_replace('/[^\p{L}]/u', '', trim((string) $value));
+    }
+
     // Pārbauda vai lietotājam nav administratora tiesību.
     private function userCannotModify()
     {
@@ -107,19 +112,26 @@ class VeidiController extends Controller
 
 
     
-   public function DatuSubmit(Request $dati)
+    public function DatuSubmit(Request $dati)
 {
     // Ne-administratoriem liedz pievienot jaunus veidus.
     if ($this->userCannotModify()) {
         return redirect('/Veidi')->with('error', 'Tikai administrators drīkst pievienot ierakstus.');
     }
 
+    $dati->merge([
+        'Nosaukums' => $this->normalizeNameValue($dati->input('Nosaukums')),
+    ]);
+
     // ✅ Validācija
     $dati->validate([
-        'Nosaukums' => 'required|string|max:255',
+        'Nosaukums' => ['required', 'string', 'max:255', 'regex:/^\p{L}+$/u'],
         'Celtspeja' => 'required|numeric|min:1',
         'VagonuSkaits' => 'required|integer|min:1',
         'CenaParDiennakti' => 'required|numeric|min:1',
+    ], [
+        'Nosaukums.required' => 'Lauks "Nosaukums" ir obligāts.',
+        'Nosaukums.regex' => 'Laukā "Nosaukums" drīkst ievadīt tikai burtus.',
     ]);
 
     // Izveido jaunu vagona veida ierakstu.
@@ -156,11 +168,19 @@ class VeidiController extends Controller
             return redirect('/Veidi')->with('error', 'Tikai administrators drīkst rediģēt ierakstus.');
     }
 
+    $dati->merge([
+        'Nosaukums' => $this->normalizeNameValue($dati->input('Nosaukums')),
+    ]);
+
     // ✅ Validācija
     $dati->validate([
+        'Nosaukums' => ['required', 'string', 'max:255', 'regex:/^\p{L}+$/u'],
         'Celtspeja' => 'required|numeric|min:1',
         'VagonuSkaits' => 'required|integer|min:1',
         'CenaParDiennakti' => 'required|numeric|min:1',
+    ], [
+        'Nosaukums.required' => 'Lauks "Nosaukums" ir obligāts.',
+        'Nosaukums.regex' => 'Laukā "Nosaukums" drīkst ievadīt tikai burtus.',
     ]);
 
     // Atjauno vagona veida laukus pēc ID.

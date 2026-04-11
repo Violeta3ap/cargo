@@ -65,7 +65,7 @@
     <!-- Reģistrācijas numurs -->
     <div class="form-group">
         <label for="RegistracijasNumurs">Reģistrācijas numurs:</label>
-        <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ old('RegistracijasNumurs') }}" maxlength="11" inputmode="numeric" pattern="[0-9]{1,11}" title="Drīkst ievadīt tikai ciparus (maksimums 11)." required>
+        <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ old('RegistracijasNumurs') }}" maxlength="11" inputmode="numeric" pattern="[0-9]{1,11}" title="Drīkst ievadīt tikai ciparus." required>
     </div>
 
     <!-- Konta numurs -->

@@ -19,7 +19,7 @@
     <!-- Kravas nosaukums -->
     <div class="form-group">
         <label for="Nosaukums">Kravas veida nosaukums:</label>
-        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" required>
+        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" maxlength="255" pattern="[A-Za-zĀ-ž]+" title="Drīkst ievadīt tikai burtus." required>
     </div>
 
 
@@ -39,6 +39,18 @@
         Saglabāt
     </button>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const nosaukumsInput = document.getElementById('Nosaukums');
+
+    if (nosaukumsInput) {
+        nosaukumsInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^\p{L}]/gu, '');
+        });
+    }
+});
+</script>
 
 <!-- CSS stili formas elementiem un pogai -->
 <style>

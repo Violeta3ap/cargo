@@ -16,7 +16,7 @@
 
     <div class="form-group">
         <label for="Nosaukums">Vagona veida nosaukums:</label> <!-- Etiķete ievades laukam -->
-        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" required>
+        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" maxlength="255" pattern="[A-Za-zĀ-ž]+" title="Drīkst ievadīt tikai burtus." required>
         <!-- Teksta lauks jauna veida nosaukumam, obligāts aizpildīt -->
     </div>
 
@@ -44,6 +44,18 @@
         Saglabāt
     </button> <!-- Poga jauna veida saglabāšanai -->
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const nosaukumsInput = document.getElementById('Nosaukums');
+
+    if (nosaukumsInput) {
+        nosaukumsInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^\p{L}]/gu, '');
+        });
+    }
+});
+</script>
 
 <style>
     .form-group { margin-bottom: 20px; } 

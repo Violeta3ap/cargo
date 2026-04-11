@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\DB;
 // Pārvalda kravu ierakstu sarakstu un CRUD darbības.
 class KravasController extends Controller
 {
+  private function normalizeNameValue(?string $value): string
+  {
+    $value = (string) preg_replace('/[^\p{L}]/u', '', trim((string) $value));
+    return $value;
+  }
+
   // Pārbauda vai lietotājam nav administratora tiesību.
   private function userCannotModify()
   {
@@ -110,6 +116,19 @@ class KravasController extends Controller
       return redirect('/Kravas')->with('error', 'Tikai administrators drīkst pievienot ierakstus.');
     }
 
+    $dati->merge([
+      'Nosaukums' => $this->normalizeNameValue($dati->input('Nosaukums')),
+    ]);
+
+    $dati->validate([
+      'Nosaukums' => ['required', 'string', 'max:255', 'regex:/^\p{L}+$/u'],
+      'VeidaID' => ['required', 'integer'],
+    ], [
+      'Nosaukums.required' => 'Lauks "Nosaukums" ir obligāts.',
+      'Nosaukums.regex' => 'Laukā "Nosaukums" drīkst ievadīt tikai burtus.',
+      'VeidaID.required' => 'Lauks "Vagona veida nosaukums" ir obligāts.',
+    ]);
+
     // Izveido jaunu kravas ierakstu.
     $kravas = new Kravas();
     $kravas->Nosaukums = $dati->input('Nosaukums');
@@ -138,6 +157,19 @@ class KravasController extends Controller
     if ($this->userCannotModify()) {
       return redirect('/Kravas')->with('error', 'Tikai administrators drīkst rediģēt ierakstus.');
     }
+
+    $dati->merge([
+      'Nosaukums' => $this->normalizeNameValue($dati->input('Nosaukums')),
+    ]);
+
+    $dati->validate([
+      'Nosaukums' => ['required', 'string', 'max:255', 'regex:/^\p{L}+$/u'],
+      'VeidaID' => ['required', 'integer'],
+    ], [
+      'Nosaukums.required' => 'Lauks "Nosaukums" ir obligāts.',
+      'Nosaukums.regex' => 'Laukā "Nosaukums" drīkst ievadīt tikai burtus.',
+      'VeidaID.required' => 'Lauks "Vagona veida nosaukums" ir obligāts.',
+    ]);
 
     // Atjauno kravas ierakstu pēc ID.
     DB::table('krava')
