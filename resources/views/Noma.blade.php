@@ -37,9 +37,9 @@
 @endphp
 
 <!-- Lapas galvene -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+<div class="noma-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Noma</h2>
-    <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
+    <nav class="navigacija noma-subnav" style="background-color: #ffffff; padding: 5px 10px;">
         <a href="/Noslogojums">Noslogojums</a>
         <a href="/Noma/arhivs">Nomas arhīvs</a>
         @if(Auth::check() && Auth::user()->isKlients())
@@ -142,7 +142,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <!-- Nomas saraksts -->
 <div id="noma-results">
-<table class="table table-striped" style="width: 100%; border: 1px solid #C2CBD1; border-radius: 8px; overflow: hidden; text-align: center;">
+<div class="noma-table-wrap">
+<table class="table table-striped noma-table" style="width: 100%; border: 1px solid #C2CBD1; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
          <tr>
             <th>
@@ -301,6 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
         @endforeach
     </tbody>
 </table>
+</div>
 
 @if ($noma->hasPages())
 <div style="margin-top: 15px; display: flex; justify-content: center;">
@@ -445,6 +447,72 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+<style>
+.page-noma .noma-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media screen and (max-width: 1100px) {
+    .page-noma .noma-header {
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: flex-start !important;
+    }
+
+    .page-noma .noma-subnav {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .page-noma .noma-filter-form,
+    .page-noma .noma-search-form {
+        padding: 0 !important;
+    }
+
+    .page-noma .noma-filter-form .filter-row,
+    .page-noma .noma-search-form .filter-row {
+        flex-wrap: wrap !important;
+        overflow-x: visible !important;
+    }
+
+    .page-noma .noma-filter-form input,
+    .page-noma .noma-filter-form select,
+    .page-noma .noma-search-form input,
+    .page-noma .noma-search-form select {
+        flex: 1 1 220px !important;
+        min-width: 0;
+    }
+
+    .page-noma .noma-table {
+        min-width: 1200px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .page-noma .noma-subnav a {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .page-noma .filter-window {
+        padding: 10px 8px;
+    }
+
+    .page-noma .noma-filter-form input,
+    .page-noma .noma-filter-form select,
+    .page-noma .noma-search-form input,
+    .page-noma .noma-search-form select,
+    .page-noma .noma-filter-form .filter-btn,
+    .page-noma .noma-search-form .filter-btn {
+        flex: 1 1 100% !important;
+    }
+}
+</style>
 
 </div>
 

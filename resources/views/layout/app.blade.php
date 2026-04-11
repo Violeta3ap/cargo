@@ -28,6 +28,8 @@
             gap: 80px;
             align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
         }
         .navigacija a, .navigacijaa a {
             text-decoration: none;
@@ -39,9 +41,25 @@
         }
         .navigacija a { border: 1px solid #5985a8; }
         .navigacija a:hover, .navigacijaa a:hover { background-color: #5985a8; }
+        .nav-user-name {
+            position: absolute;
+            right: 120px;
+            font-size: 13px;
+        }
+        .nav-auth-link {
+            position: absolute;
+            right: 10px;
+            border-radius: 8px;
+            border: 1px solid #b62100 !important;
+            padding: 5px;
+            background: #b62100 !important;
+            text-decoration: none;
+            color: #ffffff !important;
+        }
 
         /* ===== Izkārtojums ===== */
         .content { padding: 20px 150px; background-color: #ffffff; min-height: 200px; }
+        .app-shell-content { padding: 120px 10%; }
         footer {
             background-color: #5985a8;
             color: #000000;
@@ -245,6 +263,47 @@
             font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;
         }
 
+        /* ===== Responsīvais izkārtojums ===== */
+        @media screen and (max-width: 1100px) {
+            .app-shell-content { padding: 96px 24px 120px; }
+            .navigacija, .navigacijaa {
+                gap: 12px;
+                justify-content: flex-start;
+                padding: 12px;
+            }
+            footer {
+                position: static;
+                flex-wrap: wrap;
+                gap: 10px 18px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .app-shell-content { padding: 88px 14px 24px; }
+            .navigacija, .navigacijaa {
+                align-items: stretch;
+            }
+            .navigacija a, .navigacijaa a {
+                width: 100%;
+                box-sizing: border-box;
+                text-align: center;
+            }
+            .nav-user-name,
+            .nav-auth-link {
+                position: static;
+                width: 100%;
+                text-align: center;
+            }
+            .nav-user-name {
+                order: 98;
+                font-size: 12px;
+                padding-top: 4px;
+            }
+            .nav-auth-link {
+                order: 99;
+            }
+        }
+
         /* ===== Drukāšana ===== */
         @media print {
             body.page-print-noma { background: #fff !important; }
@@ -301,21 +360,19 @@
             <a href="/Veidi">Vagonu veidi</a>
             <a href="/Kravas">Krāvu veidi</a>
 
-            <span style="position: absolute; right: 120px; font-size: 13px;">{{ Auth::user()->name }}</span>
-            <a href="/logout" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #b62100; 
-            padding: 5px; background:#b62100; text-decoration: none; color: #ffffff;">Izlogoties</a>
+            <span class="nav-user-name">{{ Auth::user()->name }}</span>
+            <a href="/logout" class="nav-auth-link">Izlogoties</a>
 
         @else
             <a href="/">Par uzņēmumu</a>
-            <a href="/Login" style="position: absolute; right: 10px; border-radius:8px;  border: 1px solid #b62100; 
-            padding: 5px; background:#b62100; text-decoration: none; color: #ffffff;">Ielogoties</a>
+            <a href="/Login" class="nav-auth-link">Ielogoties</a>
         @endif
 
     </div>
 
 
     <!-- Satura daļa -->
-<div class="content" style="padding: 120px 10%;">
+<div class="content app-shell-content">
         @if ($errors->any())
             <div class="app-alert app-alert-danger" role="alert">
                 <strong>Neizdevās pabeigt darbību.</strong>
