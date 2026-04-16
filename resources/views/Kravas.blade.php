@@ -4,6 +4,7 @@
 
 <div class="page-kravas">
 
+<!-- Galvenais lapas bloks ar filtra un tabulas rezultātiem. -->
 @php
     $search = $search ?? request('search', '');
     $vagonaNosaukums = $vagonaNosaukums ?? request('vagona_nosaukums', '');
@@ -109,6 +110,7 @@
                 </a>
             </th>
             @if(Auth::check() && Auth::user()->isAdmin())
+                <!-- Administratoriem pieejamas rediģēšanas un dzēšanas darbības -->
                 <th>Darbības</th>
             @endif
          </tr>
@@ -158,6 +160,7 @@
 </div>
 
 <script>
+// AJAX live search: atjaunina kravas tabulu, neiekrāvējot visu lapu no jauna.
 document.addEventListener('DOMContentLoaded', function () {
     const searchForm = document.getElementById('kravas-search-form');
     const resultsContainer = document.getElementById('kravas-results');

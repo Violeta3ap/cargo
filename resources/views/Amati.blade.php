@@ -1,4 +1,4 @@
-@extends('layout.app') <!-- Paplašina galveno layout failu -->
+@extends('layout.app') <!-- Paplašina galveno layout failu, kas satur kopējo lapas struktūru -->
 
 @section('content') <!-- Satura sadaļa -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -21,6 +21,7 @@
         </tr>
     </thead>
     <tbody>
+        <!-- Cikls: parāda katru amata ierakstu no `$dati` kolekcijas -->
         @foreach ($dati as $item)
         <tr>
             <td>{{$item->AmataID}}</td>
@@ -34,7 +35,7 @@
                         Rediģēt
                     </a>
 
-                    <!-- Dzēšanas poga ar apstiprinājumu -->
+                    <!-- Dzēšanas poga ar apstiprinājuma loga parametriem -->
                     <a href="/Amati/{{ $item->AmataID }}/delete"
                        class="js-confirm-action"
                        data-confirm-title="Dzēst ierakstu?"

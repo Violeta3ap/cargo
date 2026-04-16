@@ -2,6 +2,7 @@
 
 @section('content') <!-- Satura sadaļas sākums -->
 
+<!-- Forma jauna kravas veida pievienošanai, kas saista kravu ar vagona veidu. -->
 <h2>Pievienot jaunus krāvu veidus</h2> <!-- Lapas virsraksts -->
 
 <!-- Atpakaļ poga uz kravu sarakstu -->

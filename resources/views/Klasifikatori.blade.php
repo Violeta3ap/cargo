@@ -2,6 +2,7 @@
 
 @section('content')
 
+<!-- Klasifikatoru izvēlne: izvēlies, kuru datu grupu redzēt un pārvaldīt. -->
 <h2>Klasifikatori</h2>
 
 <nav class="navigacija" style="background-color: #ffffff;">

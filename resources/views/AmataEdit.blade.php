@@ -1,4 +1,4 @@
-@extends('layout.app') <!-- Paplašina galveno izkārtojuma failu -->
+@extends('layout.app') <!-- Paplašina galveno izkārtojuma failu, izmantojot kopēju izkārtojumu -->
 
 @section('content') <!-- Satura daļa, kas tiks ielādēta layout -->
 
@@ -12,7 +12,7 @@
 
     <hr> <!-- Atstarpes līnija -->
 
-    <!-- Forma amata datu rediģēšanai -->
+    <!-- Forma amata datu rediģēšanai. Datus aizpilda no `$amati` objekta -->
     <form action="/Amati/{{ $amati->AmataID }}/editSubmit" method="POST">
         @csrf <!-- CSRF aizsardzība -->
 

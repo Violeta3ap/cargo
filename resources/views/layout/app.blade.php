@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
+    <!-- Galvenais aplikācijas layout fails: nodaļa, kas iestata kopējo HTML struktūru un stilu visiem skatiem. -->
     <meta charset="UTF-8">
     <title>CARGO</title>
 
@@ -347,7 +348,7 @@
           LDZ CARGO
     </div>
 
-    <!-- Navigācijas josla -->
+    <!-- Navigācijas josla: atkarībā no pieteikuma statusa parāda pieejamos lapu saīsnus un izlogoties saiti. -->
     <div class="navigacija">
 
         @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
@@ -371,7 +372,7 @@
     </div>
 
 
-    <!-- Satura daļa -->
+    <!-- Satura daļa: šeit tiek ielādēts konkrētais Blade skata saturs, kas tiek definēts ar @yield('content'). -->
 <div class="content app-shell-content">
         @if ($errors->any())
             <div class="app-alert app-alert-danger" role="alert">

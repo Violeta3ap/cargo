@@ -330,6 +330,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </div>
 
+<!-- Modāls logs, kas atklāj atteikuma iemeslu, kad tiek nospiesta poga Skatīt iemeslu. -->
 <div id="reasonModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 9999; align-items: center; justify-content: center;">
     <div style="background: #fff; border: 1px solid #C2CBD1; border-radius: 10px; width: min(460px, 92vw); padding: 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.18);">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px;">

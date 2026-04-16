@@ -2,6 +2,7 @@
 
 @section('content')
 
+<!-- Šī lapa parāda klientu sarakstu ar filtru, meklēšanu un lapošanas kontrolēm. -->
 <div class="page-klienti">
 
 @php
@@ -75,7 +76,7 @@
 @endif
 
 <div id="klienti-results">
-<!-- Klientu saraksts -->
+<!-- Rezultātu bloks, kas tiek pārrakstīts ar AJAX meklēšanas rezultātiem -->
 <table class="table table-striped" style="width:100%; border:1px solid #C2CBD1; border-radius:8px; overflow:hidden; text-align:center;">
     <thead>
          <tr>
@@ -213,6 +214,7 @@
 </div>
 
 <script>
+// Šī skripta daļa nodrošina tiešo meklēšanu klientu sarakstā, bez pilnas lapas pārlādēšanas.
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('klienti-filter-form');
     const resultsContainer = document.getElementById('klienti-results');

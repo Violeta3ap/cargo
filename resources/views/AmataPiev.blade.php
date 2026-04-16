@@ -1,4 +1,4 @@
-@extends('layout.app') <!-- Paplašina galveno izkārtojuma failu -->
+@extends('layout.app') <!-- Paplašina galveno izkārtojuma failu, izmantojot kopēju izkārtojumu -->
 
 @section('content') <!-- Satura daļa, kas tiks ielādēta layout -->
 
@@ -12,7 +12,7 @@
 
     <hr> <!-- Atstarpes līnija -->
 
-    <!-- Forma jauna amata pievienošanai -->
+    <!-- Forma jauna amata pievienošanai. Pēc submit tiks izsaukts kontrolieris /Amati/jaunsSubmit -->
     <form method="POST" action="/Amati/jaunsSubmit">
         @csrf <!-- CSRF aizsardzība -->
 

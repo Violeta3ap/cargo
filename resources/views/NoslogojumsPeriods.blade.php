@@ -1,6 +1,7 @@
 @extends('layout.app')
 
 @section('content')
+<!-- Perioda noslogojuma lapa: izvēlas datumu intervālu un rāda perioda pārskatu. -->
 <div class="page-noslogojums">
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -22,14 +23,17 @@
 @endif
 
 <form method="GET" action="/Noslogojums/periods" style="margin-bottom: 20px;" id="period-load-form">
+    <!-- Forma perioda sākuma un beigu datumu izvēlei. -->
     <div style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 12px 16px; background: #f8fdfe; display: inline-flex; gap: 12px; align-items: center; flex-wrap: wrap;">
         <label for="perioda_sakums" style="font-weight: 500; white-space: nowrap;">No:</label>
         <input type="text" id="perioda_sakums" name="perioda_sakums" value="{{ $periodaSakums }}" autocomplete="off"
                style="border: 1px solid #C2CBD1; border-radius: 6px; padding: 6px 10px; font-size: 14px; min-width: 120px;">
+        <!-- Sākuma datuma laukā tiek atlasīts periods no. -->
 
         <label for="perioda_beigas" style="font-weight: 500; white-space: nowrap;">Līdz:</label>
         <input type="text" id="perioda_beigas" name="perioda_beigas" value="{{ $periodaBeigas }}" autocomplete="off"
                style="border: 1px solid #C2CBD1; border-radius: 6px; padding: 6px 10px; font-size: 14px; min-width: 120px;">
+        <!-- Beigu datuma laukā tiek atlasīts periods līdz. -->
 
         <button type="submit"
                 style="border-radius: 8px; border: 1px solid #C2CBD1; padding: 6px 14px; background: #C2CBD1; color: #000; cursor: pointer; font-size: 14px;">
@@ -37,6 +41,7 @@
         </button>
     </div>
 </form>
+<!-- Poga iesniedz izvēlēto perioda intervālu un ielādē atbilstošo pārskatu. -->
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -54,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         altFormat: 'd.m.Y',
         allowInput: true
     });
+    <!-- Datuma atlasītājs sākuma datumam. -->
 
     flatpickr('#perioda_beigas', {
         locale: 'lv',
@@ -62,19 +68,21 @@ document.addEventListener('DOMContentLoaded', function () {
         altFormat: 'd.m.Y',
         allowInput: true
     });
+    <!-- Datuma atlasītājs beigu datumam. -->
 });
 </script>
 
 <p style="color: #555; font-size: 14px; margin-bottom: 12px;">
     Izvēlētais periods: <strong>{{ \Carbon\Carbon::parse($periodaSakums)->format('d.m.Y') }}</strong> - <strong>{{ \Carbon\Carbon::parse($periodaBeigas)->format('d.m.Y') }}</strong>
 </p>
+<!-- Parāda lietotājam pašreiz izvēlēto periodu. -->
 
 @if($periodaKopsavilkums->isEmpty())
     <div style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 20px; background: #f8fdfe; text-align: center; color: #555;">
         Izvēlētajā periodā nav aktīvu nomu.
     </div>
 @else
-    <!-- Kopsavilkums pa vagonu veidiem -->
+    <!-- Kopsavilkums pa vagonu veidiem: parāda periodā nomātos un pieejamos vagonus. -->
     <h3 style="margin-bottom: 10px;">Kopsavilkums pa vagonu veidiem</h3>
     <table class="nos-table" style="width: 100%; margin-bottom: 30px;">
         <thead>
@@ -103,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </table>
 
     @if(Auth::check() && Auth::user()->isKlients())
-    <!-- Detalizētais saraksts klientam (bez klienta datiem) -->
+    <!-- Šī tabula rāda perioda nomas tikai pieslēgtajam klientam. -->
     <h3 style="margin-bottom: 10px;">Perioda nomas</h3>
     <table class="nos-table" style="width: 100%;">
         <thead>
@@ -130,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
     @endif
 
     @if(Auth::check() && Auth::user()->isAdmin())
-    <!-- Detalizētais saraksts administratoram (ar visiem datiem) -->
+    <!-- Šī tabula rāda perioda nomas administratoram ar klienta un maksas informāciju. -->
     <h3 style="margin-bottom: 10px;">Perioda nomas</h3>
     <table class="nos-table" style="width: 100%;">
         <thead>

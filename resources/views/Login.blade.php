@@ -89,6 +89,7 @@
                 <a href="/" style="color: #5985a8; text-decoration: none; font-size: 14px;">Atpakaļ uz sākumlapu</a>
             </div>
 
+            <!-- Testa kontu informācija demonstrēšanas nolūkiem. -->
             <p> Admins:  Violeta parole:parole123;</p>
                 <p>
                 Klients1: Anna  parole:parole123;</p>

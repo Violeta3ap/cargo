@@ -5,7 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NomaController;
 use App\Http\Controllers\NoslogojumsController;
 
-
+// Galvenie maršruti: autentifikācija, reģistrācija, mājas lapa un aizsargātā zona pēc pieteikšanās.
 Route::post('/Login/submit', [LoginController::class, 'login'])->name('login.submit');
 
 route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -30,11 +30,11 @@ Route::get('/', function () {
     return view('home');
 });
 
-
+// Slēgtā sadaļa ar maršrutiem, kas pieejami tikai autentificētiem lietotājiem.
 Route::middleware(['auth', 'nocache'])->group(function () {
 
 
-// API routes nomas aprēķiniem
+// API routes nomas aprēķiniem un datu atjaunošanai klienta saskarnei.
 Route::post('/api/noma/check-availability', [NomaController::class, 'checkAvailability']);
 Route::get('/api/krava/{id}/veids', [NomaController::class, 'getVeidsByKrava']);
 Route::post('/api/noma/calculate', [NomaController::class, 'calculateTotal']);

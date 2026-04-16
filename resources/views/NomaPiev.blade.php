@@ -2,6 +2,7 @@
 
 @section('content')
 
+<!-- Šī forma lietotājam ļauj pievienot jaunu nomas pieteikumu, izvēloties klientu, datumus un kravas veidu. -->
 <h2>Pievienot jaunu nomas pieteikumu</h2>
 <a href="/Noma" style="border-radius:8px; border: 1px solid #C2CBD1; 
             padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">

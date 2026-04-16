@@ -1,7 +1,8 @@
 @extends('layout.app') 
 
-@section('content') 
+@section('content')
 
+<!-- Vagonu veidu pārskats ar meklēšanu, filtrēšanu un lapošanas funkciju. -->
 <div class="page-veidi">
 
 @php

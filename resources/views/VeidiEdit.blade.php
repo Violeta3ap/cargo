@@ -1,6 +1,7 @@
 @extends('layout.app')
 
 @section('content')
+    <!-- Skats vagonu veida datu rediģēšanai. -->
     <h2>Rediģēt vagonu veidu datus</h2>
     <a href="/Veidi"  style="border-radius:8px;  border: 1px solid #C2CBD1; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">Atpakaļ</a>

@@ -2,6 +2,7 @@
 
 @section('content') <!-- Satura sadaļas sākums -->
 
+<!-- Forma kravas veida rediģēšanai, kur var mainīt kravas nosaukumu un vagona veidu. -->
 <h2>Rediģēt krāvu veidus</h2> <!-- Lapas virsraksts -->
 
 <!-- Atpakaļ poga uz kravu sarakstu -->

@@ -22,6 +22,7 @@
 <form action="/Klienti/{{ $klientis->KlientaID }}/editSubmit" method="POST">
     @csrf <!-- CSRF aizsardzība -->
 
+    <!-- Forma esoša klienta datu rediģēšanai; dati tiek nosūtīti uz kontrolieri. -->
     <!-- Vārds -->
     <div class="form-group">
         <label for="Vards">Vārds:</label>
@@ -78,7 +79,7 @@
     </button>
 </form>
 
-<!-- JavaScript: rāda atlikušo rakstzīmju skaitu telefona laukumā -->
+<!-- JavaScript: klienta ieraksta datu validācija un lauku formatēšana uz vietas. -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const TelefonaNumursInput = document.getElementById('TelefonaNumurs');
@@ -94,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
+    // Normalizē juridiskās adreses lauku, atstājot tikai adreses raksturīgos simbolus.
     const normalizeAddress = function(value) {
         const cleaned = value.replace(/[^0-9\p{L}\s.,\-/]/gu, '').replace(/\s+/g, ' ').trimStart();
         if (!cleaned) {
@@ -103,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return cleaned.charAt(0).toLocaleUpperCase('lv-LV') + cleaned.slice(1);
     };
 
+    // Formē konta numuru standartā: tikai LV kods un ciparu/teksta simboli.
     const normalizeAccountNumber = function(value) {
         const cleaned = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         if (!cleaned) {

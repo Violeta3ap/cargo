@@ -2,6 +2,7 @@
 
 @section('content') <!-- Satura sadaļa sākas -->
 
+<!-- Skats jauna vagona veida izveidei. -->
 <h2>Pievienot jaunus vagonu veidu datus</h2> <!-- Virsraksts lapai -->
 
 <a href="/Veidi" style="border-radius:8px; border: 1px solid #C2CBD1; 

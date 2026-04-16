@@ -19,6 +19,7 @@
 
 <div class="center-wrap"> 
     <div class="card custom p-4"> 
+        <!-- Reģistrācijas forma jauna lietotāja izveidei. -->
         <h2 class="text-center mb-4">Reģistrācija</h2> 
 
         <!-- Kļūdu paziņojumi -->

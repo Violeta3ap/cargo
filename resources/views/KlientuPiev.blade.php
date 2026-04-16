@@ -86,12 +86,14 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Saņem formas laukus un indikatora elementu, kas parāda tālruņa numura garumu
     const TelefonaNumursInput = document.getElementById('TelefonaNumurs');
     const RegistracijasNumursInput = document.getElementById('RegistracijasNumurs');
     const JuridiskaAdreseInput = document.getElementById('JuridiskaAdrese');
     const KontaNumursInput = document.getElementById('KontaNumurs');
     const charCount = document.getElementById('charCount');
 
+    // Vaicājuma lauks, kas ļauj tikai burtu un atstarpju ievadi, un formatē vārdus ar lielajiem burtiem
     const normalizeLettersOnly = function(value) {
         const cleaned = value.replace(/[^\p{L}\s]/gu, '').replace(/\s+/g, ' ').trimStart();
         return cleaned.toLocaleLowerCase('lv-LV').replace(/(^|\s)\p{L}/gu, function(match) {
@@ -99,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
+    // Normalizācijas funkcija juridiskai adresei: atļauj tikai burtus, ciparus un parastos adreses simbolus
     const normalizeAddress = function(value) {
         const cleaned = value.replace(/[^0-9\p{L}\s.,\-/]/gu, '').replace(/\s+/g, ' ').trimStart();
         if (!cleaned) {
@@ -108,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return cleaned.charAt(0).toLocaleUpperCase('lv-LV') + cleaned.slice(1);
     };
 
+    // Kontu numuru normalizācija: tikai cipari un burti, automātiski pievieno LV, ja nepieciešams
     const normalizeAccountNumber = function(value) {
         const cleaned = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         if (!cleaned) {
@@ -121,12 +125,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return ('LV' + cleaned).slice(0, 21);
     };
 
+    // Pievieno izmaiņu klausītāju visiem laukiem, kuriem jāatļauj tikai burtu ievade
     document.querySelectorAll('[data-letters-only="true"]').forEach(function(input) {
         input.addEventListener('input', function() {
             this.value = normalizeLettersOnly(this.value);
         });
     });
 
+    // Telefona lauks: ļauj tikai ciparus un atjaunina rakstzīmju skaitītāju
     if (TelefonaNumursInput && charCount) {
         TelefonaNumursInput.addEventListener('input', function() {
             this.value = this.value.replace(/\D/g, '').slice(0, 8);

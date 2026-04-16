@@ -2,6 +2,7 @@
 
 @section('content') <!-- Satura sadaļas sākums -->
 
+<!-- Sākumlapa ar uzņēmuma prezentāciju un biznesa aprakstu. -->
 <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 16px;">
     <!-- Galvenais konteineris, centrē visu saturu horizontāli un vertikāli, ar augšējo malu 16px -->
     
@@ -9,7 +10,7 @@
         <!-- Iekšējais bloks ar krāsu, padding, noapaļotiem stūriem, ēnojumu un starpību starp elementiem -->
         
         <div class="mainContent" style="min-width: 0;">  
-            <!-- Satura bloks attēlam -->
+            <!-- Satura bloks attēlam: reprezentē LDZ CARGO vizuāli. -->
             <img src="https://ldzcargo.ldz.lv/sites/cargo.ldz.lv/files/styles/slideshow1/public/LDz-Cargo-kravu-parvadajumi-1_0.png?itok=HYB0_oGT"
              alt="LDZ CARGO" style="width: 700px; margin-top: 140px; justify-content: center; border-radius: 8px;">
              <!-- Uzņēmuma attēls ar platumu 600px un noapaļotiem stūriem -->
@@ -17,7 +18,7 @@
         
 
         <div class="mainContent" style="min-width: 0;">  
-            <!-- Satura bloks tekstam -->
+            <!-- Satura bloks uzņēmuma aprakstam un vēsturei. -->
             <p style="text-align: justify; margin: 0;">
                 <br>
                 <div style="width: 100%; display: flex; justify-content: center; margin-top: 16px;">
