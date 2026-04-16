@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DarbiniekuController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NomaController;
 use App\Http\Controllers\NoslogojumsController;
@@ -53,14 +52,6 @@ Route::get('/Noma/arhivs/{id}/restore', 'App\Http\Controllers\NomaController@res
 Route::get('/Noma/{id}/edit', 'App\Http\Controllers\NomaController@edit');
 Route::post('/Noma/{id}/editSubmit', 'App\Http\Controllers\NomaController@editSubmit');
 
-
-// // Darbinieku routes
-Route::get('/Darbinieki', 'App\Http\Controllers\DarbiniekuController@showAllDarbinieki');
-Route::get('/Darbinieki/jauns', 'App\Http\Controllers\DarbiniekuController@create');
-Route::post('/Darbinieki/jaunsSubmit', 'App\Http\Controllers\DarbiniekuController@DarbiniekiSubmit');
-Route::get('/Darbinieki/{id}/delete', 'App\Http\Controllers\DarbiniekuController@delete');
-Route::get('/Darbinieki/{id}/edit', 'App\Http\Controllers\DarbiniekuController@edit');
-Route::post('/Darbinieki/{id}/editSubmit', 'App\Http\Controllers\DarbiniekuController@editSubmit');
 
 
 // // Amata datu routes
