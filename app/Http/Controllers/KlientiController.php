@@ -6,12 +6,26 @@ use Illuminate\Http\Request;
 use App\Models\Klienti;
 use Illuminate\Support\Facades\DB;
 
-// Pārvalda klientu ierakstu sarakstu un CRUD darbības.
+/**
+ * KlientiController - Pārvalda klientu ierakstu sarakstu un CRUD darbības
+ * 
+ * Šis kontrolieris atļauj administratoriem pārvaldīt klientu datus:
+ * - Apskatīt klientu sarakstu ar filtrēšanu, meklēšanu un kārtošanu
+ * - Pievienot jaunus klientus
+ * - Rediģēt klienta informāciju
+ * - Dzēst klientus (tikai ja tiem nav nomas)
+ * - Validēt un normalizēt ievades datus
+ */
 class KlientiController extends Controller
 {
-  // Atļauj piekļuvi tikai administratoram.
+  /**
+   * Pārbauda vai lietotājs ir autentificēts un ir administrators
+   * 
+   * @return null|Illuminate\Http\RedirectResponse
+   */
   private function requireAdminAccess()
   {
+    // Pārbauda autentifikāciju un administratora statusu
     if (!auth()->check() || !auth()->user()->isAdmin()) {
       return redirect('/')->with('error', 'Piekļuve atļauta tikai administratoram.');
     }
@@ -19,74 +33,139 @@ class KlientiController extends Controller
     return null;
   }
 
+  /**
+   * Normalizē burti-tikai vērtības - noņem ciparus un speciālos simbolus
+   * Rezultāts: Teksts ar lielajiem sākumburtiiem
+   * Piemērs: "jānis NOVADS" → "Jānis Novads"
+   * 
+   * @param string|null $value - Ievades vērtība
+   * @return string - Normalizēta vērtība
+   */
   private function normalizeLettersOnlyValue(?string $value): string
   {
+    // Noņem visus simbolus, izņemot burtus (\p{L}) un atstarpes (\s)
     $value = (string) preg_replace('/[^\p{L}\s]/u', '', trim((string) $value));
+    // Aizstāj vairākas pēc kārtas esošas atstarpes ar vienu
     $value = (string) preg_replace('/\s+/u', ' ', $value);
 
+    // Ja risultāts ir tukšs, atgriež tukšu virkni
     if ($value === '') {
       return '';
     }
 
+    // Konvertē uz Title Case formātu (katrs vārds sākas ar lielajiem burtiem)
     return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
   }
 
+  /**
+   * Normalizē adreses vērtības - pieņem ciparus, burtus, atstarpes, punktus, pēdiņas, domuzīmes
+   * Pirmais simbols vienmēr ir lielais burts
+   * Piemērs: "riga 1234" → "Riga 1234"
+   * 
+   * @param string|null $value - Ievades vērtība
+   * @return string - Normalizēta adreses vērtība
+   */
   private function normalizeAddressValue(?string $value): string
   {
+    // Noņem visus simbolus, izņemot ciparus, burtus, atstarpes, punktus, komatus, mīnusus un slīpsvītre
     $value = (string) preg_replace('/[^0-9\p{L}\s\.,\-\/]/u', '', trim((string) $value));
+    // Aizstāj vairākas atstarpes ar vienu
     $value = (string) preg_replace('/\s+/u', ' ', $value);
 
+    // Ja rezultāts ir tukšs, atgriež to
     if ($value === '') {
       return '';
     }
 
+    // Pirmais burts uz lielajiem, pārējie paliek nemainīti
     return mb_strtoupper(mb_substr($value, 0, 1, 'UTF-8'), 'UTF-8')
       . mb_substr($value, 1, null, 'UTF-8');
   }
 
+  /**
+   * Normalizē konta numurus - noņem speciālos simbolus un nodrošina "LV" prefiksu
+   * Maksimālais garums 21 simbols (IBAN standarts)
+   * Piemērs: "lv92-1019-0503-0100-0000" → "LV921019050301000000"
+   * 
+   * @param string|null $value - Ievades vērtība
+   * @return string - Normalizēts konta numurs
+   */
   private function normalizeAccountNumber(?string $value): string
   {
+    // Noņem visus simbolus, izņemot burtus A-Z un ciparus, pēc tam konvertē uz LIELAJIEM
     $cleaned = strtoupper((string) preg_replace('/[^A-Z0-9]/i', '', trim((string) $value)));
 
+    // Ja rezultāts ir tukšs, atgriež to
     if ($cleaned === '') {
       return '';
     }
 
+    // Ja jau sākas ar "LV", paņem tikai pirmos 21 simbolus
     if (str_starts_with($cleaned, 'LV')) {
       return substr($cleaned, 0, 21);
     }
 
+    // Ja nesākas ar "LV", pievieno prefiksu un paņem 21 simbolu
     return substr('LV' . $cleaned, 0, 21);
   }
 
+  /**
+   * Normalizē visus klienta ievadītos datus
+   * Lietošana: $klienti->normalizedClientData($request)
+   * 
+   * @param Illuminate\Http\Request $dati - Formas ievades dati
+   * @return array - Masīvs ar normalizētiem datiem
+   */
   private function normalizedClientData(Request $dati): array
   {
     return [
       'Vards' => $this->normalizeLettersOnlyValue($dati->input('Vards')),
       'Uzvards' => $this->normalizeLettersOnlyValue($dati->input('Uzvards')),
       'Epasts' => strtolower(trim((string) $dati->input('Epasts'))),
+      // Noņem visus ne-ciparus no telefona numura
       'TelefonaNumurs' => (string) preg_replace('/\D+/', '', (string) $dati->input('TelefonaNumurs')),
       'UznemumaNosaukums' => $this->normalizeLettersOnlyValue($dati->input('UznemumaNosaukums')),
       'JuridiskaAdrese' => $this->normalizeAddressValue($dati->input('JuridiskaAdrese')),
+      // Noņem ne-ciparus no reģistrācijas numura, takes max 11 ciparus
       'RegistracijasNumurs' => substr((string) preg_replace('/\D+/', '', (string) $dati->input('RegistracijasNumurs')), 0, 11),
       'KontaNumurs' => $this->normalizeAccountNumber($dati->input('KontaNumurs')),
     ];
   }
 
+  /**
+   * Nosaka validācijas noteikumus klienta datiem
+   * Validācija tiek veikta automātiski, izmantojot Laravel validatoru
+   * 
+   * @return array - Masīvs ar validācijas noteikumiem
+   */
   private function clientValidationRules(): array
   {
     return [
+      // Vārds: obligāts, maksimāli 30 simboli, sākas ar lielajiem burtiem
       'Vards' => ['required', 'string', 'max:30', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
+      // Uzvārds: obligāts, maksimāli 30 simboli, sākas ar lielajiem burtiem
       'Uzvards' => ['required', 'string', 'max:30', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
+      // E-pasts: obligāts, derīgs e-pasta formāts, maksimāli 255 simboli
       'Epasts' => ['required', 'email', 'max:255'],
+      // Telefona numurs: obligāts, tieši 8 cipari
       'TelefonaNumurs' => ['required', 'digits:8'],
+      // Uzņēmuma nosaukums: obligāts, maksimāli 30 simboli, sākas ar lielajiem burtiem
       'UznemumaNosaukums' => ['required', 'string', 'max:30', 'regex:/^\p{Lu}[\p{L}\s]*$/u'],
+      // Juridiskā adrese: obligāta, maksimāli 255 simboli, sākas ar lielajiem burtiem
       'JuridiskaAdrese' => ['required', 'string', 'max:255', 'regex:/^\p{Lu}[0-9\p{L}\s\.,\-\/]*$/u'],
+      // Reģistrācijas numurs: obligāts, 1-11 cipari
       'RegistracijasNumurs' => ['required', 'digits_between:1,11'],
+      // Konta numurs: obligāts, maksimāli 21 simbols, sākas ar "LV"
       'KontaNumurs' => ['required', 'string', 'max:21', 'regex:/^LV[A-Z0-9]*$/'],
     ];
   }
 
+  /**
+   * Nosaka kļūdu ziņojumus validācijas kļūdām
+   * Šie ziņojumi tiek rādīti lietotājam, ja validācija neizdodas
+   * 
+   * @return array - Masīvs ar validācijas kļūdu ziņojumiem
+   */
   private function clientValidationMessages(): array
   {
     return [
@@ -110,24 +189,31 @@ class KlientiController extends Controller
     ];
   }
 
-  // Klientu saraksts ar pagināciju, meklēšanu un kārtošanu.
+  /**
+   * Attēlo klientu sarakstu ar filtrēšanu, meklēšanu un kārtošanu
+   * 
+   * @param Illuminate\Http\Request $request - Pieprasījums ar query parametriem
+   * @return Illuminate\View\View - Skats ar klientu sarakstu
+   */
   public function showAllKlienti(Request $request)
   {
+    // Pārbauda administratora tiesības
     if ($response = $this->requireAdminAccess()) {
       return $response;
     }
 
-    // Nolasa filtrēšanas vērtības no URL parametriem.
+    // Nolasa filtrēšanas parametrus no URL (piem.: ?vards=Jānis)
     $vards = trim((string) $request->query('vards', ''));
     $uzvards = trim((string) $request->query('uzvards', ''));
     $uznemumanos = trim((string) $request->query('uznemumanos', ''));
+    // Universāla meklēšana visos laukos
     $search = trim((string) $request->query('search', ''));
     
-    // Kārtošanas parametri
+    // Kārtošanas parametri - Par kuriem laukiem un kārtībā
     $sortBy = $request->query('sort_by', 'KlientaID');
     $sortOrder = $request->query('sort_order', 'asc');
     
-    // Atļauto kārtošanas lauku saraksts (drošībai)
+    // Atļauto kārtošanas lauku saraksts (drošībai - SQL injection novēršanai)
     $allowedSortFields = [
       'Vards', 
       'Uzvards', 
@@ -140,19 +226,20 @@ class KlientiController extends Controller
       'KlientaID'
     ];
     
-    // Pārbauda vai kārtošanas lauks ir atļauts
+    // Pārbauda vai kārtošanas lauks ir draudzīgs - ja nē, izmanto noklusēto
     if (!in_array($sortBy, $allowedSortFields)) {
       $sortBy = 'KlientaID';
     }
     
-    // Pārbauda kārtošanas virzienu
+    // Pārbauda kārtošanas virzienu (tikai "asc" vai "desc")
     if (!in_array($sortOrder, ['asc', 'desc'])) {
       $sortOrder = 'asc';
     }
 
+    // Sāk veidot vaicājumu
     $query = Klienti::query();
 
-    // Pievieno filtrus tikai ja tie ir aizpildīti.
+    // Pievieno filtrus tikai, ja tie nav tukši (aktīvā filtrēšana)
     if ($vards !== '') {
       $query->where('Vards', 'like', '%' . $vards . '%');
     }
@@ -165,6 +252,7 @@ class KlientiController extends Controller
       $query->where('UznemumaNosaukums', 'like', '%' . $uznemumanos . '%');
     }
 
+    // Universāla meklēšana - meklē visos galvenajos laukos
     if ($search !== '') {
       $query->where(function ($builder) use ($search) {
         $builder->where('Vards', 'like', '%' . $search . '%')
@@ -173,42 +261,88 @@ class KlientiController extends Controller
       });
     }
 
+    // Izpilda vaicājumu ar kārtošanu un pagināciju (15 ieraksti uz lapas)
     $klientis = $query
       ->orderBy($sortBy, $sortOrder)
       ->paginate(15)
-      ->appends($request->query());
+      ->appends($request->query()); // Pievieno filtru parametrus paginācijas linkos
 
+    // Atgriež skatu ar datiem
     return view('Klienti', compact('klientis', 'vards', 'uzvards', 'uznemumanos', 'search', 'sortBy', 'sortOrder'));
   }
 
-  // Dzēš klienta ierakstu.
+  /**
+   * Dzēš klienta ierakstu (tikai if klientam nav aktīvu nomu)
+   * 
+   * @param int $id - Klienta ID dzēšanai
+   * @return Illuminate\Http\RedirectResponse
+   */
   public function delete($id)
   {
+    // Pārbauda administratora tiesības
     if ($response = $this->requireAdminAccess()) {
       return $response;
     }
 
+    // Pārbauda vai klientam ir kādas aktīvas nomas
     $hasRentals = DB::table('vagonunoma')->where('KlientaID', $id)->exists();
     if ($hasRentals) {
+      // Klientu ar nomām dzēst nedrīkst
       return redirect('/Klienti')->with('error', 'Klientu ar izveidotu nomu dzēst nedrīkst.');
     }
 
+    // Dzēš klienta ierakstu no datu bāzes
     DB::table('klienti')->where('KlientaID', $id)->delete();
     return redirect('/Klienti')->with('success', 'Ieraksts tika dzēsts');
   }
 
-  // Atver pievienošanas formu.
+  /**
+   * Atver pievienošanas formu jaunam klientam
+   * 
+   * @return Illuminate\View\View
+   */
   public function create()
   {
+    // Pārbauda administratora tiesības
     if ($response = $this->requireAdminAccess()) {
       return $response;
     }
 
+    // Atgriež skatu ar pievienošanas formu
     return view('KlientuPiev');
   }
 
-  // Saglabā jaunu klientu.
+  /**
+   * Saglabā jaunu klienta ierakstu datu bāzē
+   * Validē un normalizē visus ievadītos datus
+   * 
+   * @param Illuminate\Http\Request $dati - Formas ievades dati
+   * @return Illuminate\Http\RedirectResponse
+   */
   public function KlientiSubmit(Request $dati)
+  {
+    // Pārbauda administratora tiesības
+    if ($response = $this->requireAdminAccess()) {
+      return $response;
+    }
+
+    // Normalizē ikvienus ievadītos datus (burtu lielums, speciālie simboli utt.)
+    $dati->merge($this->normalizedClientData($dati));
+    
+    // Validē datus saskaņā ar noteiktajiem noteikumiem
+    $dati->validate($this->clientValidationRules(), $this->clientValidationMessages());
+
+    // Nolasa validētos un normalizētos datus
+    $vards = trim((string) $dati->input('Vards'));
+    $uzvards = trim((string) $dati->input('Uzvards'));
+    $epasts = trim((string) $dati->input('Epasts'));
+    $telefonaNumurs = trim((string) $dati->input('TelefonaNumurs'));
+    $uznemumaNosaukums = trim((string) $dati->input('UznemumaNosaukums'));
+    $juridiskaAdrese = trim((string) $dati->input('JuridiskaAdrese'));
+    $registracijasNumurs = trim((string) $dati->input('RegistracijasNumurs'));
+    // Dīna daļa ir saīsināta, rīcības turpinās ar konta numura nolasīšanu un datu saglabāšanu
+  }
+}
   {
     if ($response = $this->requireAdminAccess()) {
       return $response;

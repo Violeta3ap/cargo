@@ -4,10 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migrācija darbu rindas tabulu izveidei.
+ * Šī klase izveido jobs, job_batches un failed_jobs tabulas darbu apstrādei un kļūdu reģistrēšanai Laravel lietojumprogrammā.
+ */
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Palaist migrāciju.
+     * Izveido jobs tabulu ar laukiem: id, queue (indeksēta), payload (longText), attempts (unsignedTinyInteger), reserved_at (unsignedInteger, nullable), available_at (unsignedInteger), created_at (unsignedInteger).
+     * Izveido job_batches tabulu ar laukiem: id (primārā), name, total_jobs, pending_jobs, failed_jobs, failed_job_ids (longText), options (mediumText, nullable), cancelled_at (nullable), created_at, finished_at (nullable).
+     * Izveido failed_jobs tabulu ar laukiem: id, uuid (unikāls), connection (text), queue (text), payload (longText), exception (longText), failed_at (timestamp ar current).
      */
     public function up(): void
     {
@@ -46,7 +53,8 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Atcelt migrāciju.
+     * Izdzēš jobs, job_batches un failed_jobs tabulas.
      */
     public function down(): void
     {

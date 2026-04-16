@@ -4,10 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migrācija lietotāju tabulas izveidei.
+ * Šī klase izveido lietotāju tabulu ar pamata laukiem, kā arī tabulas paroles atiestatīšanai un sesijām.
+ * Nodrošina autentifikācijas pamatu Laravel lietojumprogrammai.
+ */
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Palaist migrāciju.
+     * Izveido lietotāju tabulu ar laukiem: id, name, email (unikāls), email_verified_at (neobligāts), password, remember_token, timestamps.
+     * Izveido password_reset_tokens tabulu ar email (primārā atslēga), token, created_at.
+     * Izveido sessions tabulu ar id (primārā), user_id (ārējā, indeksēta), ip_address, user_agent, payload, last_activity (indeksēta).
      */
     public function up(): void
     {
@@ -38,7 +46,8 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Atcelt migrāciju.
+     * Izdzēš lietotāju, password_reset_tokens un sessions tabulas.
      */
     public function down(): void
     {

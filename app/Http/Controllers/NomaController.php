@@ -13,69 +13,141 @@ use App\Models\NomasStatuss;
 use App\Models\MaksasStatuss;
 use Carbon\Carbon;
 
-// Pārvalda nomas sarakstu, pieejamību, aprēķinus un CRUD darbības.
+/**
+ * NomaController - Pārvalda vagonu nomas sarakstu, pieejamību, aprēķinus un CRUD darbības
+ * 
+ * Šis komplekss kontrolieris:
+ * - Pārvaldīta vagonu nomu izveidi, rediģēšanu un dzēšanu
+ * - Aprēķina nomas cenas un pieejamības
+ * - Pārbauda vagonu availability konkrētiem periodiem
+ * - Sinhronizē nomu statusus
+ * - Atbalsta nomas arhivāciju un atjaunošanu
+ */
 class NomaController extends Controller
 {
+    /**
+     * Pārbauda vai pašreizējais lietotājs ir administrators
+     * 
+     * @return bool - true, ja lietotājs ir administrators
+     */
     private function userIsAdmin(): bool
     {
         return auth()->check() && auth()->user()->isAdmin();
     }
 
+    /**
+     * Pārbauda vai tabulā vagonunoma ir kolonna StatusaID
+     * Šī kolonna satur nomas statusa ID (piemēram: "Apstiprināts", "Noraidīts" utt)
+     * 
+     * @return bool - true, ja kolonna eksistē
+     */
     private function hasNomaStatusColumn(): bool
     {
         return Schema::hasColumn('vagonunoma', 'StatusaID');
     }
 
+    /**
+     * Pārbauda vai tabulā vagonunoma ir kolonna MaksasID
+     * Šī kolonna satur maksas statusa ID
+     * 
+     * @return bool - true, ja kolonna eksistē
+     */
     private function hasMaksasStatusColumn(): bool
     {
         return Schema::hasColumn('vagonunoma', 'MaksasID');
     }
 
+    /**
+     * Pārbauda vai eksistē arhīva tabula vagonunoma_arhivs
+     * Šajā tabulā glabājas pabeigtas/anulētas nomas
+     * 
+     * @return bool - true, ja tabula eksistē
+     */
     private function hasArchiveTable(): bool
     {
         return Schema::hasTable('vagonunoma_arhivs');
     }
 
+    /**
+     * Pārbauda vai tabulā vagonunoma ir kolonna AtteikumaIemesls
+     * Šajā kolonnā glabājas iemesls, kāpēc noma tika noraidīta
+     * 
+     * @return bool - true, ja kolonna eksistē
+     */
     private function hasAtteikumaIemeslsColumn(): bool
     {
         return Schema::hasColumn('vagonunoma', 'AtteikumaIemesls');
     }
 
+    /**
+     * Pārbauda vai arhīva tabulā ir kolonna AtteikumaIemesls
+     * 
+     * @return bool - true, ja kolonna eksistē
+     */
     private function hasArchiveAtteikumaIemeslsColumn(): bool
     {
         return Schema::hasTable('vagonunoma_arhivs')
             && Schema::hasColumn('vagonunoma_arhivs', 'AtteikumaIemesls');
     }
 
+    /**
+     * Normalizē atteikuma iemesla vērtību - noņem liekās atstarpes
+     * 
+     * @param mixed $value - Ievades vērtība
+     * @return string - Normalizēta vērtība
+     */
     private function normalizeAtteikumaIemeslsValue($value): string
     {
+        // Konvertē uz stringu un noņem liekās atstarpes
         return trim((string) ($value ?? ''));
     }
 
+    /**
+     * Meklē statusa ID pēc tā nosaukuma tabulā
+     * Meklēšana ir case-insensitive (nemainīga burtu lielums)
+     * 
+     * @param string $table - Tabulas nosaukums
+     * @param string $idColumn - ID kolonna nosaukums
+     * @param string $name - Nosaukums, kuru meklēt
+     * @return int|null - Statusa ID, vai null, ja nav atrasts
+     */
     private function findStatusIdByName(string $table, string $idColumn, string $name): ?int
     {
+        // Pārbauda vai tabula eksistē
         if (!Schema::hasTable($table)) {
             return null;
         }
 
+        // Meklē ierakstu, kur Nosaukums atbilst (case-insensitive)
         $id = DB::table($table)
             ->whereRaw('LOWER(Nosaukums) = ?', [mb_strtolower($name)])
             ->value($idColumn);
 
+        // Atgriež ID vai null
         return $id !== null ? (int) $id : null;
     }
 
+    /**
+     * Nodrošina, ka nomas statuss ar norādīto nosaukumu eksistē
+     * Ja neeksistē, izveido jaunu
+     * 
+     * @param string $name - Statusa nosaukums (piemēram: "Apstiprināts")
+     * @return int|null - Statusa ID
+     */
     private function ensureNomasStatusId(string $name): ?int
     {
+        // Pārbauda vai NomasStatuss tabula eksistē
         if (!Schema::hasTable('NomasStatuss')) {
             return null;
         }
 
+        // Meklē esošu ID
         $existingId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', $name);
         if ($existingId !== null) {
             return $existingId;
         }
 
+        // Ja neeksistē, izveido jaunu ar nākamo ID
         $nextId = (int) DB::table('NomasStatuss')->max('StatusaID') + 1;
         DB::table('NomasStatuss')->insert([
             'StatusaID' => $nextId,

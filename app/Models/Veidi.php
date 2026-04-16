@@ -1,27 +1,55 @@
 <?php
-// PHP faila sākums.
 
-// Modeļa nosaukumvieta.
 namespace App\Models;
 
-// Bāzes Eloquent modelis.
 use Illuminate\Database\Eloquent\Model;
 
-// Veidu tabulas modelis.
+/**
+ * Veidi modelis - Pārstāv vagona veidu ierakstus
+ * 
+ * Vagona veids ir vagona tipologija/klasifikācija (piemēram: "Jumta vagons", "Kravas vagons", "Termiski kontrolēts vagons")
+ * Katrs vagona veids satur:
+ * - Celtspēju (maksimālā slodze tonnas)
+ * - Kopējo vagonu skaitu nolietojumā
+ * - Nomas cenu par dienu
+ * 
+ * Datu bāzes tabula: veidi
+ * Primārā atslēga: VeidaID
+ */
 class Veidi extends Model
 {
-   // Datubāzes tabulas nosaukums.
-   protected $table = 'veidi';
+    /**
+     * Datu bāzes tabulas nosaukums
+     * 
+     * @var string
+     */
+    protected $table = 'veidi';
 
-   // Primārās atslēgas kolonna tabulā.
-   protected $primaryKey = 'VeidaID';
+    /**
+     * Primārās atslēgas kolonna
+     * 
+     * @var string
+     */
+    protected $primaryKey = 'VeidaID';
 
-   // Primārās atslēgas datu tips.
-   protected $keyType = 'int';
+    /**
+     * Primārās atslēgas datu tips
+     * 
+     * @var string
+     */
+    protected $keyType = 'int';
 
-   // Primārā atslēga ir auto-increment.
-   public $incrementing = true;
+    /**
+     * Vai primārā atslēga ir auto-increment
+     * 
+     * @var bool
+     */
+    public $incrementing = true;
 
-   // Tabulai nav created_at un updated_at kolonnu.
-   public $timestamps = false;
+    /**
+     * Vai modelis izmanto created_at un updated_at laikus
+     * 
+     * @var bool
+     */
+    public $timestamps = false;
 }

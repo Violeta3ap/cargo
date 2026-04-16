@@ -5,7 +5,21 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migrācija nomas statusu atbalsta pievienošanai.
+ * Šī klase izveido NomasStatuss un MaksasStatuss tabulas, pievieno datus, un paplašina vagonunoma tabulu ar statusa laukiem.
+ * Nodrošina statusu pārvaldību nomām un maksājumiem.
+ */
 return new class extends Migration {
+    /**
+     * Palaist migrāciju.
+     * Pārbauda un izveido NomasStatuss tabulu ar StatusaID (primārā) un Nosaukums.
+     * Pārbauda un izveido MaksasStatuss tabulu ar MaksasID (primārā) un Nosaukums.
+     * Ievieto datus NomasStatuss: Pieteikts, Pieņemts, Noraidīts.
+     * Ievieto datus MaksasStatuss: Apmaksāts, Nav apmaksāts.
+     * Ja vagonunoma tabula eksistē, pievieno StatusaID un MaksasID kolonnas pēc KopejaMaksa.
+     * Atjaunina esošos ierakstus vagonunoma ar StatusaID = 1 (Pieteikts), ja StatusaID ir null.
+     */
     public function up(): void
     {
         if (!Schema::hasTable('NomasStatuss')) {
@@ -53,6 +67,11 @@ return new class extends Migration {
         }
     }
 
+    /**
+     * Atcelt migrāciju.
+     * Ja vagonunoma tabula eksistē, izdzēš MaksasID un StatusaID kolonnas.
+     * Izdzēš MaksasStatuss un NomasStatuss tabulas.
+     */
     public function down(): void
     {
         if (Schema::hasTable('vagonunoma')) {

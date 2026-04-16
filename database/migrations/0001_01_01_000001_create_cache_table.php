@@ -4,10 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migrācija kešatmiņas tabulu izveidei.
+ * Šī klase izveido cache un cache_locks tabulas kešatmiņas funkcionalitātei Laravel lietojumprogrammā.
+ */
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Palaist migrāciju.
+     * Izveido cache tabulu ar laukiem: key (primārā), value (mediumText), expiration (indeksēta).
+     * Izveido cache_locks tabulu ar laukiem: key (primārā), owner, expiration (indeksēta).
      */
     public function up(): void
     {
@@ -25,7 +31,8 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Atcelt migrāciju.
+     * Izdzēš cache un cache_locks tabulas.
      */
     public function down(): void
     {
