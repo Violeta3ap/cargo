@@ -349,24 +349,6 @@ class KlientiController extends Controller
     $uznemumaNosaukums = trim((string) $dati->input('UznemumaNosaukums'));
     $juridiskaAdrese = trim((string) $dati->input('JuridiskaAdrese'));
     $registracijasNumurs = trim((string) $dati->input('RegistracijasNumurs'));
-    // Dīna daļa ir saīsināta, rīcības turpinās ar konta numura nolasīšanu un datu saglabāšanu
-  }
-}
-  {
-    if ($response = $this->requireAdminAccess()) {
-      return $response;
-    }
-
-    $dati->merge($this->normalizedClientData($dati));
-    $dati->validate($this->clientValidationRules(), $this->clientValidationMessages());
-
-    $vards = trim((string) $dati->input('Vards'));
-    $uzvards = trim((string) $dati->input('Uzvards'));
-    $epasts = trim((string) $dati->input('Epasts'));
-    $telefonaNumurs = trim((string) $dati->input('TelefonaNumurs'));
-    $uznemumaNosaukums = trim((string) $dati->input('UznemumaNosaukums'));
-    $juridiskaAdrese = trim((string) $dati->input('JuridiskaAdrese'));
-    $registracijasNumurs = trim((string) $dati->input('RegistracijasNumurs'));
     $kontaNumurs = trim((string) $dati->input('KontaNumurs'));
 
     $duplicateExists = Klienti::query()
