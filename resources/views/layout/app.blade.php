@@ -355,7 +355,7 @@
             <a href="/">Par uzņēmumu</a>
 
             <a href="/Noma">Nomas</a>
-            @if(Auth::user()->isAdmin())
+            @if(Auth::user()->isAdmin() || Auth::user()->isDarbinieks())
                 <a href="/Klienti">Klienti</a>
             @endif
             <a href="/Veidi">Vagonu veidi</a>

@@ -33,6 +33,15 @@ class KlientiController extends Controller
     return null;
   }
 
+  private function requireStaffAccess()
+  {
+    if (!auth()->check() || !auth()->user()->isStaff()) {
+      return redirect('/')->with('error', 'Piekļuve atļauta tikai administratoram vai darbiniekam.');
+    }
+
+    return null;
+  }
+
   /**
    * Normalizē burti-tikai vērtības - noņem ciparus un speciālos simbolus
    * Rezultāts: Teksts ar lielajiem sākumburtiiem
@@ -197,8 +206,8 @@ class KlientiController extends Controller
    */
   public function showAllKlienti(Request $request)
   {
-    // Pārbauda administratora tiesības
-    if ($response = $this->requireAdminAccess()) {
+    // Pārbauda administratora vai darbinieka tiesības
+    if ($response = $this->requireStaffAccess()) {
       return $response;
     }
 

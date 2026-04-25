@@ -81,6 +81,11 @@ class User extends Authenticatable
         return $this->amats && strtolower($this->amats->Nosaukums) === 'admins';
     }
 
+    public function isStaff(): bool
+    {
+        return $this->isAdmin() || $this->isDarbinieks();
+    }
+
     /**
      * Pārbauda vai lietotājs ir darbinieks
      * Darbinieks ir sistēmas operators ar ierobežotām tiesībām

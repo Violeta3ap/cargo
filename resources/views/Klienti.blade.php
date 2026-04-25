@@ -167,21 +167,25 @@
             <td>{{$item->RegistracijasNumurs}}</td>
             <td>{{$item->KontaNumurs}}</td>
             <td>
-                <div style="display: flex; justify-content: center; gap: 8px;">
-                    <a href="/Klienti/{{ $item->KlientaID }}/edit"
-                       style="border-radius:8px; border:1px solid #C2CBD1; padding:5px 10px; color:#000; text-decoration:none; background-color:#C2CBD1;"
-                       class="btn btn-sm btn-warning">
-                        Rediģēt
-                    </a>
-                    <a href="/Klienti/{{ $item->KlientaID }}/delete"
-                       class="js-confirm-action"
-                       data-confirm-title="Dzēst ierakstu?"
-                       data-confirm-message="Vai tiešām vēlaties dzēst šo ierakstu? Šo darbību nevarēs atsaukt."
-                       data-confirm-button="Jā, dzēst"
-                       style="border-radius:8px; border:1px solid #b62100; padding:5px 10px; color:#fff; text-decoration:none; background-color:#b62100;">
-                        Dzēst
-                    </a>
-                </div>
+                @if(Auth::check() && Auth::user()->isAdmin())
+                    <div style="display: flex; justify-content: center; gap: 8px;">
+                        <a href="/Klienti/{{ $item->KlientaID }}/edit"
+                           style="border-radius:8px; border:1px solid #C2CBD1; padding:5px 10px; color:#000; text-decoration:none; background-color:#C2CBD1;"
+                           class="btn btn-sm btn-warning">
+                            Rediģēt
+                        </a>
+                        <a href="/Klienti/{{ $item->KlientaID }}/delete"
+                           class="js-confirm-action"
+                           data-confirm-title="Dzēst ierakstu?"
+                           data-confirm-message="Vai tiešām vēlaties dzēst šo ierakstu? Šo darbību nevarēs atsaukt."
+                           data-confirm-button="Jā, dzēst"
+                           style="border-radius:8px; border:1px solid #b62100; padding:5px 10px; color:#fff; text-decoration:none; background-color:#b62100;">
+                            Dzēst
+                        </a>
+                    </div>
+                @else
+                    Nav pieejams
+                @endif
             </td>
          </tr>
         @endforeach
