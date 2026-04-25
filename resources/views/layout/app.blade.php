@@ -95,6 +95,11 @@
             border: 1px solid transparent;
             box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         }
+        .app-alert-success {
+            background-color: #e9f7ef;
+            border-color: #a8d5ba;
+            color: #155724;
+        }
         .app-alert-danger {
             background-color: #fff4f4;
             border-color: #f1b0b7;
@@ -374,6 +379,18 @@
 
     
 <div class="content app-shell-content">
+        @if (session('success'))
+            <div class="app-alert app-alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="app-alert app-alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+
         @if ($errors->any())
             <div class="app-alert app-alert-danger" role="alert">
                 <strong>Neizdevās pabeigt darbību.</strong>
