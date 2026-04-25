@@ -1,6 +1,6 @@
-@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
+@extends('layout.app')
 
-@section('content') <!-- Satura sadaļas sākums -->
+@section('content')
 
 <!-- Forma kravas veida rediģēšanai, kur var mainīt kravas nosaukumu un vagona veidu. -->
 <h2>Rediģēt krāvu veidus</h2> <!-- Lapas virsraksts -->

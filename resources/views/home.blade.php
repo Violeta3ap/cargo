@@ -1,6 +1,6 @@
-@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
+@extends('layout.app')
 
-@section('content') <!-- Satura sadaļas sākums -->
+@section('content')
 
 <!-- Sākumlapa ar uzņēmuma prezentāciju un biznesa aprakstu. -->
 <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 16px;">
@@ -57,4 +57,4 @@
     </div>
 </div>
 
-@endsection('content') <!-- Satura sadaļas beigas -->
+@endsection <!-- Satura sadaļas beigas -->

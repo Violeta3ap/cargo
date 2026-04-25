@@ -1,0 +1,198 @@
+resources/views/AmataEdit.blade.php:1:@extends('layout.app') <!-- Paplašina galveno izkārtojuma failu, izmantojot kopēju izkārtojumu -->
+resources/views/AmataEdit.blade.php:3:@section('content') <!-- Satura daļa, kas tiks ielādēta layout -->
+resources/views/AmataEdit.blade.php:5:    <h2>Rediģēt amata datus</h2> <!-- Virsraksts -->
+resources/views/AmataEdit.blade.php:7:    <!-- Poga atpakaļ uz amata sarakstu -->
+resources/views/AmataEdit.blade.php:13:    <hr> <!-- Atstarpes līnija -->
+resources/views/AmataEdit.blade.php:15:    <!-- Forma amata datu rediģēšanai. Datus aizpilda no `$amati` objekta -->
+resources/views/AmataEdit.blade.php:17:        @csrf <!-- CSRF aizsardzība -->
+resources/views/AmataEdit.blade.php:19:        <!-- Nosaukuma lauks -->
+resources/views/AmataEdit.blade.php:21:            <label for="Nosaukums">Nosaukums:</label> <!-- Etiķete -->
+resources/views/AmataEdit.blade.php:22:            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $amati->Nosaukums }}" required> <!-- Teksta ievades lauks -->
+resources/views/AmataEdit.blade.php:25:        <!-- Poga datu atjaunināšanai -->
+resources/views/AmataPiev.blade.php:1:@extends('layout.app') <!-- Paplašina galveno izkārtojuma failu, izmantojot kopēju izkārtojumu -->
+resources/views/AmataPiev.blade.php:3:@section('content') <!-- Satura daļa, kas tiks ielādēta layout -->
+resources/views/AmataPiev.blade.php:5:    <h2>Pievienot jaunus amata datus</h2> <!-- Virsraksts -->
+resources/views/AmataPiev.blade.php:7:    <!-- Poga atpakaļ uz amata sarakstu -->
+resources/views/AmataPiev.blade.php:13:    <hr> <!-- Atstarpes līnija -->
+resources/views/AmataPiev.blade.php:15:    <!-- Forma jauna amata pievienošanai. Pēc submit tiks izsaukts kontrolieris /Amati/jaunsSubmit -->
+resources/views/AmataPiev.blade.php:17:        @csrf <!-- CSRF aizsardzība -->
+resources/views/AmataPiev.blade.php:19:        <!-- Nosaukuma ievades lauks -->
+resources/views/AmataPiev.blade.php:21:            <label for="Nosaukums">Nosaukums:</label> <!-- Etiķete -->
+resources/views/AmataPiev.blade.php:22:            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" required> <!-- Teksta lauks -->
+resources/views/AmataPiev.blade.php:25:        <!-- Saglabāšanas poga -->
+resources/views/Amati.blade.php:1:@extends('layout.app') <!-- Paplašina galveno layout failu, kas satur kopējo lapas struktūru -->
+resources/views/Amati.blade.php:3:@section('content') <!-- Satura sadaļa -->
+resources/views/Amati.blade.php:14:<!-- Amatu saraksta tabula -->
+resources/views/Amati.blade.php:24:        <!-- Cikls: parāda katru amata ierakstu no `$dati` kolekcijas -->
+resources/views/Amati.blade.php:30:                <div style="display: flex; gap: 10px; justify-content: center;"> <!-- Horizontāli ar atstarpēm -->
+resources/views/Amati.blade.php:31:                    <!-- Rediģēšanas poga -->
+resources/views/Amati.blade.php:38:                    <!-- Dzēšanas poga ar apstiprinājuma loga parametriem -->
+resources/views/Amati.blade.php:54:<!-- Tabulas stils -->
+resources/views/Amati.blade.php:83:<!-- Paziņojums par veiksmīgu darbību -->
+resources/views/Klasifikatori.blade.php:5:<!-- Klasifikatoru izvēlne: izvēlies, kuru datu grupu redzēt un pārvaldīt. -->
+resources/views/Klasifikatori.blade.php:9:    <!-- <a href="/VagonaRaksturojums">Vagona raksturojums</a> -->
+resources/views/Klasifikatori.blade.php:12:    <!-- <a href="/Amati">Amati</a> -->
+resources/views/Klienti.blade.php:5:<!-- Šī lapa parāda klientu sarakstu ar filtru, meklēšanu un lapošanas kontrolēm. -->
+resources/views/Klienti.blade.php:34:    <!-- Lapas galvene -->
+resources/views/Klienti.blade.php:40:<!-- Filtrēšanas logs un meklēšana -->
+resources/views/Klienti.blade.php:79:<!-- Rezultātu bloks, kas tiek pārrakstīts ar AJAX meklēšanas rezultātiem -->
+resources/views/KlientiEdit.blade.php:1:@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
+resources/views/KlientiEdit.blade.php:3:@section('content') <!-- Satura sadaļas sākums -->
+resources/views/KlientiEdit.blade.php:5:<h2>Rediģēt klientu</h2> <!-- Lapas virsraksts -->
+resources/views/KlientiEdit.blade.php:7:<!-- Atpakaļ poga uz klientu sarakstu -->
+resources/views/KlientiEdit.blade.php:13:<hr> <!-- Horizontāla līnija -->
+resources/views/KlientiEdit.blade.php:21:<!-- Formas sākums klienta datu rediģēšanai -->
+resources/views/KlientiEdit.blade.php:23:    @csrf <!-- CSRF aizsardzība -->
+resources/views/KlientiEdit.blade.php:25:    <!-- Forma esoša klienta datu rediģēšanai; dati tiek nosūtīti uz kontrolieri. -->
+resources/views/KlientiEdit.blade.php:26:    <!-- Vārds -->
+resources/views/KlientiEdit.blade.php:32:    <!-- Uzvārds -->
+resources/views/KlientiEdit.blade.php:38:    <!-- E-pasts -->
+resources/views/KlientiEdit.blade.php:44:    <!-- Telefona numurs ar rakstzīmju skaita indikāciju -->
+resources/views/KlientiEdit.blade.php:48:        <div class="character-count" id="charCount">{{ strlen(old('TelefonaNumurs', $klientis->TelefonaNumurs)) }}/8</div> <!-- Rāda cik rakstzīmes ievadītas -->
+resources/views/KlientiEdit.blade.php:51:    <!-- Uzņēmuma nosaukums -->
+resources/views/KlientiEdit.blade.php:57:    <!-- Juridiskā adrese -->
+resources/views/KlientiEdit.blade.php:63:    <!-- Reģistrācijas numurs -->
+resources/views/KlientiEdit.blade.php:69:    <!-- Konta numurs -->
+resources/views/KlientiEdit.blade.php:75:    <!-- Saglabāšanas poga -->
+resources/views/KlientiEdit.blade.php:82:<!-- JavaScript: klienta ieraksta datu validācija un lauku formatēšana uz vietas. -->
+resources/views/KlientiEdit.blade.php:155:<!-- CSS stili formas elementiem -->
+resources/views/KlientiEdit.blade.php:195:@endsection <!-- Satura sadaļas beigas -->
+resources/views/KlientuPiev.blade.php:1:@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
+resources/views/KlientuPiev.blade.php:3:@section('content') <!-- Satura sadaļas sākums -->
+resources/views/KlientuPiev.blade.php:5:<h2>Pievienot jaunu klientu</h2> <!-- Lapas virsraksts -->
+resources/views/KlientuPiev.blade.php:7:<!-- Atpakaļ poga uz klientu sarakstu -->
+resources/views/KlientuPiev.blade.php:13:<hr> <!-- Horizontāla līnija -->
+resources/views/KlientuPiev.blade.php:21:<!-- Forma jauna klienta pievienošanai -->
+resources/views/KlientuPiev.blade.php:23:    @csrf <!-- CSRF aizsardzība -->
+resources/views/KlientuPiev.blade.php:25:    <!-- Vārds -->
+resources/views/KlientuPiev.blade.php:31:    <!-- Uzvārds -->
+resources/views/KlientuPiev.blade.php:37:    <!-- E-pasts -->
+resources/views/KlientuPiev.blade.php:47:    <!-- Rāda simbolu skaitu -->
+resources/views/KlientuPiev.blade.php:53:    <!-- Uzņēmuma nosaukums -->
+resources/views/KlientuPiev.blade.php:59:    <!-- Juridiskā adrese -->
+resources/views/KlientuPiev.blade.php:65:    <!-- Reģistrācijas numurs -->
+resources/views/KlientuPiev.blade.php:71:    <!-- Konta numurs -->
+resources/views/KlientuPiev.blade.php:77:    <!-- Saglabāšanas poga -->
+resources/views/KlientuPiev.blade.php:166:<!-- CSS stili formas laukiem un pogām -->
+resources/views/KlientuPiev.blade.php:206:@endsection <!-- Satura sadaļas beigas -->
+resources/views/Kravas.blade.php:7:<!-- Galvenais lapas bloks ar filtra un tabulas rezultātiem. -->
+resources/views/Kravas.blade.php:52:<!-- Filtrēšanas un meklēšanas logu konteiners -->
+resources/views/Kravas.blade.php:54:    <!-- Filtrēšanas logs -->
+resources/views/Kravas.blade.php:74:    <!-- Meklēšanas logs -->
+resources/views/Kravas.blade.php:90:<!-- Kravas tabula -->
+resources/views/Kravas.blade.php:113:                <!-- Administratoriem pieejamas rediģēšanas un dzēšanas darbības -->
+resources/views/KravasEdit.blade.php:1:@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
+resources/views/KravasEdit.blade.php:3:@section('content') <!-- Satura sadaļas sākums -->
+resources/views/KravasEdit.blade.php:5:<!-- Forma kravas veida rediģēšanai, kur var mainīt kravas nosaukumu un vagona veidu. -->
+resources/views/KravasEdit.blade.php:6:<h2>Rediģēt krāvu veidus</h2> <!-- Lapas virsraksts -->
+resources/views/KravasEdit.blade.php:8:<!-- Atpakaļ poga uz kravu sarakstu -->
+resources/views/KravasEdit.blade.php:14:<hr> <!-- Horizontāla līnija -->
+resources/views/KravasEdit.blade.php:16:<!-- Forma kravas datu rediģēšanai -->
+resources/views/KravasEdit.blade.php:18:    @csrf <!-- CSRF aizsardzība -->
+resources/views/KravasEdit.blade.php:20:    <!-- Kravas nosaukums -->
+resources/views/KravasEdit.blade.php:38:    <!-- Saglabāšanas poga -->
+resources/views/KravasEdit.blade.php:57:<!-- CSS stili formas elementiem un pogai -->
+resources/views/KravasEdit.blade.php:97:@endsection <!-- Satura sadaļas beigas -->
+resources/views/KravasPiev.blade.php:1:@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
+resources/views/KravasPiev.blade.php:3:@section('content') <!-- Satura sadaļas sākums -->
+resources/views/KravasPiev.blade.php:5:<!-- Forma jauna kravas veida pievienošanai, kas saista kravu ar vagona veidu. -->
+resources/views/KravasPiev.blade.php:6:<h2>Pievienot jaunus krāvu veidus</h2> <!-- Lapas virsraksts -->
+resources/views/KravasPiev.blade.php:8:<!-- Atpakaļ poga uz kravu sarakstu -->
+resources/views/KravasPiev.blade.php:14:<hr> <!-- Horizontāla līnija -->
+resources/views/KravasPiev.blade.php:16:<!-- Forma jaunas kravas pievienošanai -->
+resources/views/KravasPiev.blade.php:18:    @csrf <!-- CSRF aizsardzība -->
+resources/views/KravasPiev.blade.php:20:    <!-- Kravas nosaukums -->
+resources/views/KravasPiev.blade.php:37:    <!-- Saglabāšanas poga -->
+resources/views/KravasPiev.blade.php:56:<!-- CSS stili formas elementiem un pogai -->
+resources/views/KravasPiev.blade.php:96:@endsection <!-- Satura sadaļas beigas -->
+resources/views/Login.blade.php:4:    <meta charset="UTF-8"> <!-- Rakstzīmju kodējums -->
+resources/views/Login.blade.php:5:    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobilās ierīces responsive -->
+resources/views/Login.blade.php:6:    <title>Ielogošana</title> <!-- Lapas nosaukums -->
+resources/views/Login.blade.php:8:    <!-- Bootstrap CSS -->
+resources/views/Login.blade.php:11:    <!-- Pielāgotie stili -->
+resources/views/Login.blade.php:49:    <!-- Centrēts login bloks -->
+resources/views/Login.blade.php:52:            <h2 class="text-center mb-4">Ielogošana</h2> <!-- Virsraksts -->
+resources/views/Login.blade.php:54:            <!-- Ziņojumi par kļūdām -->
+resources/views/Login.blade.php:59:                            <li>{{ $error }}</li> <!-- Attēlo kļūdu -->
+resources/views/Login.blade.php:65:            <!-- Login forma -->
+resources/views/Login.blade.php:67:                @csrf <!-- CSRF aizsardzība -->
+resources/views/Login.blade.php:69:                <!-- Lietotājvārds -->
+resources/views/Login.blade.php:75:                <!-- Parole -->
+resources/views/Login.blade.php:81:                <!-- Pieteikšanās poga -->
+resources/views/Login.blade.php:87:            <!-- Atpakaļ uz sākumlapu -->
+resources/views/Login.blade.php:92:            <!-- Testa kontu informācija demonstrēšanas nolūkiem. -->
+resources/views/Noma.blade.php:39:<!-- Lapas galvene -->
+resources/views/Noma.blade.php:53:<!-- Meklēšanas un filtrēšanas logi -->
+resources/views/Noma.blade.php:143:<!-- Nomas saraksts -->
+resources/views/Noma.blade.php:333:<!-- Modāls logs, kas atklāj atteikuma iemeslu, kad tiek nospiesta poga Skatīt iemeslu. -->
+resources/views/NomaArhivs.blade.php:5:    <!-- Nomas arhīva pārskats ar iespēju atjaunot arhivētus nomas ierakstus. -->
+resources/views/NomaArhivs.blade.php:25:    <!-- Arhīva tabula, kurā parādītas visas pagātnes nomas ar atjaunošanas darbību pogu. -->
+resources/views/NomaArhivs.blade.php:60:                        <!-- Atjaunot arhivētu nomu: pārvieto ierakstu atpakaļ aktīvajā nomu sarakstā. -->
+resources/views/NomaEdit.blade.php:4:    <!-- Noma rediģēšanas forma ar iespēju mainīt datumu periodu, kravas tipu, statusus un pārvaldīt apmaksu. -->
+resources/views/NomaEdit.blade.php:22:        <!-- 1. Klienta izvēlne -->
+resources/views/NomaEdit.blade.php:47:        <!-- 2. Laika periods -->
+resources/views/NomaEdit.blade.php:58:        <!-- 3. Kravas izvēlne -->
+resources/views/NomaEdit.blade.php:75:        <!-- 4. Vagona veids (tikai lasīšanai) -->
+resources/views/NomaEdit.blade.php:83:        <!-- 5. Vagonu skaits -->
+resources/views/NomaEdit.blade.php:91:        <!-- Cena par diennakti -->
+resources/views/NomaEdit.blade.php:97:        <!-- Dienu skaits -->
+resources/views/NomaEdit.blade.php:103:        <!-- Kopējā maksa - slēptais lauks formai, redzamais lauks lietotājam -->
+resources/views/NomaPiev.blade.php:5:<!-- Šī forma lietotājam ļauj pievienot jaunu nomas pieteikumu, izvēloties klientu, datumus un kravas veidu. -->
+resources/views/NomaPiev.blade.php:25:    <!-- 1. Klienta izvēlne -->
+resources/views/NomaPiev.blade.php:50:    <!-- 2. Laika periods (nomas sākuma un beigu datumi) -->
+resources/views/NomaPiev.blade.php:61:    <!-- 3. Kravas izvēlne -->
+resources/views/NomaPiev.blade.php:74:    <!-- 4. Vagona veids (tikai lasīšanai) -->
+resources/views/NomaPiev.blade.php:82:    <!-- 5. Vagonu skaits (ar pieejamības pārbaudi) -->
+resources/views/NomaPiev.blade.php:90:    <!-- Cena par diennakti -->
+resources/views/NomaPiev.blade.php:96:    <!-- Dienu skaits -->
+resources/views/NomaPiev.blade.php:102:    <!-- Kopējā maksa -->
+resources/views/Noslogojums.blade.php:4:<!-- Dienas noslogojuma lapa ar izvēles datumu, kopsavilkumu un detalizētu aktīvo nomu sarakstu. -->
+resources/views/Noslogojums.blade.php:37:<!-- Datuma izvēles forma: izvēlētajam datumam tiek ielādēts noslogojuma pārskats. -->
+resources/views/Noslogojums.blade.php:49:        <!-- Datuma lauks izmanto flatpickr, lai atlasītu dienu, kuras noslogojumu rādīt. -->
+resources/views/Noslogojums.blade.php:102:    <!-- Kopsavilkums pa vagonu veidiem -->
+resources/views/Noslogojums.blade.php:136:    <!-- Šī tabula rāda aktīvo nomu pārskatu konkrētajam klientam. -->
+resources/views/Noslogojums.blade.php:167:        <!-- Administrators redz plašāku pārskatu ar klienta informāciju, maksas statusu un kopējo maksu. -->
+resources/views/NoslogojumsPeriods.blade.php:4:<!-- Perioda noslogojuma lapa: izvēlas datumu intervālu un rāda perioda pārskatu. -->
+resources/views/NoslogojumsPeriods.blade.php:26:    <!-- Forma perioda sākuma un beigu datumu izvēlei. -->
+resources/views/NoslogojumsPeriods.blade.php:31:        <!-- Sākuma datuma laukā tiek atlasīts periods no. -->
+resources/views/NoslogojumsPeriods.blade.php:36:        <!-- Beigu datuma laukā tiek atlasīts periods līdz. -->
+resources/views/NoslogojumsPeriods.blade.php:44:<!-- Poga iesniedz izvēlēto perioda intervālu un ielādē atbilstošo pārskatu. -->
+resources/views/NoslogojumsPeriods.blade.php:62:    <!-- Datuma atlasītājs sākuma datumam. -->
+resources/views/NoslogojumsPeriods.blade.php:71:    <!-- Datuma atlasītājs beigu datumam. -->
+resources/views/NoslogojumsPeriods.blade.php:78:<!-- Parāda lietotājam pašreiz izvēlēto periodu. -->
+resources/views/NoslogojumsPeriods.blade.php:85:    <!-- Kopsavilkums pa vagonu veidiem: parāda periodā nomātos un pieejamos vagonus. -->
+resources/views/NoslogojumsPeriods.blade.php:114:    <!-- Šī tabula rāda perioda nomas tikai pieslēgtajam klientam. -->
+resources/views/NoslogojumsPeriods.blade.php:141:    <!-- Šī tabula rāda perioda nomas administratoram ar klienta un maksas informāciju. -->
+resources/views/Veidi.blade.php:5:<!-- Vagonu veidu pārskats ar meklēšanu, filtrēšanu un lapošanas funkciju. -->
+resources/views/Veidi.blade.php:51:<!-- Filtrēšanas un Meklēšanas logs -->
+resources/views/Veidi.blade.php:53:    <!-- Filtrēšanas logs -->
+resources/views/Veidi.blade.php:73:    <!-- Meklēšanas logs -->
+resources/views/VeidiEdit.blade.php:4:    <!-- Skats vagonu veida datu rediģēšanai. -->
+resources/views/home.blade.php:1:@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
+resources/views/home.blade.php:3:@section('content') <!-- Satura sadaļas sākums -->
+resources/views/home.blade.php:5:<!-- Sākumlapa ar uzņēmuma prezentāciju un biznesa aprakstu. -->
+resources/views/home.blade.php:7:    <!-- Galvenais konteineris, centrē visu saturu horizontāli un vertikāli, ar augšējo malu 16px -->
+resources/views/home.blade.php:10:        <!-- Iekšējais bloks ar krāsu, padding, noapaļotiem stūriem, ēnojumu un starpību starp elementiem -->
+resources/views/home.blade.php:13:            <!-- Satura bloks attēlam: reprezentē LDZ CARGO vizuāli. -->
+resources/views/home.blade.php:16:             <!-- Uzņēmuma attēls ar platumu 600px un noapaļotiem stūriem -->
+resources/views/home.blade.php:21:            <!-- Satura bloks uzņēmuma aprakstam un vēsturei. -->
+resources/views/home.blade.php:25:                    <!-- Teksta bloka augšdaļa ar centrētu "Par uzņēmumu" pogas stila elementu -->
+resources/views/home.blade.php:31:                <!-- Uzņēmuma apraksts tekstā -->
+resources/views/home.blade.php:60:@endsection('content') <!-- Satura sadaļas beigas -->resources/views/layout/app.blade.php:4:    <!-- Galvenais aplikācijas layout fails: nodaļa, kas iestata kopējo HTML struktūru un stilu visiem skatiem. -->
+resources/views/layout/app.blade.php:345:    <!-- Logo/virsraksts -->
+resources/views/layout/app.blade.php:351:    <!-- Navigācijas josla: atkarībā no pieteikuma statusa parāda pieejamos lapu saīsnus un izlogoties saiti. -->
+resources/views/layout/app.blade.php:354:        @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
+resources/views/layout/app.blade.php:375:    <!-- Satura daļa: šeit tiek ielādēts konkrētais Blade skata saturs, kas tiek definēts ar @yield('content'). -->
+resources/views/layout/app.blade.php:389:        @yield('content') <!-- šeit tiks ielādēts konkrētais lapas saturs -->
+resources/views/layout/app.blade.php:392:    <!-- Footer -->
+resources/views/register.blade.php:4:    <meta charset="UTF-8"> <!-- Karakteru kodējums -->
+resources/views/register.blade.php:5:    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsīvs dizains -->
+resources/views/register.blade.php:6:    <title>Reģistrācija</title> <!-- Lapas nosaukums -->
+resources/views/register.blade.php:7:    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
+resources/views/register.blade.php:22:        <!-- Reģistrācijas forma jauna lietotāja izveidei. -->
+resources/views/register.blade.php:25:        <!-- Kļūdu paziņojumi -->
+resources/views/welcome.blade.php:9:        <!-- Fonts -->
+resources/views/welcome.blade.php:13:        <!-- Styles / Scripts -->
+resources/views/welcome.blade.php:122:                    {{-- Laravel Logo --}}
+resources/views/welcome.blade.php:133:                    {{-- Light Mode 12 SVG --}}
+resources/views/welcome.blade.php:202:                    {{-- Dark Mode 12 SVG --}}

@@ -1,6 +1,6 @@
-@extends('layout.app') <!-- Paplašina galveno layout failu, kas satur kopējo lapas struktūru -->
+@extends('layout.app')
 
-@section('content') <!-- Satura sadaļa -->
+@section('content')
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Amata dati</h2>
     <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">

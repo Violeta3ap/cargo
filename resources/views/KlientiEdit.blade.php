@@ -1,6 +1,6 @@
-@extends('layout.app') <!-- Paplašina galveno layout failu 'layout.app' -->
+@extends('layout.app')
 
-@section('content') <!-- Satura sadaļas sākums -->
+@section('content')
 
 <h2>Rediģēt klientu</h2> <!-- Lapas virsraksts -->
 

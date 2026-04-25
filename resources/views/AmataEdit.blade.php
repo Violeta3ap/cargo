@@ -1,6 +1,6 @@
-@extends('layout.app') <!-- Paplašina galveno izkārtojuma failu, izmantojot kopēju izkārtojumu -->
+@extends('layout.app')
 
-@section('content') <!-- Satura daļa, kas tiks ielādēta layout -->
+@section('content')
 
     <h2>Rediģēt amata datus</h2> <!-- Virsraksts -->
 
