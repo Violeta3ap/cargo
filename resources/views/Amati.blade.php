@@ -11,7 +11,7 @@
     </nav>
 </div>
 
-<!-- Amatu saraksta tabula -->
+
 <table class="table table-striped" style="width:100%; border:1px solid #59c1cf; border-radius:8px; overflow:hidden; text-align:center;">
     <thead>
         <tr>
@@ -21,21 +21,21 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Cikls: parāda katru amata ierakstu no `$dati` kolekcijas -->
+        
         @foreach ($dati as $item)
         <tr>
             <td>{{$item->AmataID}}</td>
             <td>{{$item->Nosaukums}}</td>
             <td>
-                <div style="display: flex; gap: 10px; justify-content: center;"> <!-- Horizontāli ar atstarpēm -->
-                    <!-- Rediģēšanas poga -->
+                <div style="display: flex; gap: 10px; justify-content: center;"> 
+                    
                     <a href="/Amati/{{ $item->AmataID }}/edit" 
                        style="border-radius:8px; border:1px solid #59c1cf; padding:5px 10px; color:#000; text-decoration:none; background-color:#59c1cf;"
                        class="btn btn-sm btn-warning">
                         Rediģēt
                     </a>
 
-                    <!-- Dzēšanas poga ar apstiprinājuma loga parametriem -->
+                    
                     <a href="/Amati/{{ $item->AmataID }}/delete"
                        class="js-confirm-action"
                        data-confirm-title="Dzēst ierakstu?"
@@ -51,7 +51,7 @@
     </tbody>
 </table>
 
-<!-- Tabulas stils -->
+
 <style>
     .table {
         border-collapse: collapse; 
@@ -80,7 +80,7 @@
 
 @endsection
 
-<!-- Paziņojums par veiksmīgu darbību -->
+
 @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}

@@ -2,33 +2,33 @@
 
 @section('content')
 
-<!-- Sākumlapa ar uzņēmuma prezentāciju un biznesa aprakstu. -->
+
 <div style="width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 16px;">
-    <!-- Galvenais konteineris, centrē visu saturu horizontāli un vertikāli, ar augšējo malu 16px -->
+    
     
     <div style="background: #C2CBD1; padding: 32px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); width: 100%;gap: 32px; align-items: center;">
-        <!-- Iekšējais bloks ar krāsu, padding, noapaļotiem stūriem, ēnojumu un starpību starp elementiem -->
+        
         
         <div class="mainContent" style="min-width: 0;">  
-            <!-- Satura bloks attēlam: reprezentē LDZ CARGO vizuāli. -->
+            
             <img src="https://ldzcargo.ldz.lv/sites/cargo.ldz.lv/files/styles/slideshow1/public/LDz-Cargo-kravu-parvadajumi-1_0.png?itok=HYB0_oGT"
              alt="LDZ CARGO" style="width: 700px; margin-top: 140px; justify-content: center; border-radius: 8px;">
-             <!-- Uzņēmuma attēls ar platumu 600px un noapaļotiem stūriem -->
+             
         </div>
         
 
         <div class="mainContent" style="min-width: 0;">  
-            <!-- Satura bloks uzņēmuma aprakstam un vēsturei. -->
+            
             <p style="text-align: justify; margin: 0;">
                 <br>
                 <div style="width: 100%; display: flex; justify-content: center; margin-top: 16px;">
-                    <!-- Teksta bloka augšdaļa ar centrētu "Par uzņēmumu" pogas stila elementu -->
+                    
                     <div style="background: #ffffff; padding: 5px 5px; border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: bold; text-align: center;">
                         Par uzņēmumu
                     </div>
                 </div>
                     <br><br>
-                <!-- Uzņēmuma apraksts tekstā -->
+                
                 SIA "LDZ CARGO" ir VAS "Latvijas dzelzceļš" meitas uzņēmums,
                 kurš klientiem piedāvā plašu pakalpojumu klāstu: starptautiskos
                 un iekšzemes kravu pārvadājumus, pilna servisa ritošā sastāva
@@ -57,4 +57,4 @@
     </div>
 </div>
 
-@endsection <!-- Satura sadaļas beigas -->
+@endsection 

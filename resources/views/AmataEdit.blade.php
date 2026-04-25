@@ -2,27 +2,27 @@
 
 @section('content')
 
-    <h2>Rediģēt amata datus</h2> <!-- Virsraksts -->
+    <h2>Rediģēt amata datus</h2> 
 
-    <!-- Poga atpakaļ uz amata sarakstu -->
+    
     <a href="/Amati" style="border-radius:8px; border: 1px solid #C2CBD1; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
         Atpakaļ
     </a>
 
-    <hr> <!-- Atstarpes līnija -->
+    <hr> 
 
-    <!-- Forma amata datu rediģēšanai. Datus aizpilda no `$amati` objekta -->
+    
     <form action="/Amati/{{ $amati->AmataID }}/editSubmit" method="POST">
-        @csrf <!-- CSRF aizsardzība -->
+        @csrf 
 
-        <!-- Nosaukuma lauks -->
+        
         <div class="form-group">
-            <label for="Nosaukums">Nosaukums:</label> <!-- Etiķete -->
-            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $amati->Nosaukums }}" required> <!-- Teksta ievades lauks -->
+            <label for="Nosaukums">Nosaukums:</label> 
+            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $amati->Nosaukums }}" required> 
         </div>
 
-        <!-- Poga datu atjaunināšanai -->
+        
         <button type="submit" style="border-radius:8px; border: 1px solid #C2CBD1; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
             Atjaunināt

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="page-noma">
-    <!-- Nomas arhīva pārskats ar iespēju atjaunot arhivētus nomas ierakstus. -->
+    
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
         <h2>Nomas arhīvs</h2>
         <nav class="navigacija" style="background-color: #ffffff; padding: 5px 10px;">
@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <!-- Arhīva tabula, kurā parādītas visas pagātnes nomas ar atjaunošanas darbību pogu. -->
+    
     <table class="table table-striped" style="width: 100%; border: 1px solid #C2CBD1; border-radius: 8px; overflow: hidden; text-align: center;">
         <thead>
             <tr>
@@ -57,7 +57,7 @@
                     <td>{{ $item->MaksasStatusaNosaukums ?? '-' }}</td>
                     <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
                     <td>
-                        <!-- Atjaunot arhivētu nomu: pārvieto ierakstu atpakaļ aktīvajā nomu sarakstā. -->
+                        
                         <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
                             <a href="/Noma/arhivs/{{ $item->NomasID }}/restore"
                                class="btn-action js-confirm-action"

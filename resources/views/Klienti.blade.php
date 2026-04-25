@@ -2,7 +2,7 @@
 
 @section('content')
 
-<!-- Šī lapa parāda klientu sarakstu ar filtru, meklēšanu un lapošanas kontrolēm. -->
+
 <div class="page-klienti">
 
 @php
@@ -31,13 +31,13 @@
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
     <h2>Klienti</h2>
 
-    <!-- Lapas galvene -->
+    
     <nav class="navigacija" style="background-color: #ffffff;">
         <a href="/Klienti/jauns">Izveidot klientu</a>
     </nav>
 </div>
 
-<!-- Filtrēšanas logs un meklēšana -->
+
 <form method="GET" action="/Klienti" class="klienti-filter-form" id="klienti-filter-form" style="padding: 8px 10px;">
     <div style="display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
         <div class="filter-window" style="width: fit-content; max-width: 100%;">
@@ -76,7 +76,7 @@
 @endif
 
 <div id="klienti-results">
-<!-- Rezultātu bloks, kas tiek pārrakstīts ar AJAX meklēšanas rezultātiem -->
+
 <table class="table table-striped" style="width:100%; border:1px solid #C2CBD1; border-radius:8px; overflow:hidden; text-align:center;">
     <thead>
          <tr>

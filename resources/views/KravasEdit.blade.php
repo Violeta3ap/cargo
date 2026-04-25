@@ -2,22 +2,22 @@
 
 @section('content')
 
-<!-- Forma kravas veida rediģēšanai, kur var mainīt kravas nosaukumu un vagona veidu. -->
-<h2>Rediģēt krāvu veidus</h2> <!-- Lapas virsraksts -->
 
-<!-- Atpakaļ poga uz kravu sarakstu -->
+<h2>Rediģēt krāvu veidus</h2> 
+
+
 <a href="/Kravas"  
    style="border-radius:8px; border: 1px solid #C2CBD1; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
    Atpakaļ
 </a>
 
-<hr> <!-- Horizontāla līnija -->
+<hr> 
 
-<!-- Forma kravas datu rediģēšanai -->
+
 <form action="/Kravas/{{ $kravas->KravasID }}/editSubmit" method="POST">
-    @csrf <!-- CSRF aizsardzība -->
+    @csrf 
 
-    <!-- Kravas nosaukums -->
+    
     <div class="form-group">
         <label for="Nosaukums">Kravas veida nosaukums:</label>
         <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" value="{{ $kravas->Nosaukums }}" maxlength="30" pattern="[A-Za-zĀ-ž]+" title="Drīkst ievadīt tikai burtus." required>
@@ -35,7 +35,7 @@
     </div>
 
 
-    <!-- Saglabāšanas poga -->
+    
     <button type="submit" 
         style="border-radius:8px; border: 1px solid #C2CBD1; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
         Atjaunināt
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- CSS stili formas elementiem un pogai -->
+
 <style>
 .form-group {
     margin-bottom: 20px; /* Atstarpes starp laukiem */
@@ -94,4 +94,4 @@ button[type="submit"]:hover {
 }
 </style>
 
-@endsection <!-- Satura sadaļas beigas -->
+@endsection 

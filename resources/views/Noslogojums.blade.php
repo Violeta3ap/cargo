@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<!-- Dienas noslogojuma lapa ar izvēles datumu, kopsavilkumu un detalizētu aktīvo nomu sarakstu. -->
+
 <div class="page-noslogojums">
 
 @php
@@ -34,7 +34,7 @@
     <div class="nos-alert nos-alert-danger">{{ session('error') }}</div>
 @endif
 
-<!-- Datuma izvēles forma: izvēlētajam datumam tiek ielādēts noslogojuma pārskats. -->
+
 <form method="GET" action="/Noslogojums" style="margin-bottom: 20px;" id="day-load-form">
     <div style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 12px 16px; background: #f8fdfe; display: inline-flex; gap: 12px; align-items: center;">
         <label for="datums" style="font-weight: 500; white-space: nowrap;">Izvēlieties datumu:</label>
@@ -46,7 +46,7 @@
 
         <input type="text" id="datums" name="datums" value="{{ $datums }}" autocomplete="off"
                style="border: 1px solid #C2CBD1; border-radius: 6px; padding: 6px 10px; font-size: 14px;">
-        <!-- Datuma lauks izmanto flatpickr, lai atlasītu dienu, kuras noslogojumu rādīt. -->
+        
 
         <a href="{{ '/Noslogojums?' . http_build_query($nextParams) }}"
            style="border-radius: 7px; border: 1px solid #C2CBD1; padding: 3px 8px; background: #ffffff; color: #000; text-decoration: none; white-space: nowrap; font-size: 0.86rem;">
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 @else
 
-    <!-- Kopsavilkums pa vagonu veidiem -->
+    
     <h3 style="margin-bottom: 10px;">Kopsavilkums pa vagonu veidiem</h3>
     <table class="nos-table" style="width: 100%; margin-bottom: 30px;">
         <thead>
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     @if(Auth::check() && Auth::user()->isKlients())
-    <!-- Šī tabula rāda aktīvo nomu pārskatu konkrētajam klientam. -->
+    
     <h3 style="margin-bottom: 10px;">Aktīvās nomas</h3>
     <table class="nos-table" style="width: 100%;">
         <thead>
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     @if(Auth::check() && Auth::user()->isAdmin())
-        <!-- Administrators redz plašāku pārskatu ar klienta informāciju, maksas statusu un kopējo maksu. -->
+        
         <h3 style="margin-bottom: 10px;">Aktīvās nomas</h3>
         <table class="nos-table" style="width: 100%;">
             <thead>

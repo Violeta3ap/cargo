@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-    <!-- Galvenais aplikācijas layout fails: nodaļa, kas iestata kopējo HTML struktūru un stilu visiem skatiem. -->
+    
     <meta charset="UTF-8">
     <title>CARGO</title>
 
@@ -342,16 +342,16 @@
 
 <div class="page-wrapper">
 
-    <!-- Logo/virsraksts -->
+    
     <div style="background: #ffffff; padding: 5px 5px; border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
          font-weight: bold; text-align: center;">
           LDZ CARGO
     </div>
 
-    <!-- Navigācijas josla: atkarībā no pieteikuma statusa parāda pieejamos lapu saīsnus un izlogoties saiti. -->
+    
     <div class="navigacija">
 
-        @if(Auth::check()) <!-- ja lietotājs ir pieteicies -->
+        @if(Auth::check()) 
             <a href="/">Par uzņēmumu</a>
 
             <a href="/Noma">Nomas</a>
@@ -372,7 +372,7 @@
     </div>
 
 
-    <!-- Satura daļa: šeit tiek ielādēts konkrētais Blade skata saturs, kas tiek definēts ar @yield('content'). -->
+    
 <div class="content app-shell-content">
         @if ($errors->any())
             <div class="app-alert app-alert-danger" role="alert">
@@ -386,10 +386,10 @@
             </div>
         @endif
 
-        @yield('content') <!-- šeit tiks ielādēts konkrētais lapas saturs -->
+        @yield('content') 
     </div>
 
-    <!-- Footer -->
+    
     <footer>
         <div>© 2014–2026 VAS "Latvijas dzelzceļš"</div>
         <div>Emīlijas Benjamiņas iela 3, Rīga, LV-1547</div>

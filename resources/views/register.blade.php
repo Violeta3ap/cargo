@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-    <meta charset="UTF-8"> <!-- Karakteru kodējums -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsīvs dizains -->
-    <title>Reģistrācija</title> <!-- Lapas nosaukums -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Reģistrācija</title> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> 
 
     <style>
         body { background-color: #ffffff; font-family: Arial, sans-serif; } 
@@ -19,10 +19,10 @@
 
 <div class="center-wrap"> 
     <div class="card custom p-4"> 
-        <!-- Reģistrācijas forma jauna lietotāja izveidei. -->
+        
         <h2 class="text-center mb-4">Reģistrācija</h2> 
 
-        <!-- Kļūdu paziņojumi -->
+        
         @if ($errors->any())
             <div class="alert alert-danger"> 
                 <ul class="mb-0">

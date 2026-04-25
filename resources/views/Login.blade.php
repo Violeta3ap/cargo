@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-    <meta charset="UTF-8"> <!-- Rakstzīmju kodējums -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobilās ierīces responsive -->
-    <title>Ielogošana</title> <!-- Lapas nosaukums -->
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Ielogošana</title> 
 
-    <!-- Bootstrap CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Pielāgotie stili -->
+    
     <style>
         body {
             background-color: #ffffff; /* Fona krāsa */
@@ -46,50 +46,50 @@
 
 <body>
 
-    <!-- Centrēts login bloks -->
+    
     <div class="center-wrap">
         <div class="card custom p-4">
-            <h2 class="text-center mb-4">Ielogošana</h2> <!-- Virsraksts -->
+            <h2 class="text-center mb-4">Ielogošana</h2> 
 
-            <!-- Ziņojumi par kļūdām -->
+            
             @if ($errors->any())
                 <div style="background-color: #ffe8e8; border: 1px solid #ff9999; color: #c00; padding: 12px; border-radius: 6px; margin-bottom: 20px;">
                     <ul style="margin: 0; padding-left: 20px;">
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li> <!-- Attēlo kļūdu -->
+                            <li>{{ $error }}</li> 
                         @endforeach
                     </ul>
                 </div>
             @endif
 
-            <!-- Login forma -->
+            
             <form method="POST" action="/Login/submit">
-                @csrf <!-- CSRF aizsardzība -->
+                @csrf 
 
-                <!-- Lietotājvārds -->
+                
                 <div style="margin-bottom: 20px;">
                     <label for="name" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Lietotājvārds</label>
                     <input type="text" id="name" name="name" required value="{{ old('name') }}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
                 </div>
 
-                <!-- Parole -->
+                
                 <div style="margin-bottom: 25px;">
                     <label for="password" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Parole</label>
                     <input type="password" id="password" name="password" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
                 </div>
 
-                <!-- Pieteikšanās poga -->
+                
                 <button type="submit" style="width: 100%; padding: 12px; background: #5985a8; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s;">
                     Pieteikties
                 </button>
             </form>
 
-            <!-- Atpakaļ uz sākumlapu -->
+            
             <div style="text-align: center; margin-top: 20px;">
                 <a href="/" style="color: #5985a8; text-decoration: none; font-size: 14px;">Atpakaļ uz sākumlapu</a>
             </div>
 
-            <!-- Testa kontu informācija demonstrēšanas nolūkiem. -->
+            
             <p> Admins:  Violeta parole:parole123;</p>
                 <p>
                 Klients1: Anna  parole:parole123;</p>

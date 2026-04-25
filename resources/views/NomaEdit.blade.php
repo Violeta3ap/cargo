@@ -1,7 +1,7 @@
 ﻿@extends('layout.app')
 
 @section('content')
-    <!-- Noma rediģēšanas forma ar iespēju mainīt datumu periodu, kravas tipu, statusus un pārvaldīt apmaksu. -->
+    
     <h2>Rediģēt nomu</h2>
     <a href="/Noma" style="border-radius:8px; border: 1px solid #C2CBD1; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">Atpakaļ</a>
@@ -19,7 +19,7 @@
     <form action="/Noma/{{ $noma->NomasID }}/editSubmit" method="POST" id="nomaForm">
         @csrf
 
-        <!-- 1. Klienta izvēlne -->
+        
         <div class="form-group">
             <label for="KlientaID">Klients (vārds, uzvārds, uzņēmums):</label>
             @if(Auth::check() && Auth::user()->isKlients())
@@ -44,7 +44,7 @@
             @endif
         </div>
 
-        <!-- 2. Laika periods -->
+        
         <div class="form-group">
             <label for="NomasSakumaPeriods">Nomas sākuma periods:</label>
             <input type="text" class="form-control datepicker" id="NomasSakumaPeriods" name="NomasSakumaPeriods" value="{{ $noma->NomasSakumaPeriods }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
@@ -55,7 +55,7 @@
             <input type="text" class="form-control datepicker" id="NomasBeiguPeriods" name="NomasBeiguPeriods" value="{{ $noma->NomasBeiguPeriods }}" placeholder="YYYY-MM-DD" autocomplete="off" required>
         </div>
 
-        <!-- 3. Kravas izvēlne -->
+        
         <div class="form-group">
             <label for="KravasID">Kravas veida nosaukums:</label>
             <select class="form-control" id="KravasID" name="KravasID" required>
@@ -72,7 +72,7 @@
             </select>
         </div>
 
-        <!-- 4. Vagona veids (tikai lasīšanai) -->
+        
         <div class="form-group">
             <label for="VeidaID_Nosaukums">Vagona veida nosaukums:</label>
             <input type="text" class="form-control" id="VeidaID_Nosaukums" readonly style="background-color: #f5f5f5;" value="{{ $noma->veidi->Nosaukums ?? '' }}">
@@ -80,7 +80,7 @@
             <div id="vehicleInfo" style="font-size: 12px; color: #6c757d; margin-top: 5px;"></div>
         </div>
 
-        <!-- 5. Vagonu skaits -->
+        
         <div class="form-group">
             <label for="VagonuSkaits">Vagonu skaits:</label>
             <input type="number" class="form-control" id="VagonuSkaits" name="VagonuSkaits" min="1" value="{{ $noma->VagonuSkaits }}" required>
@@ -88,19 +88,19 @@
             <div id="availabilityMessage" style="font-size: 12px; margin-top: 5px;"></div>
         </div>
 
-        <!-- Cena par diennakti -->
+        
         <div class="form-group">
             <label for="CenaParDiennakti">Cena par diennakti (€):</label>
             <input type="text" class="form-control" id="CenaParDiennakti" readonly style="background-color: #f5f5f5;" value="{{ $noma->veidi->CenaParDiennakti ?? 0 }}">
         </div>
 
-        <!-- Dienu skaits -->
+        
         <div class="form-group">
             <label for="DienuSkaits">Dienu skaits:</label>
             <input type="text" class="form-control" id="DienuSkaits" readonly style="background-color: #f5f5f5;">
         </div>
 
-        <!-- Kopējā maksa - slēptais lauks formai, redzamais lauks lietotājam -->
+        
         <div class="form-group">
             <label for="KopejaMaksa_Display">Kopējā maksa (€):</label>
             <input type="text" class="form-control" id="KopejaMaksa_Display" readonly style="background-color: #f5f5f5;" value="{{ number_format($noma->KopejaMaksa, 2) }}">

@@ -2,15 +2,15 @@
 
 @section('content')
 
-<h2>Pievienot jaunu klientu</h2> <!-- Lapas virsraksts -->
+<h2>Pievienot jaunu klientu</h2> 
 
-<!-- Atpakaļ poga uz klientu sarakstu -->
+
 <a href="/Klienti"  
    style="border-radius:8px; border: 1px solid #C2CBD1; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
    Atpakaļ
 </a>
 
-<hr> <!-- Horizontāla līnija -->
+<hr> 
 
 @if($errors->has('duplicate'))
     <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 12px; margin-bottom: 15px; border-radius: 8px;">
@@ -18,23 +18,23 @@
     </div>
 @endif
 
-<!-- Forma jauna klienta pievienošanai -->
-<form method="POST" action="/Klienti/jaunsSubmit">
-    @csrf <!-- CSRF aizsardzība -->
 
-    <!-- Vārds -->
+<form method="POST" action="/Klienti/jaunsSubmit">
+    @csrf 
+
+    
     <div class="form-group">
         <label for="Vards">Vārds:</label>
         <input type="text" class="form-control" id="Vards" name="Vards" value="{{ old('Vards') }}" maxlength="30" data-letters-only="true" data-capitalize="words" autocomplete="off" title="Drīkst ievadīt tikai burtus, un pirmais burts būs liels." required>
     </div>
 
-    <!-- Uzvārds -->
+    
     <div class="form-group">
         <label for="Uzvards">Uzvārds:</label>
         <input type="text" class="form-control" id="Uzvards" name="Uzvards" value="{{ old('Uzvards') }}" maxlength="30" data-letters-only="true" data-capitalize="words" autocomplete="off" title="Drīkst ievadīt tikai burtus, un pirmais burts būs liels." required>
     </div>
 
-    <!-- E-pasts -->
+    
     <div class="form-group">
         <label for="Epasts">E-pasts:</label>
         <input type="email" class="form-control" id="Epasts" name="Epasts" value="{{ old('Epasts') }}" inputmode="email" maxlength="255" title="Ievadiet derīgu e-pastu, kurā obligāti ir simbols @." required>
@@ -44,37 +44,37 @@
     <label for="TelefonaNumurs">Telefona numurs:</label>
     <input type="text" class="form-control" id="TelefonaNumurs" name="TelefonaNumurs" value="{{ old('TelefonaNumurs') }}" maxlength="8" inputmode="numeric" pattern="[0-9]{8}" title="Ievadiet tikai 8 ciparus." required>
     
-    <!-- Rāda simbolu skaitu -->
+    
     <div class="character-count" id="charCount">{{ strlen(old('TelefonaNumurs', '')) }}/8</div>
 </div>
 
 
 
-    <!-- Uzņēmuma nosaukums -->
+    
     <div class="form-group">
         <label for="UznemumaNosaukums">Uzņēmuma nosaukums:</label>
         <input type="text" class="form-control" id="UznemumaNosaukums" name="UznemumaNosaukums" value="{{ old('UznemumaNosaukums') }}" maxlength="30" data-letters-only="true" data-capitalize="words" autocomplete="off" title="Drīkst ievadīt tikai burtus, un pirmais burts būs liels." required>
     </div>
 
-    <!-- Juridiskā adrese -->
+    
     <div class="form-group">
         <label for="JuridiskaAdrese">Juridiskā adrese:</label>
         <input type="text" class="form-control" id="JuridiskaAdrese" name="JuridiskaAdrese" value="{{ old('JuridiskaAdrese') }}" maxlength="255" data-address-format="true" autocomplete="off" title="Drīkst ievadīt burtus un ciparus, un pirmajam burtam jābūt lielajam." required>
     </div>
 
-    <!-- Reģistrācijas numurs -->
+    
     <div class="form-group">
         <label for="RegistracijasNumurs">Reģistrācijas numurs:</label>
         <input type="text" class="form-control" id="RegistracijasNumurs" name="RegistracijasNumurs" value="{{ old('RegistracijasNumurs') }}" maxlength="11" inputmode="numeric" pattern="[0-9]{1,11}" title="Drīkst ievadīt tikai ciparus." required>
     </div>
 
-    <!-- Konta numurs -->
+    
     <div class="form-group">
         <label for="KontaNumurs">Konta numurs:</label>
         <input type="text" class="form-control" id="KontaNumurs" name="KontaNumurs" value="{{ old('KontaNumurs') }}" maxlength="21" inputmode="text" pattern="LV[A-Za-z0-9]{0,19}" data-account-format="true" autocomplete="off" style="text-transform: uppercase;" title="Konta numuram jāsākas ar LV un maksimālais garums ir 21 simbols." required>
     </div>
 
-    <!-- Saglabāšanas poga -->
+    
     <button type="submit" 
         style="border-radius:8px; border: 1px solid #C2CBD1; padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
         Saglabāt
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<!-- CSS stili formas laukiem un pogām -->
+
 <style>
 .form-group {
     margin-bottom: 20px; /* Atstarpes starp laukiem */
@@ -203,4 +203,4 @@ button[type="submit"]:hover {
 }
 </style>
 
-@endsection <!-- Satura sadaļas beigas -->
+@endsection 

@@ -36,7 +36,7 @@
     }
 @endphp
 
-<!-- Lapas galvene -->
+
 <div class="noma-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
     <h2>Noma</h2>
     <nav class="navigacija noma-subnav" style="background-color: #ffffff; padding: 5px 10px;">
@@ -50,7 +50,7 @@
 </div>
 
 
-<!-- Meklēšanas un filtrēšanas logi -->
+
 <form method="GET" action="/Noma" class="noma-filter-form" style="margin-bottom: 15px; padding: 8px 10px;">
     <div class="filter-window" style="width: fit-content; max-width: 100%;">
         <h4>Filtrēšana</h4>
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 @endif
 
-<!-- Nomas saraksts -->
+
 <div id="noma-results">
 <div class="noma-table-wrap">
 <table class="table table-striped noma-table" style="width: 100%; border: 1px solid #C2CBD1; border-radius: 8px; overflow: hidden; text-align: center;">
@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </div>
 
-<!-- Modāls logs, kas atklāj atteikuma iemeslu, kad tiek nospiesta poga Skatīt iemeslu. -->
+
 <div id="reasonModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 9999; align-items: center; justify-content: center;">
     <div style="background: #fff; border: 1px solid #C2CBD1; border-radius: 10px; width: min(460px, 92vw); padding: 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.18);">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px;">

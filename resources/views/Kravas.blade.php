@@ -4,7 +4,7 @@
 
 <div class="page-kravas">
 
-<!-- Galvenais lapas bloks ar filtra un tabulas rezultātiem. -->
+
 @php
     $search = $search ?? request('search', '');
     $vagonaNosaukums = $vagonaNosaukums ?? request('vagona_nosaukums', '');
@@ -49,9 +49,9 @@
     </div>
 @endif
 
-<!-- Filtrēšanas un meklēšanas logu konteiners -->
+
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
-    <!-- Filtrēšanas logs -->
+    
     <form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-filter-form" style="padding: 8px 10px;">
         <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
             <h4>Filtrēšana</h4>
@@ -71,7 +71,7 @@
         </div>
     </form>
 
-    <!-- Meklēšanas logs -->
+    
     <form method="GET" action="/Kravas" class="veidi-search-form" id="kravas-search-form" style="padding: 8px 10px;">
         <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
             <h4>Meklēšana</h4>
@@ -87,7 +87,7 @@
 </div>
 
 <div id="kravas-results">
-<!-- Kravas tabula -->
+
 <table class="table table-striped" style="width: 100%; border: 1px solid #C2CBD1; border-radius: 8px; overflow: hidden; text-align: center;">
     <thead>
          <tr>
@@ -110,7 +110,7 @@
                 </a>
             </th>
             @if(Auth::check() && Auth::user()->isAdmin())
-                <!-- Administratoriem pieejamas rediģēšanas un dzēšanas darbības -->
+                
                 <th>Darbības</th>
             @endif
          </tr>

@@ -2,27 +2,27 @@
 
 @section('content')
 
-    <h2>Pievienot jaunus amata datus</h2> <!-- Virsraksts -->
+    <h2>Pievienot jaunus amata datus</h2> 
 
-    <!-- Poga atpakaļ uz amata sarakstu -->
+    
     <a href="/Amati" style="border-radius:8px; border: 1px solid #C2CBD1; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
         Atpakaļ
     </a>
 
-    <hr> <!-- Atstarpes līnija -->
+    <hr> 
 
-    <!-- Forma jauna amata pievienošanai. Pēc submit tiks izsaukts kontrolieris /Amati/jaunsSubmit -->
+    
     <form method="POST" action="/Amati/jaunsSubmit">
-        @csrf <!-- CSRF aizsardzība -->
+        @csrf 
 
-        <!-- Nosaukuma ievades lauks -->
+        
         <div class="form-group">
-            <label for="Nosaukums">Nosaukums:</label> <!-- Etiķete -->
-            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" required> <!-- Teksta lauks -->
+            <label for="Nosaukums">Nosaukums:</label> 
+            <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" required> 
         </div>
 
-        <!-- Saglabāšanas poga -->
+        
         <button type="submit" style="border-radius:8px; border: 1px solid #C2CBD1; 
                 padding: 5px; color: #000000; text-decoration: none; background: linear-gradient(to right, #C2CBD1, #ffffff)">
             Saglabāt

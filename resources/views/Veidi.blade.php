@@ -2,7 +2,7 @@
 
 @section('content')
 
-<!-- Vagonu veidu pārskats ar meklēšanu, filtrēšanu un lapošanas funkciju. -->
+
 <div class="page-veidi">
 
 @php
@@ -48,9 +48,9 @@
     </div>
 @endif
 
-<!-- Filtrēšanas un Meklēšanas logs -->
+
 <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
-    <!-- Filtrēšanas logs -->
+    
     <form method="GET" action="/Veidi" class="veidi-filter-form" style="padding: 8px 10px;">
         <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
             <h4>Filtrēšana</h4>
@@ -70,7 +70,7 @@
         </div>
     </form>
 
-    <!-- Meklēšanas logs -->
+    
     <form method="GET" action="/Veidi" class="veidi-search-form" style="padding: 8px 10px;">
         <div class="search-window" style="border: 1px solid #C2CBD1; border-radius: 10px; padding: 10px; background: #f8fdfe; width: fit-content; max-width: 100%;">
             <h4>Meklēšana</h4>
