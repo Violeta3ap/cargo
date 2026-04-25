@@ -20,7 +20,7 @@
     
     <div class="form-group">
         <label for="Nosaukums">Kravas veida nosaukums:</label>
-        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" maxlength="30" pattern="[A-Za-zĀ-ž]+" title="Drīkst ievadīt tikai burtus." required>
+        <input type="text" class="form-control" id="Nosaukums" name="Nosaukums" maxlength="30" pattern="[A-Za-zĀ-ž ]+" title="Drīkst ievadīt tikai burtus un atstarpes." required>
     </div>
 
 
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (nosaukumsInput) {
         nosaukumsInput.addEventListener('input', function() {
-            this.value = this.value.replace(/[^\p{L}]/gu, '');
+            this.value = this.value.replace(/[^A-Za-zĀ-ž\s]/g, '');
         });
     }
 });

@@ -13,8 +13,8 @@
     $sortBy = $sortBy ?? request('sort_by', 'KlientaID');
     $sortOrder = $sortOrder ?? request('sort_order', 'asc');
     
-    // Palīgfunkcija kārtošanas URL ģenerēšanai
-    function getSortUrl($field, $currentSortBy, $currentSortOrder, $params) {
+    // Palīgpusfunkcija kārtošanas URL ģenerēšanai
+    $getSortUrl = function ($field, $currentSortBy, $currentSortOrder, $params) {
         if ($currentSortBy == $field) {
             $newOrder = $currentSortOrder == 'asc' ? 'desc' : 'asc';
         } else {
@@ -25,7 +25,7 @@
         $params['sort_order'] = $newOrder;
         
         return '?' . http_build_query($params);
-    }
+    };
 @endphp
 
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
@@ -81,7 +81,7 @@
     <thead>
          <tr>
             <th>
-                <a href="{{ getSortUrl('Vards', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ ($getSortUrl)('Vards', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'Vards' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Vārds
                     @if($sortBy == 'Vards')
@@ -90,7 +90,7 @@
                 </a>
             </th>
             <th>
-                <a href="{{ getSortUrl('Uzvards', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ ($getSortUrl)('Uzvards', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'Uzvards' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Uzvārds
                     @if($sortBy == 'Uzvards')
@@ -99,7 +99,7 @@
                 </a>
             </th>
             <th>
-                <a href="{{ getSortUrl('Epasts', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ ($getSortUrl)('Epasts', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'Epasts' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     E-pasts
                     @if($sortBy == 'Epasts')
@@ -108,7 +108,7 @@
                 </a>
             </th>
             <th>
-                <a href="{{ getSortUrl('TelefonaNumurs', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ ($getSortUrl)('TelefonaNumurs', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'TelefonaNumurs' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Telefona numurs
                     @if($sortBy == 'TelefonaNumurs')
@@ -117,7 +117,7 @@
                 </a>
             </th>
             <th>
-                <a href="{{ getSortUrl('UznemumaNosaukums', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ ($getSortUrl)('UznemumaNosaukums', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'UznemumaNosaukums' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Uzņēmuma nosaukums
                     @if($sortBy == 'UznemumaNosaukums')
@@ -126,7 +126,7 @@
                 </a>
             </th>
             <th>
-                <a href="{{ getSortUrl('JuridiskaAdrese', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ ($getSortUrl)('JuridiskaAdrese', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'JuridiskaAdrese' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Juridiska adrese
                     @if($sortBy == 'JuridiskaAdrese')
@@ -135,7 +135,7 @@
                 </a>
             </th>
             <th>
-                <a href="{{ getSortUrl('RegistracijasNumurs', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ ($getSortUrl)('RegistracijasNumurs', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'RegistracijasNumurs' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Reģistrācijas numurs
                     @if($sortBy == 'RegistracijasNumurs')
@@ -144,7 +144,7 @@
                 </a>
             </th>
             <th>
-                <a href="{{ getSortUrl('KontaNumurs', $sortBy, $sortOrder, request()->except(['page'])) }}" 
+                <a href="{{ ($getSortUrl)('KontaNumurs', $sortBy, $sortOrder, request()->except(['page'])) }}" 
                    class="sort-link {{ $sortBy == 'KontaNumurs' ? ($sortOrder == 'asc' ? 'sort-asc' : 'sort-desc') : '' }}">
                     Konta numurs
                     @if($sortBy == 'KontaNumurs')
