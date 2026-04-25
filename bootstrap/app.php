@@ -26,6 +26,13 @@ return Application::configure(basePath: dirname(__DIR__))
                 return null;
             }
 
+            $debug = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? false;
+            $debug = filter_var($debug, FILTER_VALIDATE_BOOLEAN);
+
+            if ($debug) {
+                return null;
+            }
+
             $status = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
 
             $titles = [
