@@ -186,7 +186,16 @@ class VeidiController extends Controller
         $veidi->VagonuSkaits = $dati->input('VagonuSkaits');
         $veidi->CenaParDiennakti = $dati->input('CenaParDiennakti');
         // Saglabā jauno ierakstu datu bāzē
-        $veidi->save();
+        try {
+            $veidi->save();
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Pārbauda vai kļūda ir saistīta ar datu garumu
+            if (str_contains($e->getMessage(), 'Data too long for column')) {
+                return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+            }
+            // Citas datu bāzes kļūdas
+            return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+        }
 
         // Novirza uz vagonu veidu sarakstu ar apstiprinājuma ziņojumu
         return redirect()->to('/Veidi')->with('success', 'Ieraksts tika pievienots');
@@ -243,14 +252,23 @@ class VeidiController extends Controller
         ]);
 
         // Atjaunina vagona veida laukus datu bāzē pēc ID
-        DB::table('veidi')
-            ->where('VeidaID', $id)
-            ->update([
-                'Nosaukums' => $dati->input('Nosaukums'),
-                'Celtspeja' => $dati->input('Celtspeja'),
-                'VagonuSkaits' => $dati->input('VagonuSkaits'),
-                'CenaParDiennakti' => $dati->input('CenaParDiennakti'),
-            ]);
+        try {
+            DB::table('veidi')
+                ->where('VeidaID', $id)
+                ->update([
+                    'Nosaukums' => $dati->input('Nosaukums'),
+                    'Celtspeja' => $dati->input('Celtspeja'),
+                    'VagonuSkaits' => $dati->input('VagonuSkaits'),
+                    'CenaParDiennakti' => $dati->input('CenaParDiennakti'),
+                ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Pārbauda vai kļūda ir saistīta ar datu garumu
+            if (str_contains($e->getMessage(), 'Data too long for column')) {
+                return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+            }
+            // Citas datu bāzes kļūdas
+            return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+        }
 
         // Novirza uz vagonu veidu sarakstu ar apstiprinājuma ziņojumu
         return redirect()->to('/Veidi')->with('success', 'Ieraksts tika atjaunināts');

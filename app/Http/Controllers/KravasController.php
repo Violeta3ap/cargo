@@ -179,7 +179,16 @@ class KravasController extends Controller
     $kravas->Nosaukums = $dati->input('Nosaukums');
     $kravas->VeidaID = $dati->input('VeidaID');
     // Saglabā jauno ierakstu datu bāzē
-    $kravas->save();
+    try {
+      $kravas->save();
+    } catch (\Illuminate\Database\QueryException $e) {
+      // Pārbauda vai kļūda ir saistīta ar datu garumu
+      if (str_contains($e->getMessage(), 'Data too long for column')) {
+        return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+      }
+      // Citas datu bāzes kļūdas
+      return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+    }
 
     // Novirza uz kravu sarakstu ar apstiprinājuma ziņojumu
     return redirect()->to('/Kravas')->with('success', 'Ieraksts tika pievienots');
@@ -237,12 +246,21 @@ class KravasController extends Controller
     ]);
 
     // Atjaunina kravu ierakstu datu bāzē pēc ID
-    DB::table('krava')
-      ->where('KravasID', $id)
-      ->update([
-        'Nosaukums' => $dati->input('Nosaukums'),
-        'VeidaID' => $dati->input('VeidaID'),
-      ]);
+    try {
+      DB::table('krava')
+        ->where('KravasID', $id)
+        ->update([
+          'Nosaukums' => $dati->input('Nosaukums'),
+          'VeidaID' => $dati->input('VeidaID'),
+        ]);
+    } catch (\Illuminate\Database\QueryException $e) {
+      // Pārbauda vai kļūda ir saistīta ar datu garumu
+      if (str_contains($e->getMessage(), 'Data too long for column')) {
+        return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+      }
+      // Citas datu bāzes kļūdas
+      return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+    }
 
     // Novirza uz kravu sarakstu ar apstiprinājuma ziņojumu
     return redirect()->to('/Kravas')->with('success', 'Ieraksts tika atjaunināts');

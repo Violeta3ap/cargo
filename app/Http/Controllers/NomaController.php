@@ -241,7 +241,12 @@ class NomaController extends Controller
             // Atjauno datubāzē
             if ($noma->KopejaMaksa != $kopejaMaksa) {
                 $noma->KopejaMaksa = $kopejaMaksa;
-                $noma->save();
+                try {
+                    $noma->save();
+                } catch (\Illuminate\Database\QueryException $e) {
+                    // Ja kļūda, turpina ar nākamo
+                    continue;
+                }
                 $updatedCount++;
             }
         }
@@ -808,7 +813,16 @@ class NomaController extends Controller
             $noma->AtteikumaIemesls = '';
         }
 
-        $noma->save();
+        try {
+            $noma->save();
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Pārbauda vai kļūda ir saistīta ar datu garumu
+            if (str_contains($e->getMessage(), 'Data too long for column')) {
+                return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+            }
+            // Citas datu bāzes kļūdas
+            return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+        }
 
         // Sinhronizē noslogojums tabulu
         DB::table('noslogojums')->updateOrInsert(
@@ -1006,9 +1020,18 @@ class NomaController extends Controller
             }
         }
 
-        DB::table('vagonunoma')
-            ->where('NomasID', $id)
-            ->update($updateData);
+        try {
+            DB::table('vagonunoma')
+                ->where('NomasID', $id)
+                ->update($updateData);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Pārbauda vai kļūda ir saistīta ar datu garumu
+            if (str_contains($e->getMessage(), 'Data too long for column')) {
+                return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+            }
+            // Citas datu bāzes kļūdas
+            return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+        }
 
         // Sinhronizē noslogojums tabulu
         DB::table('noslogojums')->updateOrInsert(

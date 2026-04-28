@@ -367,16 +367,25 @@ class KlientiController extends Controller
     }
 
     // Izveido jaunu klienta ierakstu.
-    $klientis = new Klienti();
-    $klientis->Vards = $vards;
-    $klientis->Uzvards = $uzvards;
-    $klientis->Epasts = $epasts;
-    $klientis->TelefonaNumurs = $telefonaNumurs;
-    $klientis->UznemumaNosaukums = $uznemumaNosaukums;
-    $klientis->JuridiskaAdrese = $juridiskaAdrese;
-    $klientis->RegistracijasNumurs = $registracijasNumurs;
-    $klientis->KontaNumurs = $kontaNumurs;
-    $klientis->save();
+    try {
+      $klientis = new Klienti();
+      $klientis->Vards = $vards;
+      $klientis->Uzvards = $uzvards;
+      $klientis->Epasts = $epasts;
+      $klientis->TelefonaNumurs = $telefonaNumurs;
+      $klientis->UznemumaNosaukums = $uznemumaNosaukums;
+      $klientis->JuridiskaAdrese = $juridiskaAdrese;
+      $klientis->RegistracijasNumurs = $registracijasNumurs;
+      $klientis->KontaNumurs = $kontaNumurs;
+      $klientis->save();
+    } catch (\Illuminate\Database\QueryException $e) {
+      // Pārbauda vai kļūda ir saistīta ar datu garumu
+      if (str_contains($e->getMessage(), 'Data too long for column')) {
+        return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+      }
+      // Citas datu bāzes kļūdas
+      return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+    }
 
     return redirect()->to('/Klienti')->with('success', 'Ieraksts tika pievienots');
   }
@@ -428,18 +437,27 @@ class KlientiController extends Controller
     }
 
     // Atjauno klienta laukus pēc ID.
-    DB::table('klienti')
-      ->where('KlientaID', $id)
-      ->update([
-        'Vards' => $vards,
-        'Uzvards' => $uzvards,
-        'Epasts' => $epasts,
-        'TelefonaNumurs' => $telefonaNumurs,
-        'UznemumaNosaukums' => $uznemumaNosaukums,
-        'JuridiskaAdrese' => $juridiskaAdrese,
-        'RegistracijasNumurs' => $registracijasNumurs,
-        'KontaNumurs' => $kontaNumurs,
-      ]);
+    try {
+      DB::table('klienti')
+        ->where('KlientaID', $id)
+        ->update([
+          'Vards' => $vards,
+          'Uzvards' => $uzvards,
+          'Epasts' => $epasts,
+          'TelefonaNumurs' => $telefonaNumurs,
+          'UznemumaNosaukums' => $uznemumaNosaukums,
+          'JuridiskaAdrese' => $juridiskaAdrese,
+          'RegistracijasNumurs' => $registracijasNumurs,
+          'KontaNumurs' => $kontaNumurs,
+        ]);
+    } catch (\Illuminate\Database\QueryException $e) {
+      // Pārbauda vai kļūda ir saistīta ar datu garumu
+      if (str_contains($e->getMessage(), 'Data too long for column')) {
+        return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+      }
+      // Citas datu bāzes kļūdas
+      return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+    }
 
     return redirect()->to('/Klienti')->with('success', 'Ieraksts tika atjaunināts');
   }

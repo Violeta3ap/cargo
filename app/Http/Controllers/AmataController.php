@@ -107,7 +107,16 @@ class AmataController extends Controller
     // Nolasa nosaukumu no formas ievades
     $amats->Nosaukums = $dati->input('Nosaukums');
     // Saglabā jauno ierakstu datu bāzē
-    $amats->save();
+    try {
+      $amats->save();
+    } catch (\Illuminate\Database\QueryException $e) {
+      // Pārbauda vai kļūda ir saistīta ar datu garumu
+      if (str_contains($e->getMessage(), 'Data too long for column')) {
+        return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+      }
+      // Citas datu bāzes kļūdas
+      return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+    }
 
     // Novirza uz amatu sarakstu ar apstiprinājuma ziņojumu
     return redirect()->to('/Amati')->with('success', 'Ieraksts tika pievienots');
@@ -147,11 +156,20 @@ class AmataController extends Controller
     }
 
     // Atjaunina amata nosaukumu datu bāzē, meklējot pēc AmataID
-    DB::table('amats')
-      ->where('AmataID', $id)
-      ->update([
-        'Nosaukums' => $dati->input('Nosaukums'),
-      ]);
+    try {
+      DB::table('amats')
+        ->where('AmataID', $id)
+        ->update([
+          'Nosaukums' => $dati->input('Nosaukums'),
+        ]);
+    } catch (\Illuminate\Database\QueryException $e) {
+      // Pārbauda vai kļūda ir saistīta ar datu garumu
+      if (str_contains($e->getMessage(), 'Data too long for column')) {
+        return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+      }
+      // Citas datu bāzes kļūdas
+      return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+    }
 
     // Novirza uz amatu sarakstu ar apstiprinājuma ziņojumu
     return redirect()->to('/Amati')->with('success', 'Ieraksts tika atjaunināts');
