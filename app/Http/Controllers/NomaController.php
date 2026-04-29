@@ -530,7 +530,7 @@ class NomaController extends Controller
             });
         }
 
-        if ($mekleKlientaUznemums !== '') {
+        if ($this->userIsAdmin() && $mekleKlientaUznemums !== '') {
             $query->whereHas('klienti', function ($q) use ($mekleKlientaUznemums) {
                 $q->where('UznemumaNosaukums', 'like', '%' . $mekleKlientaUznemums . '%');
             });
