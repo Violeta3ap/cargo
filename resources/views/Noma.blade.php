@@ -515,6 +515,16 @@ document.addEventListener('DOMContentLoaded', function () {
         flex: 1 1 100% !important;
     }
 }
+
+@media print {
+    .page-noma .btn-action,
+    .page-noma .print-btn,
+    .page-noma .noma-subnav,
+    .page-noma .noma-filter-form,
+    .page-noma .noma-search-form {
+        display: none !important;
+    }
+}
 </style>
 
 </div>

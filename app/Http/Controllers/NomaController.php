@@ -964,7 +964,8 @@ class NomaController extends Controller
                 }
             }
 
-            $updateData['StatusaID'] = $statusaId !== null && $statusaId !== '' ? (int) $statusaId : null;
+            // Ja statuss nav norādīts, saglabā esošo statusu
+            $updateData['StatusaID'] = ($statusaId !== null && $statusaId !== '') ? (int) $statusaId : $noma->StatusaID;
 
             if ($this->hasAtteikumaIemeslsColumn()) {
                 $noraiditsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Noraidīts');
@@ -1029,8 +1030,12 @@ class NomaController extends Controller
             if (str_contains($e->getMessage(), 'Data too long for column')) {
                 return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
             }
+            // Integrācijas ierobežojuma kļūdas
+            if (str_contains($e->getMessage(), 'Integrity constraint violation') || str_contains($e->getMessage(), 'cannot be null')) {
+                return back()->withInput()->withErrors(['database' => 'Lūdzu pārbaudiet, vai visi obligātie lauki ir pareizi aizpildīti.']);
+            }
             // Citas datu bāzes kļūdas
-            return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+            return back()->withInput()->withErrors(['database' => 'Nomas atjaunināšana neizdevās. Lūdzu, mēģiniet vēlreiz.']);
         }
 
         // Sinhronizē noslogojums tabulu
