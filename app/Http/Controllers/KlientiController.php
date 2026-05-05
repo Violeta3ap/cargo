@@ -43,6 +43,17 @@ class KlientiController extends Controller
   }
 
   /**
+   * Atrod vai izveido amatā "Klients" ierakstu un atgriež tā ID
+   *
+   * @return int
+   */
+  private function resolveKlientsAmataId(): int
+  {
+    $amata = Amati::firstOrCreate(['Nosaukums' => 'Klients']);
+    return $amata->AmataID;
+  }
+
+  /**
    * Normalizē burti-tikai vērtības - noņem ciparus un speciālos simbolus
    * Rezultāts: Teksts ar lielajiem sākumburtiiem
    * Piemērs: "jānis NOVADS" → "Jānis Novads"
@@ -366,22 +377,35 @@ class KlientiController extends Controller
       return back()->withInput()->withErrors(['duplicate' => 'Klienta dati jau eksistē. Lūdzu, izmainiet laukus un mēģiniet vēlreiz.']);
     }
 
-    // Izveido jaunu klienta ierakstu.
     try {
-      $klientis = new Klienti();
-      $klientis->Vards = $vards;
-      $klientis->Uzvards = $uzvards;
-      $klientis->Epasts = $epasts;
-      $klientis->TelefonaNumurs = $telefonaNumurs;
-      $klientis->UznemumaNosaukums = $uznemumaNosaukums;
-      $klientis->JuridiskaAdrese = $juridiskaAdrese;
-      $klientis->RegistracijasNumurs = $registracijasNumurs;
-      $klientis->KontaNumurs = $kontaNumurs;
-      $klientis->save();
+      DB::transaction(function () use ($vards, $uzvards, $epasts, $telefonaNumurs, $uznemumaNosaukums, $juridiskaAdrese, $registracijasNumurs, $kontaNumurs, $createUserAccount, $dati) {
+        $klientis = new Klienti();
+        $klientis->Vards = $vards;
+        $klientis->Uzvards = $uzvards;
+        $klientis->Epasts = $epasts;
+        $klientis->TelefonaNumurs = $telefonaNumurs;
+        $klientis->UznemumaNosaukums = $uznemumaNosaukums;
+        $klientis->JuridiskaAdrese = $juridiskaAdrese;
+        $klientis->RegistracijasNumurs = $registracijasNumurs;
+        $klientis->KontaNumurs = $kontaNumurs;
+        $klientis->save();
+
+        if ($createUserAccount) {
+          User::create([
+            'name' => trim((string) $dati->input('name')),
+            'email' => $epasts,
+            'password' => Hash::make($dati->input('password')),
+            'AmataID' => $this->resolveKlientsAmataId(),
+          ]);
+        }
+      });
     } catch (\Illuminate\Database\QueryException $e) {
       // Pārbauda vai kļūda ir saistīta ar datu garumu
       if (str_contains($e->getMessage(), 'Data too long for column')) {
         return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+      }
+      if (str_contains($e->getMessage(), 'Duplicate entry')) {
+        return back()->withInput()->withErrors(['database' => 'Lietotāja vārds vai e-pasts jau tiek izmantots. Lūdzu izvēlieties citu.']);
       }
       // Citas datu bāzes kļūdas
       return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
