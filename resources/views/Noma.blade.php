@@ -264,11 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 $irNavApmaksats = str_contains($maksasStatusaNosaukums, 'nav apmaks') || str_contains($maksasStatusaNosaukums, 'neapmaks');
                 $iemeslaTeksts = trim((string) ($item->AtteikumaIemesls ?? ''));
                 $iemeslsModalim = $iemeslaTeksts !== '' ? $iemeslaTeksts : 'Iemesls nav norādīts.';
-                // Atteikuma poga redzama tikai adminam, ja statuss ir noraidīts
-                $raditIemeslaPogu = Auth::user()->isAdmin() && $irNoraidits;
-                // Pabeigšanas statuss — klientam nerādām, kamēr statuss ir "Pieteikts"
-                $irPieteiktsStatus = str_contains($nomasStatusaNosaukums, 'pieteikt');
-                $pabeigsanasStatussKlientam = ($irPieteiktsStatus) ? '-' : ($item->PabeigsanasStatuss ?? '-');
+                $raditIemeslaPogu = $irNoraidits || $irNavApmaksats;
             @endphp
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
@@ -279,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
-         <td>{{ Auth::check() && Auth::user()->isAdmin() ? ($item->nomasStatuss->Nosaukums ?? '-') : '-' }}</td>
+            <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
             <td>
                 @if($raditIemeslaPogu)
                     <button type="button"
@@ -292,19 +288,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     -
                 @endif
             </td>
-                <td>{{ Auth::check() && Auth::user()->isAdmin() ? ($item->maksasStatuss->Nosaukums ?? '-') : '-' }}</td>
-            <td>{{ Auth::check() && Auth::user()->isAdmin() ? ($item->PabeigsanasStatuss ?? '-') : $pabeigsanasStatussKlientam }}</td>
+            <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
+            <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
-                    @php
-                        $nomasStatusNosaukums = mb_strtolower(trim((string)($item->nomasStatuss->Nosaukums ?? '')));
-                        $irPieteikts = str_contains($nomasStatusNosaukums, 'pieteikt');
-                        $varRediget = ($item->PabeigsanasStatuss ?? null) !== 'Pabeigts'
-                        && (Auth::user()->isAdmin() || !$irPieteikts);
-                    @endphp
-@if($varRediget)
-    <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
-@endif
+                    @if(($item->PabeigsanasStatuss ?? null) !== 'Pabeigts')
+                        <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
+                    @endif
                     @if(Auth::check())
                         <a href="/Noma/{{ $item->NomasID }}/delete" class="btn-action js-confirm-action" style="border-color:#b62100; background-color:#b62100; color:#fff;" data-confirm-title="Dzēst nomu?" data-confirm-message="Vai tiešām vēlaties dzēst šo nomu? Ieraksts tiks pārvietots uz arhīvu." data-confirm-button="Jā, dzēst">Dzēst</a>
                     @endif
