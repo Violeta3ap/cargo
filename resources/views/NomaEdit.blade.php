@@ -217,22 +217,52 @@ $(document).ready(function() {
         return maksasName.indexOf('nav apmaks') !== -1 || maksasName.indexOf('neapmaks') !== -1;
     }
 
+    function isApmaksatsSelected() {
+        if (!maksasSelect.length) {
+            return false;
+        }
+
+        var selected = maksasSelect.find('option:selected');
+        var maksasName = (selected.data('maksas-name') || '').toString().toLowerCase();
+        return maksasName.indexOf('apmaks') !== -1 && maksasName.indexOf('nav') === -1;
+    }
+
     function enforceStatusMaksasRule() {
         if (!statusSelect.length || !maksasSelect.length) {
             return;
         }
 
-        var pieteiktsOption = statusSelect.find('option').filter(function () {
+        // "Apstiprināts" pieejams tikai ja maksas statuss ir "Apmaksāts"
+        statusSelect.find('option').each(function () {
             var name = ($(this).data('status-name') || '').toString().toLowerCase();
-            return name.indexOf('pieteikt') !== -1;
+            if (name.indexOf('apstiprin') !== -1) {
+                var apmaksats = isApmaksatsSelected();
+                $(this).prop('disabled', !apmaksats);
+                // Ja bija izvēlēts "Apstiprināts" un tagad maksas statuss mainīts
+                if (!apmaksats && $(this).is(':selected')) {
+                    statusSelect.val('');
+                    toggleAtteikumaIemesls();
+                }
+            }
         });
 
-        var lockPieteikts = isNavApmaksatsSelected();
-        pieteiktsOption.prop('disabled', lockPieteikts);
-
-        if (lockPieteikts && isPieteiktsSelected()) {
-            statusSelect.val('');
-        }
+        // "Apmaksāts" pieejams tikai ja nomas statuss nav "Pieteikts"
+        maksasSelect.find('option').each(function () {
+            var name = ($(this).data('maksas-name') || '').toString().toLowerCase();
+            if (name.indexOf('apmaks') !== -1 && name.indexOf('nav') === -1) {
+                var pieteikts = isPieteiktsSelected();
+                $(this).prop('disabled', pieteikts);
+                if (pieteikts && $(this).is(':selected')) {
+                    // Atgriež uz "Nav apmaksāts"
+                    maksasSelect.find('option').each(function () {
+                        var n = ($(this).data('maksas-name') || '').toString().toLowerCase();
+                        if (n.indexOf('nav apmaks') !== -1 || n.indexOf('neapmaks') !== -1) {
+                            maksasSelect.val($(this).val());
+                        }
+                    });
+                }
+            }
+        });
     }
 
     function toggleAtteikumaIemesls() {

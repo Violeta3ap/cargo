@@ -264,7 +264,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 $irNavApmaksats = str_contains($maksasStatusaNosaukums, 'nav apmaks') || str_contains($maksasStatusaNosaukums, 'neapmaks');
                 $iemeslaTeksts = trim((string) ($item->AtteikumaIemesls ?? ''));
                 $iemeslsModalim = $iemeslaTeksts !== '' ? $iemeslaTeksts : 'Iemesls nav norādīts.';
-                $raditIemeslaPogu = $irNoraidits || $irNavApmaksats;
+                // Atteikuma poga redzama tikai adminam, ja statuss ir noraidīts
+                $raditIemeslaPogu = Auth::user()->isAdmin() && $irNoraidits;
+                // Pabeigšanas statuss — klientam nerādām, kamēr statuss ir "Pieteikts"
+                $irPieteiktsStatus = str_contains($nomasStatusaNosaukums, 'pieteikt');
+                $pabeigsanasStatussKlientam = ($irPieteiktsStatus) ? '-' : ($item->PabeigsanasStatuss ?? '-');
             @endphp
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
@@ -289,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 @endif
             </td>
                 <td>{{ Auth::check() && Auth::user()->isAdmin() ? ($item->maksasStatuss->Nosaukums ?? '-') : '-' }}</td>
-            <td>{{ Auth::check() && Auth::user()->isAdmin() ? ($item->PabeigsanasStatuss ?? '-') : '-' }}</td>
+            <td>{{ Auth::check() && Auth::user()->isAdmin() ? ($item->PabeigsanasStatuss ?? '-') : $pabeigsanasStatussKlientam }}</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
                     @php
