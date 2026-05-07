@@ -462,6 +462,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+<style>
 @media print {
     /* Slēpj nevajadzīgos elementus */
     .page-noma .btn-action,
@@ -578,6 +579,7 @@ document.addEventListener('DOMContentLoaded', function () {
         display: none !important;
     }
 }
+</style>
 
 </div>
 
