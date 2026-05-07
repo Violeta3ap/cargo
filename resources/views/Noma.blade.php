@@ -296,9 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 -
                  @endif
             </td>
-                    -
-                @endif
-            </td>
+
             <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
             <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
             <td>
