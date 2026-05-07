@@ -287,16 +287,13 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{$item->NomasBeiguPeriods}}</td>
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
             <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
-            <td>
-
-              <td>
-                @if($raditIemeslaPogu)
-                {{ $iemeslsModalim }}
-                @else
-                -
-                 @endif
-            </td>
-
+<td>
+    @if($raditIemeslaPogu)
+        {{ $iemeslsModalim }}
+    @else
+        -
+    @endif
+</td>
             <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
             <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
             <td>
