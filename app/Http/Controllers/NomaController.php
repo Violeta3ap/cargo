@@ -897,8 +897,15 @@ class NomaController extends Controller
         }
 
         if ($this->isNomaCompleted($noma)) {
-            return redirect('/Noma')->with('error', 'Pabeigtu nomu rediģēt nevar.');
-        }
+    return redirect('/Noma')->with('error', 'Pabeigtu nomu rediģēt nevar.');
+}
+
+if (!$this->userIsAdmin()) {
+    $statusaNosaukums = mb_strtolower(trim((string) optional($noma->nomasStatuss)->Nosaukums));
+    if (str_contains($statusaNosaukums, 'pieteikt')) {
+        return redirect('/Noma')->with('error', 'Nomas pieteikumu, kas ir izskatīšanā, nevar rediģēt.');
+    }
+}
 
         $dati->validate([
             'KlientaID' => ['required', 'integer'],

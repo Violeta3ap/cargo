@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{$item->NomasSakumaPeriods}}</td>
             <td>{{$item->NomasBeiguPeriods}}</td>
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
-            <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
+         <td>{{ Auth::check() && Auth::user()->isAdmin() ? ($item->nomasStatuss->Nosaukums ?? '-') : '-' }}</td>
             <td>
                 @if($raditIemeslaPogu)
                     <button type="button"
@@ -288,13 +288,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     -
                 @endif
             </td>
-            <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
-            <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
+                <td>{{ Auth::check() && Auth::user()->isAdmin() ? ($item->maksasStatuss->Nosaukums ?? '-') : '-' }}</td>
+            <td>{{ Auth::check() && Auth::user()->isAdmin() ? ($item->PabeigsanasStatuss ?? '-') : '-' }}</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
-                    @if(($item->PabeigsanasStatuss ?? null) !== 'Pabeigts')
-                        <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
-                    @endif
+                    @php
+                        $nomasStatusNosaukums = mb_strtolower(trim((string)($item->nomasStatuss->Nosaukums ?? '')));
+                        $irPieteikts = str_contains($nomasStatusNosaukums, 'pieteikt');
+                        $varRediget = ($item->PabeigsanasStatuss ?? null) !== 'Pabeigts'
+                        && (Auth::user()->isAdmin() || !$irPieteikts);
+                    @endphp
+@if($varRediget)
+    <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
+@endif
                     @if(Auth::check())
                         <a href="/Noma/{{ $item->NomasID }}/delete" class="btn-action js-confirm-action" style="border-color:#b62100; background-color:#b62100; color:#fff;" data-confirm-title="Dzēst nomu?" data-confirm-message="Vai tiešām vēlaties dzēst šo nomu? Ieraksts tiks pārvietots uz arhīvu." data-confirm-button="Jā, dzēst">Dzēst</a>
                     @endif
