@@ -462,9 +462,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<style>
-/* ... visi esošie stili ... */
-
 @media print {
     /* Slēpj nevajadzīgos elementus */
     .page-noma .btn-action,
@@ -483,10 +480,15 @@ document.addEventListener('DOMContentLoaded', function () {
         margin: 15mm 12mm 18mm 12mm;
     }
 
+    /* Novērš tukšu otro lappusi */
+    html, body {
+        height: auto !important;
+        overflow: hidden !important;
+    }
+
     body {
         background: #fff !important;
         color: #111 !important;
-        font-family: 'Georgia', serif;
         font-size: 10pt;
     }
 
@@ -495,13 +497,12 @@ document.addEventListener('DOMContentLoaded', function () {
         font-size: 18pt;
         font-weight: 700;
         color: #1a1a2e;
-        letter-spacing: 0.04em;
         margin-bottom: 2mm;
         border-bottom: 2px solid #1a1a2e;
         padding-bottom: 3mm;
     }
 
-    /* Drukāšanas galvene ar datumu */
+    /* Drukāšanas datums zem virsraksta */
     .page-noma .noma-header::after {
         content: "Izdrukāts: " attr(data-print-date);
         display: block;
@@ -518,83 +519,65 @@ document.addEventListener('DOMContentLoaded', function () {
     .page-noma .noma-table {
         width: 100% !important;
         border-collapse: collapse !important;
-        border: 1.5px solid #1a1a2e !important;
+        border: 1px solid #aaa !important;
         border-radius: 0 !important;
         font-size: 8.5pt;
         page-break-inside: auto;
     }
 
     .page-noma .noma-table thead tr {
-        background: #1a1a2e !important;
-        color: #fff !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        background: none !important;
+        color: #111 !important;
     }
 
     .page-noma .noma-table thead th {
         padding: 4pt 5pt !important;
         font-size: 8pt;
         font-weight: 700;
-        letter-spacing: 0.03em;
-        border: 1px solid #2d2d50 !important;
+        border: 1px solid #aaa !important;
         text-align: center;
+        background: none !important;
     }
 
-    /* Slēpj kārtošanas bultiņas */
-    .page-noma .noma-table thead th a,
-    .page-noma .noma-table thead th .sort-icon {
-        color: #fff !important;
+    /* Kārtošanas saites */
+    .page-noma .noma-table thead th a {
+        color: #111 !important;
         text-decoration: none !important;
-        pointer-events: none;
     }
 
     .page-noma .noma-table thead th .sort-icon {
         display: none !important;
     }
 
-    /* Tabulas rindas */
+    /* Tabulas rindas - bez krāsām */
     .page-noma .noma-table tbody tr {
         page-break-inside: avoid;
-        border-bottom: 1px solid #d0d0d0 !important;
+        background: none !important;
     }
 
     .page-noma .noma-table tbody tr:nth-child(even) {
-        background: #f4f4f8 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        background: none !important;
     }
 
     .page-noma .noma-table tbody td {
         padding: 3.5pt 5pt !important;
-        border: 1px solid #d0d0d0 !important;
+        border: 1px solid #aaa !important;
         vertical-align: middle;
         color: #111 !important;
+        background: none !important;
     }
 
-    /* Darbības kolonna - paslēpt */
+    /* Slēpj darbību kolonnu */
     .page-noma .noma-table thead th:last-child,
     .page-noma .noma-table tbody td:last-child {
         display: none !important;
     }
 
-    /* Iemesla kolonna - kompakts teksts */
+    /* Slēpj iemesla pogu */
     .page-noma .noma-table tbody td .filter-btn {
         display: none !important;
     }
-
-    /* Kājene */
-    .page-noma::after {
-        content: "";
-        display: block;
-        margin-top: 6mm;
-        border-top: 1px solid #aaa;
-        padding-top: 2mm;
-        font-size: 7.5pt;
-        color: #666;
-        text-align: center;
-    }
 }
-</style>
 
 </div>
 
