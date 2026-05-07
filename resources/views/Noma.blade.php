@@ -288,14 +288,14 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
             <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
             <td>
+
+              <td>
                 @if($raditIemeslaPogu)
-                    <button type="button"
-                            class="filter-btn js-show-reason"
-                            data-reason="{{ e($iemeslsModalim) }}"
-                            style="padding: 2px 8px;">
-                        Skatīt iemeslu
-                    </button>
+                {{ $iemeslsModalim }}
                 @else
+                -
+                 @endif
+            </td>
                     -
                 @endif
             </td>
