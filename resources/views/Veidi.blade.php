@@ -80,9 +80,12 @@
                 <input type="hidden" name="sort_by" value="{{ $sortBy }}">
                 <input type="hidden" name="sort_order" value="{{ $sortOrder }}">
                 <input type="hidden" name="search" value="{{ $search }}">
+                <a href="{{ '?' . http_build_query(request()->except(['nosaukums_search', 'page'])) }}" class="filter-btn" style="padding: 2px 8px;">Notīrīt meklēšanu</a>
             </div>
         </div>
     </form>
+
+
 </div>
 
 <div id="veidi-results">
