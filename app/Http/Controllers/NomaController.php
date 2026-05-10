@@ -173,37 +173,37 @@ class NomaController extends Controller
         return $firstId !== null ? (int) $firstId : 1;
     }
 
-private function applyCompletionStatus($nomas)
-{
-    $today = Carbon::today();
-    // Statusi, kuriem pabeigšanas statuss netiek rādīts
-    $statusiBezPabeigsanas = ['noraidīts', 'pieteikts'];
-    // Maksas statusi, kuriem pabeigšanas statuss netiek rādīts
-    $maksasStatusiBezPabeigsanas = ['nav apmaksāts', 'neapmaksāts'];
+    private function applyCompletionStatus($nomas)
+    {
+        $today = Carbon::today();
+        // Statusi, kuriem pabeigšanas statuss netiek rādīts
+        $statusiBezPabeigsanas = ['noraidīts', 'pieteikts'];
+        // Maksas statusi, kuriem pabeigšanas statuss netiek rādīts
+        $maksasStatusiBezPabeigsanas = ['nav apmaksāts', 'neapmaksāts'];
 
-    foreach ($nomas as $noma) {
-        $statusaNosaukums = trim((string) optional($noma->nomasStatuss)->Nosaukums);
-        $maksasStatusaNosaukums = trim((string) optional($noma->maksasStatuss)->Nosaukums);
-        
-        // Pārbauda vai nomas statuss ir izņēmuma sarakstā
-        $irStatusBezPabeigsanas = in_array(mb_strtolower($statusaNosaukums), $statusiBezPabeigsanas, true);
-        // Pārbauda vai maksas statuss ir izņēmuma sarakstā
-        $irMaksasStatusBezPabeigsanas = in_array(mb_strtolower($maksasStatusaNosaukums), $maksasStatusiBezPabeigsanas, true);
-        
-        // Ja ir izņēmuma statuss, pabeigšanas statusu nerāda
-        if ($irStatusBezPabeigsanas || $irMaksasStatusBezPabeigsanas) {
-            $noma->PabeigsanasStatuss = null;
-            continue;
-        }
+        foreach ($nomas as $noma) {
+            $statusaNosaukums = trim((string) optional($noma->nomasStatuss)->Nosaukums);
+            $maksasStatusaNosaukums = trim((string) optional($noma->maksasStatuss)->Nosaukums);
+            
+            // Pārbauda vai nomas statuss ir izņēmuma sarakstā
+            $irStatusBezPabeigsanas = in_array(mb_strtolower($statusaNosaukums), $statusiBezPabeigsanas, true);
+            // Pārbauda vai maksas statuss ir izņēmuma sarakstā
+            $irMaksasStatusBezPabeigsanas = in_array(mb_strtolower($maksasStatusaNosaukums), $maksasStatusiBezPabeigsanas, true);
+            
+            // Ja ir izņēmuma statuss, pabeigšanas statusu nerāda
+            if ($irStatusBezPabeigsanas || $irMaksasStatusBezPabeigsanas) {
+                $noma->PabeigsanasStatuss = null;
+                continue;
+            }
 
-        try {
-            $beiguDatums = Carbon::parse($noma->NomasBeiguPeriods)->startOfDay();
-            $noma->PabeigsanasStatuss = $beiguDatums->lt($today) ? 'Pabeigts' : 'Nav pabeigts';
-        } catch (\Throwable $e) {
-            $noma->PabeigsanasStatuss = null;
+            try {
+                $beiguDatums = Carbon::parse($noma->NomasBeiguPeriods)->startOfDay();
+                $noma->PabeigsanasStatuss = $beiguDatums->lt($today) ? 'Pabeigts' : 'Nav pabeigts';
+            } catch (\Throwable $e) {
+                $noma->PabeigsanasStatuss = null;
+            }
         }
     }
-}
 
     private function isNomaCompleted(Noma $noma): bool
     {
@@ -434,7 +434,7 @@ private function applyCompletionStatus($nomas)
         $filtraUznemums = trim((string) $request->query('filtra_uznemums', ''));
         $krava = trim((string) $request->query('krava', ''));
         $veids = trim((string) $request->query('veids', ''));
-        $nomasStatuss = trim((string) $request->query('nomas_statuss', '')); // Jauns parametrs statusu filtrēšanai
+        $nomasStatuss = trim((string) $request->query('nomas_statuss', ''));
         $nomasSakumaPeriods = trim((string) $request->query('nomas_sakuma_periods', ''));
         $nomasBeiguPeriods = trim((string) $request->query('nomas_beigu_periods', ''));
         $nomasSakumaPeriodsSql = $this->normalizeFilterDate($nomasSakumaPeriods);
@@ -991,71 +991,73 @@ private function applyCompletionStatus($nomas)
             'KopejaMaksa' => $dati->input('KopejaMaksa'),
         ];
 
+        // Iegūst ID vērtības
+        $pieņemtsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Pieņemts');
+        $noraiditsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Noraidīts');
+        $apmaksatsId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Apmaksāts');
+        $navApmaksatsId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Nav apmaksāts');
+
         if ($this->userIsAdmin() && $this->hasNomaStatusColumn()) {
-            $statusaId = $dati->input('StatusaID');
+            $selectedStatusaId = $dati->input('StatusaID');
+            $newStatusaId = ($selectedStatusaId !== null && $selectedStatusaId !== '') ? (int) $selectedStatusaId : $noma->StatusaID;
+            
+            // Jaunā maksas statusa vērtība (ja nav izvēlēta, paliek esošā)
+            $selectedMaksasId = $dati->input('MaksasID');
+            $newMaksasId = ($selectedMaksasId !== null && $selectedMaksasId !== '') ? (int) $selectedMaksasId : $noma->MaksasID;
 
-            // Ja statuss nav norādīts, saglabā esošo statusu
-            $updateData['StatusaID'] = ($statusaId !== null && $statusaId !== '') ? (int) $statusaId : $noma->StatusaID;
-
-            if ($this->hasAtteikumaIemeslsColumn()) {
-                $noraiditsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Noraidīts');
-                $irNoraidits = $noraiditsId !== null
-                    && $updateData['StatusaID'] !== null
-                    && (int) $updateData['StatusaID'] === (int) $noraiditsId;
-
-                $atteikumaIemesls = trim((string) $dati->input('AtteikumaIemesls', ''));
-
-                if ($irNoraidits && $atteikumaIemesls === '') {
-                    return back()->withInput()->withErrors([
-                        'AtteikumaIemesls' => 'Ja statuss ir Noraidīts, laukam "Atteikuma iemesls" ir jābūt aizpildītam.'
-                    ]);
+            // 1. APSTRĀDE: JA IZVĒLĒTS "PIEŅEMTS"
+            if ($pieņemtsId !== null && $newStatusaId === $pieņemtsId) {
+                // Ja izvēlēts "Pieņemts", maksas statusam JĀBŪT "Apmaksāts"
+                if ($apmaksatsId !== null && $newMaksasId !== $apmaksatsId) {
+                    // Automātiski iestata maksas statusu uz "Apmaksāts"
+                    $newMaksasId = $apmaksatsId;
                 }
-
-                $updateData['AtteikumaIemesls'] = $irNoraidits
-                    ? $this->normalizeAtteikumaIemeslsValue($atteikumaIemesls)
-                    : '';
             }
-        }
-
-        if ($this->userIsAdmin() && $this->hasMaksasStatusColumn()) {
-            $maksasId = $dati->input('MaksasID');
-
-            if (($maksasId === null || $maksasId === '') && isset($updateData['StatusaID'])) {
-                $pieteiktsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Pieteikts');
-                if ($pieteiktsId === null || (int) $updateData['StatusaID'] !== $pieteiktsId) {
-                    $maksasId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Nav apmaksāts');
+            
+            // 2. APSTRĀDE: JA IZVĒLĒTS "APMAKSĀTS"
+            if ($apmaksatsId !== null && $newMaksasId === $apmaksatsId) {
+                // Ja izvēlēts "Apmaksāts", nomas statusam JĀBŪT "Pieņemts"
+                if ($pieņemtsId !== null && $newStatusaId !== $pieņemtsId) {
+                    // Automātiski iestata nomas statusu uz "Pieņemts"
+                    $newStatusaId = $pieņemtsId;
                 }
             }
 
-            if ($maksasId === null || $maksasId === '') {
-                $maksasId = $this->resolveDefaultMaksasStatusId();
-            }
-
-            $updateData['MaksasID'] = (int) $maksasId;
-        }
-
-        // Jauna loģika: "Pieņemts" var būt tikai tad, ja maksas statuss ir "Apmaksāts"
-        if ($this->userIsAdmin() && $this->hasNomaStatusColumn() && $this->hasMaksasStatusColumn()) {
-            $pieņemtsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Pieņemts');
-            $apmaksatsId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Apmaksāts');
-
-            if ($pieņemtsId !== null && $apmaksatsId !== null && isset($updateData['StatusaID']) && isset($updateData['MaksasID'])) {
-                if ((int) $updateData['StatusaID'] === (int) $pieņemtsId && (int) $updateData['MaksasID'] !== (int) $apmaksatsId) {
-                    return back()->withInput()->withErrors([
-                        'StatusaID' => 'Lai iestatītu statusu "Pieņemts", maksas statusam jābūt "Apmaksāts".'
-                    ]);
+            // 3. APSTRĀDE: JA IZVĒLĒTS "NORAIDĪTS"
+            if ($noraiditsId !== null && $newStatusaId === $noraiditsId) {
+                // Ja ir noraidīts, maksas statusam jābūt "Nav apmaksāts"
+                if ($navApmaksatsId !== null && $newMaksasId !== $navApmaksatsId) {
+                    $newMaksasId = $navApmaksatsId;
+                }
+                
+                // Pārbauda vai ir aizpildīts atteikuma iemesls
+                if ($this->hasAtteikumaIemeslsColumn()) {
+                    $atteikumaIemesls = trim((string) $dati->input('AtteikumaIemesls', ''));
+                    if ($atteikumaIemesls === '') {
+                        return back()->withInput()->withErrors([
+                            'AtteikumaIemesls' => 'Ja statuss ir Noraidīts, laukam "Atteikuma iemesls" ir jābūt aizpildītam.'
+                        ]);
+                    }
+                    $updateData['AtteikumaIemesls'] = $this->normalizeAtteikumaIemeslsValue($atteikumaIemesls);
+                }
+            } else {
+                // Ja nav noraidīts, notīra atteikuma iemeslu
+                if ($this->hasAtteikumaIemeslsColumn()) {
+                    $updateData['AtteikumaIemesls'] = '';
                 }
             }
 
-            // Papildus loģika: ja ir "Noraidīts", maksas statusam jābūt "Nav apmaksāts"
-            $noraiditsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Noraidīts');
-            $navApmaksatsId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Nav apmaksāts');
-
-            if ($noraiditsId !== null && $navApmaksatsId !== null && isset($updateData['StatusaID']) && isset($updateData['MaksasID'])) {
-                if ((int) $updateData['StatusaID'] === (int) $noraiditsId && (int) $updateData['MaksasID'] !== (int) $navApmaksatsId) {
-                    // Ja ir noraidīts, automātiski iestata maksas statusu uz "Nav apmaksāts"
-                    $updateData['MaksasID'] = (int) $navApmaksatsId;
-                }
+            // Saglabā nomas statusu
+            $updateData['StatusaID'] = $newStatusaId;
+            
+            // Saglabā maksas statusu (ja ir atbilstošā kolonna)
+            if ($this->hasMaksasStatusColumn()) {
+                $updateData['MaksasID'] = $newMaksasId;
+            }
+        } else {
+            // Ne-adminam - saglabā esošos statusus
+            if ($this->hasMaksasStatusColumn()) {
+                $updateData['MaksasID'] = $noma->MaksasID;
             }
         }
 
