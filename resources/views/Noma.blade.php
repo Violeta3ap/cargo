@@ -14,8 +14,7 @@
     $filtraUznemums = $filtraUznemums ?? request('filtra_uznemums');
     $krava = $krava ?? request('krava');
     $veids = $veids ?? request('veids');
-    $kravaOptions = $kravaOptions ?? collect();
-    $veidaOptions = $veidaOptions ?? collect();
+    $nomasStatuss = $nomasStatuss ?? request('nomas_statuss');
     $nomasSakumaPeriods = $nomasSakumaPeriods ?? request('nomas_sakuma_periods');
     $nomasBeiguPeriods = $nomasBeiguPeriods ?? request('nomas_beigu_periods');
     $sortBy = $sortBy ?? request('sort_by', 'NomasID');
@@ -72,6 +71,12 @@
                     <option value="{{ $option }}" {{ $veids === $option ? 'selected' : '' }}>{{ $option }}</option>
                 @endforeach
             </select>
+            <select name="nomas_statuss" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px; background-color: #fff;">
+                <option value="">Nomas statuss</option>
+                @foreach($nomasStatusaOptions as $option)
+                    <option value="{{ $option }}" {{ $nomasStatuss === $option ? 'selected' : '' }}>{{ $option }}</option>
+                @endforeach
+            </select>
             <input type="text" class="datepicker" name="nomas_sakuma_periods" value="{{ $nomasSakumaPeriods }}" title="Nomas sākuma periods" placeholder="Nomas sākuma periods" autocomplete="off" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             <input type="text" class="datepicker" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}" title="Nomas beigu periods" placeholder="Nomas beigu periods" autocomplete="off" style="border: 1px solid #C2CBD1; border-radius: 8px; padding: 4px 5px; font-size: 0.92rem; width: auto; box-sizing: border-box; flex: 0 0 190px;">
             <input type="hidden" name="sort_by" value="{{ $sortBy }}">
@@ -103,6 +108,7 @@
             <input type="hidden" name="klienta_uznemums" value="{{ $klientaUznemums }}">
             <input type="hidden" name="krava" value="{{ $krava }}">
             <input type="hidden" name="veids" value="{{ $veids }}">
+            <input type="hidden" name="nomas_statuss" value="{{ $nomasStatuss }}">
             <input type="hidden" name="nomas_sakuma_periods" value="{{ $nomasSakumaPeriods }}">
             <input type="hidden" name="nomas_beigu_periods" value="{{ $nomasBeiguPeriods }}">
 
@@ -287,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{$item->NomasBeiguPeriods}}</td>
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
             <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
-<td>
+            <td>
     @if($raditIemeslaPogu)
         {{ $iemeslsModalim }}
     @else
@@ -298,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
-                    @if(($item->PabeigsanasStatuss ?? null) !== 'Pabeigts')
+                    @if(($item->PabeigsanasStatuss ?? null) !== 'Pabeigts' && (mb_strtolower(trim((string) ($item->nomasStatuss->Nosaukums ?? ''))) !== 'noraidīts'))
                         <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
                     @endif
                     @if(Auth::check())
@@ -569,7 +575,7 @@ document.addEventListener('DOMContentLoaded', function () {
         display: none !important;
     }
 
-    /* Slēpj iemesla pogu */
+    /* Slēpj iemesla rindu */
     .page-noma .noma-table tbody td .filter-btn {
         display: none !important;
     }

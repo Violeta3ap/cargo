@@ -650,4 +650,497 @@ class NomaController extends Controller
         $query = DB::table('vagonunoma_arhivs as a')
             ->leftJoin('klienti as k', 'a.KlientaID', '=', 'k.KlientaID')
             ->leftJoin('krava as kr', 'a.KravasID', '=', 'kr.KravasID')
-            ->leftJoin('veidi as v', 'a.VeidaID', '=', 'v.Ve
+            ->leftJoin('veidi as v', 'a.VeidaID', '=', 'v.VeidaID')
+            ->leftJoin('NomasStatuss as ns', 'a.StatusaID', '=', 'ns.StatusaID')
+            ->leftJoin('MaksasStatuss as ms', 'a.MaksasID', '=', 'ms.MaksasID')
+            ->select([
+                'a.*',
+                'k.Vards as KlientaVards',
+                'k.Uzvards as KlientaUzvards',
+                'k.UznemumaNosaukums as KlientaUznemums',
+                'kr.Nosaukums as KravasNosaukums',
+                'v.Nosaukums as VeidaNosaukums',
+                'ns.Nosaukums as NomasStatusaNosaukums',
+                'ms.Nosaukums as MaksasStatusaNosaukums',
+            ]);
+
+        if (!$this->userIsAdmin()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts) {
+                $query->whereRaw('0=1');
+            } else {
+                $query->where('a.KlientaID', $klientsIeraksts->KlientaID);
+            }
+        }
+
+        $arhivs = $query
+            ->orderByDesc('a.NomasID')
+            ->paginate(15)
+            ->appends($request->query());
+
+        foreach ($arhivs as $item) {
+            $item->PabeigsanasStatuss = $this->calculateCompletionStatusFromValues($item->NomasStatusaNosaukums, $item->NomasBeiguPeriods);
+        }
+
+        return view('NomaArhivs', compact('arhivs'));
+    }
+
+    public function restoreFromArchive($id)
+    {
+        if (!$this->hasArchiveTable()) {
+            return redirect('/Noma')->with('error', 'Arhīva tabula nav atrasta. Izveidojiet vagonunoma_arhivs tabulu.');
+        }
+
+        $arhivaIeraksts = DB::table('vagonunoma_arhivs')->where('NomasID', $id)->first();
+        if (!$arhivaIeraksts) {
+            return redirect('/Noma/arhivs')->with('error', 'Arhīva ieraksts nav atrasts.');
+        }
+
+        if (!$this->userIsAdmin()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts || (int) $arhivaIeraksts->KlientaID !== (int) $klientsIeraksts->KlientaID) {
+                return redirect('/Noma/arhivs')->with('error', 'Jums nav tiesību atjaunot šo arhīva ierakstu.');
+            }
+        }
+
+        if (DB::table('vagonunoma')->where('NomasID', $id)->exists()) {
+            return redirect('/Noma/arhivs')->with('error', 'Atjaunošana nav iespējama: aktīvajā tabulā jau eksistē šāds NomasID.');
+        }
+
+        DB::transaction(function () use ($arhivaIeraksts) {
+            $insertData = [
+                'NomasID' => $arhivaIeraksts->NomasID,
+                'KlientaID' => $arhivaIeraksts->KlientaID,
+                'KravasID' => $arhivaIeraksts->KravasID,
+                'VeidaID' => $arhivaIeraksts->VeidaID,
+                'VagonuSkaits' => $arhivaIeraksts->VagonuSkaits,
+                'NomasSakumaPeriods' => $arhivaIeraksts->NomasSakumaPeriods,
+                'NomasBeiguPeriods' => $arhivaIeraksts->NomasBeiguPeriods,
+                'KopejaMaksa' => $arhivaIeraksts->KopejaMaksa,
+            ];
+
+            if (Schema::hasColumn('vagonunoma', 'Svars')) {
+                $insertData['Svars'] = 0;
+            }
+
+            if ($this->hasNomaStatusColumn()) {
+                $insertData['StatusaID'] = $arhivaIeraksts->StatusaID;
+            }
+
+            if ($this->hasMaksasStatusColumn()) {
+                $insertData['MaksasID'] = $arhivaIeraksts->MaksasID !== null
+                    ? (int) $arhivaIeraksts->MaksasID
+                    : $this->resolveDefaultMaksasStatusId();
+            }
+
+            if ($this->hasAtteikumaIemeslsColumn()) {
+                $insertData['AtteikumaIemesls'] = $this->normalizeAtteikumaIemeslsValue($arhivaIeraksts->AtteikumaIemesls ?? '');
+            }
+
+            DB::table('vagonunoma')->insert($insertData);
+
+            DB::table('noslogojums')->updateOrInsert(
+                ['NomasID' => $arhivaIeraksts->NomasID],
+                [
+                    'NomasSakumaPeriods' => $arhivaIeraksts->NomasSakumaPeriods,
+                    'NomasBeiguPeriods'  => $arhivaIeraksts->NomasBeiguPeriods,
+                    'VeidaID' => $arhivaIeraksts->VeidaID,
+                ]
+            );
+
+            DB::table('vagonunoma_arhivs')->where('NomasID', $arhivaIeraksts->NomasID)->delete();
+        });
+
+        return redirect('/Noma/arhivs')->with('success', 'Ieraksts tika atjaunots no arhīva.');
+    }
+
+    // Atver pievienošanas formu ar saistītajiem sarakstiem.
+    public function create()
+    {
+        // Ne-adminam atļauj tikai viņa klienta ierakstu.
+        if (!$this->userIsAdmin()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts) {
+                return redirect('/Noma')->with('error', 'Jūsu kontam nav piesaistīts klienta ieraksts.');
+            }
+
+            $klienti = Klienti::where('KlientaID', $klientsIeraksts->KlientaID)->get();
+        } else {
+            $klienti = Klienti::all();
+        }
+
+        $kravas = Kravas::all();
+        $veidi = Veidi::all();
+
+        return view('NomaPiev', compact('klienti','kravas','veidi'));
+    }
+
+    // Saglabā jaunu nomas ierakstu.
+    public function NomaSubmit(Request $dati)
+    {
+        // Validē obligātos laukus un to ierobežojumus.
+        $dati->validate([
+            'KlientaID' => ['required', 'integer'],
+            'KravasID' => ['required', 'integer'],
+            'VeidaID' => ['required', 'integer'],
+            'VagonuSkaits' => ['required', 'integer', 'min:1'],
+            'NomasSakumaPeriods' => ['required', 'date'],
+            'NomasBeiguPeriods' => ['required', 'date', 'after_or_equal:NomasSakumaPeriods'],
+            'KopejaMaksa' => ['required', 'numeric', 'min:1'],
+        ]);
+
+        $klientaId = (int) $dati->input('KlientaID');
+        if (!$this->userIsAdmin()) {
+            // Klientam vienmēr piesaista viņa paša KlientaID.
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts) {
+                return back()->withInput()->withErrors(['KlientaID' => 'Jūsu kontam nav piesaistīts klienta ieraksts.']);
+            }
+
+            $klientaId = (int) $klientsIeraksts->KlientaID;
+        }
+
+        // Pārbauda vagonu skaitu (ieskaitot perioda pieejamību)
+        $vagonuSkaitsError = $this->validateVagonuSkaitsLimit($dati);
+        if ($vagonuSkaitsError) {
+            return back()->withInput()->withErrors(['VagonuSkaits' => $vagonuSkaitsError]);
+        }
+
+        $noma = new Noma();
+        $noma->KlientaID = $klientaId;
+        $noma->KravasID = $dati->input('KravasID');
+        $noma->VeidaID = $dati->input('VeidaID');
+        $noma->VagonuSkaits = $dati->input('VagonuSkaits');
+        $noma->NomasSakumaPeriods = $dati->input('NomasSakumaPeriods');
+        $noma->NomasBeiguPeriods = $dati->input('NomasBeiguPeriods');
+        $noma->KopejaMaksa = $dati->input('KopejaMaksa');
+
+        if ($this->hasNomaStatusColumn()) {
+            $noma->StatusaID = $this->ensureNomasStatusId('Pieteikts');
+        }
+
+        if ($this->hasMaksasStatusColumn()) {
+            $noma->MaksasID = $this->resolveDefaultMaksasStatusId();
+        }
+
+        if ($this->hasAtteikumaIemeslsColumn()) {
+            $noma->AtteikumaIemesls = '';
+        }
+
+        try {
+            $noma->save();
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Pārbauda vai kļūda ir saistīta ar datu garumu
+            if (str_contains($e->getMessage(), 'Data too long for column')) {
+                return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+            }
+            // Citas datu bāzes kļūdas
+            return back()->withInput()->withErrors(['database' => 'Datu bāzes kļūda: ' . $e->getMessage()]);
+        }
+
+        // Sinhronizē noslogojums tabulu
+        DB::table('noslogojums')->updateOrInsert(
+            ['NomasID' => $noma->NomasID],
+            [
+                'NomasSakumaPeriods' => $noma->NomasSakumaPeriods,
+                'NomasBeiguPeriods'  => $noma->NomasBeiguPeriods,
+                'VeidaID'           => $noma->VeidaID,
+            ]
+        );
+
+        return redirect()->to('/Noma')->with('success', 'Ieraksts tika pievienots');
+    }
+
+    // Atver rediģēšanas formu.
+    public function edit($id)
+    {
+        $noma = Noma::with('nomasStatuss')->find($id);
+
+        if (!$noma) {
+            return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
+        }
+
+        if (!$this->userIsAdmin()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
+                return redirect('/Noma')->with('error', 'Jums nav tiesību rediģēt šo nomas ierakstu.');
+            }
+
+            $klienti = Klienti::where('KlientaID', $klientsIeraksts->KlientaID)->get();
+        } else {
+            $klienti = Klienti::all();
+        }
+
+        // Aizsardzība: neļauj rediģēt noraidītu nomu
+        $statusaNosaukums = trim((string) optional($noma->nomasStatuss)->Nosaukums);
+        if (mb_strtolower($statusaNosaukums) === 'noraidīts') {
+            return redirect('/Noma')->with('error', 'Noraidītu nomu rediģēt nevar.');
+        }
+
+        if ($this->isNomaCompleted($noma)) {
+            return redirect('/Noma')->with('error', 'Pabeigtu nomu rediģēt nevar.');
+        }
+
+        $kravas = Kravas::all();
+        $veidi = Veidi::all();
+
+        $nomasStatusi = collect();
+        $maksasStatusi = collect();
+
+        if ($this->userIsAdmin() && Schema::hasTable('NomasStatuss')) {
+            // Nodrošina, ka pastāv pieteiktā statusa ieraksts, ja tas nav izveidots.
+            $this->ensureNomasStatusId('Pieteikts');
+            $nomasStatusi = NomasStatuss::orderBy('StatusaID')->get();
+        }
+
+        if ($this->userIsAdmin() && Schema::hasTable('MaksasStatuss')) {
+            $maksasStatusi = MaksasStatuss::orderBy('MaksasID')->get();
+        }
+
+        return view('NomaEdit', compact('noma','klienti','kravas','veidi', 'nomasStatusi', 'maksasStatusi'));
+    }
+
+    // Saglabā rediģētas vērtības.
+    public function editSubmit(Request $dati, $id)
+    {
+        // Pārbauda vai rediģējamais ieraksts eksistē.
+        $noma = Noma::with('nomasStatuss')->find($id);
+        if (!$noma) {
+            return redirect('/Noma')->with('error', 'Ieraksts nav atrasts.');
+        }
+
+        if (!$this->userIsAdmin()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts || $noma->KlientaID !== $klientsIeraksts->KlientaID) {
+                return redirect('/Noma')->with('error', 'Jums nav tiesību rediģēt šo nomas ierakstu.');
+            }
+        }
+
+        // Aizsardzība: neļauj rediģēt noraidītu nomu
+        $statusaNosaukums = trim((string) optional($noma->nomasStatuss)->Nosaukums);
+        if (mb_strtolower($statusaNosaukums) === 'noraidīts') {
+            return redirect('/Noma')->with('error', 'Noraidītu nomu rediģēt nevar.');
+        }
+
+        if ($this->isNomaCompleted($noma)) {
+            return redirect('/Noma')->with('error', 'Pabeigtu nomu rediģēt nevar.');
+        }
+
+        $dati->validate([
+            'KlientaID' => ['required', 'integer'],
+            'KravasID' => ['required', 'integer'],
+            'VeidaID' => ['required', 'integer'],
+            'VagonuSkaits' => ['required', 'integer', 'min:1'],
+            'NomasSakumaPeriods' => ['required', 'date'],
+            'NomasBeiguPeriods' => ['required', 'date', 'after_or_equal:NomasSakumaPeriods'],
+            'KopejaMaksa' => ['required', 'numeric', 'min:1'],
+        ]);
+
+        if ($this->userIsAdmin() && $this->hasNomaStatusColumn()) {
+            $dati->validate([
+                'StatusaID' => ['nullable', 'integer'],
+            ]);
+        }
+
+        if ($this->userIsAdmin() && $this->hasAtteikumaIemeslsColumn()) {
+            $dati->validate([
+                'AtteikumaIemesls' => ['nullable', 'string', 'max:2000'],
+            ]);
+        }
+
+        if ($this->userIsAdmin() && $this->hasMaksasStatusColumn()) {
+            $dati->validate([
+                'MaksasID' => ['nullable', 'integer'],
+            ]);
+        }
+
+        $klientaId = (int) $dati->input('KlientaID');
+        if (!$this->userIsAdmin()) {
+            $klientsIeraksts = auth()->user()->klienti;
+            if (!$klientsIeraksts) {
+                return back()->withInput()->withErrors(['KlientaID' => 'Jūsu kontam nav piesaistīts klienta ieraksts.']);
+            }
+
+            $klientaId = (int) $klientsIeraksts->KlientaID;
+        }
+
+        // Pārbauda vagonu skaitu (ieskaitot perioda pieejamību, izņemot pašreizējo ierakstu)
+        $vagonuSkaitsError = $this->validateVagonuSkaitsLimit($dati, $id);
+        if ($vagonuSkaitsError) {
+            return back()->withInput()->withErrors(['VagonuSkaits' => $vagonuSkaitsError]);
+        }
+
+        $updateData = [
+            'KlientaID' => $klientaId,
+            'KravasID' => $dati->input('KravasID'),
+            'VeidaID' => $dati->input('VeidaID'),
+            'VagonuSkaits' => $dati->input('VagonuSkaits'),
+            'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
+            'NomasBeiguPeriods' => $dati->input('NomasBeiguPeriods'),
+            'KopejaMaksa' => $dati->input('KopejaMaksa'),
+        ];
+
+        if ($this->userIsAdmin() && $this->hasNomaStatusColumn()) {
+            $statusaId = $dati->input('StatusaID');
+
+            // Ja statuss nav norādīts, saglabā esošo statusu
+            $updateData['StatusaID'] = ($statusaId !== null && $statusaId !== '') ? (int) $statusaId : $noma->StatusaID;
+
+            if ($this->hasAtteikumaIemeslsColumn()) {
+                $noraiditsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Noraidīts');
+                $irNoraidits = $noraiditsId !== null
+                    && $updateData['StatusaID'] !== null
+                    && (int) $updateData['StatusaID'] === (int) $noraiditsId;
+
+                $atteikumaIemesls = trim((string) $dati->input('AtteikumaIemesls', ''));
+
+                if ($irNoraidits && $atteikumaIemesls === '') {
+                    return back()->withInput()->withErrors([
+                        'AtteikumaIemesls' => 'Ja statuss ir Noraidīts, laukam "Atteikuma iemesls" ir jābūt aizpildītam.'
+                    ]);
+                }
+
+                $updateData['AtteikumaIemesls'] = $irNoraidits
+                    ? $this->normalizeAtteikumaIemeslsValue($atteikumaIemesls)
+                    : '';
+            }
+        }
+
+        if ($this->userIsAdmin() && $this->hasMaksasStatusColumn()) {
+            $maksasId = $dati->input('MaksasID');
+
+            if (($maksasId === null || $maksasId === '') && isset($updateData['StatusaID'])) {
+                $pieteiktsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Pieteikts');
+                if ($pieteiktsId === null || (int) $updateData['StatusaID'] !== $pieteiktsId) {
+                    $maksasId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Nav apmaksāts');
+                }
+            }
+
+            if ($maksasId === null || $maksasId === '') {
+                $maksasId = $this->resolveDefaultMaksasStatusId();
+            }
+
+            $updateData['MaksasID'] = (int) $maksasId;
+        }
+
+        // Jauna loģika: "Pieņemts" var būt tikai tad, ja maksas statuss ir "Apmaksāts"
+        if ($this->userIsAdmin() && $this->hasNomaStatusColumn() && $this->hasMaksasStatusColumn()) {
+            $pieņemtsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Pieņemts');
+            $apmaksatsId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Apmaksāts');
+
+            if ($pieņemtsId !== null && $apmaksatsId !== null && isset($updateData['StatusaID']) && isset($updateData['MaksasID'])) {
+                if ((int) $updateData['StatusaID'] === (int) $pieņemtsId && (int) $updateData['MaksasID'] !== (int) $apmaksatsId) {
+                    return back()->withInput()->withErrors([
+                        'StatusaID' => 'Lai iestatītu statusu "Pieņemts", maksas statusam jābūt "Apmaksāts".'
+                    ]);
+                }
+            }
+
+            // Papildus loģika: ja ir "Noraidīts", maksas statusam jābūt "Nav apmaksāts"
+            $noraiditsId = $this->findStatusIdByName('NomasStatuss', 'StatusaID', 'Noraidīts');
+            $navApmaksatsId = $this->findStatusIdByName('MaksasStatuss', 'MaksasID', 'Nav apmaksāts');
+
+            if ($noraiditsId !== null && $navApmaksatsId !== null && isset($updateData['StatusaID']) && isset($updateData['MaksasID'])) {
+                if ((int) $updateData['StatusaID'] === (int) $noraiditsId && (int) $updateData['MaksasID'] !== (int) $navApmaksatsId) {
+                    // Ja ir noraidīts, automātiski iestata maksas statusu uz "Nav apmaksāts"
+                    $updateData['MaksasID'] = (int) $navApmaksatsId;
+                }
+            }
+        }
+
+        try {
+            DB::table('vagonunoma')
+                ->where('NomasID', $id)
+                ->update($updateData);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Pārbauda vai kļūda ir saistīta ar datu garumu
+            if (str_contains($e->getMessage(), 'Data too long for column')) {
+                return back()->withInput()->withErrors(['database' => 'Ievadītie dati ir pārāk gari kādam no laukiem. Lūdzu, pārbaudiet un saīsiniet tekstu.']);
+            }
+            // Integrācijas ierobežojuma kļūdas
+            if (str_contains($e->getMessage(), 'Integrity constraint violation') || str_contains($e->getMessage(), 'cannot be null')) {
+                return back()->withInput()->withErrors(['database' => 'Lūdzu pārbaudiet, vai visi obligātie lauki ir pareizi aizpildīti.']);
+            }
+            // Citas datu bāzes kļūdas
+            return back()->withInput()->withErrors(['database' => 'Nomas atjaunināšana neizdevās. Lūdzu, mēģiniet vēlreiz.']);
+        }
+
+        // Sinhronizē noslogojums tabulu
+        DB::table('noslogojums')->updateOrInsert(
+            ['NomasID' => $id],
+            [
+                'NomasSakumaPeriods' => $dati->input('NomasSakumaPeriods'),
+                'NomasBeiguPeriods'  => $dati->input('NomasBeiguPeriods'),
+                'VeidaID'           => $dati->input('VeidaID'),
+            ]
+        );
+
+        return redirect()->to('/Noma')->with('success', 'Ieraksts tika atjaunināts');
+    }
+
+    
+    // API: Iegūst vagona veidu pēc izvēlētās kravas
+    public function getVeidsByKrava($kravasId)
+    {
+        $krava = Kravas::with('veidi')->find($kravasId);
+        
+        if ($krava && $krava->veidi) {
+            return response()->json([
+                'success' => true,
+                'veida_id' => $krava->veidi->VeidaID,
+                'veida_nosaukums' => $krava->veidi->Nosaukums,
+                'cena_par_diennakti' => $krava->veidi->CenaParDiennakti,
+                'kopejais_vagonu_skaits' => $krava->veidi->VagonuSkaits
+            ]);
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Krava vai vagona veids nav atrasts'
+        ]);
+    }
+    
+    // API: Aprēķina kopējo maksu
+    public function calculateTotal(Request $request)
+    {
+        $veidaId = $request->input('veida_id');
+        $vagonuSkaits = $request->input('vagonu_skaits', 1);
+        $sakumaDatums = $request->input('sakuma_datums');
+        $beiguDatums = $request->input('beigu_datums');
+        
+        // Iegūst vagona veidu
+        $veids = Veidi::find($veidaId);
+        
+        if (!$veids) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vagona veids nav atrasts'
+            ]);
+        }
+        
+        // Aprēķina dienu skaitu
+        $dienuSkaits = 0;
+        if ($sakumaDatums && $beiguDatums) {
+            try {
+                $start = Carbon::parse($sakumaDatums);
+                $end = Carbon::parse($beiguDatums);
+                $dienuSkaits = $start->diffInDays($end) + 1;
+                if ($dienuSkaits < 0) $dienuSkaits = 0;
+            } catch (\Exception $e) {
+                $dienuSkaits = 0;
+            }
+        }
+        
+        // Aprēķina kopējo maksu
+        $cenaParDiennakti = $veids->CenaParDiennakti;
+        $kopejaMaksa = $cenaParDiennakti * $vagonuSkaits * $dienuSkaits;
+        
+        return response()->json([
+            'success' => true,
+            'cena_par_diennakti' => $cenaParDiennakti,
+            'dienu_skaits' => $dienuSkaits,
+            'kopeja_maksa' => $kopejaMaksa,
+            'formated_kopeja_maksa' => number_format($kopejaMaksa, 2)
+        ]);
+    }
+}
