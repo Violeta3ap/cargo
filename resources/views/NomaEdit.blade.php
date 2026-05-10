@@ -16,7 +16,20 @@
         </div>
     @endif
 
-    <form action="/Noma/{{ $noma->NomasID }}/editSubmit" method="POST" id="nomaForm">
+    @php
+        $nomasStatusaNosaukums = mb_strtolower((string) ($noma->nomasStatuss->Nosaukums ?? ''));
+        $maksasStatusaNosaukums = mb_strtolower((string) ($noma->maksasStatuss->Nosaukums ?? ''));
+        $irPieņemtsUnApmaksāts = ($nomasStatusaNosaukums === 'pieņemts' || $nomasStatusaNosaukums === 'apstiprināts') && 
+                                  ($maksasStatusaNosaukums === 'apmaksāts');
+    @endphp
+
+    @if($irPieņemtsUnApmaksāts)
+        <div class="alert alert-warning" style="margin-bottom: 15px; color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba; border-radius: 6px; padding: 10px;">
+            <strong>Uzmanību!</strong> Šī noma jau ir pieņemta un apmaksāta. Rediģēšana nav atļauta.
+        </div>
+    @endif
+
+    <form action="/Noma/{{ $noma->NomasID }}/editSubmit" method="POST" id="nomaForm" @if($irPieņemtsUnApmaksāts) style="opacity: 0.6; pointer-events: none;" @endif>
         @csrf
 
         
@@ -164,6 +177,22 @@ $(document).ready(function() {
     var atteikumaWrap = $('#atteikumaIemeslsWrap');
     var atteikumaInput = $('#AtteikumaIemesls');
 
+    // Pārbauda vai noma ir pieņemta un apmaksāta - ja jā, atspējo visu formu
+    @php
+        $nomasStatusaNosaukums = mb_strtolower((string) ($noma->nomasStatuss->Nosaukums ?? ''));
+        $maksasStatusaNosaukums = mb_strtolower((string) ($noma->maksasStatuss->Nosaukums ?? ''));
+        $irPieņemtsUnApmaksāts = ($nomasStatusaNosaukums === 'pieņemts' || $nomasStatusaNosaukums === 'apstiprināts') && 
+                                  ($maksasStatusaNosaukums === 'apmaksāts');
+    @endphp
+
+    @if($irPieņemtsUnApmaksāts)
+        // Ja noma ir pieņemta un apmaksāta, atspējo visas izmaiņas
+        submitBtn.prop('disabled', true);
+        submitBtn.css('opacity', '0.5');
+        submitBtn.css('cursor', 'not-allowed');
+        $('#nomaForm input, #nomaForm select, #nomaForm textarea').prop('disabled', true);
+    @endif
+
     // Inicializē datuma izvēli
     flatpickr('.datepicker', {
         locale: 'lv',
@@ -175,8 +204,10 @@ $(document).ready(function() {
 
     function setAvailabilityState(message, color, isDisabled, maxCount) {
         messageDiv.html('<span style="color: ' + color + ';">' + message + '</span>');
-        submitBtn.prop('disabled', isDisabled);
-        submitBtn.css('opacity', isDisabled ? '0.5' : '1');
+        if (!{{ $irPieņemtsUnApmaksāts ? 'true' : 'false' }}) {
+            submitBtn.prop('disabled', isDisabled);
+            submitBtn.css('opacity', isDisabled ? '0.5' : '1');
+        }
 
         if (maxCount && maxCount > 0) {
             vagonuSkaitsInput.attr('max', maxCount);
@@ -207,6 +238,16 @@ $(document).ready(function() {
         return statusName.indexOf('pieteikt') !== -1;
     }
 
+    function isPieņemtsSelected() {
+        if (!statusSelect.length) {
+            return false;
+        }
+
+        var selected = statusSelect.find('option:selected');
+        var statusName = (selected.data('status-name') || '').toString().toLowerCase();
+        return statusName.indexOf('pieņem') !== -1 || statusName.indexOf('apstiprin') !== -1;
+    }
+
     function isNavApmaksatsSelected() {
         if (!maksasSelect.length) {
             return false;
@@ -232,37 +273,45 @@ $(document).ready(function() {
             return;
         }
 
-        // "Apstiprināts" pieejams tikai ja maksas statuss ir "Apmaksāts"
-        statusSelect.find('option').each(function () {
-            var name = ($(this).data('status-name') || '').toString().toLowerCase();
-            if (name.indexOf('apstiprin') !== -1) {
-                var apmaksats = isApmaksatsSelected();
-                $(this).prop('disabled', !apmaksats);
-                // Ja bija izvēlēts "Apstiprināts" un tagad maksas statuss mainīts
-                if (!apmaksats && $(this).is(':selected')) {
-                    statusSelect.val('');
-                    toggleAtteikumaIemesls();
-                }
+        var selectedStatus = statusSelect.find('option:selected');
+        var selectedMaksas = maksasSelect.find('option:selected');
+        var statusName = (selectedStatus.data('status-name') || '').toString().toLowerCase();
+        var maksasName = (selectedMaksas.data('maksas-name') || '').toString().toLowerCase();
+        
+        // Ja izvēlēts "Pieņemts" - automātiski iestata maksas statusu uz "Apmaksāts" (tiks apstrādāts servera pusē)
+        if (statusName.indexOf('pieņem') !== -1 || statusName.indexOf('apstiprin') !== -1) {
+            // Parāda lietotājam ziņu, ka maksas statuss tiks automātiski iestatīts
+            if (maksasName.indexOf('apmaks') === -1 || maksasName.indexOf('nav') !== -1) {
+                messageDiv.html('<span style="color: #856404;">Izvēloties "Pieņemts", maksas statuss tiks automātiski iestatīts uz "Apmaksāts".</span>');
+                setTimeout(function() {
+                    if (messageDiv.html().indexOf('automātiski') !== -1) {
+                        messageDiv.html('');
+                    }
+                }, 3000);
             }
-        });
-
-        // "Apmaksāts" pieejams tikai ja nomas statuss nav "Pieteikts"
-        maksasSelect.find('option').each(function () {
-            var name = ($(this).data('maksas-name') || '').toString().toLowerCase();
-            if (name.indexOf('apmaks') !== -1 && name.indexOf('nav') === -1) {
-                var pieteikts = isPieteiktsSelected();
-                $(this).prop('disabled', pieteikts);
-                if (pieteikts && $(this).is(':selected')) {
-                    // Atgriež uz "Nav apmaksāts"
-                    maksasSelect.find('option').each(function () {
-                        var n = ($(this).data('maksas-name') || '').toString().toLowerCase();
-                        if (n.indexOf('nav apmaks') !== -1 || n.indexOf('neapmaks') !== -1) {
-                            maksasSelect.val($(this).val());
-                        }
-                    });
-                }
+            submitBtn.prop('disabled', false);
+            submitBtn.css('opacity', '1');
+            return;
+        }
+        
+        // Ja izvēlēts "Apmaksāts" - automātiski iestata nomas statusu uz "Pieņemts" (tiks apstrādāts servera pusē)
+        if ((maksasName.indexOf('apmaks') !== -1 && maksasName.indexOf('nav') === -1)) {
+            if (statusName.indexOf('pieņem') === -1 && statusName.indexOf('apstiprin') === -1) {
+                messageDiv.html('<span style="color: #856404;">Izvēloties "Apmaksāts", nomas statuss tiks automātiski iestatīts uz "Pieņemts".</span>');
+                setTimeout(function() {
+                    if (messageDiv.html().indexOf('automātiski') !== -1) {
+                        messageDiv.html('');
+                    }
+                }, 3000);
             }
-        });
+            submitBtn.prop('disabled', false);
+            submitBtn.css('opacity', '1');
+            return;
+        }
+        
+        // Citādi - nav papildu ierobežojumu
+        submitBtn.prop('disabled', false);
+        submitBtn.css('opacity', '1');
     }
 
     function toggleAtteikumaIemesls() {
@@ -318,16 +367,20 @@ $(document).ready(function() {
                 error: function() {
                     messageDiv.html('');
                     limitHintDiv.text('');
-                    submitBtn.prop('disabled', false);
-                    submitBtn.css('opacity', '1');
+                    if (!{{ $irPieņemtsUnApmaksāts ? 'true' : 'false' }}) {
+                        submitBtn.prop('disabled', false);
+                        submitBtn.css('opacity', '1');
+                    }
                     vagonuSkaitsInput.removeAttr('max');
                 }
             });
         } else {
             messageDiv.html('');
             limitHintDiv.text('');
-            submitBtn.prop('disabled', false);
-            submitBtn.css('opacity', '1');
+            if (!{{ $irPieņemtsUnApmaksāts ? 'true' : 'false' }}) {
+                submitBtn.prop('disabled', false);
+                submitBtn.css('opacity', '1');
+            }
             vagonuSkaitsInput.removeAttr('max');
         }
     }
@@ -414,6 +467,7 @@ $(document).ready(function() {
     if (statusSelect.length) {
         statusSelect.on('change', function() {
             toggleAtteikumaIemesls();
+            enforceStatusMaksasRule();
         });
     }
 
@@ -443,8 +497,8 @@ $(document).ready(function() {
             checkAvailability();
         }
 
-        enforceStatusMaksasRule();
         toggleAtteikumaIemesls();
+        enforceStatusMaksasRule();
     }, 100);
 });
 </script>
@@ -490,6 +544,15 @@ $(document).ready(function() {
     button[type="submit"]:disabled {
         cursor: not-allowed;
         opacity: 0.5;
+    }
+    
+    .alert-warning {
+        margin-bottom: 15px;
+        color: #856404;
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        border-radius: 6px;
+        padding: 10px;
     }
 </style>
 
