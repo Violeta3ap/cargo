@@ -277,11 +277,16 @@ document.addEventListener('DOMContentLoaded', function () {
             @php
                 $nomasStatusaNosaukums = mb_strtolower((string) ($item->nomasStatuss->Nosaukums ?? ''));
                 $maksasStatusaNosaukums = mb_strtolower((string) ($item->maksasStatuss->Nosaukums ?? ''));
-                $irNoraidits = str_contains($nomasStatusaNosaukums, 'noraid');
-                $irNavApmaksats = str_contains($maksasStatusaNosaukums, 'nav apmaks') || str_contains($maksasStatusaNosaukums, 'neapmaks');
+                $irNoraidits = $nomasStatusaNosaukums === 'noraidīts';
+                $irPieteikts = $nomasStatusaNosaukums === 'pieteikts';
+                $irNavApmaksats = $maksasStatusaNosaukums === 'nav apmaksāts' || $maksasStatusaNosaukums === 'neapmaksāts';
+                
+                // Atteikuma iemeslu rāda tikai tad, ja statuss ir Noraidīts
                 $iemeslaTeksts = trim((string) ($item->AtteikumaIemesls ?? ''));
                 $iemeslsModalim = $iemeslaTeksts !== '' ? $iemeslaTeksts : 'Iemesls nav norādīts.';
-                $raditIemeslaPogu = $irNoraidits || $irNavApmaksats;
+                
+                // Pārbauda vai rediģēšanas poga ir pieejama
+                $varRediget = ($item->PabeigsanasStatuss ?? null) !== 'Pabeigts' && !$irNoraidits;
             @endphp
             <td>{{$item->NomasID}}</td>
             <td>{{$item->klienti->Vards ?? ('ID: '.$item->KlientaID)}} {{$item->klienti->Uzvards ?? ''}}</td>
@@ -294,17 +299,27 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>{{ number_format($item->KopejaMaksa, 2) }} €</td>
             <td>{{ $item->nomasStatuss->Nosaukums ?? 'Pieteikts' }}</td>
             <td>
-    @if($raditIemeslaPogu)
-        {{ $iemeslsModalim }}
-    @else
-        -
-    @endif
-</td>
+                {{-- Atteikuma iemesls redzams tikai tad, ja statuss ir Noraidīts --}}
+                @if($irNoraidits)
+                    <button type="button" class="filter-btn js-show-reason" data-reason="{{ $iemeslsModalim }}" style="padding: 2px 8px; cursor: pointer;">
+                        Skatīt iemeslu
+                    </button>
+                @else
+                    -
+                @endif
+            </td>
             <td>{{ $item->maksasStatuss->Nosaukums ?? '-' }}</td>
-            <td>{{ $item->PabeigsanasStatuss ?? '-' }}</td>
+            <td>
+                {{-- Pabeigšanas statuss nerādās, ja ir Pieteikts, Noraidīts vai Nav apmaksāts --}}
+                @if($irPieteikts || $irNoraidits || $irNavApmaksats)
+                    -
+                @else
+                    {{ $item->PabeigsanasStatuss ?? '-' }}
+                @endif
+            </td>
             <td>
                 <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
-                    @if(($item->PabeigsanasStatuss ?? null) !== 'Pabeigts' && (mb_strtolower(trim((string) ($item->nomasStatuss->Nosaukums ?? ''))) !== 'noraidīts'))
+                    @if($varRediget)
                         <a href="/Noma/{{ $item->NomasID }}/edit" class="btn-action">Rediģēt</a>
                     @endif
                     @if(Auth::check())
@@ -572,11 +587,6 @@ document.addEventListener('DOMContentLoaded', function () {
     /* Slēpj darbību kolonnu */
     .page-noma .noma-table thead th:last-child,
     .page-noma .noma-table tbody td:last-child {
-        display: none !important;
-    }
-
-    /* Slēpj iemesla rindu */
-    .page-noma .noma-table tbody td .filter-btn {
         display: none !important;
     }
 }

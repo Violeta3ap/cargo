@@ -173,26 +173,37 @@ class NomaController extends Controller
         return $firstId !== null ? (int) $firstId : 1;
     }
 
-    private function applyCompletionStatus($nomas)
-    {
-        $today = Carbon::today();
-        $statusiBezPabeigsanas = ['noraidīts', 'nepieteikts'];
+private function applyCompletionStatus($nomas)
+{
+    $today = Carbon::today();
+    // Statusi, kuriem pabeigšanas statuss netiek rādīts
+    $statusiBezPabeigsanas = ['noraidīts', 'pieteikts'];
+    // Maksas statusi, kuriem pabeigšanas statuss netiek rādīts
+    $maksasStatusiBezPabeigsanas = ['nav apmaksāts', 'neapmaksāts'];
 
-        foreach ($nomas as $noma) {
-            $statusaNosaukums = trim((string) optional($noma->nomasStatuss)->Nosaukums);
-            if (in_array(mb_strtolower($statusaNosaukums), $statusiBezPabeigsanas, true)) {
-                $noma->PabeigsanasStatuss = null;
-                continue;
-            }
+    foreach ($nomas as $noma) {
+        $statusaNosaukums = trim((string) optional($noma->nomasStatuss)->Nosaukums);
+        $maksasStatusaNosaukums = trim((string) optional($noma->maksasStatuss)->Nosaukums);
+        
+        // Pārbauda vai nomas statuss ir izņēmuma sarakstā
+        $irStatusBezPabeigsanas = in_array(mb_strtolower($statusaNosaukums), $statusiBezPabeigsanas, true);
+        // Pārbauda vai maksas statuss ir izņēmuma sarakstā
+        $irMaksasStatusBezPabeigsanas = in_array(mb_strtolower($maksasStatusaNosaukums), $maksasStatusiBezPabeigsanas, true);
+        
+        // Ja ir izņēmuma statuss, pabeigšanas statusu nerāda
+        if ($irStatusBezPabeigsanas || $irMaksasStatusBezPabeigsanas) {
+            $noma->PabeigsanasStatuss = null;
+            continue;
+        }
 
-            try {
-                $beiguDatums = Carbon::parse($noma->NomasBeiguPeriods)->startOfDay();
-                $noma->PabeigsanasStatuss = $beiguDatums->lt($today) ? 'Pabeigts' : 'Nav pabeigts';
-            } catch (\Throwable $e) {
-                $noma->PabeigsanasStatuss = null;
-            }
+        try {
+            $beiguDatums = Carbon::parse($noma->NomasBeiguPeriods)->startOfDay();
+            $noma->PabeigsanasStatuss = $beiguDatums->lt($today) ? 'Pabeigts' : 'Nav pabeigts';
+        } catch (\Throwable $e) {
+            $noma->PabeigsanasStatuss = null;
         }
     }
+}
 
     private function isNomaCompleted(Noma $noma): bool
     {
