@@ -12,11 +12,6 @@
 
 <hr> 
 
-@if($errors->has('duplicate'))
-    <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 12px; margin-bottom: 15px; border-radius: 8px;">
-        {{ $errors->first('duplicate') }}
-    </div>
-@endif
 
 
 <form method="POST" action="/Klienti/jaunsSubmit">
