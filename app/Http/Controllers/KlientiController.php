@@ -378,6 +378,7 @@ class KlientiController extends Controller
         $klientis->RegistracijasNumurs = $registracijasNumurs;
         $klientis->KontaNumurs = $kontaNumurs;
         $klientis->save();
+
        
     } catch (\Illuminate\Database\QueryException $e) {
       // Pārbauda vai kļūda ir saistīta ar datu garumu
@@ -392,12 +393,7 @@ class KlientiController extends Controller
     return redirect()->to('/Klienti')->with('success', 'Ieraksts tika pievienots');
   }
 
-  /**
-   * Atver rediģēšanas formu
-   * 
-   * @param int $id - Klienta ID
-   * @return Illuminate\View\View
-   */
+  // Atver rediģēšanas formu.
   public function edit($id)
   {
     if ($response = $this->requireAdminAccess()) {
@@ -408,13 +404,7 @@ class KlientiController extends Controller
     return view('KlientiEdit', ['klientis' => $klientis]);
   }
 
-  /**
-   * Saglabā rediģētas klienta vērtības
-   * 
-   * @param Illuminate\Http\Request $dati - Formas ievades dati
-   * @param int $id - Klienta ID
-   * @return Illuminate\Http\RedirectResponse
-   */
+  // Saglabā rediģētas vērtības.
   public function editSubmit(Request $dati, $id)
   {
     if ($response = $this->requireAdminAccess()) {
