@@ -379,17 +379,7 @@
 
     
 <div class="content app-shell-content">
-        @if (session('success') && !request()->is('Noma*'))
-            <div class="app-alert app-alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-        @endif
 
-        @if (session('error') && !request()->is('Noma*'))
-            <div class="app-alert app-alert-danger" role="alert">
-                {{ session('error') }}
-            </div>
-        @endif
 
         @if ($errors->any())
             <div class="app-alert app-alert-danger" role="alert">
