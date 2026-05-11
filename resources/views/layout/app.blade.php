@@ -391,7 +391,7 @@
             </div>
         @endif
 
-        @if ($errors->any())
+@if ($errors->any() && !$errors->has('duplicate') && !$errors->has('database'))
             <div class="app-alert app-alert-danger" role="alert">
                 <strong>Neizdevās pabeigt darbību.</strong>
                 <div>Lūdzu, pārbaudiet ievadītos datus:</div>
