@@ -391,25 +391,17 @@
             </div>
         @endif
 
-@if ($errors->has('database'))
-    <div class="app-alert app-alert-danger" role="alert">
-        {{ $errors->first('database') }}
-    </div>
-
-@elseif ($errors->any())
-    <div class="app-alert app-alert-danger" role="alert">
-        <strong>Neizdevās pabeigt darbību.</strong>
-        <div>Lūdzu, pārbaudiet ievadītos datus:</div>
-
-        <ul>
-            @foreach ($errors->all() as $error)
-                @if($error !== $errors->first('database'))
-                    <li>{{ $error }}</li>
-                @endif
-            @endforeach
-        </ul>
-    </div>
-@endif
+        @if ($errors->any())
+            <div class="app-alert app-alert-danger" role="alert">
+                <strong>Neizdevās pabeigt darbību.</strong>
+                <div>Lūdzu, pārbaudiet ievadītos datus:</div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         @yield('content') 
     </div>
